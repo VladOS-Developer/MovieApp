@@ -6,26 +6,29 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		86367DDD2E3A241400012D4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367DD22E3A241400012D4E /* AppDelegate.swift */; };
+		86367DDE2E3A241400012D4E /* MovieApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 86367DD72E3A241400012D4E /* MovieApp.xcdatamodeld */; };
+		86367DDF2E3A241400012D4E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367DD82E3A241400012D4E /* SceneDelegate.swift */; };
+		86367DE12E3A241400012D4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86367DD32E3A241400012D4E /* Assets.xcassets */; };
+		86367DE32E3A241400012D4E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86367DD52E3A241400012D4E /* LaunchScreen.storyboard */; };
+		86367DF52E3A29A100012D4E /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367DF42E3A29A100012D4E /* Builder.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		86367DD22E3A241400012D4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		86367DD32E3A241400012D4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		86367DD42E3A241400012D4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		86367DD82E3A241400012D4E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		86367DDB2E3A241400012D4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		86367DDC2E3A241400012D4E /* MovieApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieApp.xcdatamodel; sourceTree = "<group>"; };
+		86367DF42E3A29A100012D4E /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
 		868D07032E33982A00224CD9 /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		868D07182E33982C00224CD9 /* Exceptions for "MovieApp" folder in "MovieApp" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 868D07022E33982A00224CD9 /* MovieApp */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		868D07052E33982A00224CD9 /* MovieApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				868D07182E33982C00224CD9 /* Exceptions for "MovieApp" folder in "MovieApp" target */,
-			);
 			path = MovieApp;
 			sourceTree = "<group>";
 		};
@@ -42,10 +45,57 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		86367DE52E3A249300012D4E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				86367DD32E3A241400012D4E /* Assets.xcassets */,
+				86367DD42E3A241400012D4E /* Info.plist */,
+				86367DD52E3A241400012D4E /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		86367DE62E3A24AD00012D4E /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				86367DD72E3A241400012D4E /* MovieApp.xcdatamodeld */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		86367DE72E3A24B700012D4E /* Applications */ = {
+			isa = PBXGroup;
+			children = (
+				86367DD22E3A241400012D4E /* AppDelegate.swift */,
+				86367DD82E3A241400012D4E /* SceneDelegate.swift */,
+			);
+			path = Applications;
+			sourceTree = "<group>";
+		};
+		86367DE82E3A24C700012D4E /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				86367DF42E3A29A100012D4E /* Builder.swift */,
+			);
+			path = Builder;
+			sourceTree = "<group>";
+		};
+		86367DE92E3A24D000012D4E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		868D06FA2E33982A00224CD9 = {
 			isa = PBXGroup;
 			children = (
 				868D07052E33982A00224CD9 /* MovieApp */,
+				86367DE72E3A24B700012D4E /* Applications */,
+				86367DE82E3A24C700012D4E /* Builder */,
+				86367DE92E3A24D000012D4E /* Extensions */,
+				86367DE62E3A24AD00012D4E /* Storage */,
+				86367DE52E3A249300012D4E /* Resources */,
 				868D07042E33982A00224CD9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -122,6 +172,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86367DE12E3A241400012D4E /* Assets.xcassets in Resources */,
+				86367DE32E3A241400012D4E /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,10 +184,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86367DDD2E3A241400012D4E /* AppDelegate.swift in Sources */,
+				86367DDE2E3A241400012D4E /* MovieApp.xcdatamodeld in Sources */,
+				86367DDF2E3A241400012D4E /* SceneDelegate.swift in Sources */,
+				86367DF52E3A29A100012D4E /* Builder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		86367DD52E3A241400012D4E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				86367DDB2E3A241400012D4E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		868D071A2E33982C00224CD9 /* Debug */ = {
@@ -146,10 +213,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MovieApp/Info.plist;
+				INFOPLIST_FILE = /Users/VladOS/Developer/MovieApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -173,10 +239,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MovieApp/Info.plist;
+				INFOPLIST_FILE = /Users/VladOS/Developer/MovieApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -333,6 +398,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		86367DD72E3A241400012D4E /* MovieApp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				86367DDC2E3A241400012D4E /* MovieApp.xcdatamodel */,
+			);
+			currentVersion = 86367DDC2E3A241400012D4E /* MovieApp.xcdatamodel */;
+			path = MovieApp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 868D06FB2E33982A00224CD9 /* Project object */;
 }
