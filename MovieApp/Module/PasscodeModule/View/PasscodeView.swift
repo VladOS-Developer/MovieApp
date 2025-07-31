@@ -13,11 +13,19 @@ protocol PasscodeViewProtocol: AnyObject {
 
 class PasscodeView: UIViewController {
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask{
+        return .portrait
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
+    }
+    
     var passcodePresenter: PasscodePresenterProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .purple
     }
 }
 

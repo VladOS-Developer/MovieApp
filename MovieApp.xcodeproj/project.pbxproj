@@ -13,6 +13,7 @@
 		86367DE12E3A241400012D4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86367DD32E3A241400012D4E /* Assets.xcassets */; };
 		86367DE32E3A241400012D4E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86367DD52E3A241400012D4E /* LaunchScreen.storyboard */; };
 		86367DF52E3A29A100012D4E /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367DF42E3A29A100012D4E /* Builder.swift */; };
+		86367E3D2E3BC04900012D4E /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367E3C2E3BC04900012D4E /* UIViewExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		86367DDB2E3A241400012D4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		86367DDC2E3A241400012D4E /* MovieApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieApp.xcdatamodel; sourceTree = "<group>"; };
 		86367DF42E3A29A100012D4E /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
+		86367E3C2E3BC04900012D4E /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		868D07032E33982A00224CD9 /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -83,6 +85,7 @@
 		86367DE92E3A24D000012D4E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				86367E3C2E3BC04900012D4E /* UIViewExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 				86367DDE2E3A241400012D4E /* MovieApp.xcdatamodeld in Sources */,
 				86367DDF2E3A241400012D4E /* SceneDelegate.swift in Sources */,
 				86367DF52E3A29A100012D4E /* Builder.swift in Sources */,
+				86367E3D2E3BC04900012D4E /* UIViewExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
