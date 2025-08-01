@@ -14,6 +14,7 @@
 		86367DE32E3A241400012D4E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86367DD52E3A241400012D4E /* LaunchScreen.storyboard */; };
 		86367DF52E3A29A100012D4E /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367DF42E3A29A100012D4E /* Builder.swift */; };
 		86367E3D2E3BC04900012D4E /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367E3C2E3BC04900012D4E /* UIViewExtension.swift */; };
+		86367EC52E3D16A300012D4E /* PasscodeStateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367EC42E3D16A300012D4E /* PasscodeStateExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		86367DDC2E3A241400012D4E /* MovieApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieApp.xcdatamodel; sourceTree = "<group>"; };
 		86367DF42E3A29A100012D4E /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
 		86367E3C2E3BC04900012D4E /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		86367EC42E3D16A300012D4E /* PasscodeStateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeStateExtension.swift; sourceTree = "<group>"; };
 		868D07032E33982A00224CD9 /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				86367E3C2E3BC04900012D4E /* UIViewExtension.swift */,
+				86367EC42E3D16A300012D4E /* PasscodeStateExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -187,6 +190,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86367EC52E3D16A300012D4E /* PasscodeStateExtension.swift in Sources */,
 				86367DDD2E3A241400012D4E /* AppDelegate.swift in Sources */,
 				86367DDE2E3A241400012D4E /* MovieApp.xcdatamodeld in Sources */,
 				86367DDF2E3A241400012D4E /* SceneDelegate.swift in Sources */,
