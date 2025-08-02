@@ -15,6 +15,7 @@
 		86367DF52E3A29A100012D4E /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367DF42E3A29A100012D4E /* Builder.swift */; };
 		86367E3D2E3BC04900012D4E /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367E3C2E3BC04900012D4E /* UIViewExtension.swift */; };
 		86367EC52E3D16A300012D4E /* PasscodeStateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367EC42E3D16A300012D4E /* PasscodeStateExtension.swift */; };
+		86367ED52E3E80A900012D4E /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 86367ED42E3E80A900012D4E /* KeychainAccess */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86367ED52E3E80A900012D4E /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +136,7 @@
 			);
 			name = MovieApp;
 			packageProductDependencies = (
+				86367ED42E3E80A900012D4E /* KeychainAccess */,
 			);
 			productName = MovieApp;
 			productReference = 868D07032E33982A00224CD9 /* MovieApp.app */;
@@ -163,6 +166,9 @@
 			);
 			mainGroup = 868D06FA2E33982A00224CD9;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				86367ED32E3E80A900012D4E /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 868D07042E33982A00224CD9 /* Products */;
 			projectDirPath = "";
@@ -406,6 +412,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		86367ED32E3E80A900012D4E /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		86367ED42E3E80A900012D4E /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 86367ED32E3E80A900012D4E /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		86367DD72E3A241400012D4E /* MovieApp.xcdatamodeld */ = {
