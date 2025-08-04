@@ -9,6 +9,7 @@ import UIKit
 
 protocol PasscodeViewProtocol: AnyObject {
     func passcodeState(state: PasscodeState)
+    func enterCode(code: [Int])
 }
 
 class PasscodeView: UIViewController {
@@ -101,6 +102,10 @@ class PasscodeView: UIViewController {
 }
 
 extension PasscodeView: PasscodeViewProtocol {
+    
+    func enterCode(code: [Int]) {
+        <#code#>
+    }
     
     func passcodeState(state: PasscodeState) {
         passcodeTitle.text = state.passcodeLabel
