@@ -17,42 +17,85 @@ protocol PasscodePresenterProtocol: AnyObject {
     func checkPasscode()                        // проверка пароля
     func clearPasscode(state: PasscodeState)    // удалить пароль
     
-    init (view: PasscodeViewProtocol)
+    init (view: PasscodeViewProtocol, service: PasscodeService)
 }
 
 class PasscodePresenter: PasscodePresenterProtocol {
     
     weak var view: PasscodeViewProtocol?
     
+    private let service: PasscodeService
     private let state: PasscodeState
     
     var templatePasscode: [Int]?
     
-    var passcode: [Int]
+    var passcode: [Int] = [] {
+        didSet {
+            if passcode.count == 4 {
+                switch state {
+                case .inputPasscode: self.checkPasscode()
+                case .setNewPasscode: self.setNewPasscode()
+                default: break
+                }
+            }
+        }
+    }
     
-    required init(view: PasscodeViewProtocol) {
+    required init(view: PasscodeViewProtocol, service: PasscodeService) {
         self.view = view
+        self.service = service
+        self.state = service.getCurrentState()
+        
+        view.passcodeState(state: state)
     }
     
     
     func enterPasscode(number: Int) {
-        <#code#>
+        guard passcode.count < 4 else { return }
+        passcode.append(number)
+        view?.enterCode(code: passcode)
     }
     
     func removeLastItemInPasscode() {
-        <#code#>
+        guard !passcode.isEmpty else { return }
+        passcode.removeLast()
+        view?.enterCode(code: passcode)
     }
     
     func setNewPasscode() {
-        <#code#>
+        if let template = templatePasscode {
+            if passcode == template{
+                service.save(passcode: passcode)
+                print("Passcode saved")
+                // Route to next module
+                
+            } else {
+                view?.passcodeState(state: .codeMismatch)
+            }
+        } else {
+            templatePasscode = passcode
+            clearPasscode(state: .repeatPasscode)
+        }
     }
     
     func checkPasscode() {
-        <#code#>
+        guard let stored = service.loadPasscode() else {
+            view?.passcodeState(state: .wrongPasscode)
+            return
+        }
+        if passcode == stored.digits {
+            print("Correct code")
+            // Route to next module
+            
+        } else {
+            clearPasscode(state: .wrongPasscode)
+        }
     }
     
     func clearPasscode(state: PasscodeState) {
-        <#code#>
+        self.passcode = []
+        self.view?.enterCode(code: [])
+        self.view?.passcodeState(state: state)
     }
     
     

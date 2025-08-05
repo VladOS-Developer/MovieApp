@@ -60,7 +60,19 @@ class PasscodeView: UIViewController {
         $0.heightAnchor.constraint(equalToConstant: 35).isActive = true
         $0.setBackgroundImage(.deleteBtnWhite, for: .normal)
         return $0
-    }(UIButton(primaryAction: nil))
+    }(UIButton(primaryAction: deleteCodeAction))
+    
+    lazy var deleteCodeAction = UIAction { [weak self] sender in
+        guard let self = self,
+              let sender = sender.sender as? UIButton else { return }
+        self.passcodePresenter.removeLastItemInPasscode()
+    }
+    
+    lazy var enterCodeAction = UIAction { [weak self] sender in
+        guard let self = self,
+              let sender = sender.sender as? UIButton else { return }
+        self.passcodePresenter.enterPasscode(number: sender.tag)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,20 +110,6 @@ class PasscodeView: UIViewController {
         ])
     }
     
-    
-}
-
-extension PasscodeView: PasscodeViewProtocol {
-    
-    func enterCode(code: [Int]) {
-        <#code#>
-    }
-    
-    func passcodeState(state: PasscodeState) {
-        passcodeTitle.text = state.passcodeLabel
-        passcodeTitle.textColor = state.labelColor
-    }
-    
 }
 
 extension PasscodeView {
@@ -126,7 +124,7 @@ extension PasscodeView {
     private func setHorizontalNumbersStack(range: [Int]) -> UIStackView {
         let stack = getHorizontalNumbersStack()
         range.forEach {
-            let numberButton = UIButton(primaryAction: nil)
+            let numberButton = UIButton(primaryAction: enterCodeAction)
             numberButton.tag = $0
             numberButton.setTitle("\($0)", for: .normal)
             numberButton.setTitleColor(.appWhite, for: .normal)
@@ -147,4 +145,20 @@ extension PasscodeView {
         codeView.tag = tag
         return codeView
     }
+}
+
+extension PasscodeView: PasscodeViewProtocol {
+    
+    func enterCode(code: [Int]) {
+        (11...14).forEach { tag in
+            let dot = view.viewWithTag(tag)
+            dot?.backgroundColor = code.count >= tag - 10 ? .appWhite : .clear
+        }
+    }
+    
+    func passcodeState(state: PasscodeState) {
+        passcodeTitle.text = state.passcodeLabel
+        passcodeTitle.textColor = state.labelColor
+    }
+    
 }

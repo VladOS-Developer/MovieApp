@@ -16,6 +16,7 @@
 		86367E3D2E3BC04900012D4E /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367E3C2E3BC04900012D4E /* UIViewExtension.swift */; };
 		86367EC52E3D16A300012D4E /* PasscodeStateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367EC42E3D16A300012D4E /* PasscodeStateExtension.swift */; };
 		86367ED52E3E80A900012D4E /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 86367ED42E3E80A900012D4E /* KeychainAccess */; };
+		86367EE62E40C43200012D4E /* StringProtocolExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367EE52E40C43200012D4E /* StringProtocolExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		86367DF42E3A29A100012D4E /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
 		86367E3C2E3BC04900012D4E /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		86367EC42E3D16A300012D4E /* PasscodeStateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeStateExtension.swift; sourceTree = "<group>"; };
+		86367EE52E40C43200012D4E /* StringProtocolExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringProtocolExtension.swift; sourceTree = "<group>"; };
 		868D07032E33982A00224CD9 /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -91,6 +93,7 @@
 			children = (
 				86367E3C2E3BC04900012D4E /* UIViewExtension.swift */,
 				86367EC42E3D16A300012D4E /* PasscodeStateExtension.swift */,
+				86367EE52E40C43200012D4E /* StringProtocolExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -202,6 +205,7 @@
 				86367DDF2E3A241400012D4E /* SceneDelegate.swift in Sources */,
 				86367DF52E3A29A100012D4E /* Builder.swift in Sources */,
 				86367E3D2E3BC04900012D4E /* UIViewExtension.swift in Sources */,
+				86367EE62E40C43200012D4E /* StringProtocolExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
