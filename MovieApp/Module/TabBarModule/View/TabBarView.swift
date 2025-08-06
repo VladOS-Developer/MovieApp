@@ -15,6 +15,11 @@ class TabBarView: UITabBarController {
     
     var presenter: TabBarPresenterProtocol!
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

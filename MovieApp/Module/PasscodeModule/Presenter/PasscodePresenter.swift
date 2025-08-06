@@ -17,12 +17,13 @@ protocol PasscodePresenterProtocol: AnyObject {
     func checkPasscode()                        // проверка пароля
     func clearPasscode(state: PasscodeState)    // удалить пароль
     
-    init (view: PasscodeViewProtocol, service: PasscodeService)
+    init (view: PasscodeViewProtocol, service: PasscodeService, sceneDelegate: SceneDelegateProtocol)
 }
 
 class PasscodePresenter: PasscodePresenterProtocol {
     
     weak var view: PasscodeViewProtocol?
+    weak var sceneDelegate: SceneDelegateProtocol?
     
     private let service: PasscodeService
     private let state: PasscodeState
@@ -41,10 +42,11 @@ class PasscodePresenter: PasscodePresenterProtocol {
         }
     }
     
-    required init(view: PasscodeViewProtocol, service: PasscodeService) {
+    required init(view: PasscodeViewProtocol, service: PasscodeService, sceneDelegate: SceneDelegateProtocol) {
         self.view = view
         self.service = service
         self.state = service.getCurrentState()
+        self.sceneDelegate = sceneDelegate
         
         view.passcodeState(state: state)
     }
@@ -68,7 +70,7 @@ class PasscodePresenter: PasscodePresenterProtocol {
                 service.save(passcode: passcode)
                 print("Passcode saved")
                 // Route to next module
-                
+                self.sceneDelegate?.startMainScreen()
             } else {
                 view?.passcodeState(state: .codeMismatch)
             }
@@ -86,7 +88,7 @@ class PasscodePresenter: PasscodePresenterProtocol {
         if passcode == stored.digits {
             print("Correct code")
             // Route to next module
-            
+            self.sceneDelegate?.startMainScreen()
         } else {
             clearPasscode(state: .wrongPasscode)
         }

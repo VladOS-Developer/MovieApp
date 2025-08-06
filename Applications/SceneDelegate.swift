@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol SceneDelegateProtocol: AnyObject {
+    func startMainScreen()
+}
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -14,10 +18,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        window?.rootViewController = Builder.getPasscodeController()
+        window?.rootViewController = Builder.getPasscodeController(sceneDelegate: self)
         window?.makeKeyAndVisible()
     }
 
-
 }
 
+extension SceneDelegate: SceneDelegateProtocol {
+    
+    func startMainScreen() {
+        self.window?.rootViewController = Builder.createTabBarControllers()
+    }
+    
+}

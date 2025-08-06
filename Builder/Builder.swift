@@ -8,17 +8,18 @@
 import UIKit
 
 protocol BuilderProtocol {
-    static func getPasscodeController() -> UIViewController
+    static func getPasscodeController(sceneDelegate: SceneDelegateProtocol) -> UIViewController
     static func createTabBarControllers() -> UIViewController
 }
 
 class Builder: BuilderProtocol {
     
-    static func getPasscodeController() -> UIViewController {
+    static func getPasscodeController(sceneDelegate: SceneDelegateProtocol) -> UIViewController {
+        
         let view = PasscodeView()
         let keychain = KeychainManager()
         let service = PasscodeService(keychainManager: keychain)
-        let presenter = PasscodePresenter(view: view, service: service)
+        let presenter = PasscodePresenter(view: view, service: service, sceneDelegate: sceneDelegate)
         
         view.passcodePresenter = presenter
         return view
