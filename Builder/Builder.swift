@@ -9,6 +9,7 @@ import UIKit
 
 protocol BuilderProtocol {
     static func getPasscodeController() -> UIViewController
+    static func createTabBarControllers() -> UIViewController
 }
 
 class Builder: BuilderProtocol {
@@ -22,4 +23,13 @@ class Builder: BuilderProtocol {
         view.passcodePresenter = presenter
         return view
     }
+    
+    static func createTabBarControllers() -> UIViewController {
+        let tabBarView = TabBarView()
+        let presenter = TabBarPresenter(view: tabBarView)
+        
+        tabBarView.presenter = presenter
+        return tabBarView
+    }
+    
 }
