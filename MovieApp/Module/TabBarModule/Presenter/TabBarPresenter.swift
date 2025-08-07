@@ -19,6 +19,7 @@ class TabBarPresenter {
     
     required init(view: TabBarViewProtocol) {
         self.view = view
+        buildTabBar()
     }
 }
 
@@ -26,7 +27,11 @@ class TabBarPresenter {
 extension TabBarPresenter: TabBarPresenterProtocol {
     
     func buildTabBar() {
+        let mainScreen = Builder.createMainScreenControllers()
+        let playerScreen = Builder.createTrailerPlayerControllers()
+        let dynamicScreen = Builder.createDynamicControllers()
         
+        self.view?.setControllers(controllers: [mainScreen, playerScreen, dynamicScreen])
     }
     
 }

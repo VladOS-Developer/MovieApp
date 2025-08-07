@@ -8,7 +8,7 @@
 import UIKit
 
 protocol TabBarViewProtocol: AnyObject {
-    func setControllers(controller: [UIViewController])
+    func setControllers(controllers: [UIViewController])
 }
 
 class TabBarView: UITabBarController {
@@ -27,8 +27,8 @@ class TabBarView: UITabBarController {
 
 extension TabBarView: TabBarViewProtocol {
     
-    func setControllers(controller: [UIViewController]) {
-        
+    func setControllers(controllers: [UIViewController]) {
+        setViewControllers(controllers, animated: true)
     }
     
 }
