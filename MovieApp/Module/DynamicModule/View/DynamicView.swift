@@ -18,7 +18,7 @@ class DynamicView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray2
-        title = "3"
+//        title = "3"
     }
 }
 

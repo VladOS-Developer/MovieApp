@@ -18,7 +18,7 @@ class TrailerPlayerView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray
-        title = "2"
+//        title = "2"
     }
     
 

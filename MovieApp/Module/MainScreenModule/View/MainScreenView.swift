@@ -15,10 +15,14 @@ class MainScreenView: UIViewController {
     
     var presenter: MainScreenPresenterProtocol!
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray3
-        title = "1"
+//        title = "1"
     }
 }
 
