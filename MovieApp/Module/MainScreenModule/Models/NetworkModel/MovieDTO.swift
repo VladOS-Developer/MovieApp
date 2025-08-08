@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+struct MovieDTO: Decodable {
+    let id: Int
+    let title: String
+    let poster_path: String?
+    let runtime: Int?
+    let release_date: String?
+    let genre_ids: [Int]
+}

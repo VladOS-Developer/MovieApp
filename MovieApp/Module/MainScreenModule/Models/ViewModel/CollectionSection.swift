@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+enum MainSectionType {
+    case genresMovie
+    case topMovie
+    case upcomingMovie
+}
+
+struct CollectionSection {
+    let type: MainSectionType
+    let items: [CollectionItem]
+}

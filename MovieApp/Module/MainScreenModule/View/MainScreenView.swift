@@ -8,12 +8,14 @@
 import UIKit
 
 protocol MainScreenViewProtocol: AnyObject {
-    
+    func showMovies(sections: [CollectionSection])
 }
 
 class MainScreenView: UIViewController {
     
     var presenter: MainScreenPresenterProtocol!
+    
+    private var sections: [CollectionSection] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -22,10 +24,14 @@ class MainScreenView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        title = "1"
     }
 }
 
 extension MainScreenView: MainScreenViewProtocol {
+    func showMovies(sections: [CollectionSection]) {
+        self.sections = sections
+        // collectionView.reloadData()
+    }
+    
     
 }
