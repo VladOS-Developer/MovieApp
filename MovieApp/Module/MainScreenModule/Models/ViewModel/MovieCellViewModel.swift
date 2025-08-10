@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct MovieCellViewModel: Equatable {
+struct MovieCellViewModel: Hashable {
     let title: String
     let runtimeText: String
     let releaseDateText: String

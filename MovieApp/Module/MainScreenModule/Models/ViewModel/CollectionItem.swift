@@ -9,8 +9,8 @@ import UIKit
 
 enum CollectionItem {
     
-    case movie(MovieCellViewModel)
     case genre(GenreCellViewModel)
+    case movie(MovieCellViewModel)
     
 //    var id: Int { title.hashValue } // пока без `movie.id`
     
