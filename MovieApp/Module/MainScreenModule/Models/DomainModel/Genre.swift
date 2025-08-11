@@ -23,6 +23,14 @@ extension Genre {
             Genre(id: 35, name: "Comedy"),
             Genre(id: 80, name: "Crime"),
             Genre(id: 878, name: "Sci-Fi"),
+            Genre(id: 88, name: "Thriller"),
+            Genre(id: 89, name: "Fantasy"),
+            Genre(id: 90, name: "Mystery"),
+            Genre(id: 91, name: "Documentary"),
+            Genre(id: 92, name: "Western"),
+            Genre(id: 93, name: "Feature film"),
+            Genre(id: 94, name: "Short film"),
+            
         ]
     }
 }

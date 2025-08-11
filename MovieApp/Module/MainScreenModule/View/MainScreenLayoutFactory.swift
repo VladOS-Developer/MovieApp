@@ -10,21 +10,18 @@ import UIKit
 enum MainScreenLayoutFactory {
     
     static func setGenreMovieLayout() -> NSCollectionLayoutSection {
+                
+        let item = NSCollectionLayoutItem(layoutSize:.init(widthDimension: .estimated(100), heightDimension: .absolute(40)))
         
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .absolute(40))
-        
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(40))
-        
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .fixed(8)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(40)), subitems: [item])
+        group.interItemSpacing = .fixed(5)
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         section.orthogonalScrollingBehavior = .continuous
         return section
     }
+    
     
     static func setTopMovieLayout() -> NSCollectionLayoutSection {
         // Создаем пустой item (размер 0 на 0 — можно и минимальный)

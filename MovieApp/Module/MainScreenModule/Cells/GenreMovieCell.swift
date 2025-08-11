@@ -13,15 +13,15 @@ class GenreMovieCell: UICollectionViewCell {
     
     lazy var genreButton: UIButton = {
         var config = UIButton.Configuration.plain()
-        config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
-        config.background.backgroundColor = .appGray.withAlphaComponent(0.2)
-        config.background.cornerRadius = 15
-        
+        config.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 12, bottom: 6, trailing: 12)
+//        config.background.backgroundColor = .appGray.withAlphaComponent(0.2)
+//        config.background.cornerRadius = 15
+//        
         let button = UIButton(configuration: config, primaryAction: nil)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
-        button.titleLabel?.numberOfLines = 1
         button.setTitleColor(.appWhite, for: .normal)
+        button.backgroundColor = .appGray.withAlphaComponent(0.2)
+        button.layer.cornerRadius = 15
         return button
     }()
     
@@ -40,7 +40,7 @@ class GenreMovieCell: UICollectionViewCell {
         ])
     }
     
-    func configurGenreCell(with genreVM: GenreCellViewModel) {
+    func configureGenreCell(with genreVM: GenreCellViewModel) {
         genreButton.setTitle(genreVM.name, for: .normal)
 //        genreButton.tag = genre.id // пригодиться при обработке
     }

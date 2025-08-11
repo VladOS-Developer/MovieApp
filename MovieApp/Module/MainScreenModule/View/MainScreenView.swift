@@ -86,7 +86,7 @@ extension MainScreenView: UICollectionViewDataSource {
             
             switch item {
             case .genre(let genreVM):
-                cell.configurGenreCell(with: genreVM)
+                cell.configureGenreCell(with: genreVM)
             default: break
             }
             
