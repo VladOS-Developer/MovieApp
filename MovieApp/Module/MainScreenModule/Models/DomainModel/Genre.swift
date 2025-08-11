@@ -30,7 +30,6 @@ extension Genre {
             Genre(id: 92, name: "Western"),
             Genre(id: 93, name: "Feature film"),
             Genre(id: 94, name: "Short film"),
-            
         ]
     }
 }

@@ -11,10 +11,9 @@ enum MainScreenLayoutFactory {
     
     static func setGenreMovieLayout() -> NSCollectionLayoutSection {
                 
-        let item = NSCollectionLayoutItem(layoutSize:.init(widthDimension: .estimated(100), heightDimension: .absolute(40)))
+        let item = NSCollectionLayoutItem(layoutSize:.init(widthDimension: .estimated(70), heightDimension: .absolute(35)))
         
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(40)), subitems: [item])
-        group.interItemSpacing = .fixed(5)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .estimated(70), heightDimension: .absolute(35)), subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)

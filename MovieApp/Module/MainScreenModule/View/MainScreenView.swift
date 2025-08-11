@@ -18,7 +18,6 @@ class MainScreenView: UIViewController {
     
     lazy var collectionView: UICollectionView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.showsHorizontalScrollIndicator = false
         $0.backgroundColor = .clear
         $0.dataSource = self
         $0.register(GenreMovieCell.self, forCellWithReuseIdentifier: GenreMovieCell.reuseId)
@@ -89,7 +88,6 @@ extension MainScreenView: UICollectionViewDataSource {
                 cell.configureGenreCell(with: genreVM)
             default: break
             }
-            
             return cell
             
         case .topMovie:
