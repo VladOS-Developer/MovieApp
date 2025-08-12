@@ -32,7 +32,7 @@ extension Movie {
 extension Movie {
     static func mockTopMovies() -> [Movie] {
         return [
-            Movie(id: 1, title: "John Wick Chapter 1", posterPath: "img1", runtime: 169, releaseDate: "", genreIDs: [28], isLocalImage: true),
+            Movie(id: 1, title: "John Wick Chapter 1 John Wick Chapter 1", posterPath: "img1", runtime: 169, releaseDate: "", genreIDs: [28], isLocalImage: true),
             Movie(id: 2, title: "Avatar", posterPath: "img2", runtime: 154, releaseDate: "", genreIDs: [12], isLocalImage: true),
             Movie(id: 3, title: "The Matrix", posterPath: "img3", runtime: 136, releaseDate: "", genreIDs: [878], isLocalImage: true),
             Movie(id: 4, title: "The Matrix", posterPath: "img4", runtime: 136, releaseDate: "", genreIDs: [878], isLocalImage: true),

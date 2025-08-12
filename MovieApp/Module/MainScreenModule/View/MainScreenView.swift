@@ -94,12 +94,26 @@ extension MainScreenView: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopMovieCell.reuseId, for: indexPath) as? TopMovieCell else {
                 return UICollectionViewCell()
             }
+            
+            switch item {
+            case .movie(let movieVM):
+                cell.configureMovieCell(with: movieVM)
+            default: break
+            }
+            
             return cell
             
         case .upcomingMovie:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingMovieCell.reuseId, for: indexPath) as? UpcomingMovieCell else {
                 return UICollectionViewCell()
             }
+            
+            switch item {
+            case.movie(let movieVM):
+                cell.configureUpcomingCell(with: movieVM)
+            default: break
+            }
+            
             return cell
         }
         
