@@ -17,6 +17,7 @@
 		86367EC52E3D16A300012D4E /* PasscodeStateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367EC42E3D16A300012D4E /* PasscodeStateExtension.swift */; };
 		86367ED52E3E80A900012D4E /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 86367ED42E3E80A900012D4E /* KeychainAccess */; };
 		86367EE62E40C43200012D4E /* StringProtocolExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367EE52E40C43200012D4E /* StringProtocolExtension.swift */; };
+		863680272E4B542500012D4E /* CellLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863680262E4B542500012D4E /* CellLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		86367E3C2E3BC04900012D4E /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		86367EC42E3D16A300012D4E /* PasscodeStateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeStateExtension.swift; sourceTree = "<group>"; };
 		86367EE52E40C43200012D4E /* StringProtocolExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringProtocolExtension.swift; sourceTree = "<group>"; };
+		863680262E4B542500012D4E /* CellLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellLabel.swift; sourceTree = "<group>"; };
 		868D07032E33982A00224CD9 /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -98,10 +100,19 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		863680232E4B536B00012D4E /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				863680262E4B542500012D4E /* CellLabel.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		868D06FA2E33982A00224CD9 = {
 			isa = PBXGroup;
 			children = (
 				868D07052E33982A00224CD9 /* MovieApp */,
+				863680232E4B536B00012D4E /* Helper */,
 				86367DE72E3A24B700012D4E /* Applications */,
 				86367DE82E3A24C700012D4E /* Builder */,
 				86367DE92E3A24D000012D4E /* Extensions */,
@@ -204,6 +215,7 @@
 				86367DDE2E3A241400012D4E /* MovieApp.xcdatamodeld in Sources */,
 				86367DDF2E3A241400012D4E /* SceneDelegate.swift in Sources */,
 				86367DF52E3A29A100012D4E /* Builder.swift in Sources */,
+				863680272E4B542500012D4E /* CellLabel.swift in Sources */,
 				86367E3D2E3BC04900012D4E /* UIViewExtension.swift in Sources */,
 				86367EE62E40C43200012D4E /* StringProtocolExtension.swift in Sources */,
 			);
