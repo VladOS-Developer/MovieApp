@@ -17,6 +17,7 @@ enum MainScreenLayoutFactory {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         section.orthogonalScrollingBehavior = .continuous
+        section.boundarySupplementaryItems = [setHeaderLayout()]
         return section
     }
     
@@ -27,8 +28,9 @@ enum MainScreenLayoutFactory {
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 25)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 25, leading: 16, bottom: 0, trailing: 16)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
         section.orthogonalScrollingBehavior = .continuous
+        section.boundarySupplementaryItems = [setHeaderLayout()]
         return section
        
     }
@@ -41,7 +43,15 @@ enum MainScreenLayoutFactory {
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = .init(top: 25, leading: 16, bottom: 0, trailing: 16)
+        section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+        section.boundarySupplementaryItems = [setHeaderLayout()]
         return section
+    }
+    
+    private static func setHeaderLayout() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
+        
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: size, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+        return header
     }
 }

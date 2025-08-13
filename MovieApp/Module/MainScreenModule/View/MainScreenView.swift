@@ -23,6 +23,7 @@ class MainScreenView: UIViewController {
         $0.register(GenreMovieCell.self, forCellWithReuseIdentifier: GenreMovieCell.reuseId)
         $0.register(TopMovieCell.self, forCellWithReuseIdentifier: TopMovieCell.reuseId)
         $0.register(UpcomingMovieCell.self, forCellWithReuseIdentifier: UpcomingMovieCell.reuseId)
+        $0.register(MainSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MainSectionHeaderView.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createLayout()))
     
@@ -116,7 +117,17 @@ extension MainScreenView: UICollectionViewDataSource {
             
             return cell
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainSectionHeaderView.reuseId, for: indexPath) as? MainSectionHeaderView else {
+            return UICollectionReusableView()
+        }
         
+        let section = sections[indexPath.section]
+        
+        header.setHeaderView(with: section.type.title)
+        return header
     }
     
 }

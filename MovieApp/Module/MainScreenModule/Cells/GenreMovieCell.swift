@@ -20,7 +20,7 @@ class GenreMovieCell: UICollectionViewCell {
         button.setTitleColor(.appWhite, for: .normal)
         button.backgroundColor = .appGray.withAlphaComponent(0.2)
         button.layer.cornerRadius = 15
-        button.layer.borderWidth = 1.5
+        button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.appWhite.withAlphaComponent(0.4).cgColor
         return button
     }()

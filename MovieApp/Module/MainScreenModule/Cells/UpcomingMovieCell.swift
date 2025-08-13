@@ -16,6 +16,8 @@ class UpcomingMovieCell: UICollectionViewCell {
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 10
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.appWhite.withAlphaComponent(0.4).cgColor
         return $0
     }(UIImageView())
     
