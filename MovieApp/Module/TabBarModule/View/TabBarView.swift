@@ -35,9 +35,9 @@ class TabBarView: UITabBarController {
         }
     }
     
-//    func setTabBarButtonsHidden(_ hidden: Bool) {
-//        tabBarButtons.forEach { $0.isHidden = hidden }
-//    }
+    func setTabBarButtonsHidden(_ hidden: Bool) {
+        tabBarButtons.forEach { $0.isHidden = hidden }
+    }
     
     lazy var hendleTabSelection = UIAction { [weak self] sender in
         guard let self = self,

@@ -19,6 +19,13 @@ enum MainSectionType {
         case .upcomingMovie: return "Upcoming"
         }
     }
+    
+    var shouldShowSeeAll: Bool {
+        switch self {
+        case .topMovie: return true
+        default: return false
+        }
+    }
 }
 
 struct CollectionSection {

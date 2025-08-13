@@ -9,7 +9,7 @@ import UIKit
 
 protocol MainScreenPresenterProtocol: AnyObject {
     func getMoviesData()
-    
+    func didTapSeeAllButton(in section: Int)
     init(view: MainScreenViewProtocol)
 }
 
@@ -22,7 +22,7 @@ class MainScreenPresenter {
 }
 
 extension MainScreenPresenter: MainScreenPresenterProtocol {
-    
+        
     func getMoviesData() {
         let genres = Genre.mockGenres()
         let topMovies = Movie.mockTopMovies()
@@ -49,5 +49,9 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
         view?.showMovies(sections: sections)
     }
     
+    func didTapSeeAllButton(in section: Int) {
+        view?.navigationToDynamicScreen()
+    }
     
 }
+
