@@ -15,17 +15,11 @@ enum MainSectionType {
     var title: String {
         switch self {
         case .genresMovie: return "Discover Your Next Favorite Movies"
-        case .topMovie: return "Top 10 Movies This Week"
+        case .topMovie: return "Top Movies This Week"
         case .upcomingMovie: return "Upcoming"
         }
     }
     
-    var shouldShowSeeAll: Bool {
-        switch self {
-        case .topMovie: return true
-        default: return false
-        }
-    }
 }
 
 struct CollectionSection {

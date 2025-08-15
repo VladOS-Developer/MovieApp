@@ -9,11 +9,13 @@ import UIKit
 
 protocol BuilderProtocol {
     static func getPasscodeController(sceneDelegate: SceneDelegateProtocol) -> UIViewController
-    static func createTabBarController() -> UIViewController
     
+    static func createTabBarController() -> UIViewController
     static func createMainScreenController() -> UIViewController
     static func createTrailerPlayerController() -> UIViewController
     static func createFavoritesController() -> UIViewController
+    
+    static func createMovieListController(mode: MovieListMode) -> UIViewController //
 }
 
 class Builder: BuilderProtocol {
@@ -42,7 +44,15 @@ class Builder: BuilderProtocol {
         let presenter = MainScreenPresenter(view: mainView)
         
         mainView.presenter = presenter
-        return mainView
+        return UINavigationController(rootViewController: mainView) //
+    }
+        
+    static func createTrailerPlayerController() -> UIViewController {
+        let playerView = TrailerPlayerView()
+        let presenter = TrailerPlayerPresenter(view: playerView)
+        
+        playerView.presenter = presenter
+        return playerView
     }
     
     static func createFavoritesController() -> UIViewController {
@@ -53,12 +63,12 @@ class Builder: BuilderProtocol {
         return favoritesView
     }
     
-    static func createTrailerPlayerController() -> UIViewController {
-        let playerView = TrailerPlayerView()
-        let presenter = TrailerPlayerPresenter(view: playerView)
+    static func createMovieListController(mode: MovieListMode) -> UIViewController { //
+        let listView = MovieListView()
+        let presenter = MovieListPresenter(view: listView, mode: mode)
         
-        playerView.presenter = presenter
-        return playerView
+        listView.presenter = presenter
+        return listView
     }
     
 }

@@ -10,6 +10,7 @@ import UIKit
 protocol MainScreenPresenterProtocol: AnyObject {
     func getMoviesData()
     func didTapSeeAll(in section: Int)
+    func didSelectGenre(id: Int, title: String)
     
     init(view: MainScreenViewProtocol)
 }
@@ -50,12 +51,26 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
             CollectionSection(type: .upcomingMovie, items: upcomingItems)
         ]
         
+        self.sections = sections
         view?.showMovies(sections: sections)
     }
     
     func didTapSeeAll(in section: Int) {
-//        view?.navigationToDynamicScreen()
+        guard section < sections.count else { return }
+        let type = sections[section].type
+        switch type {
+        case .topMovie:
+            view?.navigateToMovieList(mode: .top10)
+        case .upcomingMovie:
+            view?.navigateToMovieList(mode: .upcoming)
+        default:
+            break
+        }
     }
+    
+    func didSelectGenre(id: Int, title: String) {
+            view?.navigateToMovieList(mode: .genre(id: id, title: title))
+        }
     
 }
 

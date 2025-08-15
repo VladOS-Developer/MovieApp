@@ -7,15 +7,23 @@
 
 import UIKit
 
+protocol GenreMovieCellDelegate: AnyObject {
+    func didTapGenre(id: Int, title: String) //
+}
+
 class GenreMovieCell: UICollectionViewCell {
     
     static let reuseId = "GenreMovieCell"
     
+    weak var delegate: GenreMovieCellDelegate? //
+    private var genreVM: GenreCellViewModel? //
+    
+    private let tapActionID = UIAction.Identifier("genre.tap") //
+    
     lazy var genreButton: UIButton = {
         var config = UIButton.Configuration.plain()
-//        config.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 12, bottom: 6, trailing: 12)
-       
-        let button = UIButton(configuration: config, primaryAction: nil)
+        
+        let button = UIButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(.appWhite, for: .normal)
         button.backgroundColor = .appGray.withAlphaComponent(0.2)
@@ -24,6 +32,20 @@ class GenreMovieCell: UICollectionViewCell {
         button.layer.borderColor = UIColor.appWhite.withAlphaComponent(0.4).cgColor
         return button
     }()
+    
+    func configureGenreCell(with genreVM: GenreCellViewModel) {
+        self.genreVM = genreVM
+        genreButton.setTitle(genreVM.name, for: .normal)
+        // Каждый раз при конфигурации ячейки снимаем старый action по идентификатору (защита от переиспользования)
+        genreButton.removeAction(identifiedBy: tapActionID, for: .touchUpInside)
+        
+        let action = UIAction(identifier: tapActionID) { [weak self] _ in
+            guard let self,
+                  let genre = self.genreVM else { return }
+            self.delegate?.didTapGenre(id: genre.id, title: genre.name)
+        }
+        genreButton.addAction(action, for: .touchUpInside)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,15 +63,9 @@ class GenreMovieCell: UICollectionViewCell {
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        
         let fittingSize = contentView.systemLayoutSizeFitting(CGSize(width: UIView.noIntrinsicMetric, height: layoutAttributes.size.height))
         layoutAttributes.frame.size.width = fittingSize.width
         return layoutAttributes
-    }
-    
-    func configureGenreCell(with genreVM: GenreCellViewModel) {
-        genreButton.setTitle(genreVM.name, for: .normal)
-//        genreButton.tag = genre.id // пригодиться при обработке
     }
     
     required init?(coder: NSCoder) {

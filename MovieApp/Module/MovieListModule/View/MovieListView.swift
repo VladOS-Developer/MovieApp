@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MovieListViewProtocol: AnyObject {
-    
+    func setTitle(_ text: String)
 }
 
 class MovieListView: UIViewController {
@@ -17,5 +17,26 @@ class MovieListView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
+        presenter.setTitleMode()
+        setupTitleBar()
+        
     }
+    
+    private func setupTitleBar() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.largeTitleTextAttributes = [
+            NSAttributedString.Key.foregroundColor : UIColor.appWhite
+        ]
+    }
+}
+
+extension MovieListView: MovieListViewProtocol {
+    func setTitle(_ text: String) {
+        navigationItem.title = text
+        
+        
+    }
+    
+    
 }

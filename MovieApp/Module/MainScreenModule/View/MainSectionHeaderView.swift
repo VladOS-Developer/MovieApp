@@ -7,8 +7,8 @@
 
 import UIKit
 
-protocol MainSectionHeaderViewProtocol: AnyObject {
-//    func didTapSeeAllButton(in section: Int)
+protocol MainSectionHeaderViewDelegate: AnyObject {
+    func didTapSeeAllButton(in section: Int) //
 }
 
 class MainSectionHeaderView: UICollectionReusableView {
@@ -16,11 +16,11 @@ class MainSectionHeaderView: UICollectionReusableView {
     static let reuseId = "MainSectionHeaderView"
     
     var sectionIndex: Int = 0
-    weak var delegate: MainSectionHeaderViewProtocol?
+    weak var delegate: MainSectionHeaderViewDelegate?
    
     private lazy var headerLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = .systemFont(ofSize: 20, weight: .bold)
+        $0.font = .systemFont(ofSize: 20, weight: .black)
         $0.textColor = .appWhite
         return $0
     }(UILabel())
@@ -35,8 +35,8 @@ class MainSectionHeaderView: UICollectionReusableView {
         return $0
     }(UIButton(type: .system))
     
-    @objc private func seeAllTapped() {
-//        delegate?.didTapSeeAllButton(in: sectionIndex)
+    @objc private func seeAllTapped() { //
+        delegate?.didTapSeeAllButton(in: sectionIndex)
     }
     
     override init(frame: CGRect) {

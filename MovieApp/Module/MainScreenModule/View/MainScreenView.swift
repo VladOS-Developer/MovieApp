@@ -9,7 +9,7 @@ import UIKit
 
 protocol MainScreenViewProtocol: AnyObject {
     func showMovies(sections: [CollectionSection])
-    func navigationToDynamicScreen()
+    func navigateToMovieList(mode: MovieListMode) //
 }
 
 class MainScreenView: UIViewController {
@@ -84,6 +84,7 @@ extension MainScreenView: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenreMovieCell.reuseId, for: indexPath) as? GenreMovieCell else {
                 return UICollectionViewCell()
             }
+            cell.delegate = self
             
             switch item {
             case .genre(let genreVM):
@@ -128,8 +129,9 @@ extension MainScreenView: UICollectionViewDataSource {
         let section = sections[indexPath.section]
         
         let showSeeAll = section.type == .topMovie || section.type == .upcomingMovie
-        
         header.setHeaderView(with: section.type.title, showsButton: showSeeAll)
+        
+        header.sectionIndex = indexPath.section //
         header.delegate = self
         return header
     }
@@ -137,13 +139,12 @@ extension MainScreenView: UICollectionViewDataSource {
 }
 
 extension MainScreenView: MainScreenViewProtocol {
-    
-    func navigationToDynamicScreen() {
-//        if let tabBarVC = self.tabBarController as? TabBarView {
-//            tabBarVC.selectedIndex = 2
-//        }
+
+    func navigateToMovieList(mode: MovieListMode) {
+        let movieListVC = Builder.createMovieListController(mode: mode)
+        navigationController?.pushViewController(movieListVC, animated: true)
     }
-    
+
     func showMovies(sections: [CollectionSection]) {
         self.sections = sections
         collectionView.reloadData()
@@ -151,11 +152,16 @@ extension MainScreenView: MainScreenViewProtocol {
     
 }
 
-extension MainScreenView: MainSectionHeaderViewProtocol {
+extension MainScreenView: MainSectionHeaderViewDelegate {
     func didTapSeeAllButton(in section: Int) {
-//        presenter.didTapSeeAll(in: section)
+        presenter.didTapSeeAll(in: section) //
 //        print("Navigation from section: \(section), TabBar скрылся")
     }
-    
-    
 }
+
+extension MainScreenView: GenreMovieCellDelegate {
+    func didTapGenre(id: Int, title: String) {
+        presenter.didSelectGenre(id: id, title: title)
+    }
+}
+

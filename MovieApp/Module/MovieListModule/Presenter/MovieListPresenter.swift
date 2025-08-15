@@ -8,14 +8,23 @@
 import UIKit
 
 protocol MovieListPresenterProtocol: AnyObject {
-    init(view: MovieListViewProtocol)
+    init(view: MovieListViewProtocol, mode: MovieListMode)
+    func setTitleMode()
 }
 
-class MovieListPresenter {
+class MovieListPresenter: MovieListPresenterProtocol {
     
+  
     weak var view: MovieListViewProtocol?
+    private let mode: MovieListMode
     
-    required init(view: MovieListViewProtocol?) {
+    required init(view: MovieListViewProtocol, mode: MovieListMode) {
         self.view = view
+        self.mode = mode
+    }
+    
+    func setTitleMode() {
+        view?.setTitle(mode.title)
+        // Здесь в будущем запрашиваем данные из репозитория в зависимости от mode
     }
 }
