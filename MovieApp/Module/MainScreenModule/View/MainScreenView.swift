@@ -127,7 +127,8 @@ extension MainScreenView: UICollectionViewDataSource {
         
         let section = sections[indexPath.section]
         
-        let showSeeAll = section.type == .topMovie
+        let showSeeAll = section.type == .topMovie || section.type == .upcomingMovie
+        
         header.setHeaderView(with: section.type.title, showsButton: showSeeAll)
         header.delegate = self
         return header
@@ -138,24 +139,22 @@ extension MainScreenView: UICollectionViewDataSource {
 extension MainScreenView: MainScreenViewProtocol {
     
     func navigationToDynamicScreen() {
-        if let tabBarVC = self.tabBarController as? TabBarView {
-            tabBarVC.selectedIndex = 2
-        }
+//        if let tabBarVC = self.tabBarController as? TabBarView {
+//            tabBarVC.selectedIndex = 2
+//        }
     }
-        
+    
     func showMovies(sections: [CollectionSection]) {
         self.sections = sections
         collectionView.reloadData()
     }
     
-    
-    
 }
 
 extension MainScreenView: MainSectionHeaderViewProtocol {
     func didTapSeeAllButton(in section: Int) {
-        presenter.didTapSeeAllButton(in: section)
-        print("Navigation from section: \(section), TabBar скрылся")
+//        presenter.didTapSeeAll(in: section)
+//        print("Navigation from section: \(section), TabBar скрылся")
     }
     
     

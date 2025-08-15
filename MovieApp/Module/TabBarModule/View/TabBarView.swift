@@ -16,7 +16,7 @@ class TabBarView: UITabBarController {
     var presenter: TabBarPresenterProtocol!
     
     var tabBarButtons: [UIButton] = []
-    private let tabsIcon: [UIImage] = [.homeWhite, .trailerWhite, .dynamicWhite]
+    private let tabsIcon: [UIImage] = [.homeWhite, .trailerWhite, .favoritesWhite]
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

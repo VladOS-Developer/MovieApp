@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
 //        window?.rootViewController = Builder.getPasscodeController(sceneDelegate: self) // временная заглушка
-        window?.rootViewController = Builder.createTabBarControllers()
+        window?.rootViewController = Builder.createTabBarController()
         window?.makeKeyAndVisible()
     }
 
@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate: SceneDelegateProtocol {
     
     func startMainScreen() {
-        self.window?.rootViewController = Builder.createTabBarControllers()
+        self.window?.rootViewController = Builder.createTabBarController()
     }
     
 }

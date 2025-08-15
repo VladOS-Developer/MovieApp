@@ -9,12 +9,16 @@ import UIKit
 
 protocol MainScreenPresenterProtocol: AnyObject {
     func getMoviesData()
-    func didTapSeeAllButton(in section: Int)
+    func didTapSeeAll(in section: Int)
+    
     init(view: MainScreenViewProtocol)
 }
 
 class MainScreenPresenter {
     weak var view: MainScreenViewProtocol?
+    
+    // NEW: храним секции, если понадобится в будущем
+    private var sections: [CollectionSection] = []
     
     required init(view: MainScreenViewProtocol) {
         self.view = view
@@ -22,7 +26,7 @@ class MainScreenPresenter {
 }
 
 extension MainScreenPresenter: MainScreenPresenterProtocol {
-        
+    
     func getMoviesData() {
         let genres = Genre.mockGenres()
         let topMovies = Movie.mockTopMovies()
@@ -31,11 +35,11 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
         let topItems = topMovies
             .map { MovieCellViewModel(movie: $0, genres: genres) }
             .map { CollectionItem.movie($0) }
-
+        
         let upcomingItems = upcoming
             .map { MovieCellViewModel(movie: $0, genres: genres) }
             .map { CollectionItem.movie($0) }
-
+        
         let genreItems = genres
             .map { GenreCellViewModel(id: $0.id, name: $0.name) }
             .map { CollectionItem.genre($0) }
@@ -49,8 +53,8 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
         view?.showMovies(sections: sections)
     }
     
-    func didTapSeeAllButton(in section: Int) {
-        view?.navigationToDynamicScreen()
+    func didTapSeeAll(in section: Int) {
+//        view?.navigationToDynamicScreen()
     }
     
 }

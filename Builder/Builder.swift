@@ -9,11 +9,11 @@ import UIKit
 
 protocol BuilderProtocol {
     static func getPasscodeController(sceneDelegate: SceneDelegateProtocol) -> UIViewController
-    static func createTabBarControllers() -> UIViewController
+    static func createTabBarController() -> UIViewController
     
-    static func createMainScreenControllers() -> UIViewController
-    static func createTrailerPlayerControllers() -> UIViewController
-    static func createDynamicControllers() -> UIViewController
+    static func createMainScreenController() -> UIViewController
+    static func createTrailerPlayerController() -> UIViewController
+    static func createFavoritesController() -> UIViewController
 }
 
 class Builder: BuilderProtocol {
@@ -29,7 +29,7 @@ class Builder: BuilderProtocol {
         return view
     }
     
-    static func createTabBarControllers() -> UIViewController {
+    static func createTabBarController() -> UIViewController {
         let tabBarView = TabBarView()
         let presenter = TabBarPresenter(view: tabBarView)
         
@@ -37,7 +37,7 @@ class Builder: BuilderProtocol {
         return tabBarView
     }
     
-    static func createMainScreenControllers() -> UIViewController {
+    static func createMainScreenController() -> UIViewController {
         let mainView = MainScreenView()
         let presenter = MainScreenPresenter(view: mainView)
         
@@ -45,20 +45,20 @@ class Builder: BuilderProtocol {
         return mainView
     }
     
-    static func createTrailerPlayerControllers() -> UIViewController {
+    static func createFavoritesController() -> UIViewController {
+        let favoritesView = FavoritesView()
+        let presenter = FavoritesPresenter(view: favoritesView)
+        
+        favoritesView.presenter = presenter
+        return favoritesView
+    }
+    
+    static func createTrailerPlayerController() -> UIViewController {
         let playerView = TrailerPlayerView()
         let presenter = TrailerPlayerPresenter(view: playerView)
         
         playerView.presenter = presenter
         return playerView
-    }
-    
-    static func createDynamicControllers() -> UIViewController {
-        let dynamicView = DynamicView()
-        let presenter = DynamicPresenter(view: dynamicView)
-        
-        dynamicView.presenter = presenter
-        return dynamicView
     }
     
 }

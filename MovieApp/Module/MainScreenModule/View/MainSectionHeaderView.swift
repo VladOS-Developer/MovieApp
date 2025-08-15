@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MainSectionHeaderViewProtocol: AnyObject {
-    func didTapSeeAllButton(in section: Int)
+//    func didTapSeeAllButton(in section: Int)
 }
 
 class MainSectionHeaderView: UICollectionReusableView {
@@ -17,7 +17,7 @@ class MainSectionHeaderView: UICollectionReusableView {
     
     var sectionIndex: Int = 0
     weak var delegate: MainSectionHeaderViewProtocol?
-    
+   
     private lazy var headerLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = .systemFont(ofSize: 20, weight: .bold)
@@ -36,7 +36,7 @@ class MainSectionHeaderView: UICollectionReusableView {
     }(UIButton(type: .system))
     
     @objc private func seeAllTapped() {
-        delegate?.didTapSeeAllButton(in: sectionIndex)
+//        delegate?.didTapSeeAllButton(in: sectionIndex)
     }
     
     override init(frame: CGRect) {
