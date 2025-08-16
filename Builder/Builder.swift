@@ -52,7 +52,7 @@ class Builder: BuilderProtocol {
         let presenter = TrailerPlayerPresenter(view: playerView)
         
         playerView.presenter = presenter
-        return playerView
+        return UINavigationController(rootViewController: playerView)
     }
     
     static func createFavoritesController() -> UIViewController {
@@ -60,6 +60,7 @@ class Builder: BuilderProtocol {
         let presenter = FavoritesPresenter(view: favoritesView)
         
         favoritesView.presenter = presenter
+//        return UINavigationController(rootViewController: favoritesView)
         return favoritesView
     }
     

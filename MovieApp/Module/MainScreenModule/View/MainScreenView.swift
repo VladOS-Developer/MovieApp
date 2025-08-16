@@ -142,6 +142,7 @@ extension MainScreenView: MainScreenViewProtocol {
 
     func navigateToMovieList(mode: MovieListMode) {
         let movieListVC = Builder.createMovieListController(mode: mode)
+        
         navigationController?.pushViewController(movieListVC, animated: true)
     }
 
