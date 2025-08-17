@@ -16,9 +16,8 @@ protocol MainScreenPresenterProtocol: AnyObject {
 }
 
 class MainScreenPresenter {
-    weak var view: MainScreenViewProtocol?
     
-    // NEW: храним секции, если понадобится в будущем
+    weak var view: MainScreenViewProtocol?
     private var sections: [CollectionSection] = []
     
     required init(view: MainScreenViewProtocol) {

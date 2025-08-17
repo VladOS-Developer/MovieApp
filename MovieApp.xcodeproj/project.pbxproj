@@ -18,6 +18,8 @@
 		86367ED52E3E80A900012D4E /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 86367ED42E3E80A900012D4E /* KeychainAccess */; };
 		86367EE62E40C43200012D4E /* StringProtocolExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367EE52E40C43200012D4E /* StringProtocolExtension.swift */; };
 		863680272E4B542500012D4E /* CellLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863680262E4B542500012D4E /* CellLabel.swift */; };
+		8654A3522E51F72B00072F4E /* MovieServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654A3512E51F72B00072F4E /* MovieServiceProtocol.swift */; };
+		8654A3542E51F73A00072F4E /* MockMovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654A3532E51F73A00072F4E /* MockMovieService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		86367EC42E3D16A300012D4E /* PasscodeStateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeStateExtension.swift; sourceTree = "<group>"; };
 		86367EE52E40C43200012D4E /* StringProtocolExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringProtocolExtension.swift; sourceTree = "<group>"; };
 		863680262E4B542500012D4E /* CellLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellLabel.swift; sourceTree = "<group>"; };
+		8654A3512E51F72B00072F4E /* MovieServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieServiceProtocol.swift; sourceTree = "<group>"; };
+		8654A3532E51F73A00072F4E /* MockMovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMovieService.swift; sourceTree = "<group>"; };
 		868D07032E33982A00224CD9 /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -108,9 +112,19 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
+		8654A3502E51F6F200072F4E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8654A3512E51F72B00072F4E /* MovieServiceProtocol.swift */,
+				8654A3532E51F73A00072F4E /* MockMovieService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		868D06FA2E33982A00224CD9 = {
 			isa = PBXGroup;
 			children = (
+				8654A3502E51F6F200072F4E /* Services */,
 				868D07052E33982A00224CD9 /* MovieApp */,
 				863680232E4B536B00012D4E /* Helper */,
 				86367DE72E3A24B700012D4E /* Applications */,
@@ -211,6 +225,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				86367EC52E3D16A300012D4E /* PasscodeStateExtension.swift in Sources */,
+				8654A3522E51F72B00072F4E /* MovieServiceProtocol.swift in Sources */,
+				8654A3542E51F73A00072F4E /* MockMovieService.swift in Sources */,
 				86367DDD2E3A241400012D4E /* AppDelegate.swift in Sources */,
 				86367DDE2E3A241400012D4E /* MovieApp.xcdatamodeld in Sources */,
 				86367DDF2E3A241400012D4E /* SceneDelegate.swift in Sources */,

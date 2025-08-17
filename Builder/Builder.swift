@@ -44,7 +44,7 @@ class Builder: BuilderProtocol {
         let presenter = MainScreenPresenter(view: mainView)
         
         mainView.presenter = presenter
-        return UINavigationController(rootViewController: mainView) //
+        return UINavigationController(rootViewController: mainView)
     }
         
     static func createTrailerPlayerController() -> UIViewController {
@@ -66,8 +66,9 @@ class Builder: BuilderProtocol {
     
     static func createMovieListController(mode: MovieListMode) -> UIViewController { //
         let listView = MovieListView()
-        let presenter = MovieListPresenter(view: listView, mode: mode)
-        
+        let service: MovieServiceProtocol = MockMovieService.shared
+        let presenter = MovieListPresenter(view: listView, service: service, mode: mode)
+    
         listView.presenter = presenter
         return listView
     }
