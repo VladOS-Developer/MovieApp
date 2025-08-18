@@ -16,6 +16,7 @@ protocol BuilderProtocol {
     static func createFavoritesController() -> UIViewController
     
     static func createMovieListController(mode: MovieListMode) -> UIViewController //
+    static func createMoviePageController() -> UIViewController
 }
 
 class Builder: BuilderProtocol {
@@ -74,5 +75,15 @@ class Builder: BuilderProtocol {
         listView.presenter = presenter
         return listView
     }
+    
+    static func createMoviePageController() -> UIViewController {
+        let pageView = MoviePageView()
+        let service: MovieServiceProtocol = MockMovieService.shared
+        let presenter = MoviePagePresenter(view: pageView, service: service)
+        
+        pageView.presenter = presenter
+        return pageView
+    }
+    
     
 }
