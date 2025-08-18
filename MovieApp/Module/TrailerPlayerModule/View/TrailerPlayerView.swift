@@ -15,13 +15,15 @@ class TrailerPlayerView: UIViewController {
     
     var presenter: TrailerPlayerPresenterProtocol!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemGray
-//        title = "2"
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
     }
     
-
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
 }
 
 extension TrailerPlayerView: TrailerPlayerViewProtocol {

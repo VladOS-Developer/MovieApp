@@ -66,14 +66,15 @@ class MovieListView: UIViewController {
     }
     
     private func setupNavBar() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.titleTextAttributes = [
             .foregroundColor: UIColor.appWhite,
             .font: UIFont.systemFont(ofSize: 20, weight: .black)
         ]
-        navigationController?.navigationBar.backgroundColor = .clear
         
         let backButton = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.backward"),
+            image: UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(weight: .bold)),
             style: .plain,
             target: self,
             action: #selector(didTapBack))
@@ -127,4 +128,3 @@ extension MovieListView: MovieListViewProtocol {
     }
     
 }
-

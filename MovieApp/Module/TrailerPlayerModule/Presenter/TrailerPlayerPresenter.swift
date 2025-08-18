@@ -12,7 +12,7 @@ protocol TrailerPlayerPresenterProtocol: AnyObject {
 }
 
 class TrailerPlayerPresenter {
-    weak var view: TrailerPlayerViewProtocol?
+    private weak var view: TrailerPlayerViewProtocol?
     
     required init(view: TrailerPlayerViewProtocol) {
         self.view = view

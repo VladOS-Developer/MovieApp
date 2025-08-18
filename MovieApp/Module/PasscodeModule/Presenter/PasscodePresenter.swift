@@ -22,7 +22,7 @@ protocol PasscodePresenterProtocol: AnyObject {
 
 class PasscodePresenter: PasscodePresenterProtocol {
     
-    weak var view: PasscodeViewProtocol?
+    private weak var view: PasscodeViewProtocol?
     weak var sceneDelegate: SceneDelegateProtocol?
     
     private let service: PasscodeService

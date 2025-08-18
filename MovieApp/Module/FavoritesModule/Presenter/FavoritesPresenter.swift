@@ -13,7 +13,7 @@ protocol FavoritesPresenterProtocol: AnyObject {
 }
 
 final class FavoritesPresenter {
-    weak var view: FavoritesViewProtocol?
+    private weak var view: FavoritesViewProtocol?
 
     required init(view: FavoritesViewProtocol) {
         self.view = view

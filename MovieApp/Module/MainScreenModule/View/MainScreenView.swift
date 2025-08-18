@@ -155,7 +155,6 @@ extension MainScreenView: MainScreenViewProtocol {
 extension MainScreenView: MainSectionHeaderViewDelegate {
     func didTapSeeAllButton(in section: Int) {
         presenter.didTapSeeAll(in: section) //
-//        print("Navigation from section: \(section), TabBar скрылся")
     }
 }
 

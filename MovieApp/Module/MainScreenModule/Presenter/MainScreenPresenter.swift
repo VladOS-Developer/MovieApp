@@ -12,25 +12,28 @@ protocol MainScreenPresenterProtocol: AnyObject {
     func didTapSeeAll(in section: Int)
     func didSelectGenre(id: Int, title: String)
     
-    init(view: MainScreenViewProtocol)
+    init(view: MainScreenViewProtocol, service: MovieServiceProtocol)
 }
 
 class MainScreenPresenter {
     
-    weak var view: MainScreenViewProtocol?
+    private weak var view: MainScreenViewProtocol?
+    private let service: MovieServiceProtocol
+    
     private var sections: [CollectionSection] = []
     
-    required init(view: MainScreenViewProtocol) {
+    required init(view: MainScreenViewProtocol, service: MovieServiceProtocol) {
         self.view = view
+        self.service = service
     }
 }
 
 extension MainScreenPresenter: MainScreenPresenterProtocol {
     
     func getMoviesData() {
-        let genres = Genre.mockGenres()
-        let topMovies = Movie.mockTopMovies()
-        let upcoming = Movie.mockUpcomingMovies()
+        let genres = service.fetchGenres()
+        let topMovies = service.fetchTopMovies()
+        let upcoming = service.fetchUpcomingMovies()
         
         let topItems = topMovies
             .map { MovieCellViewModel(movie: $0, genres: genres) }
@@ -54,22 +57,31 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
         view?.showMovies(sections: sections)
     }
     
+//    func didTapSeeAll(in section: Int) {
+//        guard section < sections.count else { return }
+//        let type = sections[section].type
+//        switch type {
+//        case .topMovie:
+//            view?.navigateToMovieList(mode: .top10)
+//        case .upcomingMovie:
+//            view?.navigateToMovieList(mode: .upcoming)
+//        default:
+//            break
+//        }
+//    }
+    
     func didTapSeeAll(in section: Int) {
         guard section < sections.count else { return }
-        let type = sections[section].type
-        switch type {
-        case .topMovie:
-            view?.navigateToMovieList(mode: .top10)
-        case .upcomingMovie:
-            view?.navigateToMovieList(mode: .upcoming)
-        default:
-            break
+        switch sections[section].type {
+        case .topMovie:      view?.navigateToMovieList(mode: .top10)
+        case .upcomingMovie: view?.navigateToMovieList(mode: .upcoming)
+        default: break
         }
     }
     
     func didSelectGenre(id: Int, title: String) {
-            view?.navigateToMovieList(mode: .genre(id: id, title: title))
-        }
+        view?.navigateToMovieList(mode: .genre(id: id, title: title))
+    }
     
 }
 

@@ -41,7 +41,8 @@ class Builder: BuilderProtocol {
     
     static func createMainScreenController() -> UIViewController {
         let mainView = MainScreenView()
-        let presenter = MainScreenPresenter(view: mainView)
+        let service: MovieServiceProtocol = MockMovieService.shared
+        let presenter = MainScreenPresenter(view: mainView, service: service)
         
         mainView.presenter = presenter
         return UINavigationController(rootViewController: mainView)
@@ -52,7 +53,8 @@ class Builder: BuilderProtocol {
         let presenter = TrailerPlayerPresenter(view: playerView)
         
         playerView.presenter = presenter
-        return UINavigationController(rootViewController: playerView)
+//        return UINavigationController(rootViewController: playerView)
+        return playerView
     }
     
     static func createFavoritesController() -> UIViewController {

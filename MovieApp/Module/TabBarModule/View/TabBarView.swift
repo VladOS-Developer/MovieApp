@@ -11,11 +11,11 @@ protocol TabBarViewProtocol: AnyObject {
     func setControllers(controllers: [UIViewController])
 }
 
-class TabBarView: UITabBarController {
+final class TabBarView: UITabBarController {
     
     var presenter: TabBarPresenterProtocol!
     
-    var tabBarButtons: [UIButton] = []
+    private var tabBarButtons: [UIButton] = []
     private let tabsIcon: [UIImage] = [.homeWhite, .trailerWhite, .favoritesWhite]
     
     override func viewDidLayoutSubviews() {

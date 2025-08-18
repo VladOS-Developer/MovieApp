@@ -15,14 +15,13 @@ protocol TabBarPresenterProtocol: AnyObject {
 
 class TabBarPresenter {
     
-    weak var view: TabBarViewProtocol?
+    private weak var view: TabBarViewProtocol?
     
     required init(view: TabBarViewProtocol) {
         self.view = view
         buildTabBar()
     }
 }
-
 
 extension TabBarPresenter: TabBarPresenterProtocol {
     
