@@ -11,6 +11,7 @@ protocol MainScreenPresenterProtocol: AnyObject {
     func getMoviesData()
     func didTapSeeAll(in section: Int)
     func didSelectGenre(id: Int, title: String)
+    func didSelectMovie(with id: Int)
     
     init(view: MainScreenViewProtocol, service: MovieServiceProtocol)
 }
@@ -57,19 +58,6 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
         view?.showMovies(sections: sections)
     }
     
-//    func didTapSeeAll(in section: Int) {
-//        guard section < sections.count else { return }
-//        let type = sections[section].type
-//        switch type {
-//        case .topMovie:
-//            view?.navigateToMovieList(mode: .top10)
-//        case .upcomingMovie:
-//            view?.navigateToMovieList(mode: .upcoming)
-//        default:
-//            break
-//        }
-//    }
-    
     func didTapSeeAll(in section: Int) {
         guard section < sections.count else { return }
         switch sections[section].type {
@@ -81,6 +69,10 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
     
     func didSelectGenre(id: Int, title: String) {
         view?.navigateToMovieList(mode: .genre(id: id, title: title))
+    }
+    
+    func didSelectMovie(with id: Int) {
+        view?.navigateToMoviePage(movieId: id)
     }
     
 }

@@ -12,4 +12,5 @@ protocol MovieServiceProtocol: AnyObject {
     func fetchTopMovies() -> [Movie]
     func fetchUpcomingMovies() -> [Movie]
     func fetchMovies(byGenre id: Int) -> [Movie]
+    func fetchMovie(id: Int) -> Movie?
 }

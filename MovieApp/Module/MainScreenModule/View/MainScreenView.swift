@@ -9,7 +9,8 @@ import UIKit
 
 protocol MainScreenViewProtocol: AnyObject {
     func showMovies(sections: [CollectionSection])
-    func navigateToMovieList(mode: MovieListMode) //
+    func navigateToMovieList(mode: MovieListMode)
+    func navigateToMoviePage(movieId: Int)
 }
 
 class MainScreenView: UIViewController {
@@ -21,6 +22,7 @@ class MainScreenView: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .clear
         $0.dataSource = self
+        $0.delegate = self
         $0.register(GenreMovieCell.self, forCellWithReuseIdentifier: GenreMovieCell.reuseId)
         $0.register(TopMovieCell.self, forCellWithReuseIdentifier: TopMovieCell.reuseId)
         $0.register(UpcomingMovieCell.self, forCellWithReuseIdentifier: UpcomingMovieCell.reuseId)
@@ -48,6 +50,8 @@ class MainScreenView: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
     
     override func viewDidLoad() {
@@ -62,6 +66,7 @@ class MainScreenView: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+
 }
 
 extension MainScreenView: UICollectionViewDataSource {
@@ -139,17 +144,38 @@ extension MainScreenView: UICollectionViewDataSource {
 }
 
 extension MainScreenView: MainScreenViewProtocol {
-
+    
+    func navigateToMoviePage(movieId: Int) {
+        let vc = Builder.createMoviePageController(movieId: movieId)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func navigateToMovieList(mode: MovieListMode) {
         let movieListVC = Builder.createMovieListController(mode: mode)
         navigationController?.pushViewController(movieListVC, animated: true)
     }
-
+    
     func showMovies(sections: [CollectionSection]) {
         self.sections = sections
         collectionView.reloadData()
     }
-    
+}
+
+extension MainScreenView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let section = sections[indexPath.section]
+        
+        switch section.type {
+        case .topMovie, .upcomingMovie:
+            let item = section.items[indexPath.item]
+            if case .movie(let vm) = item {
+                presenter.didSelectMovie(with: vm.id)
+            }
+        default:
+            break
+        }
+    }
 }
 
 extension MainScreenView: MainSectionHeaderViewDelegate {

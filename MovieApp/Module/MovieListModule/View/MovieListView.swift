@@ -44,9 +44,9 @@ class MovieListView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavBar()
         view.addSubview(collectionView)
         setupConstraints()
-        setupNavBar()
         presenter.viewDidLoad()
     }
     
@@ -65,7 +65,7 @@ class MovieListView: UIViewController {
         ])
     }
     
-    private func setupNavBar() {
+    private func configureNavBar() {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.titleTextAttributes = [
@@ -73,13 +73,12 @@ class MovieListView: UIViewController {
             .font: UIFont.systemFont(ofSize: 20, weight: .black)
         ]
         
-        let backButton = UIBarButtonItem(
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(weight: .bold)),
             style: .plain,
             target: self,
             action: #selector(didTapBack))
-        backButton.tintColor = .appWhite
-        navigationItem.leftBarButtonItem = backButton
+        navigationItem.leftBarButtonItem?.tintColor = .appWhite
     }
     
     @objc private func didTapBack() {

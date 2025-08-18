@@ -8,6 +8,7 @@
 import UIKit
 
 struct MovieCellViewModel: Hashable {
+    let id: Int
     let title: String
     let runtimeText: String
     let releaseDateText: String
@@ -17,6 +18,7 @@ struct MovieCellViewModel: Hashable {
     
     init(movie: Movie, genres: [Genre]) {
         self.title = movie.title
+        self.id = movie.id
         
         if let runtime = movie.runtime {
             let hours = runtime / 60

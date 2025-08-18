@@ -8,6 +8,7 @@
 import Foundation
 
 final class MockMovieService: MovieServiceProtocol {
+    
     static let shared = MockMovieService()
     private init() {}
 
@@ -26,5 +27,10 @@ final class MockMovieService: MovieServiceProtocol {
     func fetchMovies(byGenre id: Int) -> [Movie] {
         let all = Movie.mockTopMovies() + Movie.mockUpcomingMovies()
         return all.filter { $0.genreIDs.contains(id) }
+    }
+    
+    func fetchMovie(id: Int) -> Movie? {
+        let all = fetchTopMovies() + fetchUpcomingMovies()
+        return all.first { $0.id == id }
     }
 }
