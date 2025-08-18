@@ -10,6 +10,7 @@ import UIKit
 protocol MovieListPresenterProtocol: AnyObject {
     init(view: MovieListViewProtocol, service: MovieServiceProtocol, mode: MovieListMode)
     func viewDidLoad()
+    func didSelectItem(at index: Int)
 }
 // optional helpers (необязательно для текущей реализации)
 //        func numberOfItems() -> Int
@@ -48,6 +49,13 @@ class MovieListPresenter: MovieListPresenterProtocol {
         vms = movies.map { MovieCellViewModel(movie: $0, genres: allGenres) }
         view?.updateMovies(vms)
     }
+    
+    func didSelectItem(at index: Int) {
+        let movie = movies[index]
+        let moviePageVC = Builder.createMoviePageController(movieId: movie.id)
+        (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
+    }
+    
     
 }
 // helpers (на будущее)

@@ -56,15 +56,14 @@ class MainScreenView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.getMoviesData()
         view.addSubview(collectionView)
-        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        presenter.getMoviesData()
     }
 
 }

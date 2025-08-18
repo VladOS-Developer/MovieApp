@@ -51,28 +51,6 @@ class MoviePageView: UIViewController {
             posterView.heightAnchor.constraint(equalTo: posterView.widthAnchor, multiplier: 1),
         ])
     }
-    
-    private func configureNavBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.titleTextAttributes = [
-            .foregroundColor: UIColor.appWhite,
-            .font: UIFont.systemFont(ofSize: 20, weight: .black)
-        ]
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(weight: .bold)),
-            style: .plain,
-            target: self,
-            action: #selector(back))
-        navigationItem.leftBarButtonItem?.tintColor = .appWhite
-    }
-    
-    @objc private func back() {
-        navigationController?.popViewController(animated: true)
-        (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
-    }
-    
 }
 
 extension MoviePageView: MoviePageViewProtocol {
@@ -87,4 +65,27 @@ extension MoviePageView: MoviePageViewProtocol {
         }
     }
     
+}
+
+extension MoviePageView {
+    private func configureNavBar() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.titleTextAttributes = [
+            .foregroundColor: UIColor.appWhite,
+            .font: UIFont.systemFont(ofSize: 20, weight: .black)
+        ]
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(weight: .bold)),
+            style: .plain,
+            target: self,
+            action: #selector(didTapBack))
+        navigationItem.leftBarButtonItem?.tintColor = .appWhite
+    }
+    
+    @objc private func didTapBack() {
+        navigationController?.popViewController(animated: true)
+        (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
+    }
 }

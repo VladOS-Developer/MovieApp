@@ -15,9 +15,9 @@ class MainSectionHeaderView: UICollectionReusableView {
     
     static let reuseId = "MainSectionHeaderView"
     
-    var sectionIndex: Int = 0
     weak var delegate: MainSectionHeaderViewDelegate?
-   
+    var sectionIndex: Int = 0
+    
     private lazy var headerLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = .systemFont(ofSize: 20, weight: .black)

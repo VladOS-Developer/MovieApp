@@ -115,6 +115,12 @@ extension MovieListView: UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension MovieListView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presenter.didSelectItem(at: indexPath.item)
+    }
+}
+
 extension MovieListView: MovieListViewProtocol {
     
     func setTitle(_ text: String) {
