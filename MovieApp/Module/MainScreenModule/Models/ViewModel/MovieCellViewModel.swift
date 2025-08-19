@@ -14,11 +14,13 @@ struct MovieCellViewModel: Hashable {
     let releaseDateText: String
     let genresText: String
     let posterImage: UIImage?
+    let overview: String?
     let posterURL: URL?
     
     init(movie: Movie, genres: [Genre]) {
         self.title = movie.title
         self.id = movie.id
+        self.overview = movie.overview
         
         if let runtime = movie.runtime {
             let hours = runtime / 60

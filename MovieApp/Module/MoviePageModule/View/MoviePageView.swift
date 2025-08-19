@@ -29,6 +29,7 @@ class MoviePageView: UIViewController {
         $0.heightAnchor.constraint(equalToConstant: 40).isActive = true
         $0.widthAnchor.constraint(equalToConstant: 40).isActive = true
         $0.setBackgroundImage(.playBtn, for: .normal)
+        $0.backgroundColor = .appBlue.withAlphaComponent(0.2)
         $0.layer.cornerRadius = 20
         return $0
     }(UIButton(primaryAction: actionPlay))
@@ -41,6 +42,14 @@ class MoviePageView: UIViewController {
         print("TabBar скрылся")
     }
     
+    private lazy var buttonStack: UIStackView = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.axis = .horizontal
+        $0.spacing = 15
+        $0.distribution = .equalSpacing
+        return $0
+    }(UIStackView())
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
@@ -51,8 +60,10 @@ class MoviePageView: UIViewController {
         configureNavBar()
         view.addSubview(posterView)
         view.addSubview(playButton)
-        
+        view.addSubview(buttonStack)
+        configureStackButtons()
         setupConstraints()
+        
         presenter.viewDidLoad()
     }
     
@@ -69,11 +80,14 @@ class MoviePageView: UIViewController {
             posterView.heightAnchor.constraint(equalTo: posterView.widthAnchor, multiplier: 0.9),
             
             playButton.topAnchor.constraint(equalTo: posterView.centerYAnchor),
-            playButton.leadingAnchor.constraint(equalTo: posterView.centerXAnchor,constant: -25),
+            playButton.leadingAnchor.constraint(equalTo: posterView.centerXAnchor,constant: -20),
+            
+            buttonStack.topAnchor.constraint(equalTo: posterView.bottomAnchor, constant: 30),
+            buttonStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
+            buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
             
         ])
     }
-    
 }
 
 extension MoviePageView: MoviePageViewProtocol {
@@ -111,4 +125,25 @@ extension MoviePageView {
         navigationController?.popViewController(animated: true)
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
     }
+    
+    private func configureStackButtons() {
+        let actions: [(String, Selector)] = [
+            ("heartWhite", #selector(didTapHeart)),
+            ("favoritesWhite", #selector(didTapFavorite)),
+            ("telegram", #selector(didTapShare))
+        ]
+        
+        actions.forEach { (name, selector) in
+            let button = UIButton(type: .custom)
+            button.setBackgroundImage(UIImage(named: name), for: .normal)
+            button.addTarget(self, action: selector, for: .touchUpInside)
+            button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            buttonStack.addArrangedSubview(button)
+        }
+    }
+    
+    @objc private func didTapHeart() { print("▶️ Heart tapped") }
+    @objc private func didTapFavorite() { print("❤️ Favorite tapped") }
+    @objc private func didTapShare() { print("📤 Share tapped") }
 }

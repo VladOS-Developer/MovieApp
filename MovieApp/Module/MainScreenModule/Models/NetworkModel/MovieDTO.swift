@@ -14,4 +14,5 @@ struct MovieDTO: Decodable {
     let runtime: Int?
     let release_date: String?
     let genre_ids: [Int]
+    let overview: String?
 }
