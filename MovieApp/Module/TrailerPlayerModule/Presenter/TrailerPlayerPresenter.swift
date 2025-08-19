@@ -9,6 +9,7 @@ import UIKit
 
 protocol TrailerPlayerPresenterProtocol: AnyObject {
     init(view: TrailerPlayerViewProtocol)
+    
 }
 
 class TrailerPlayerPresenter {

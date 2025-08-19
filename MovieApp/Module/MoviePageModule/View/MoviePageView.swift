@@ -13,17 +13,33 @@ protocol MoviePageViewProtocol: AnyObject {
 }
 
 class MoviePageView: UIViewController {
-    
+        
     var presenter: MoviePagePresenterProtocol!
     
-    private let posterView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 10
-        return imageView
-    }()
+    private lazy var posterView: UIImageView = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 10
+        return $0
+    }(UIImageView())
+    
+    private lazy var playButton: UIButton = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        $0.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        $0.setBackgroundImage(.playBtn, for: .normal)
+        $0.layer.cornerRadius = 20
+        return $0
+    }(UIButton(primaryAction: actionPlay))
+    
+    lazy var actionPlay = UIAction { [weak self] _ in
+        guard let self = self,
+              let tabBarVC = self.tabBarController as? TabBarView else { return }
+        tabBarVC.selectedIndex = 1
+        tabBarVC.setTabBarButtonsHidden(true)
+        print("TabBar скрылся")
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -34,6 +50,8 @@ class MoviePageView: UIViewController {
         super.viewDidLoad()
         configureNavBar()
         view.addSubview(posterView)
+        view.addSubview(playButton)
+        
         setupConstraints()
         presenter.viewDidLoad()
     }
@@ -48,9 +66,14 @@ class MoviePageView: UIViewController {
             posterView.topAnchor.constraint(equalTo: view.topAnchor),
             posterView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             posterView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            posterView.heightAnchor.constraint(equalTo: posterView.widthAnchor, multiplier: 1),
+            posterView.heightAnchor.constraint(equalTo: posterView.widthAnchor, multiplier: 0.9),
+            
+            playButton.topAnchor.constraint(equalTo: posterView.centerYAnchor),
+            playButton.leadingAnchor.constraint(equalTo: posterView.centerXAnchor,constant: -25),
+            
         ])
     }
+    
 }
 
 extension MoviePageView: MoviePageViewProtocol {

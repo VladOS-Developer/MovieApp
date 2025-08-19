@@ -30,7 +30,7 @@ class FavoritesView: UIViewController {
         return $0
     }(UIButton(primaryAction: backButtonAction))
     
-    lazy var backButtonAction = UIAction { [weak self] _ in
+    private lazy var backButtonAction = UIAction { [weak self] _ in
         guard let self = self,
               let tabBarVC = self.tabBarController as? TabBarView else { return }
         tabBarVC.selectedIndex = 0
@@ -47,9 +47,7 @@ class FavoritesView: UIViewController {
         super.viewDidLoad()
         view.addSubview(topBackButton)
         view.addSubview(sectionLabel)
-
         setupConstraints()
-//        navigationItem.hidesBackButton = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
