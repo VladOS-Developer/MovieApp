@@ -118,7 +118,7 @@ extension MoviePageView {
             style: .plain,
             target: self,
             action: #selector(didTapBack))
-        navigationItem.leftBarButtonItem?.tintColor = .appWhite
+        navigationItem.leftBarButtonItem?.tintColor = .appBlue
     }
     
     @objc private func didTapBack() {
@@ -143,7 +143,7 @@ extension MoviePageView {
         }
     }
     
-    @objc private func didTapHeart() { print("▶️ Heart tapped") }
-    @objc private func didTapFavorite() { print("❤️ Favorite tapped") }
-    @objc private func didTapShare() { print("📤 Share tapped") }
+    @objc private func didTapHeart() { print("Heart tapped") }
+    @objc private func didTapFavorite() { print("Favorite tapped") }
+    @objc private func didTapShare() { print("Share tapped") }
 }
