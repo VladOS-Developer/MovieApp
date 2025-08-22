@@ -92,7 +92,7 @@ extension MainScreenView: UICollectionViewDataSource {
             
             switch item {
             case .genre(let genreVM):
-                cell.configureGenreCell(with: genreVM)
+                cell.configureGenreCell(with: genreVM) // ПРОВЕРИТЬ
             default: break
             }
             return cell
@@ -145,8 +145,8 @@ extension MainScreenView: UICollectionViewDataSource {
 extension MainScreenView: MainScreenViewProtocol {
     
     func navigateToMoviePage(movieId: Int) {
-        let vc = Builder.createMoviePageController(movieId: movieId)
-        navigationController?.pushViewController(vc, animated: true)
+        let moviePageVC = Builder.createMoviePageController(movieId: movieId)
+        navigationController?.pushViewController(moviePageVC, animated: true)
     }
     
     func navigateToMovieList(mode: MovieListMode) {

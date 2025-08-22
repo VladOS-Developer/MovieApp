@@ -23,6 +23,8 @@ class TopMovieCell: UICollectionViewCell {
     
     private lazy var titleLabel: UILabel = CellLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appWhite)
     
+    private lazy var originalTitleLabel: UILabel = CellLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appWhite)
+    
     private lazy var runtimeLabel: UILabel = CellLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appGray)
     
     private lazy var stackLabel: UIStackView = {
@@ -30,7 +32,7 @@ class TopMovieCell: UICollectionViewCell {
         $0.axis = .vertical
         $0.spacing = 5
         return $0
-    }(UIStackView(arrangedSubviews: [titleLabel, runtimeLabel]))
+    }(UIStackView(arrangedSubviews: [titleLabel, originalTitleLabel, runtimeLabel]))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,6 +59,7 @@ class TopMovieCell: UICollectionViewCell {
     func configureMovieCell(with movieVM: MovieCellViewModel) {
         imageViewMovie.image = movieVM.posterImage
         titleLabel.text = movieVM.title
+        originalTitleLabel.text = movieVM.originalTitle
         runtimeLabel.text = movieVM.runtimeText
     }
     

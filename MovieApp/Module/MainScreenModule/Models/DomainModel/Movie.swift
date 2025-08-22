@@ -50,7 +50,6 @@ extension Movie {
 extension Movie {
     static func mockTopMovies() -> [Movie] {
         return [
-
             Movie(id: 1, title: "John Wick", originalTitle: "Chapter 1", posterPath: "img1", backdropPath: "", runtime: 169, releaseDate: "", genreIDs: [28],
                   overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.", originCountry: [""], voteAverage: 0, isLocalImage: true),
             
@@ -60,15 +59,11 @@ extension Movie {
             Movie(id: 3, title: "The Matrix", originalTitle: "", posterPath: "img3", backdropPath: "", runtime: 136, releaseDate: "", genreIDs: [878],
                   overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.", originCountry: [""], voteAverage: 0, isLocalImage: true),
             
-            
             Movie(id: 4, title: "The Matrix", originalTitle: "", posterPath: "img4", backdropPath: "", runtime: 136, releaseDate: "", genreIDs: [878],
                   overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.", originCountry: [""], voteAverage: 0, isLocalImage: true),
             
-            
             Movie(id: 5, title: "The Matrix", originalTitle: "", posterPath: "img5", backdropPath: "", runtime: 136, releaseDate: "", genreIDs: [878],
                   overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.", originCountry: [""], voteAverage: 0, isLocalImage: true),
-            
-           
         ]
     }
 
@@ -79,7 +74,6 @@ extension Movie {
             
             Movie(id: 11, title: "Inception", originalTitle: "", posterPath: "img9", backdropPath: "", runtime: nil, releaseDate: "2025-10-10", genreIDs: [16],
                   overview: "", originCountry: [""], voteAverage: 0, isLocalImage: true)
-           
         ]
     }
 }

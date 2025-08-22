@@ -17,7 +17,7 @@ class FavoritesView: UIViewController {
     
     private lazy var sectionLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        $0.font = UIFont.systemFont(ofSize: 25, weight: .bold)
         $0.textColor = .appWhite
         $0.textAlignment = .center
         $0.text = "Favorite Movies"
@@ -25,7 +25,10 @@ class FavoritesView: UIViewController {
     }(UILabel())
     
     private lazy var topBackButton: UIButton = {
-        $0.frame = CGRect(x: 20, y: 80, width: 20, height: 20)
+        
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        $0.widthAnchor.constraint(equalToConstant: 20).isActive = true
         $0.setBackgroundImage(.appArrow, for: .normal)
         return $0
     }(UIButton(primaryAction: backButtonAction))
@@ -53,16 +56,16 @@ class FavoritesView: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(true)
-//        if let tabBarVC = self.tabBarController as? TabBarView {
-//            tabBarVC.setTabBarButtonsHidden(true)
-            print("TabBar скрылся")
-//        }
+        print("TabBar скрылся")
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            sectionLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            sectionLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             sectionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            topBackButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
+            topBackButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
         ])
     }
     

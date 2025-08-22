@@ -16,7 +16,7 @@ enum CollectionItem {
     
     var id: Int {
         switch self {
-        case .movie(let vm): return vm.title.hashValue
+        case .movie(let vm): return vm.id
         case .genre(let vm): return vm.id
         }
     }

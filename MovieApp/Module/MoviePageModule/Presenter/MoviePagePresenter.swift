@@ -10,7 +10,7 @@ import Foundation
 protocol MoviePagePresenterProtocol: AnyObject {
     
     init(view: MoviePageViewProtocol, service: MovieServiceProtocol, movieId: Int)
-    func viewDidLoad()
+    func getMoviesData()
 }
 
 class MoviePagePresenter: MoviePagePresenterProtocol {
@@ -19,18 +19,30 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     private let service: MovieServiceProtocol
     private let movieId: Int
     
+    private var sections: [PageCollectionSection] = []
+    
     required init(view: MoviePageViewProtocol, service: MovieServiceProtocol, movieId: Int) {
         self.view = view
         self.service = service
         self.movieId = movieId
     }
     
-    func viewDidLoad() {
-        guard let movie = service.fetchMovie(id: movieId) else { return }
-        view?.setTitle(movie.title)
-        // пока просто заглушка под постер из локальных моков
-        let posterName = movie.isLocalImage ? movie.posterPath : nil
-        view?.showPoster(named: posterName)
+    func getMoviesData() {
+        let genres = service.fetchGenres()
+        
+        // ищем фильм по id (или у сервиса сделай fetchMovie(by: id))
+        let allMovies = service.fetchTopMovies() + service.fetchUpcomingMovies()
+        guard let movie = allMovies.first(where: { $0.id == movieId }) else { return }
+        
+        let movieVM = MovieCellViewModel(movie: movie, genres: genres)
+        let item = CollectionItem.movie(movieVM)
+        
+        let sections: [PageCollectionSection] = [
+            PageCollectionSection(type: .posterMovie, items: [item])
+        ]
+        
+        self.sections = sections
+        view?.showMovie(sections: sections)
+        
     }
-    
 }

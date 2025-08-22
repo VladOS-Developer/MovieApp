@@ -24,7 +24,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     private let mode: MovieListMode
     
     private var movies: [Movie] = []
-    private var vms: [MovieCellViewModel] = []
+    private var movieViewModel: [MovieCellViewModel] = []
     private var allGenres: [Genre]
     
     required init(view: MovieListViewProtocol, service: MovieServiceProtocol, mode: MovieListMode) {
@@ -46,8 +46,8 @@ class MovieListPresenter: MovieListPresenterProtocol {
             movies = service.fetchMovies(byGenre: id)
         }
         
-        vms = movies.map { MovieCellViewModel(movie: $0, genres: allGenres) }
-        view?.updateMovies(vms)
+        movieViewModel = movies.map { MovieCellViewModel(movie: $0, genres: allGenres) }
+        view?.updateMovies(movieViewModel)
     }
     
     func didSelectItem(at index: Int) {
@@ -55,7 +55,6 @@ class MovieListPresenter: MovieListPresenterProtocol {
         let moviePageVC = Builder.createMoviePageController(movieId: movie.id)
         (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
     }
-    
     
 }
 // helpers (на будущее)

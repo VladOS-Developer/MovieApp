@@ -10,20 +10,20 @@ import UIKit
 struct MovieCellViewModel: Hashable {
     let id: Int
     let title: String
-    let originalTitle: String?
+    let originalTitle: String? //
     
     let runtimeText: String
     let releaseDateText: String
     
     let genresText: String
-    let overview: String?
+    let overview: String? //
     
-    let countryText: String
-    let ratingText: String
+    let countryText: String //
+    let ratingText: String //
     
     let posterImage: UIImage?
     let posterURL: URL?
-    let backdropURL: URL?
+    let backdropURL: URL? //
     
     init(movie: Movie, genres: [Genre]) {
         self.id = movie.id
