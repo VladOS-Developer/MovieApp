@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol PosterCellDelegate: AnyObject {
+    func didTapPlayButton(in cell: PosterCell)
+    func didTapBackButton(in cell: PosterCell)
+}
+
 class PosterCell: UICollectionViewCell {
     
     static let reuseId = "PosterCell"
+    weak var delegate: PosterCellDelegate?
     
     private lazy var posterView: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -21,21 +27,41 @@ class PosterCell: UICollectionViewCell {
     
     private lazy var posterLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 20, weight: .bold), color: .appWhite)
     
-    private lazy var playButton: UIButton = {
+    private lazy var playTrailerButton: UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.heightAnchor.constraint(equalToConstant: 40).isActive = true
         $0.widthAnchor.constraint(equalToConstant: 40).isActive = true
         $0.setBackgroundImage(.playBtn, for: .normal)
         $0.backgroundColor = .appBlue.withAlphaComponent(0.2)
         $0.layer.cornerRadius = 20
+        $0.addTarget(self, action: #selector(didTapPlay), for: .touchUpInside)
         return $0
     }(UIButton())
+    
+    @objc private func didTapPlay() {
+        delegate?.didTapPlayButton(in: self)
+    }
+    
+    private lazy var topBackButton: UIButton = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        $0.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        $0.setBackgroundImage(.appArrow, for: .normal)
+        $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        return $0
+    }(UIButton())
+    
+    @objc private func didTapBackButton() {
+        delegate?.didTapBackButton(in: self)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(posterView)
-        contentView.addSubview(playButton)
+        contentView.addSubview(playTrailerButton)
         contentView.addSubview(posterLabel)
+        contentView.addSubview(topBackButton)
+
         setupConstraints()
     }
     
@@ -44,14 +70,17 @@ class PosterCell: UICollectionViewCell {
             posterView.topAnchor.constraint(equalTo: contentView.topAnchor),
             posterView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             posterView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            posterView.heightAnchor.constraint(equalTo: posterView.widthAnchor, multiplier: 1),
+            posterView.heightAnchor.constraint(equalTo: posterView.widthAnchor, multiplier: 0.9),
             
-            playButton.centerXAnchor.constraint(equalTo: posterView.centerXAnchor),
-            playButton.centerYAnchor.constraint(equalTo: posterView.centerYAnchor),
+            playTrailerButton.centerXAnchor.constraint(equalTo: posterView.centerXAnchor),
+            playTrailerButton.centerYAnchor.constraint(equalTo: posterView.centerYAnchor),
             
             posterLabel.bottomAnchor.constraint(equalTo: posterView.bottomAnchor, constant: -16),
             posterLabel.leadingAnchor.constraint(equalTo: posterView.leadingAnchor, constant: 16),
-            posterLabel.trailingAnchor.constraint(lessThanOrEqualTo: posterView.trailingAnchor, constant: -16)
+            posterLabel.trailingAnchor.constraint(lessThanOrEqualTo: posterView.trailingAnchor, constant: -16),
+            
+            topBackButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 70),
+            topBackButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30)
         ])
     }
     

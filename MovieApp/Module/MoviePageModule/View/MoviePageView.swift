@@ -9,6 +9,8 @@ import UIKit
 
 protocol MoviePageViewProtocol: AnyObject {
     func showMovie(sections: [PageCollectionSection])
+    func navigateToTrailerPalyer()
+    func backNavigationMoviePage()
 }
 
 class MoviePageView: UIViewController {
@@ -21,6 +23,7 @@ class MoviePageView: UIViewController {
         $0.contentInsetAdjustmentBehavior = .never
         $0.backgroundColor = .clear
         $0.dataSource = self
+        $0.delegate = self
         $0.register(PosterCell.self, forCellWithReuseIdentifier: PosterCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createPageLayout()))
@@ -82,6 +85,8 @@ extension MoviePageView: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCell.reuseId, for: indexPath) as? PosterCell else {
                 return UICollectionViewCell()
             }
+            
+            cell.delegate = self
             switch item {
             case .movie(let movieVM):
                 cell.configurePosterCell(with: movieVM)
@@ -95,10 +100,39 @@ extension MoviePageView: UICollectionViewDataSource {
 }
 
 extension MoviePageView: MoviePageViewProtocol {
+    func backNavigationMoviePage() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    
     func showMovie(sections: [PageCollectionSection]) {
         self.sections = sections
         collectionView.reloadData()
     }
+    
+    func navigateToTrailerPalyer() {
+//        let trailerPlayerVC = Builder.createTrailerPlayerController()
+//        navigationController?.pushViewController(trailerPlayerVC, animated: true)
+        
+        navigationController?.pushViewController(Builder.createTrailerPlayerController(), animated: true)
+//        present(Builder.createTrailerPlayerController(), animated: true)
+    }
+    
+}
+
+extension MoviePageView: PosterCellDelegate {
+    func didTapBackButton(in cell: PosterCell) {
+        presenter.didTapBackButton()
+    }
+    
+    
+    func didTapPlayButton(in cell: PosterCell) {
+        presenter.didTapPlayTrailerButton()
+    }
+}
+
+extension MoviePageView: UICollectionViewDelegate {
+    
 }
 
 

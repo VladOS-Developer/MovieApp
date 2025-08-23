@@ -8,7 +8,7 @@
 import UIKit
 
 protocol TrailerPlayerViewProtocol: AnyObject {
-    func setTitle(_ text: String)
+ 
 }
 
 class TrailerPlayerView: UIViewController {
@@ -24,11 +24,8 @@ class TrailerPlayerView: UIViewController {
     }(UIButton(primaryAction: backButtonAction))
     
     private lazy var backButtonAction = UIAction { [weak self] _ in
-        guard let self = self,
-              let tabBarVC = self.tabBarController as? TabBarView else { return }
-        tabBarVC.selectedIndex = 0
-        tabBarVC.setTabBarButtonsHidden(false)
-        print("TabBar появился")
+        guard let self = self else { return }
+        self.navigationController?.popViewController(animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -58,10 +55,5 @@ class TrailerPlayerView: UIViewController {
 }
 
 extension TrailerPlayerView: TrailerPlayerViewProtocol {
-    
-    func setTitle(_ text: String) {
-        navigationItem.title = text
-    }
-    
     
 }

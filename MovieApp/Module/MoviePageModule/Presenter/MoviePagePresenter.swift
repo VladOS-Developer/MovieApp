@@ -11,6 +11,8 @@ protocol MoviePagePresenterProtocol: AnyObject {
     
     init(view: MoviePageViewProtocol, service: MovieServiceProtocol, movieId: Int)
     func getMoviesData()
+    func didTapPlayTrailerButton()
+    func didTapBackButton()
 }
 
 class MoviePagePresenter: MoviePagePresenterProtocol {
@@ -30,7 +32,6 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     func getMoviesData() {
         let genres = service.fetchGenres()
         
-        // ищем фильм по id (или у сервиса сделай fetchMovie(by: id))
         let allMovies = service.fetchTopMovies() + service.fetchUpcomingMovies()
         guard let movie = allMovies.first(where: { $0.id == movieId }) else { return }
         
@@ -44,5 +45,13 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         self.sections = sections
         view?.showMovie(sections: sections)
         
+    }
+    
+    func didTapPlayTrailerButton() {
+        view?.navigateToTrailerPalyer()
+    }
+    
+    func didTapBackButton() {
+        view?.backNavigationMoviePage()
     }
 }
