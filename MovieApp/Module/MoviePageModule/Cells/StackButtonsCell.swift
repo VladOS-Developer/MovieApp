@@ -14,18 +14,25 @@ class StackButtonsCell: UICollectionViewCell {
     private lazy var buttonsStack: UIStackView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.axis = .horizontal
-        $0.spacing = 15
+        $0.alignment = .center
+//        $0.spacing = 15
         $0.distribution = .equalSpacing
         return $0
     }(UIStackView())
         
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureStackButtons()
+        contentView.addSubview(buttonsStack)
+        setupConstraints()
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            
+            buttonsStack.topAnchor.constraint(equalTo: contentView.topAnchor),
+            buttonsStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            buttonsStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            buttonsStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
     

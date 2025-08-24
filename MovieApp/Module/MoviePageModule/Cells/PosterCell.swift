@@ -60,10 +60,8 @@ class PosterCell: UICollectionViewCell {
             playTrailerButton.centerXAnchor.constraint(equalTo: posterView.centerXAnchor),
             playTrailerButton.centerYAnchor.constraint(equalTo: posterView.centerYAnchor),
             
-            posterLabel.bottomAnchor.constraint(equalTo: posterView.bottomAnchor, constant: -16),
-            posterLabel.leadingAnchor.constraint(equalTo: posterView.leadingAnchor, constant: 16),
-            posterLabel.trailingAnchor.constraint(lessThanOrEqualTo: posterView.trailingAnchor, constant: -16),
-            
+            posterLabel.bottomAnchor.constraint(equalTo: posterView.bottomAnchor, constant: -20),
+            posterLabel.centerXAnchor.constraint(equalTo: posterView.centerXAnchor)            
         ])
     }
     

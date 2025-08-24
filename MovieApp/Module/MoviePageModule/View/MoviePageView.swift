@@ -24,6 +24,7 @@ class MoviePageView: UIViewController {
         $0.dataSource = self
         $0.delegate = self
         $0.register(PosterCell.self, forCellWithReuseIdentifier: PosterCell.reuseId)
+        $0.register(StackButtonsCell.self, forCellWithReuseIdentifier: StackButtonsCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createPageLayout()))
     
@@ -34,6 +35,8 @@ class MoviePageView: UIViewController {
             switch currentSection.type {
             case .posterMovie:
                 return MoviePageLayoutFactory.setPosterMovieLayout()
+            case .stackButtons:
+                return MoviePageLayoutFactory.setStackButtonLayout()
             }
         }
     }
@@ -71,12 +74,18 @@ extension MoviePageView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        sections[section].items.count
+//        sections[section].items.count
+        switch sections[section].type {
+        case .stackButtons:
+            return 1 // возврат 1
+        default:
+            return sections[section].items.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = sections[indexPath.section]
-        let item = section.items[indexPath.item]
+//        let item = section.items[indexPath.item] // тут передача пустого массива для stackButtons (краш) секция думает что у неё 1 айтем → коллекция спрашивает items[0] → а массив пустой → краш.
         
         switch section.type {
             
@@ -86,6 +95,8 @@ extension MoviePageView: UICollectionViewDataSource {
             }
             
             cell.delegate = self
+            let item = section.items[indexPath.item] // тут безопасно дергать items, есть данные
+            
             switch item {
             case .movie(let movieVM):
                 cell.configurePosterCell(with: movieVM)
@@ -93,6 +104,11 @@ extension MoviePageView: UICollectionViewDataSource {
             }
             return cell
             
+        case .stackButtons:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StackButtonsCell.reuseId, for: indexPath) as? StackButtonsCell else {
+                return UICollectionViewCell()
+            }
+            return cell
         }
     }
     
@@ -106,7 +122,6 @@ extension MoviePageView: MoviePageViewProtocol {
     }
     
     func navigateToTrailerPalyer() {
-
         let trailerPlayerVC = Builder.createTrailerPlayerController()
         present(trailerPlayerVC, animated: true)
     }

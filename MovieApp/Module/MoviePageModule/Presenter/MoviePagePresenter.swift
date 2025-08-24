@@ -38,7 +38,8 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         let item = CollectionItem.movie(movieVM)
         
         let sections: [PageCollectionSection] = [
-            PageCollectionSection(type: .posterMovie, items: [item])
+            PageCollectionSection(type: .posterMovie, items: [item]),
+            PageCollectionSection(type: .stackButtons, items: [])
         ]
         
         self.sections = sections
