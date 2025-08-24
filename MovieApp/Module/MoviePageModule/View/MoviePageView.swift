@@ -25,6 +25,7 @@ class MoviePageView: UIViewController {
         $0.delegate = self
         $0.register(PosterCell.self, forCellWithReuseIdentifier: PosterCell.reuseId)
         $0.register(StackButtonsCell.self, forCellWithReuseIdentifier: StackButtonsCell.reuseId)
+        $0.register(SpecificationCell.self, forCellWithReuseIdentifier: SpecificationCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createPageLayout()))
     
@@ -37,6 +38,8 @@ class MoviePageView: UIViewController {
                 return MoviePageLayoutFactory.setPosterMovieLayout()
             case .stackButtons:
                 return MoviePageLayoutFactory.setStackButtonLayout()
+            case .specificationMovie:
+                return MoviePageLayoutFactory.setSpecificationLayout()
             }
         }
     }
@@ -49,6 +52,7 @@ class MoviePageView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavBar()
         view.addSubview(collectionView)
         edgesForExtendedLayout = [.top]
         NSLayoutConstraint.activate([
@@ -63,6 +67,7 @@ class MoviePageView: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(true)
+        print("TabBar скрылся")
     }
 
 }
@@ -109,6 +114,19 @@ extension MoviePageView: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             return cell
+            
+        case .specificationMovie:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SpecificationCell.reuseId, for: indexPath) as? SpecificationCell else {
+                return UICollectionViewCell()
+            }
+            
+            let item = section.items[indexPath.item]
+            switch item {
+            case .movie(let movieVM):
+                cell.configureSpecificationCell(with: movieVM, rating: 4)
+            default: break
+            }
+            return cell
         }
     }
     
@@ -139,5 +157,28 @@ extension MoviePageView: UICollectionViewDelegate {
     
 }
 
+extension MoviePageView {
+    private func configureNavBar() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.titleTextAttributes = [
+            .foregroundColor: UIColor.appWhite,
+            .font: UIFont.systemFont(ofSize: 20, weight: .black)
+        ]
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(weight: .bold)),
+            style: .plain,
+            target: self,
+            action: #selector(didTapBack))
+        navigationItem.leftBarButtonItem?.tintColor = .appWhite
+    }
+    
+    @objc private func didTapBack() {
+        navigationController?.popViewController(animated: true)
+        (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
+        print("TabBar появился")
+    }
+}
 
     

@@ -11,7 +11,7 @@ protocol PosterCellDelegate: AnyObject {
     func didTapPlayButton(in cell: PosterCell)
 }
 
-class PosterCell: UICollectionViewCell {
+final class PosterCell: UICollectionViewCell {
     
     static let reuseId = "PosterCell"
     weak var delegate: PosterCellDelegate?

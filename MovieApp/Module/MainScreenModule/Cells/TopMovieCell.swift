@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TopMovieCell: UICollectionViewCell {
+final class TopMovieCell: UICollectionViewCell {
     
     static let reuseId = "TopMovieCell"
     

@@ -14,8 +14,6 @@ class StackButtonsCell: UICollectionViewCell {
     private lazy var buttonsStack: UIStackView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.axis = .horizontal
-        $0.alignment = .center
-//        $0.spacing = 15
         $0.distribution = .equalSpacing
         return $0
     }(UIStackView())
@@ -35,11 +33,7 @@ class StackButtonsCell: UICollectionViewCell {
             buttonsStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
-    
-    func configureStackButtonsCell() {
-        
-    }
-    
+ 
     private func configureStackButtons() {
         let actions: [(String, Selector)] = [
             ("heartWhite", #selector(didTapHeart)),

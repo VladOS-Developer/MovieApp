@@ -10,7 +10,7 @@ import Foundation
 enum MoviePageSectionType {
     case posterMovie
     case stackButtons
-//    case specificationMovie
+    case specificationMovie
 //    case trailerMovie
 }
 

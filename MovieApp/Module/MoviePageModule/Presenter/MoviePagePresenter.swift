@@ -39,7 +39,8 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         
         let sections: [PageCollectionSection] = [
             PageCollectionSection(type: .posterMovie, items: [item]),
-            PageCollectionSection(type: .stackButtons, items: [])
+            PageCollectionSection(type: .stackButtons, items: []),
+            PageCollectionSection(type: .specificationMovie, items: [item])
         ]
         
         self.sections = sections

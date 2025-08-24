@@ -11,7 +11,7 @@ protocol GenreMovieCellDelegate: AnyObject {
     func didTapGenre(id: Int, title: String) //
 }
 
-class GenreMovieCell: UICollectionViewCell {
+final class GenreMovieCell: UICollectionViewCell {
     
     static let reuseId = "GenreMovieCell"
     
