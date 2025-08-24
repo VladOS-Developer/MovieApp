@@ -10,7 +10,6 @@ import UIKit
 protocol MoviePageViewProtocol: AnyObject {
     func showMovie(sections: [PageCollectionSection])
     func navigateToTrailerPalyer()
-    func backNavigationMoviePage()
 }
 
 class MoviePageView: UIViewController {
@@ -41,7 +40,7 @@ class MoviePageView: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        navigationController?.isNavigationBarHidden = true
+//        navigationController?.isNavigationBarHidden = true // решить вопрос навигации
         view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
     }
     
@@ -100,32 +99,22 @@ extension MoviePageView: UICollectionViewDataSource {
 }
 
 extension MoviePageView: MoviePageViewProtocol {
-    func backNavigationMoviePage() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    
+
     func showMovie(sections: [PageCollectionSection]) {
         self.sections = sections
         collectionView.reloadData()
     }
     
     func navigateToTrailerPalyer() {
-//        let trailerPlayerVC = Builder.createTrailerPlayerController()
-//        navigationController?.pushViewController(trailerPlayerVC, animated: true)
-        
-        navigationController?.pushViewController(Builder.createTrailerPlayerController(), animated: true)
-//        present(Builder.createTrailerPlayerController(), animated: true)
+
+        let trailerPlayerVC = Builder.createTrailerPlayerController()
+        present(trailerPlayerVC, animated: true)
     }
     
 }
 
 extension MoviePageView: PosterCellDelegate {
-    func didTapBackButton(in cell: PosterCell) {
-        presenter.didTapBackButton()
-    }
-    
-    
+
     func didTapPlayButton(in cell: PosterCell) {
         presenter.didTapPlayTrailerButton()
     }

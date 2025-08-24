@@ -1,5 +1,5 @@
 //
-//  FavoritesView.swift
+//  TrailerListView.swift
 //  MovieApp
 //
 //  Created by VladOS on 07.08.2025.
@@ -7,20 +7,20 @@
 
 import UIKit
 
-protocol FavoritesViewProtocol: AnyObject {
-
+protocol TrailerListViewProtocol: AnyObject {
+    
 }
 
-class FavoritesView: UIViewController {
-
-    var presenter: FavoritesPresenterProtocol!
+class TrailerListView: UIViewController {
+    
+    var presenter: TrailerListPresenterProtocol!
     
     private lazy var sectionLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 25, weight: .bold)
         $0.textColor = .appWhite
         $0.textAlignment = .center
-        $0.text = "Favorite Movies"
+        $0.text = "Trailer List"
         return $0
     }(UILabel())
     
@@ -38,8 +38,9 @@ class FavoritesView: UIViewController {
         tabBarVC.selectedIndex = 0
         tabBarVC.setTabBarButtonsHidden(false)
         print("TabBar появился")
+       
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
@@ -70,6 +71,6 @@ class FavoritesView: UIViewController {
     
 }
 
-extension FavoritesView: FavoritesViewProtocol {
-  
+extension TrailerListView: TrailerListViewProtocol {
+    
 }

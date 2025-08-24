@@ -27,10 +27,10 @@ extension TabBarPresenter: TabBarPresenterProtocol {
     
     func buildTabBar() {
         let mainScreen = Builder.createMainScreenController()
-        let playerScreen = Builder.createTrailerPlayerController()
+        let trailerListScreen = Builder.createTrailerListController()
         let favoritesScreen = Builder.createFavoritesController()
         
-        self.view?.setControllers(controllers: [mainScreen, playerScreen, favoritesScreen])
+        self.view?.setControllers(controllers: [mainScreen, trailerListScreen, favoritesScreen])
     }
     
 }

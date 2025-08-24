@@ -16,7 +16,6 @@ enum MoviePageLayoutFactory {
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        // высота группы = 0.65 от ширины экрана (примерно как на скрине)
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
             heightDimension: .fractionalWidth(1)

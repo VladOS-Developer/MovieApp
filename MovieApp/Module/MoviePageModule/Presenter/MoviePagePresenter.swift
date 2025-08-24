@@ -12,7 +12,6 @@ protocol MoviePagePresenterProtocol: AnyObject {
     init(view: MoviePageViewProtocol, service: MovieServiceProtocol, movieId: Int)
     func getMoviesData()
     func didTapPlayTrailerButton()
-    func didTapBackButton()
 }
 
 class MoviePagePresenter: MoviePagePresenterProtocol {
@@ -50,8 +49,5 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     func didTapPlayTrailerButton() {
         view?.navigateToTrailerPalyer()
     }
-    
-    func didTapBackButton() {
-        view?.backNavigationMoviePage()
-    }
+
 }

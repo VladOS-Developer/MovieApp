@@ -9,7 +9,6 @@ import UIKit
 
 protocol PosterCellDelegate: AnyObject {
     func didTapPlayButton(in cell: PosterCell)
-    func didTapBackButton(in cell: PosterCell)
 }
 
 class PosterCell: UICollectionViewCell {
@@ -41,26 +40,12 @@ class PosterCell: UICollectionViewCell {
     @objc private func didTapPlay() {
         delegate?.didTapPlayButton(in: self)
     }
-    
-    private lazy var topBackButton: UIButton = {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        $0.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        $0.setBackgroundImage(.appArrow, for: .normal)
-        $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        return $0
-    }(UIButton())
-    
-    @objc private func didTapBackButton() {
-        delegate?.didTapBackButton(in: self)
-    }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(posterView)
         contentView.addSubview(playTrailerButton)
         contentView.addSubview(posterLabel)
-        contentView.addSubview(topBackButton)
 
         setupConstraints()
     }
@@ -79,8 +64,6 @@ class PosterCell: UICollectionViewCell {
             posterLabel.leadingAnchor.constraint(equalTo: posterView.leadingAnchor, constant: 16),
             posterLabel.trailingAnchor.constraint(lessThanOrEqualTo: posterView.trailingAnchor, constant: -16),
             
-            topBackButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 70),
-            topBackButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30)
         ])
     }
     

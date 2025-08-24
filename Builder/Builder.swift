@@ -12,11 +12,12 @@ protocol BuilderProtocol {
     
     static func createTabBarController() -> UIViewController
     static func createMainScreenController() -> UIViewController
-    static func createTrailerPlayerController() -> UIViewController
+    static func createTrailerListController() -> UIViewController
     static func createFavoritesController() -> UIViewController
     
-    static func createMovieListController(mode: MovieListMode) -> UIViewController //
+    static func createMovieListController(mode: MovieListMode) -> UIViewController
     static func createMoviePageController(movieId: Int) -> UIViewController
+    static func createTrailerPlayerController() -> UIViewController
 }
 
 class Builder: BuilderProtocol {
@@ -49,13 +50,12 @@ class Builder: BuilderProtocol {
         return UINavigationController(rootViewController: mainView)
     }
         
-    static func createTrailerPlayerController() -> UIViewController {
-        let playerView = TrailerPlayerView()
-        let presenter = TrailerPlayerPresenter(view: playerView)
+    static func createTrailerListController() -> UIViewController {
+        let trailerListView = TrailerListView()
+        let presenter = TrailerListPresenter(view: trailerListView)
         
-        playerView.presenter = presenter
-//        return UINavigationController(rootViewController: playerView)
-        return playerView
+        trailerListView.presenter = presenter
+        return UINavigationController(rootViewController: trailerListView)
     }
     
     static func createFavoritesController() -> UIViewController {
@@ -64,10 +64,9 @@ class Builder: BuilderProtocol {
         
         favoritesView.presenter = presenter
         return UINavigationController(rootViewController: favoritesView)
-//        return favoritesView
     }
     
-    static func createMovieListController(mode: MovieListMode) -> UIViewController { //
+    static func createMovieListController(mode: MovieListMode) -> UIViewController {
         let listView = MovieListView()
         let service: MovieServiceProtocol = MockMovieService.shared
         let presenter = MovieListPresenter(view: listView, service: service, mode: mode)
@@ -83,6 +82,14 @@ class Builder: BuilderProtocol {
         
         pageView.presenter = presenter
         return pageView
+    }
+    
+    static func createTrailerPlayerController() -> UIViewController {
+        let playerView = TrailerPlayerView()
+        let presenter = TrailerPlayerPresenter(view: playerView)
+        
+        playerView.presenter = presenter
+        return playerView
     }
     
     
