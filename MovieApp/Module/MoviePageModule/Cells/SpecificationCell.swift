@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SpecificationCell: UICollectionViewCell {
+final class SpecificationCell: UICollectionViewCell {
     static let reuseId = "SpecificationCell"
     
     private lazy var starImageView: UIImageView = {
@@ -30,7 +30,7 @@ class SpecificationCell: UICollectionViewCell {
 
     private func makeBorderView(with label: UILabel) -> UIView {
         let container = UIView()
-        container.layer.borderColor = UIColor.systemBlue.cgColor
+        container.layer.borderColor = UIColor.appBlue.cgColor
         container.layer.borderWidth = 1
         container.layer.cornerRadius = 8
         container.translatesAutoresizingMaskIntoConstraints = false
@@ -50,6 +50,43 @@ class SpecificationCell: UICollectionViewCell {
     private lazy var releaseDateForView: UIView = makeBorderView(with: releaseDateBorderLabel)
     private lazy var countryForView: UIView = makeBorderView(with: countryBorderLabel)
     
+    private lazy var overviewLabel: UILabel = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        $0.textColor = .appWhite
+        $0.numberOfLines = 3
+        $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        return $0
+    }(UILabel())
+
+    private lazy var viewMoreButton: UIButton = {
+        $0.setTitle("View More", for: .normal)
+        $0.setTitleColor(.appBlue, for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .semibold)
+        $0.addTarget(self, action: #selector(didTapViewMore), for: .touchUpInside)
+//        $0.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        $0.setContentHuggingPriority(.required, for: .horizontal)
+        return $0
+    }(UIButton(type: .system))
+    
+    private lazy var overviewStack: UIStackView = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.axis = .horizontal
+        $0.alignment = .lastBaseline
+        $0.spacing = 4
+        return $0
+    }(UIStackView(arrangedSubviews: [overviewLabel, viewMoreButton]))
+    
+    @objc private func didTapViewMore() {
+        if overviewLabel.numberOfLines == 0 {
+            overviewLabel.numberOfLines = 3
+            viewMoreButton.setTitle("View More", for: .normal)
+        } else {
+            overviewLabel.numberOfLines = 0
+            viewMoreButton.setTitle("View Less", for: .normal)
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -61,32 +98,27 @@ class SpecificationCell: UICollectionViewCell {
             contentView.addSubview($0)
         }
         
+        contentView.addSubview(overviewStack)
         setupConstraints()
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            // star
             starImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             starImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             
-            // Рейтинг
             voteAverageLabel.leadingAnchor.constraint(equalTo: starImageView.trailingAnchor, constant: 7),
             voteAverageLabel.centerYAnchor.constraint(equalTo: starImageView.centerYAnchor),
             
-            // •
             dotOne.leadingAnchor.constraint(equalTo: voteAverageLabel.trailingAnchor, constant: 7),
             dotOne.centerYAnchor.constraint(equalTo: starImageView.centerYAnchor),
             
-            // Время
             runtimeLabel.leadingAnchor.constraint(equalTo: dotOne.trailingAnchor, constant: 7),
             runtimeLabel.centerYAnchor.constraint(equalTo: starImageView.centerYAnchor),
             
-            // •
             dotTwo.leadingAnchor.constraint(equalTo: runtimeLabel.trailingAnchor, constant: 7),
             dotTwo.centerYAnchor.constraint(equalTo: starImageView.centerYAnchor),
             
-            // Жанр
             genreLabel.leadingAnchor.constraint(equalTo: dotTwo.trailingAnchor, constant: 7),
             genreLabel.centerYAnchor.constraint(equalTo: starImageView.centerYAnchor),
             genreLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -20),
@@ -99,6 +131,12 @@ class SpecificationCell: UICollectionViewCell {
             
             countryForView.leadingAnchor.constraint(equalTo: releaseDateForView.trailingAnchor, constant: 7),
             countryForView.centerYAnchor.constraint(equalTo: genreForView.centerYAnchor),
+            
+            overviewStack.topAnchor.constraint(equalTo: genreForView.bottomAnchor, constant: 10),
+            overviewStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            overviewStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
+            
+            viewMoreButton.bottomAnchor.constraint(equalTo: overviewStack.bottomAnchor)
         ])
     }
     
@@ -110,6 +148,8 @@ class SpecificationCell: UICollectionViewCell {
         genreBorderLabel.text = movieVM.genresText
         releaseDateBorderLabel.text = movieVM.releaseDateText
         countryBorderLabel.text = movieVM.countryText
+        
+        overviewLabel.text = movieVM.overview
         
         let value = movieVM.ratingValue ?? 0
         

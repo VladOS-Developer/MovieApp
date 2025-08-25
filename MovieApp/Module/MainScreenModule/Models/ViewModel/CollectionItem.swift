@@ -11,9 +11,7 @@ enum CollectionItem {
     
     case genre(GenreCellViewModel)
     case movie(MovieCellViewModel)
-    
-//    var id: Int { title.hashValue } // пока без `movie.id`
-    
+        
     var id: Int {
         switch self {
         case .movie(let vm): return vm.id
