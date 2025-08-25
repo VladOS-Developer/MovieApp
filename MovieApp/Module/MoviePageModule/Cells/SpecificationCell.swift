@@ -57,21 +57,23 @@ class SpecificationCell: UICollectionViewCell {
             dotTwo.leadingAnchor.constraint(equalTo: runtimeLabel.trailingAnchor, constant: 7),
             dotTwo.centerYAnchor.constraint(equalTo: starImageView.centerYAnchor),
             
-            // Жанр (растягивается динамически)
+            // Жанр
             genreLabel.leadingAnchor.constraint(equalTo: dotTwo.trailingAnchor, constant: 7),
             genreLabel.centerYAnchor.constraint(equalTo: starImageView.centerYAnchor),
             genreLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -20)
         ])
     }
     
-    func configureSpecificationCell(with movieVM: MovieCellViewModel, rating: Double) {
+    func configureSpecificationCell(with movieVM: MovieCellViewModel) {
         voteAverageLabel.text = movieVM.ratingText
         runtimeLabel.text = movieVM.runtimeText
         genreLabel.text = movieVM.genresText
         
-        if rating >= 7.0 {
+        let value = movieVM.ratingValue ?? 0
+        
+        if value >= 8.0 {
             starImageView.image = UIImage(systemName: "star.fill")
-        } else if rating >= 4.0 {
+        } else if value >= 4.0 {
             starImageView.image = UIImage(systemName: "star.leadinghalf.fill")
         } else {
             starImageView.image = UIImage(systemName: "star")

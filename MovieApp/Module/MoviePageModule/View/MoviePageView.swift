@@ -123,7 +123,7 @@ extension MoviePageView: UICollectionViewDataSource {
             let item = section.items[indexPath.item]
             switch item {
             case .movie(let movieVM):
-                cell.configureSpecificationCell(with: movieVM, rating: 4)
+                cell.configureSpecificationCell(with: movieVM)
             default: break
             }
             return cell
@@ -133,7 +133,6 @@ extension MoviePageView: UICollectionViewDataSource {
 }
 
 extension MoviePageView: MoviePageViewProtocol {
-
     func showMovie(sections: [PageCollectionSection]) {
         self.sections = sections
         collectionView.reloadData()
@@ -147,14 +146,12 @@ extension MoviePageView: MoviePageViewProtocol {
 }
 
 extension MoviePageView: PosterCellDelegate {
-
     func didTapPlayButton(in cell: PosterCell) {
         presenter.didTapPlayTrailerButton()
     }
 }
 
 extension MoviePageView: UICollectionViewDelegate {
-    
 }
 
 extension MoviePageView {

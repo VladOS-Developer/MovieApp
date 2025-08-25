@@ -19,7 +19,9 @@ struct MovieCellViewModel: Hashable {
     let overview: String? //
     
     let countryText: String //
+    
     let ratingText: String //
+    let ratingValue: Double?
     
     let posterImage: UIImage?
     let posterURL: URL?
@@ -67,11 +69,13 @@ struct MovieCellViewModel: Hashable {
             self.countryText = ""
         }
         
-        //  rating
-        if let rating = movie.voteAverage {
-            self.ratingText = String(format: "%.1f", rating)
+        // rating
+        if let value = movie.voteAverage, value > 0 {
+            self.ratingValue = value
+            self.ratingText = String(format: "%.1f", value)
         } else {
-            self.ratingText = ""
+            self.ratingValue = nil
+            self.ratingText = "-"
         }
         
         // images
