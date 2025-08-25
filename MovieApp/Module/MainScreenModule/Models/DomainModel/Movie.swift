@@ -70,10 +70,10 @@ extension Movie {
     static func mockUpcomingMovies() -> [Movie] {
         return [
             Movie(id: 10, title: "Percy Jackson", originalTitle: "", posterPath: "img8", backdropPath: "", runtime: nil, releaseDate: "2025-09-01", genreIDs: [12],
-                  overview: "", originCountry: [""], voteAverage: 8, isLocalImage: true),
+                  overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.", originCountry: ["United States"], voteAverage: 8, isLocalImage: true),
             
             Movie(id: 11, title: "Inception", originalTitle: "", posterPath: "img9", backdropPath: "", runtime: nil, releaseDate: "2025-10-10", genreIDs: [16],
-                  overview: "", originCountry: [""], voteAverage: 4, isLocalImage: true)
+                  overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.", originCountry: ["United States"], voteAverage: 4, isLocalImage: true)
         ]
     }
 }

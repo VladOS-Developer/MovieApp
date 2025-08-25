@@ -23,15 +23,44 @@ class SpecificationCell: UICollectionViewCell {
     private lazy var runtimeLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appWhite)
     private lazy var dotTwo: UILabel = makeDot()
     private lazy var genreLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appWhite)
+    
+    private lazy var genreBorderLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appBlue)
+    private lazy var releaseDateBorderLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appBlue)
+    private lazy var countryBorderLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appBlue)
 
+    private func makeBorderView(with label: UILabel) -> UIView {
+        let container = UIView()
+        container.layer.borderColor = UIColor.systemBlue.cgColor
+        container.layer.borderWidth = 1
+        container.layer.cornerRadius = 8
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: container.topAnchor, constant: 4),
+            label.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -4),
+            label.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 8),
+            label.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -8)
+        ])
+        
+        return container
+    }
+    
+    private lazy var genreForView: UIView = makeBorderView(with: genreBorderLabel)
+    private lazy var releaseDateForView: UIView = makeBorderView(with: releaseDateBorderLabel)
+    private lazy var countryForView: UIView = makeBorderView(with: countryBorderLabel)
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(starImageView)
-        contentView.addSubview(voteAverageLabel)
-        contentView.addSubview(dotOne)
-        contentView.addSubview(runtimeLabel)
-        contentView.addSubview(dotTwo)
-        contentView.addSubview(genreLabel)
+        
+        [starImageView, voteAverageLabel, dotOne, runtimeLabel, dotTwo, genreLabel].forEach {
+            contentView.addSubview($0)
+        }
+     
+        [genreForView, releaseDateForView, countryForView].forEach {
+            contentView.addSubview($0)
+        }
+        
         setupConstraints()
     }
     
@@ -39,7 +68,7 @@ class SpecificationCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             // star
             starImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            starImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            starImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             
             // Рейтинг
             voteAverageLabel.leadingAnchor.constraint(equalTo: starImageView.trailingAnchor, constant: 7),
@@ -60,7 +89,16 @@ class SpecificationCell: UICollectionViewCell {
             // Жанр
             genreLabel.leadingAnchor.constraint(equalTo: dotTwo.trailingAnchor, constant: 7),
             genreLabel.centerYAnchor.constraint(equalTo: starImageView.centerYAnchor),
-            genreLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -20)
+            genreLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -20),
+            
+            genreForView.topAnchor.constraint(equalTo: genreLabel.bottomAnchor, constant: 10),
+            genreForView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            
+            releaseDateForView.leadingAnchor.constraint(equalTo: genreForView.trailingAnchor, constant: 7),
+            releaseDateForView.centerYAnchor.constraint(equalTo: genreForView.centerYAnchor),
+            
+            countryForView.leadingAnchor.constraint(equalTo: releaseDateForView.trailingAnchor, constant: 7),
+            countryForView.centerYAnchor.constraint(equalTo: genreForView.centerYAnchor),
         ])
     }
     
@@ -68,6 +106,10 @@ class SpecificationCell: UICollectionViewCell {
         voteAverageLabel.text = movieVM.ratingText
         runtimeLabel.text = movieVM.runtimeText
         genreLabel.text = movieVM.genresText
+        
+        genreBorderLabel.text = movieVM.genresText
+        releaseDateBorderLabel.text = movieVM.releaseDateText
+        countryBorderLabel.text = movieVM.countryText
         
         let value = movieVM.ratingValue ?? 0
         
