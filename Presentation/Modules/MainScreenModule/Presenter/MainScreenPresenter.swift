@@ -13,28 +13,30 @@ protocol MainScreenPresenterProtocol: AnyObject {
     func didSelectGenre(id: Int, title: String)
     func didSelectMovie(with id: Int)
     
-    init(view: MainScreenViewProtocol, repository: MovieRepositoryProtocol)
+    init(view: MainScreenViewProtocol, movieRepository: MovieRepositoryProtocol, genreRepository: GenreRepositoryProtocol)
 }
 
 class MainScreenPresenter {
     
     private weak var view: MainScreenViewProtocol?
-    private let repository: MovieRepositoryProtocol
+    private let movieRepository: MovieRepositoryProtocol
+    private let genreRepository: GenreRepositoryProtocol
     
     private var sections: [CollectionSection] = []
     
-    required init(view: MainScreenViewProtocol, repository: MovieRepositoryProtocol) {
+    required init(view: MainScreenViewProtocol, movieRepository: MovieRepositoryProtocol, genreRepository: GenreRepositoryProtocol) {
         self.view = view
-        self.repository = repository
+        self.movieRepository = movieRepository
+        self.genreRepository = genreRepository
     }
 }
 
 extension MainScreenPresenter: MainScreenPresenterProtocol {
     
     func getMoviesData() {
-        let genres = repository.fetchGenres()
-        let topMovies = repository.fetchTopMovies()
-        let upcoming = repository.fetchUpcomingMovies()
+        let genres = genreRepository.fetchGenres()
+        let topMovies = movieRepository.fetchTopMovies()
+        let upcoming = movieRepository.fetchUpcomingMovies()
         
         let genreItems = genres
             .map { GenreCellViewModel(id: $0.id, name: $0.name) }

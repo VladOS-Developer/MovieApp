@@ -23,7 +23,10 @@
 		867173EF2E5DC19500681D72 /* GenreDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867173AA2E5DC19500681D72 /* GenreDTO.swift */; };
 		867173F02E5DC19500681D72 /* MovieDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867173AB2E5DC19500681D72 /* MovieDTO.swift */; };
 		867174EC2E5EFB0300681D72 /* MovieRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867174EB2E5EFB0300681D72 /* MovieRepositoryProtocol.swift */; };
-		867174EE2E5EFB3E00681D72 /* MockMovieRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867174ED2E5EFB3E00681D72 /* MockMovieRepository.swift */; };
+		8671755B2E5F15BD00681D72 /* Trailer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8671755A2E5F15BD00681D72 /* Trailer.swift */; };
+		8671755D2E5F15CB00681D72 /* TrailerDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8671755C2E5F15CB00681D72 /* TrailerDTO.swift */; };
+		8671755F2E5F164F00681D72 /* GenreRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8671755E2E5F164F00681D72 /* GenreRepositoryProtocol.swift */; };
+		867175612E5F165D00681D72 /* TrailerRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867175602E5F165D00681D72 /* TrailerRepositoryProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,11 +46,19 @@
 		867173AA2E5DC19500681D72 /* GenreDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreDTO.swift; sourceTree = "<group>"; };
 		867173AB2E5DC19500681D72 /* MovieDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDTO.swift; sourceTree = "<group>"; };
 		867174EB2E5EFB0300681D72 /* MovieRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepositoryProtocol.swift; sourceTree = "<group>"; };
-		867174ED2E5EFB3E00681D72 /* MockMovieRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMovieRepository.swift; sourceTree = "<group>"; };
+		8671755A2E5F15BD00681D72 /* Trailer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trailer.swift; sourceTree = "<group>"; };
+		8671755C2E5F15CB00681D72 /* TrailerDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailerDTO.swift; sourceTree = "<group>"; };
+		8671755E2E5F164F00681D72 /* GenreRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreRepositoryProtocol.swift; sourceTree = "<group>"; };
+		867175602E5F165D00681D72 /* TrailerRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailerRepositoryProtocol.swift; sourceTree = "<group>"; };
 		868D07032E33982A00224CD9 /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		867175672E5F2C0800681D72 /* RepositoryImpl */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = RepositoryImpl;
+			sourceTree = "<group>";
+		};
 		868D07052E33982A00224CD9 /* Presentation */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Presentation;
@@ -135,6 +146,7 @@
 			children = (
 				867173A82E5DC19500681D72 /* Movie.swift */,
 				867173A72E5DC19500681D72 /* Genre.swift */,
+				8671755A2E5F15BD00681D72 /* Trailer.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -143,6 +155,8 @@
 			isa = PBXGroup;
 			children = (
 				867174EB2E5EFB0300681D72 /* MovieRepositoryProtocol.swift */,
+				8671755E2E5F164F00681D72 /* GenreRepositoryProtocol.swift */,
+				867175602E5F165D00681D72 /* TrailerRepositoryProtocol.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -152,24 +166,17 @@
 			children = (
 				867174162E5DE87D00681D72 /* Network */,
 				867174152E5DE87500681D72 /* DTO */,
-				867174142E5DE86300681D72 /* RepositoryImpl */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		867174142E5DE86300681D72 /* RepositoryImpl */ = {
-			isa = PBXGroup;
-			children = (
-				867174ED2E5EFB3E00681D72 /* MockMovieRepository.swift */,
-			);
-			path = RepositoryImpl;
 			sourceTree = "<group>";
 		};
 		867174152E5DE87500681D72 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
-				867173AA2E5DC19500681D72 /* GenreDTO.swift */,
 				867173AB2E5DC19500681D72 /* MovieDTO.swift */,
+				867173AA2E5DC19500681D72 /* GenreDTO.swift */,
+				8671755C2E5F15CB00681D72 /* TrailerDTO.swift */,
+				867175672E5F2C0800681D72 /* RepositoryImpl */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -228,6 +235,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				867175672E5F2C0800681D72 /* RepositoryImpl */,
 				868D07052E33982A00224CD9 /* Presentation */,
 			);
 			name = MovieApp;
@@ -295,9 +303,11 @@
 				867173ED2E5DC19500681D72 /* Genre.swift in Sources */,
 				867173EE2E5DC19500681D72 /* Movie.swift in Sources */,
 				867173EF2E5DC19500681D72 /* GenreDTO.swift in Sources */,
+				867175612E5F165D00681D72 /* TrailerRepositoryProtocol.swift in Sources */,
 				867173F02E5DC19500681D72 /* MovieDTO.swift in Sources */,
 				86367EC52E3D16A300012D4E /* PasscodeStateExtension.swift in Sources */,
-				867174EE2E5EFB3E00681D72 /* MockMovieRepository.swift in Sources */,
+				8671755D2E5F15CB00681D72 /* TrailerDTO.swift in Sources */,
+				8671755B2E5F15BD00681D72 /* Trailer.swift in Sources */,
 				86367DDD2E3A241400012D4E /* AppDelegate.swift in Sources */,
 				86367DDE2E3A241400012D4E /* MovieApp.xcdatamodeld in Sources */,
 				86367DDF2E3A241400012D4E /* SceneDelegate.swift in Sources */,
@@ -306,6 +316,7 @@
 				863680272E4B542500012D4E /* CellLabel.swift in Sources */,
 				86367E3D2E3BC04900012D4E /* UIViewExtension.swift in Sources */,
 				86367EE62E40C43200012D4E /* StringProtocolExtension.swift in Sources */,
+				8671755F2E5F164F00681D72 /* GenreRepositoryProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

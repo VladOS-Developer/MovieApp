@@ -10,7 +10,7 @@ import Foundation
 struct MovieDTO: Decodable {
     let id: Int
     let title: String
-    let original_title: String?
+    let original_title: String?     // - ?
     let poster_path: String?
     let backdrop_path: String?
     let runtime: Int?               // - runtime не приходит в списках (только в /movie/{id}), но optional → всё ок.

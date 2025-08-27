@@ -7,20 +7,20 @@
 
 import Foundation
 
-struct Movie: Decodable, Hashable {
+struct Movie: Hashable {
     let id: Int
     let title: String
-    let originalTitle: String?
+    let originalTitle: String?//
     
     let posterPath: String?
     let backdropPath: String?
     
-    let runtime: Int?
+    let runtime: Int?//
     let releaseDate: String?
     
     let genreIDs: [Int]
     let overview: String?
-    let originCountry: [String]?
+    let originCountry: [String]? //
     let voteAverage: Double?
     
     let isLocalImage: Bool

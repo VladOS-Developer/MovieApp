@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MovieListPresenterProtocol: AnyObject {
-    init(view: MovieListViewProtocol, repository: MovieRepositoryProtocol, mode: MovieListMode)
+    init(view: MovieListViewProtocol, movieRepository: MovieRepositoryProtocol, genreRepository: GenreRepositoryProtocol, mode: MovieListMode)
     func viewDidLoad()
     func didSelectItem(at index: Int)
 }
@@ -20,18 +20,22 @@ protocol MovieListPresenterProtocol: AnyObject {
 class MovieListPresenter: MovieListPresenterProtocol {
     
     private weak var view: MovieListViewProtocol?
-    private let repository: MovieRepositoryProtocol
+    private let movieRepository: MovieRepositoryProtocol
+    private let genreRepository: GenreRepositoryProtocol
+    
     private let mode: MovieListMode
     
     private var movies: [Movie] = []
     private var movieViewModel: [MovieCellViewModel] = []
     private var allGenres: [Genre]
     
-    required init(view: MovieListViewProtocol, repository: MovieRepositoryProtocol, mode: MovieListMode) {
+    required init(view: MovieListViewProtocol, movieRepository: MovieRepositoryProtocol, genreRepository: GenreRepositoryProtocol, mode: MovieListMode) {
         self.view = view
-        self.repository = repository
+        self.movieRepository = movieRepository
+        self.genreRepository = genreRepository
+        
         self.mode = mode
-        self.allGenres = repository.fetchGenres()
+        self.allGenres = genreRepository.fetchGenres()
     }
     
     func viewDidLoad() {
@@ -39,11 +43,11 @@ class MovieListPresenter: MovieListPresenterProtocol {
         
         switch mode {
         case .top10:
-            movies = Array(repository.fetchTopMovies().prefix(10))
+            movies = Array(movieRepository.fetchTopMovies().prefix(10))
         case .upcoming:
-            movies = repository.fetchUpcomingMovies()
+            movies = movieRepository.fetchUpcomingMovies()
         case .genre(let id, _):
-            movies = repository.fetchMovies(byGenre: id)
+            movies = movieRepository.fetchMovies(byGenre: id)
         }
         
         movieViewModel = movies.map { MovieCellViewModel(movie: $0, genres: allGenres) }

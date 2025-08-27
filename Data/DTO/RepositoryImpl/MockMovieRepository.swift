@@ -8,13 +8,7 @@
 import Foundation
 
 final class MockMovieRepository: MovieRepositoryProtocol {
-    
     static let shared = MockMovieRepository()
-    private init() {}
-
-    func fetchGenres() -> [Genre] {
-        Genre.mockGenres()
-    }
 
     func fetchTopMovies() -> [Movie] {
         Movie.mockTopMovies()
