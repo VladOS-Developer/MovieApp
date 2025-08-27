@@ -9,7 +9,7 @@ import Foundation
 
 protocol MoviePagePresenterProtocol: AnyObject {
     
-    init(view: MoviePageViewProtocol, service: MovieServiceProtocol, movieId: Int)
+    init(view: MoviePageViewProtocol, repository: MovieRepositoryProtocol, movieId: Int)
     func getMoviesData()
     func didTapPlayTrailerButton()
 }
@@ -17,21 +17,21 @@ protocol MoviePagePresenterProtocol: AnyObject {
 class MoviePagePresenter: MoviePagePresenterProtocol {
     
     private weak var view: MoviePageViewProtocol?
-    private let service: MovieServiceProtocol
+    private let repository: MovieRepositoryProtocol
     private let movieId: Int
     
     private var sections: [PageCollectionSection] = []
     
-    required init(view: MoviePageViewProtocol, service: MovieServiceProtocol, movieId: Int) {
+    required init(view: MoviePageViewProtocol, repository: MovieRepositoryProtocol, movieId: Int) {
         self.view = view
-        self.service = service
+        self.repository = repository
         self.movieId = movieId
     }
     
     func getMoviesData() {
-        let genres = service.fetchGenres()
+        let genres = repository.fetchGenres()
         
-        let allMovies = service.fetchTopMovies() + service.fetchUpcomingMovies()
+        let allMovies = repository.fetchTopMovies() + repository.fetchUpcomingMovies()
         guard let movie = allMovies.first(where: { $0.id == movieId }) else { return }
         
         let movieVM = MovieCellViewModel(movie: movie, genres: genres)

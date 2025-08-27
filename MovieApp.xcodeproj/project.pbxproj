@@ -18,8 +18,12 @@
 		86367ED52E3E80A900012D4E /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 86367ED42E3E80A900012D4E /* KeychainAccess */; };
 		86367EE62E40C43200012D4E /* StringProtocolExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86367EE52E40C43200012D4E /* StringProtocolExtension.swift */; };
 		863680272E4B542500012D4E /* CellLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863680262E4B542500012D4E /* CellLabel.swift */; };
-		8654A3522E51F72B00072F4E /* MovieServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654A3512E51F72B00072F4E /* MovieServiceProtocol.swift */; };
-		8654A3542E51F73A00072F4E /* MockMovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8654A3532E51F73A00072F4E /* MockMovieService.swift */; };
+		867173ED2E5DC19500681D72 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867173A72E5DC19500681D72 /* Genre.swift */; };
+		867173EE2E5DC19500681D72 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867173A82E5DC19500681D72 /* Movie.swift */; };
+		867173EF2E5DC19500681D72 /* GenreDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867173AA2E5DC19500681D72 /* GenreDTO.swift */; };
+		867173F02E5DC19500681D72 /* MovieDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867173AB2E5DC19500681D72 /* MovieDTO.swift */; };
+		867174EC2E5EFB0300681D72 /* MovieRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867174EB2E5EFB0300681D72 /* MovieRepositoryProtocol.swift */; };
+		867174EE2E5EFB3E00681D72 /* MockMovieRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867174ED2E5EFB3E00681D72 /* MockMovieRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,15 +38,19 @@
 		86367EC42E3D16A300012D4E /* PasscodeStateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeStateExtension.swift; sourceTree = "<group>"; };
 		86367EE52E40C43200012D4E /* StringProtocolExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringProtocolExtension.swift; sourceTree = "<group>"; };
 		863680262E4B542500012D4E /* CellLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellLabel.swift; sourceTree = "<group>"; };
-		8654A3512E51F72B00072F4E /* MovieServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieServiceProtocol.swift; sourceTree = "<group>"; };
-		8654A3532E51F73A00072F4E /* MockMovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMovieService.swift; sourceTree = "<group>"; };
+		867173A72E5DC19500681D72 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
+		867173A82E5DC19500681D72 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		867173AA2E5DC19500681D72 /* GenreDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreDTO.swift; sourceTree = "<group>"; };
+		867173AB2E5DC19500681D72 /* MovieDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDTO.swift; sourceTree = "<group>"; };
+		867174EB2E5EFB0300681D72 /* MovieRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepositoryProtocol.swift; sourceTree = "<group>"; };
+		867174ED2E5EFB3E00681D72 /* MockMovieRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMovieRepository.swift; sourceTree = "<group>"; };
 		868D07032E33982A00224CD9 /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		868D07052E33982A00224CD9 /* MovieApp */ = {
+		868D07052E33982A00224CD9 /* Presentation */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MovieApp;
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -112,23 +120,83 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
-		8654A3502E51F6F200072F4E /* Services */ = {
+		867174102E5DE5C300681D72 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				8654A3512E51F72B00072F4E /* MovieServiceProtocol.swift */,
-				8654A3532E51F73A00072F4E /* MockMovieService.swift */,
+				867174812E5DFB4B00681D72 /* UseCases */,
+				867174122E5DE5F200681D72 /* Repositories */,
+				867174112E5DE5DB00681D72 /* Entities */,
 			);
-			path = Services;
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		867174112E5DE5DB00681D72 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				867173A82E5DC19500681D72 /* Movie.swift */,
+				867173A72E5DC19500681D72 /* Genre.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		867174122E5DE5F200681D72 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				867174EB2E5EFB0300681D72 /* MovieRepositoryProtocol.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		867174132E5DE60800681D72 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				867174162E5DE87D00681D72 /* Network */,
+				867174152E5DE87500681D72 /* DTO */,
+				867174142E5DE86300681D72 /* RepositoryImpl */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		867174142E5DE86300681D72 /* RepositoryImpl */ = {
+			isa = PBXGroup;
+			children = (
+				867174ED2E5EFB3E00681D72 /* MockMovieRepository.swift */,
+			);
+			path = RepositoryImpl;
+			sourceTree = "<group>";
+		};
+		867174152E5DE87500681D72 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				867173AA2E5DC19500681D72 /* GenreDTO.swift */,
+				867173AB2E5DC19500681D72 /* MovieDTO.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
+		867174162E5DE87D00681D72 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		867174812E5DFB4B00681D72 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UseCases;
 			sourceTree = "<group>";
 		};
 		868D06FA2E33982A00224CD9 = {
 			isa = PBXGroup;
 			children = (
-				8654A3502E51F6F200072F4E /* Services */,
-				868D07052E33982A00224CD9 /* MovieApp */,
-				863680232E4B536B00012D4E /* Helper */,
 				86367DE72E3A24B700012D4E /* Applications */,
 				86367DE82E3A24C700012D4E /* Builder */,
+				867174132E5DE60800681D72 /* Data */,
+				867174102E5DE5C300681D72 /* Domain */,
+				868D07052E33982A00224CD9 /* Presentation */,
+				863680232E4B536B00012D4E /* Helper */,
 				86367DE92E3A24D000012D4E /* Extensions */,
 				86367DE62E3A24AD00012D4E /* Storage */,
 				86367DE52E3A249300012D4E /* Resources */,
@@ -160,7 +228,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				868D07052E33982A00224CD9 /* MovieApp */,
+				868D07052E33982A00224CD9 /* Presentation */,
 			);
 			name = MovieApp;
 			packageProductDependencies = (
@@ -224,13 +292,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				867173ED2E5DC19500681D72 /* Genre.swift in Sources */,
+				867173EE2E5DC19500681D72 /* Movie.swift in Sources */,
+				867173EF2E5DC19500681D72 /* GenreDTO.swift in Sources */,
+				867173F02E5DC19500681D72 /* MovieDTO.swift in Sources */,
 				86367EC52E3D16A300012D4E /* PasscodeStateExtension.swift in Sources */,
-				8654A3522E51F72B00072F4E /* MovieServiceProtocol.swift in Sources */,
-				8654A3542E51F73A00072F4E /* MockMovieService.swift in Sources */,
+				867174EE2E5EFB3E00681D72 /* MockMovieRepository.swift in Sources */,
 				86367DDD2E3A241400012D4E /* AppDelegate.swift in Sources */,
 				86367DDE2E3A241400012D4E /* MovieApp.xcdatamodeld in Sources */,
 				86367DDF2E3A241400012D4E /* SceneDelegate.swift in Sources */,
 				86367DF52E3A29A100012D4E /* Builder.swift in Sources */,
+				867174EC2E5EFB0300681D72 /* MovieRepositoryProtocol.swift in Sources */,
 				863680272E4B542500012D4E /* CellLabel.swift in Sources */,
 				86367E3D2E3BC04900012D4E /* UIViewExtension.swift in Sources */,
 				86367EE62E40C43200012D4E /* StringProtocolExtension.swift in Sources */,

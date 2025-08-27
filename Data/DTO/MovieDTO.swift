@@ -13,10 +13,10 @@ struct MovieDTO: Decodable {
     let original_title: String?
     let poster_path: String?
     let backdrop_path: String?
-    let runtime: Int?
+    let runtime: Int?               // - runtime не приходит в списках (только в /movie/{id}), но optional → всё ок.
     let release_date: String?
     let genre_ids: [Int]
     let overview: String?
-    let origin_country: [String]?
+    let origin_country: [String]?   // - origin_country — больше про TV, чем про Movie. В TMDb у фильмов production_countries → можно поправить позже.
     let vote_average: Double?
 }

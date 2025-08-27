@@ -1,13 +1,13 @@
 //
-//  MovieServiceProtocol.swift
+//  MovieRepositoryProtocol.swift
 //  MovieApp
 //
-//  Created by VladOS on 17.08.2025.
+//  Created by VladOS on 27.08.2025.
 //
 
 import Foundation
 
-protocol MovieServiceProtocol: AnyObject {
+protocol MovieRepositoryProtocol: AnyObject {
     func fetchGenres() -> [Genre]
     func fetchTopMovies() -> [Movie]
     func fetchUpcomingMovies() -> [Movie]

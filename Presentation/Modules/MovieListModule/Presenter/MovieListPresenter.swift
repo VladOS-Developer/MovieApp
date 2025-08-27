@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MovieListPresenterProtocol: AnyObject {
-    init(view: MovieListViewProtocol, service: MovieServiceProtocol, mode: MovieListMode)
+    init(view: MovieListViewProtocol, repository: MovieRepositoryProtocol, mode: MovieListMode)
     func viewDidLoad()
     func didSelectItem(at index: Int)
 }
@@ -20,18 +20,18 @@ protocol MovieListPresenterProtocol: AnyObject {
 class MovieListPresenter: MovieListPresenterProtocol {
     
     private weak var view: MovieListViewProtocol?
-    private let service: MovieServiceProtocol
+    private let repository: MovieRepositoryProtocol
     private let mode: MovieListMode
     
     private var movies: [Movie] = []
     private var movieViewModel: [MovieCellViewModel] = []
     private var allGenres: [Genre]
     
-    required init(view: MovieListViewProtocol, service: MovieServiceProtocol, mode: MovieListMode) {
+    required init(view: MovieListViewProtocol, repository: MovieRepositoryProtocol, mode: MovieListMode) {
         self.view = view
-        self.service = service
+        self.repository = repository
         self.mode = mode
-        self.allGenres = service.fetchGenres()
+        self.allGenres = repository.fetchGenres()
     }
     
     func viewDidLoad() {
@@ -39,11 +39,11 @@ class MovieListPresenter: MovieListPresenterProtocol {
         
         switch mode {
         case .top10:
-            movies = Array(service.fetchTopMovies().prefix(10))
+            movies = Array(repository.fetchTopMovies().prefix(10))
         case .upcoming:
-            movies = service.fetchUpcomingMovies()
+            movies = repository.fetchUpcomingMovies()
         case .genre(let id, _):
-            movies = service.fetchMovies(byGenre: id)
+            movies = repository.fetchMovies(byGenre: id)
         }
         
         movieViewModel = movies.map { MovieCellViewModel(movie: $0, genres: allGenres) }

@@ -43,8 +43,8 @@ class Builder: BuilderProtocol {
     
     static func createMainScreenController() -> UIViewController {
         let mainView = MainScreenView()
-        let service: MovieServiceProtocol = MockMovieService.shared
-        let presenter = MainScreenPresenter(view: mainView, service: service)
+        let repository: MovieRepositoryProtocol = MockMovieRepository.shared
+        let presenter = MainScreenPresenter(view: mainView, repository: repository)
         
         mainView.presenter = presenter
         return UINavigationController(rootViewController: mainView)
@@ -68,8 +68,8 @@ class Builder: BuilderProtocol {
     
     static func createMovieListController(mode: MovieListMode) -> UIViewController {
         let listView = MovieListView()
-        let service: MovieServiceProtocol = MockMovieService.shared
-        let presenter = MovieListPresenter(view: listView, service: service, mode: mode)
+        let repository: MovieRepositoryProtocol = MockMovieRepository.shared
+        let presenter = MovieListPresenter(view: listView, repository: repository, mode: mode)
     
         listView.presenter = presenter
         return listView
@@ -77,8 +77,8 @@ class Builder: BuilderProtocol {
     
     static func createMoviePageController(movieId: Int) -> UIViewController {
         let pageView = MoviePageView()
-        let service: MovieServiceProtocol = MockMovieService.shared
-        let presenter = MoviePagePresenter(view: pageView, service: service, movieId: movieId)
+        let repository: MovieRepositoryProtocol = MockMovieRepository.shared
+        let presenter = MoviePagePresenter(view: pageView, repository: repository, movieId: movieId)
         
         pageView.presenter = presenter
         return pageView

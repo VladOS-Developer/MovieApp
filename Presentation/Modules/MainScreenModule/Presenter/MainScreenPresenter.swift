@@ -13,28 +13,32 @@ protocol MainScreenPresenterProtocol: AnyObject {
     func didSelectGenre(id: Int, title: String)
     func didSelectMovie(with id: Int)
     
-    init(view: MainScreenViewProtocol, service: MovieServiceProtocol)
+    init(view: MainScreenViewProtocol, repository: MovieRepositoryProtocol)
 }
 
 class MainScreenPresenter {
     
     private weak var view: MainScreenViewProtocol?
-    private let service: MovieServiceProtocol
+    private let repository: MovieRepositoryProtocol
     
     private var sections: [CollectionSection] = []
     
-    required init(view: MainScreenViewProtocol, service: MovieServiceProtocol) {
+    required init(view: MainScreenViewProtocol, repository: MovieRepositoryProtocol) {
         self.view = view
-        self.service = service
+        self.repository = repository
     }
 }
 
 extension MainScreenPresenter: MainScreenPresenterProtocol {
     
     func getMoviesData() {
-        let genres = service.fetchGenres()
-        let topMovies = service.fetchTopMovies()
-        let upcoming = service.fetchUpcomingMovies()
+        let genres = repository.fetchGenres()
+        let topMovies = repository.fetchTopMovies()
+        let upcoming = repository.fetchUpcomingMovies()
+        
+        let genreItems = genres
+            .map { GenreCellViewModel(id: $0.id, name: $0.name) }
+            .map { CollectionItem.genre($0) }
         
         let topItems = topMovies
             .map { MovieCellViewModel(movie: $0, genres: genres) }
@@ -43,10 +47,6 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
         let upcomingItems = upcoming
             .map { MovieCellViewModel(movie: $0, genres: genres) }
             .map { CollectionItem.movie($0) }
-        
-        let genreItems = genres
-            .map { GenreCellViewModel(id: $0.id, name: $0.name) }
-            .map { CollectionItem.genre($0) }
         
         let sections: [CollectionSection] = [
             CollectionSection(type: .genresMovie, items: genreItems),

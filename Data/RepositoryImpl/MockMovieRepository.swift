@@ -1,15 +1,15 @@
 //
-//  MockMovieService.swift
+//  MockMovieRepository.swift
 //  MovieApp
 //
-//  Created by VladOS on 17.08.2025.
+//  Created by VladOS on 27.08.2025.
 //
 
 import Foundation
 
-final class MockMovieService: MovieServiceProtocol {
+final class MockMovieRepository: MovieRepositoryProtocol {
     
-    static let shared = MockMovieService()
+    static let shared = MockMovieRepository()
     private init() {}
 
     func fetchGenres() -> [Genre] {
