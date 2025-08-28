@@ -8,5 +8,5 @@
 import Foundation
 
 protocol GenreRepositoryProtocol: AnyObject {
-    func fetchGenres() -> [Genre]
+    func fetchGenres() -> [Genres]
 }

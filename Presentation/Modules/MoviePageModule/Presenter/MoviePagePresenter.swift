@@ -9,7 +9,12 @@ import Foundation
 
 protocol MoviePagePresenterProtocol: AnyObject {
     
-    init(view: MoviePageViewProtocol, movieRepository: MovieRepositoryProtocol, genreRepository: GenreRepositoryProtocol, movieId: Int)
+    init(view: MoviePageViewProtocol,
+         movieDetailsRepository: MovieDetailsRepositoryProtocol,
+         genreRepository: GenreRepositoryProtocol,
+         movieVideoRepository: MovieVideoRepositoryProtocol,
+         movieId: Int)
+    
     func getMoviesData()
     func didTapPlayTrailerButton()
 }
@@ -17,31 +22,34 @@ protocol MoviePagePresenterProtocol: AnyObject {
 class MoviePagePresenter: MoviePagePresenterProtocol {
     
     private weak var view: MoviePageViewProtocol?
-    private let movieRepository: MovieRepositoryProtocol
+    private let movieDetailsRepository: MovieDetailsRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
+    private let movieVideoRepository: MovieVideoRepositoryProtocol
     private let movieId: Int
     
     private var sections: [PageCollectionSection] = []
     
     required init(view: MoviePageViewProtocol,
-                  movieRepository: MovieRepositoryProtocol,
+                  movieDetailsRepository: MovieDetailsRepositoryProtocol,
                   genreRepository: GenreRepositoryProtocol,
+                  movieVideoRepository: MovieVideoRepositoryProtocol,
                   movieId: Int) {
         
         self.view = view
-        self.movieRepository = movieRepository
+        self.movieDetailsRepository = movieDetailsRepository
         self.genreRepository = genreRepository
+        self.movieVideoRepository = movieVideoRepository
         self.movieId = movieId
     }
     
     func getMoviesData() {
         let genres = genreRepository.fetchGenres()
         
-        let allMovies = movieRepository.fetchTopMovies() + movieRepository.fetchUpcomingMovies()
-        guard let movie = allMovies.first(where: { $0.id == movieId }) else { return }
+        let allMovieDetails = movieDetailsRepository.fetchTopMovieDetails() + movieDetailsRepository.fetchUpcomingMovieDetails()
+        guard let movie = allMovieDetails.first(where: { $0.id == movieId }) else { return }
         
-        let movieVM = MovieCellViewModel(movie: movie, genres: genres)
-        let item = CollectionItem.movie(movieVM)
+        let movieVM = PageDetailsCellViewModel(movie: movie, genres: genres)
+        let item = PageCollectionItem.movie(movieVM)
         
         let sections: [PageCollectionSection] = [
             PageCollectionSection(type: .posterMovie, items: [item]),

@@ -9,13 +9,13 @@ import UIKit
 
 protocol MovieListViewProtocol: AnyObject {
     func setTitle(_ text: String)
-    func updateMovies(_ movies: [MovieCellViewModel])
+    func updateMovies(_ movies: [MainDetailsCellViewModel])
 }
 
 class MovieListView: UIViewController {
     
     var presenter: MovieListPresenterProtocol!
-    private var movies: [MovieCellViewModel] = []
+    private var movies: [MainDetailsCellViewModel] = []
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -127,7 +127,7 @@ extension MovieListView: MovieListViewProtocol {
         navigationItem.title = text
     }
     
-    func updateMovies(_ movies: [MovieCellViewModel]) {
+    func updateMovies(_ movies: [MainDetailsCellViewModel]) {
         self.movies = movies
         collectionView.reloadData()
     }

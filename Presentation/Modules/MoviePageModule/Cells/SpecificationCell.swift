@@ -140,7 +140,7 @@ final class SpecificationCell: UICollectionViewCell {
         ])
     }
     
-    func configureSpecificationCell(with movieVM: MovieCellViewModel) {
+    func configureSpecificationCell(with movieVM: PageDetailsCellViewModel) {
         voteAverageLabel.text = movieVM.ratingText
         runtimeLabel.text = movieVM.runtimeText
         genreLabel.text = movieVM.genresText

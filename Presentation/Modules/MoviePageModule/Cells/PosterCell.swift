@@ -65,7 +65,7 @@ final class PosterCell: UICollectionViewCell {
         ])
     }
     
-    func configurePosterCell(with movieVM: MovieCellViewModel) {
+    func configurePosterCell(with movieVM: PageDetailsCellViewModel) {
         posterView.image = movieVM.posterImage
         posterLabel.text = movieVM.title
     }

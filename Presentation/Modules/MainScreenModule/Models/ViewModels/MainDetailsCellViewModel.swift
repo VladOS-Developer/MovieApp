@@ -1,5 +1,5 @@
 //
-//  MovieCellViewModel.swift
+//  MainDetailsCellViewModel.swift
 //  MovieApp
 //
 //  Created by VladOS on 08.08.2025.
@@ -7,27 +7,27 @@
 
 import UIKit
 
-struct MovieCellViewModel: Hashable {
-    let id: Int
-    let title: String
-    let originalTitle: String? //
+struct MainDetailsCellViewModel: Hashable {
+    let id: Int//
+    let title: String//
+    let originalTitle: String?
     
-    let runtimeText: String
-    let releaseDateText: String
+    let runtimeText: String//
+    let releaseDateText: String//
     
-    let genresText: String
-    let overview: String? //
+    let genresText: String//
+    let overview: String?
     
-    let countryText: String //
+    let countryText: String
     
-    let ratingText: String //
+    let ratingText: String
     let ratingValue: Double?
     
-    let posterImage: UIImage?
-    let posterURL: URL?
-    let backdropURL: URL? //
+    let posterImage: UIImage?//
+    let posterURL: URL?//
+    let backdropURL: URL?
     
-    init(movie: Movie, genres: [Genre]) {
+    init(movie: MovieDetails, genres: [Genres]) {
         self.id = movie.id
         self.title = movie.title
         self.originalTitle = movie.originalTitle

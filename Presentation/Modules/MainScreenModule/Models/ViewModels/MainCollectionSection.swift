@@ -1,11 +1,16 @@
 //
-//  CollectionSection.swift
+//  MainCollectionSection.swift
 //  MovieApp
 //
 //  Created by VladOS on 08.08.2025.
 //
 
 import Foundation
+
+struct MainCollectionSection {
+    let type: MainSectionType
+    let items: [MainCollectionItem]
+}
 
 enum MainSectionType {
     case genresMovie
@@ -22,7 +27,3 @@ enum MainSectionType {
     
 }
 
-struct CollectionSection {
-    let type: MainSectionType
-    let items: [CollectionItem]
-}

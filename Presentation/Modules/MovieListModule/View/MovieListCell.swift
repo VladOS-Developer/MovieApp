@@ -34,7 +34,7 @@ class MovieListCell: UICollectionViewCell {
         ])
     }
     
-    func configureListCell(with movieVM: MovieCellViewModel ) {
+    func configureListCell(with movieVM: MainDetailsCellViewModel ) {
         posterImage.image = movieVM.posterImage
     }
     

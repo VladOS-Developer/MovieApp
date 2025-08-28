@@ -59,7 +59,7 @@ final class UpcomingMovieCell: UICollectionViewCell {
         ])
     }
     
-    func configureUpcomingCell(with movieVM: MovieCellViewModel) {
+    func configureUpcomingCell(with movieVM: MainDetailsCellViewModel) {
         imageUpcomingView.image = movieVM.posterImage
         titleLabel.text = movieVM.title
         releaseDate.text = movieVM.releaseDateText

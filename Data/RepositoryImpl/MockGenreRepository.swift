@@ -10,8 +10,8 @@ import Foundation
 final class MockGenreRepository: GenreRepositoryProtocol {
     static let shared = MockGenreRepository()
     
-    func fetchGenres() -> [Genre] {
-        Genre.mockGenres()
+    func fetchGenres() -> [Genres] {
+        Genres.mockGenres()
     }
     
 }

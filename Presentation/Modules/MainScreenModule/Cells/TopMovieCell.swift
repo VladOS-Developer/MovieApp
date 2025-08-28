@@ -56,7 +56,7 @@ final class TopMovieCell: UICollectionViewCell {
         ])
     }
     
-    func configureMovieCell(with movieVM: MovieCellViewModel) {
+    func configureMovieCell(with movieVM: MainDetailsCellViewModel) {
         imageViewMovie.image = movieVM.posterImage
         titleLabel.text = movieVM.title
         originalTitleLabel.text = movieVM.originalTitle

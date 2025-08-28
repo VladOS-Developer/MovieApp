@@ -7,14 +7,14 @@
 
 import Foundation
 
+struct PageCollectionSection {
+    let type: MoviePageSectionType
+    let items: [PageCollectionItem]
+}
+
 enum MoviePageSectionType {
     case posterMovie
     case stackButtons
     case specificationMovie
-//    case trailerMovie
-}
-
-struct PageCollectionSection {
-    let type: MoviePageSectionType
-    let items: [CollectionItem]
+//    case videoMovie
 }

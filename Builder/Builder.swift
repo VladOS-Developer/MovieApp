@@ -44,7 +44,7 @@ class Builder: BuilderProtocol {
     static func createMainScreenController() -> UIViewController {
         let mainView = MainScreenView()
         
-        let movieRepository: MovieRepositoryProtocol = MockMovieRepository.shared
+        let movieRepository: MovieDetailsRepositoryProtocol = MockMovieDetailsRepository.shared
         let genreRepository: GenreRepositoryProtocol = MockGenreRepository.shared
         
         let presenter = MainScreenPresenter(view: mainView, movieRepository: movieRepository, genreRepository: genreRepository)
@@ -71,7 +71,7 @@ class Builder: BuilderProtocol {
     
     static func createMovieListController(mode: MovieListMode) -> UIViewController {
         let listView = MovieListView()
-        let movieRepository: MovieRepositoryProtocol = MockMovieRepository.shared
+        let movieRepository: MovieDetailsRepositoryProtocol = MockMovieDetailsRepository.shared
         let genreRepository: GenreRepositoryProtocol = MockGenreRepository.shared
         let presenter = MovieListPresenter(view: listView, movieRepository: movieRepository, genreRepository: genreRepository, mode: mode)
     
@@ -82,10 +82,15 @@ class Builder: BuilderProtocol {
     static func createMoviePageController(movieId: Int) -> UIViewController {
         let pageView = MoviePageView()
         
-        let movieRepository: MovieRepositoryProtocol = MockMovieRepository.shared
+        let movieDetailsRepository: MovieDetailsRepositoryProtocol = MockMovieDetailsRepository.shared
         let genreRepository: GenreRepositoryProtocol = MockGenreRepository.shared
+        let movieVideoRepository: MovieVideoRepositoryProtocol = MockMovieVideoRepository.shared
         
-        let presenter = MoviePagePresenter(view: pageView, movieRepository: movieRepository, genreRepository: genreRepository, movieId: movieId)
+        let presenter = MoviePagePresenter(view: pageView,
+                                           movieDetailsRepository: movieDetailsRepository,
+                                           genreRepository: genreRepository,
+                                           movieVideoRepository: movieVideoRepository,
+                                           movieId: movieId)
         
         pageView.presenter = presenter
         return pageView

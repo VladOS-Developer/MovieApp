@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MainScreenViewProtocol: AnyObject {
-    func showMovies(sections: [CollectionSection])
+    func showMovies(sections: [MainCollectionSection])
     func navigateToMovieList(mode: MovieListMode)
     func navigateToMoviePage(movieId: Int)
 }
@@ -16,7 +16,7 @@ protocol MainScreenViewProtocol: AnyObject {
 class MainScreenView: UIViewController {
     
     var presenter: MainScreenPresenterProtocol!
-    private var sections: [CollectionSection] = []
+    private var sections: [MainCollectionSection] = []
     
     lazy var collectionView: UICollectionView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -154,7 +154,7 @@ extension MainScreenView: MainScreenViewProtocol {
         navigationController?.pushViewController(movieListVC, animated: true)
     }
     
-    func showMovies(sections: [CollectionSection]) {
+    func showMovies(sections: [MainCollectionSection]) {
         self.sections = sections
         collectionView.reloadData()
     }

@@ -13,18 +13,23 @@ protocol MainScreenPresenterProtocol: AnyObject {
     func didSelectGenre(id: Int, title: String)
     func didSelectMovie(with id: Int)
     
-    init(view: MainScreenViewProtocol, movieRepository: MovieRepositoryProtocol, genreRepository: GenreRepositoryProtocol)
+    init(view: MainScreenViewProtocol,
+         movieRepository: MovieDetailsRepositoryProtocol,
+         genreRepository: GenreRepositoryProtocol)
 }
 
 class MainScreenPresenter {
     
     private weak var view: MainScreenViewProtocol?
-    private let movieRepository: MovieRepositoryProtocol
+    private let movieRepository: MovieDetailsRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
     
-    private var sections: [CollectionSection] = []
+    private var sections: [MainCollectionSection] = []
     
-    required init(view: MainScreenViewProtocol, movieRepository: MovieRepositoryProtocol, genreRepository: GenreRepositoryProtocol) {
+    required init(view: MainScreenViewProtocol,
+                  movieRepository: MovieDetailsRepositoryProtocol,
+                  genreRepository: GenreRepositoryProtocol) {
+        
         self.view = view
         self.movieRepository = movieRepository
         self.genreRepository = genreRepository
@@ -35,25 +40,25 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
     
     func getMoviesData() {
         let genres = genreRepository.fetchGenres()
-        let topMovies = movieRepository.fetchTopMovies()
-        let upcoming = movieRepository.fetchUpcomingMovies()
+        let topMovies = movieRepository.fetchTopMovieDetails()
+        let upcoming = movieRepository.fetchUpcomingMovieDetails()
         
         let genreItems = genres
-            .map { GenreCellViewModel(id: $0.id, name: $0.name) }
-            .map { CollectionItem.genre($0) }
+            .map { MainGenreCellViewModel(id: $0.id, name: $0.name) }
+            .map { MainCollectionItem.genre($0) }
         
         let topItems = topMovies
-            .map { MovieCellViewModel(movie: $0, genres: genres) }
-            .map { CollectionItem.movie($0) }
+            .map { MainDetailsCellViewModel(movie: $0, genres: genres) }
+            .map { MainCollectionItem.movie($0) }
         
         let upcomingItems = upcoming
-            .map { MovieCellViewModel(movie: $0, genres: genres) }
-            .map { CollectionItem.movie($0) }
+            .map { MainDetailsCellViewModel(movie: $0, genres: genres) }
+            .map { MainCollectionItem.movie($0) }
         
-        let sections: [CollectionSection] = [
-            CollectionSection(type: .genresMovie, items: genreItems),
-            CollectionSection(type: .topMovie, items: topItems),
-            CollectionSection(type: .upcomingMovie, items: upcomingItems)
+        let sections: [MainCollectionSection] = [
+            MainCollectionSection(type: .genresMovie, items: genreItems),
+            MainCollectionSection(type: .topMovie, items: topItems),
+            MainCollectionSection(type: .upcomingMovie, items: upcomingItems)
         ]
         
         self.sections = sections
