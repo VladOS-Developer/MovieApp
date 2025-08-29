@@ -45,16 +45,23 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     func getMoviesData() {
         let genres = genreRepository.fetchGenres()
         
+        
         let allMovieDetails = movieDetailsRepository.fetchTopMovieDetails() + movieDetailsRepository.fetchUpcomingMovieDetails()
         guard let movie = allMovieDetails.first(where: { $0.id == movieId }) else { return }
         
         let movieVM = PageDetailsCellViewModel(movie: movie, genres: genres)
         let item = PageCollectionItem.movie(movieVM)
         
+        let videos = movieVideoRepository.fetchMovieVideo(for: movieId)
+        let videoItems = videos
+                .map { PageVideoCellViewModel(video: $0) }
+                .map { PageCollectionItem.video($0) }
+        
         let sections: [PageCollectionSection] = [
             PageCollectionSection(type: .posterMovie, items: [item]),
             PageCollectionSection(type: .stackButtons, items: []),
-            PageCollectionSection(type: .specificationMovie, items: [item])
+            PageCollectionSection(type: .specificationMovie, items: [item]),
+            PageCollectionSection(type: .videoMovie, items: videoItems)
         ]
         
         self.sections = sections

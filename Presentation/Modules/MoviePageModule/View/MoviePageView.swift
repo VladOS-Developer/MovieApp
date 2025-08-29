@@ -26,6 +26,7 @@ class MoviePageView: UIViewController {
         $0.register(PosterCell.self, forCellWithReuseIdentifier: PosterCell.reuseId)
         $0.register(StackButtonsCell.self, forCellWithReuseIdentifier: StackButtonsCell.reuseId)
         $0.register(SpecificationCell.self, forCellWithReuseIdentifier: SpecificationCell.reuseId)
+        $0.register(MovieVideoCell.self, forCellWithReuseIdentifier: MovieVideoCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createPageLayout()))
     
@@ -40,6 +41,8 @@ class MoviePageView: UIViewController {
                 return MoviePageLayoutFactory.setStackButtonLayout()
             case .specificationMovie:
                 return MoviePageLayoutFactory.setSpecificationLayout()
+            case .videoMovie:
+                return MoviePageLayoutFactory.setMovieVideoLayout()
             }
         }
     }
@@ -124,6 +127,19 @@ extension MoviePageView: UICollectionViewDataSource {
             switch item {
             case .movie(let movieVM):
                 cell.configureSpecificationCell(with: movieVM)
+            default: break
+            }
+            return cell
+            
+        case .videoMovie:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieVideoCell.reuseId, for: indexPath) as? MovieVideoCell else {
+                return UICollectionViewCell()
+            }
+            
+            let item = section.items[indexPath.item]
+            switch item {
+            case .video(let movieVM):
+                cell.configureMovieVideoCell(with: movieVM)
             default: break
             }
             return cell
