@@ -81,18 +81,21 @@ class Builder: BuilderProtocol {
     
     static func createMoviePageController(movieId: Int) -> UIViewController {
         let pageView = MoviePageView()
+        let router = MoviePageRouter()
         
         let movieDetailsRepository: MovieDetailsRepositoryProtocol = MockMovieDetailsRepository.shared
         let genreRepository: GenreRepositoryProtocol = MockGenreRepository.shared
         let movieVideoRepository: MovieVideoRepositoryProtocol = MockMovieVideoRepository.shared
         
         let presenter = MoviePagePresenter(view: pageView,
+                                           router: router,
                                            movieDetailsRepository: movieDetailsRepository,
                                            genreRepository: genreRepository,
                                            movieVideoRepository: movieVideoRepository,
                                            movieId: movieId)
         
         pageView.presenter = presenter
+        router.viewController = pageView
         return pageView
     }
     

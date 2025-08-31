@@ -9,7 +9,6 @@ import UIKit
 
 protocol MoviePageViewProtocol: AnyObject {
     func showMovie(sections: [PageCollectionSection])
-    func navigateToTrailerPalyer()
 }
 
 class MoviePageView: UIViewController, UICollectionViewDelegate {
@@ -177,12 +176,6 @@ extension MoviePageView: MoviePageViewProtocol {
         self.sections = sections
         collectionView.reloadData()
     }
-    
-    func navigateToTrailerPalyer() {
-        let trailerPlayerVC = Builder.createTrailerPlayerController()
-        present(trailerPlayerVC, animated: true)
-    }
-    
 }
 
 extension MoviePageView: PosterCellDelegate {

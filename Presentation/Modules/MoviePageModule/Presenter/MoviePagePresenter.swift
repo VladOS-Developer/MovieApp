@@ -10,6 +10,7 @@ import Foundation
 protocol MoviePagePresenterProtocol: AnyObject {
     
     init(view: MoviePageViewProtocol,
+         router: MoviePageRouterProtocol,
          movieDetailsRepository: MovieDetailsRepositoryProtocol,
          genreRepository: GenreRepositoryProtocol,
          movieVideoRepository: MovieVideoRepositoryProtocol,
@@ -22,6 +23,7 @@ protocol MoviePagePresenterProtocol: AnyObject {
 class MoviePagePresenter: MoviePagePresenterProtocol {
     
     private weak var view: MoviePageViewProtocol?
+    private let router: MoviePageRouterProtocol
     private let movieDetailsRepository: MovieDetailsRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
     private let movieVideoRepository: MovieVideoRepositoryProtocol
@@ -30,12 +32,14 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     private var sections: [PageCollectionSection] = []
     
     required init(view: MoviePageViewProtocol,
+                  router: MoviePageRouterProtocol,
                   movieDetailsRepository: MovieDetailsRepositoryProtocol,
                   genreRepository: GenreRepositoryProtocol,
                   movieVideoRepository: MovieVideoRepositoryProtocol,
                   movieId: Int) {
         
         self.view = view
+        self.router = router
         self.movieDetailsRepository = movieDetailsRepository
         self.genreRepository = genreRepository
         self.movieVideoRepository = movieVideoRepository
@@ -71,7 +75,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     }
     
     func didTapPlayTrailerButton() {
-        view?.navigateToTrailerPalyer()
+        router.showTrailerPlayer()
     }
 
 }
