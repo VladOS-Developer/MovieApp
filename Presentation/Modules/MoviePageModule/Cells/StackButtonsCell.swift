@@ -8,7 +8,6 @@
 import UIKit
 
 class StackButtonsCell: UICollectionViewCell {
-    
     static let reuseId = "StackButtonsCell"
     
     private lazy var buttonsStack: UIStackView = {

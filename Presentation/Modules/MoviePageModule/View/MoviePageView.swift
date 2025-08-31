@@ -12,10 +12,12 @@ protocol MoviePageViewProtocol: AnyObject {
     func navigateToTrailerPalyer()
 }
 
-class MoviePageView: UIViewController {
-        
+class MoviePageView: UIViewController, UICollectionViewDelegate {
+    
     var presenter: MoviePagePresenterProtocol!
     private var sections: [PageCollectionSection] = []
+    
+    private var isOverviewExpanded = false
     
     lazy var collectionView: UICollectionView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -26,6 +28,7 @@ class MoviePageView: UIViewController {
         $0.register(PosterCell.self, forCellWithReuseIdentifier: PosterCell.reuseId)
         $0.register(StackButtonsCell.self, forCellWithReuseIdentifier: StackButtonsCell.reuseId)
         $0.register(SpecificationCell.self, forCellWithReuseIdentifier: SpecificationCell.reuseId)
+        $0.register(OverviewCell.self, forCellWithReuseIdentifier: OverviewCell.reuseId)
         $0.register(MovieVideoCell.self, forCellWithReuseIdentifier: MovieVideoCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createPageLayout()))
@@ -37,10 +40,16 @@ class MoviePageView: UIViewController {
             switch currentSection.type {
             case .posterMovie:
                 return MoviePageLayoutFactory.setPosterMovieLayout()
+                
             case .stackButtons:
                 return MoviePageLayoutFactory.setStackButtonLayout()
+                
             case .specificationMovie:
                 return MoviePageLayoutFactory.setSpecificationLayout()
+                
+            case .overviewMovie:
+                return MoviePageLayoutFactory.setOverviewLayout()
+                
             case .videoMovie:
                 return MoviePageLayoutFactory.setMovieVideoLayout()
             }
@@ -49,7 +58,7 @@ class MoviePageView: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-//        navigationController?.isNavigationBarHidden = true // решить вопрос навигации
+        //        navigationController?.isNavigationBarHidden = true // решить вопрос навигации
         view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
     }
     
@@ -72,7 +81,7 @@ class MoviePageView: UIViewController {
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(true)
         print("TabBar скрылся")
     }
-
+    
 }
 
 extension MoviePageView: UICollectionViewDataSource {
@@ -82,7 +91,7 @@ extension MoviePageView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        sections[section].items.count
+        //        sections[section].items.count
         switch sections[section].type {
         case .stackButtons:
             return 1 // возврат 1
@@ -93,7 +102,7 @@ extension MoviePageView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = sections[indexPath.section]
-//        let item = section.items[indexPath.item] // тут передача пустого массива для stackButtons (краш) секция думает что у неё 1 айтем → коллекция спрашивает items[0] → а массив пустой → краш.
+        //        let item = section.items[indexPath.item] // тут передача пустого массива для stackButtons (краш) секция думает что у неё 1 айтем → коллекция спрашивает items[0] → а массив пустой → краш.
         
         switch section.type {
             
@@ -106,8 +115,8 @@ extension MoviePageView: UICollectionViewDataSource {
             let item = section.items[indexPath.item] // тут безопасно дергать items, есть данные
             
             switch item {
-            case .movie(let movieVM):
-                cell.configurePosterCell(with: movieVM)
+            case .movieDet(let detailsVM):
+                cell.configurePosterCell(with: detailsVM)
             default: break
             }
             return cell
@@ -125,8 +134,22 @@ extension MoviePageView: UICollectionViewDataSource {
             
             let item = section.items[indexPath.item]
             switch item {
-            case .movie(let movieVM):
-                cell.configureSpecificationCell(with: movieVM)
+            case .movieDet(let detailsVM):
+                cell.configureSpecificationCell(with: detailsVM)
+            default: break
+            }
+            return cell
+            
+        case .overviewMovie:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OverviewCell.reuseId, for: indexPath) as? OverviewCell else {
+                return UICollectionViewCell()
+            }
+            
+            let item = section.items[indexPath.item]
+            switch item {
+            case .movieDet(let detailsVM):
+                cell.configureOverviewCell(with: detailsVM.overview ?? "", expanded: isOverviewExpanded)
+                cell.delegate = self
             default: break
             }
             return cell
@@ -138,11 +161,12 @@ extension MoviePageView: UICollectionViewDataSource {
             
             let item = section.items[indexPath.item]
             switch item {
-            case .video(let movieVM):
-                cell.configureMovieVideoCell(with: movieVM)
+            case .video(let videoVM):
+                cell.configureMovieVideoCell(with: videoVM)
             default: break
             }
             return cell
+            
         }
     }
     
@@ -167,7 +191,17 @@ extension MoviePageView: PosterCellDelegate {
     }
 }
 
-extension MoviePageView: UICollectionViewDelegate {
+extension MoviePageView: OverviewCellDelegate {
+    func overviewCellDidToggle(_ cell: OverviewCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        // переключениу состояния
+        isOverviewExpanded.toggle()
+        // перезагрузка ячейки — compositional layout пересчитает высоту (estimated)
+        collectionView.performBatchUpdates({ [weak self] in
+            guard let self = self else { return }
+            self.collectionView.reloadItems(at: [indexPath])
+        }, completion: nil)
+    }
 }
 
 extension MoviePageView {

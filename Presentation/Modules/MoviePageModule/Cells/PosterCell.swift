@@ -12,8 +12,8 @@ protocol PosterCellDelegate: AnyObject {
 }
 
 final class PosterCell: UICollectionViewCell {
-    
     static let reuseId = "PosterCell"
+    
     weak var delegate: PosterCellDelegate?
     
     private lazy var posterView: UIImageView = {
@@ -65,9 +65,9 @@ final class PosterCell: UICollectionViewCell {
         ])
     }
     
-    func configurePosterCell(with movieVM: PageDetailsCellViewModel) {
-        posterView.image = movieVM.posterImage
-        posterLabel.text = movieVM.title
+    func configurePosterCell(with detailsVM: PageDetailsCellViewModel) {
+        posterView.image = detailsVM.posterImage
+        posterLabel.text = detailsVM.title
     }
     
     required init?(coder: NSCoder) {

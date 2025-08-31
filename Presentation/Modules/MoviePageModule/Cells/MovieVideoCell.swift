@@ -50,11 +50,11 @@ class MovieVideoCell: UICollectionViewCell {
         ])
     }
     
-    func configureMovieVideoCell(with movieVM: PageVideoCellViewModel) {
-        videoImage.image = movieVM.thumbnailImage
-        videoSite.text = movieVM.site
-        videoName.text = movieVM.name
-        videoType.text = movieVM.type
+    func configureMovieVideoCell(with videoVM: PageVideoCellViewModel) {
+        videoImage.image = videoVM.thumbnailImage
+        videoSite.text = videoVM.site
+        videoName.text = videoVM.name
+        videoType.text = videoVM.type
     }
     
     required init?(coder: NSCoder) {

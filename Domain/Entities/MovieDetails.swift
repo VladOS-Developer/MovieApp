@@ -51,7 +51,7 @@ extension MovieDetails {
     static func mockTopMovieDetails() -> [MovieDetails] {
         return [
             MovieDetails(id: 1, title: "John Wick", originalTitle: "Chapter 1", posterPath: "img1", backdropPath: "", runtime: 169, releaseDate: "2025-09-01", genreIDs: [28],
-                  overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved", originCountry: ["United States"], voteAverage: 8, isLocalImage: true),
+                  overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolvedOn the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved", originCountry: ["United States"], voteAverage: 8, isLocalImage: true),
             
             MovieDetails(id: 2, title: "Avatar", originalTitle: "The Way Of Water", posterPath: "img2", backdropPath: "", runtime: 155, releaseDate: "2025-10-10", genreIDs: [12],
                   overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.", originCountry: ["United States"], voteAverage: 4, isLocalImage: true),

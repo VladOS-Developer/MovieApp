@@ -28,8 +28,8 @@ extension MovieVideo {
 extension MovieVideo {
     static func mockMovieVideo() -> [MovieVideo] {
         return [
-            MovieVideo(id: "", key: "img1", name: "Official Teaser Trailer", site: "YouTube", type: "Trailer"),
-            MovieVideo(id: "", key: "img2", name: "New Trailer", site: "YouTube", type: "Clip"),
+            MovieVideo(id: "", key: "img10", name: "Official Teaser Trailer", site: "YouTube", type: "Trailer"),
+            MovieVideo(id: "", key: "img11", name: "New Trailer", site: "YouTube", type: "Clip"),
         ]
     }
 }

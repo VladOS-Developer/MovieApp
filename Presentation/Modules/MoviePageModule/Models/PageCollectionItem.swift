@@ -9,13 +9,13 @@ import UIKit
 
 enum PageCollectionItem {
     
-    case movie(PageDetailsCellViewModel)
+    case movieDet(PageDetailsCellViewModel)
     case genre(PageGenreCellViewModel)
     case video(PageVideoCellViewModel)
     
     var id: String {
         switch self {
-        case .movie(let vm): return String(vm.id)
+        case .movieDet(let vm): return String(vm.id)
         case .genre(let vm): return String(vm.id)
         case .video(let vm): return vm.id
         }
@@ -23,7 +23,7 @@ enum PageCollectionItem {
     
     var title: String {
         switch self {
-        case .movie(let vm): return vm.title
+        case .movieDet(let vm): return vm.title
         case .genre(let vm): return vm.name
         case .video(let vm): return vm.name
         }
@@ -31,7 +31,7 @@ enum PageCollectionItem {
     
     var posterImage: UIImage? {
         switch self {
-        case .movie(let vm): return vm.posterImage
+        case .movieDet(let vm): return vm.posterImage
         case .genre: return nil
         case .video(let vm): return vm.thumbnailImage
         }
@@ -39,7 +39,7 @@ enum PageCollectionItem {
     
     var posterURL: URL? {
         switch self {
-        case .movie(let vm): return vm.posterURL
+        case .movieDet(let vm): return vm.posterURL
         case .genre: return nil
         case .video(let vm): return vm.thumbnailURL
         }

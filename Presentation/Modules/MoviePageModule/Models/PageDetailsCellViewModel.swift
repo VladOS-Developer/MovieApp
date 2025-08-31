@@ -24,25 +24,25 @@ struct PageDetailsCellViewModel: Hashable {
     let countryText: String//
     let overview: String?//
     
-    init(movie: MovieDetails, genres: [Genres]) {
-        self.id = movie.id
-        self.title = movie.title
-        self.overview = movie.overview
+    init(movieDetails: MovieDetails, genres: [Genres]) {
+        self.id = movieDetails.id
+        self.title = movieDetails.title
+        self.overview = movieDetails.overview
         
         // images
-        if movie.isLocalImage {
-            self.posterImage = UIImage(named: movie.posterPath ?? "")
+        if movieDetails.isLocalImage {
+            self.posterImage = UIImage(named: movieDetails.posterPath ?? "")
             self.posterURL = nil
             self.backdropURL = nil
         } else {
             self.posterImage = nil
-            if let path = movie.posterPath {
+            if let path = movieDetails.posterPath {
                 self.posterURL = URL(string: "https://image.tmdb.org/t/p/w500\(path)")
             } else {
                 self.posterURL = nil
             }
             
-            if let backdrop = movie.backdropPath {
+            if let backdrop = movieDetails.backdropPath {
                 self.backdropURL = URL(string: "https://image.tmdb.org/t/p/w780\(backdrop)")
             } else {
                 self.backdropURL = nil
@@ -50,7 +50,7 @@ struct PageDetailsCellViewModel: Hashable {
         }
         
         // rating
-        if let value = movie.voteAverage, value > 0 {
+        if let value = movieDetails.voteAverage, value > 0 {
             self.ratingValue = value
             self.ratingText = String(format: "%.1f", value)
         } else {
@@ -59,7 +59,7 @@ struct PageDetailsCellViewModel: Hashable {
         }
         
         // runtime
-        if let runtime = movie.runtime {
+        if let runtime = movieDetails.runtime {
             let hours = runtime / 60
             let minutes = runtime % 60
             self.runtimeText = "\(hours)h \(minutes)min"
@@ -69,12 +69,12 @@ struct PageDetailsCellViewModel: Hashable {
         
         // genres
         let genreNames = genres
-            .filter { movie.genreIDs.contains($0.id) }
+            .filter { movieDetails.genreIDs.contains($0.id) }
             .map { $0.name }
         self.genresText = genreNames.joined(separator: " / ")
         
         // releaseDate
-        if let dateString = movie.releaseDate {
+        if let dateString = movieDetails.releaseDate {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
             if let date = formatter.date(from: dateString) {
@@ -88,7 +88,7 @@ struct PageDetailsCellViewModel: Hashable {
         }
         
         // country
-        if let countries = movie.originCountry, !countries.isEmpty {
+        if let countries = movieDetails.originCountry, !countries.isEmpty {
             self.countryText = countries.joined(separator: ", ")
         } else {
             self.countryText = ""

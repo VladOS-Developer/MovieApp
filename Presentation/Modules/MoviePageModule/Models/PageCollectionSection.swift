@@ -16,5 +16,6 @@ enum MoviePageSectionType {
     case posterMovie
     case stackButtons
     case specificationMovie
+    case overviewMovie
     case videoMovie
 }
