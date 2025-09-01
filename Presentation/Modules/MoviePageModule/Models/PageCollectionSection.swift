@@ -19,4 +19,6 @@ enum MoviePageSectionType {
     case overviewMovie
     case videoMovie
     case segmentedTabs
+//    case dynamicContent // 👈 для контента внутри вкладки
+
 }

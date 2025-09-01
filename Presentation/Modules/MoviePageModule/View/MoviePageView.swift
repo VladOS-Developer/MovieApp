@@ -230,6 +230,25 @@ extension MoviePageView {
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
         print("TabBar появился")
     }
+    
+//    private func handleTabSelection(_ index: Int) {
+//        var newItems: [PageCollectionItem] = []
+//
+//        switch index {
+//        case 0: // More Like This
+//            newItems = [/* модели фильмов */]
+//        case 1: // About
+//            newItems = [/* инфа о фильме */]
+//        case 2: // Comments
+//            newItems = [/* комментарии */]
+//        default: break
+//        }
+//
+//        if let dynamicSectionIndex = sections.firstIndex(where: { $0.type == .dynamicContent }) {
+//            sections[dynamicSectionIndex].items = newItems
+//            collectionView.reloadSections(IndexSet(integer: dynamicSectionIndex))
+//        }
+//    }
 
 }
 
