@@ -29,6 +29,7 @@ class MoviePageView: UIViewController, UICollectionViewDelegate {
         $0.register(SpecificationCell.self, forCellWithReuseIdentifier: SpecificationCell.reuseId)
         $0.register(OverviewCell.self, forCellWithReuseIdentifier: OverviewCell.reuseId)
         $0.register(MovieVideoCell.self, forCellWithReuseIdentifier: MovieVideoCell.reuseId)
+        $0.register(SegmentedTabsCell.self, forCellWithReuseIdentifier: SegmentedTabsCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createPageLayout()))
     
@@ -51,13 +52,16 @@ class MoviePageView: UIViewController, UICollectionViewDelegate {
                 
             case .videoMovie:
                 return MoviePageLayoutFactory.setMovieVideoLayout()
+                
+            case .segmentedTabs:
+                return MoviePageLayoutFactory.setSegmentedTabsLayout()
             }
         }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        //        navigationController?.isNavigationBarHidden = true // решить вопрос навигации
+//                navigationController?.isNavigationBarHidden = true // решить вопрос навигации
         view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
     }
     
@@ -94,6 +98,8 @@ extension MoviePageView: UICollectionViewDataSource {
         switch sections[section].type {
         case .stackButtons:
             return 1 // возврат 1
+        case .segmentedTabs:
+            return 1
         default:
             return sections[section].items.count
         }
@@ -166,6 +172,11 @@ extension MoviePageView: UICollectionViewDataSource {
             }
             return cell
             
+        case .segmentedTabs:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SegmentedTabsCell.reuseId, for: indexPath) as? SegmentedTabsCell else {
+                return UICollectionViewCell()
+            }
+            return cell
         }
     }
     
@@ -219,6 +230,7 @@ extension MoviePageView {
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
         print("TabBar появился")
     }
+
 }
 
     

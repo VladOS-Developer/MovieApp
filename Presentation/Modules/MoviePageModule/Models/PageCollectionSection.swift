@@ -18,4 +18,5 @@ enum MoviePageSectionType {
     case specificationMovie
     case overviewMovie
     case videoMovie
+    case segmentedTabs
 }

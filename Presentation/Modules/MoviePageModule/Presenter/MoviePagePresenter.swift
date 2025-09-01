@@ -65,8 +65,9 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
             PageCollectionSection(type: .stackButtons, items: []),
             PageCollectionSection(type: .specificationMovie, items: [detailItems]),
             PageCollectionSection(type: .overviewMovie, items: [detailItems]),
-            PageCollectionSection(type: .videoMovie, items: videoItems)
-            
+            PageCollectionSection(type: .videoMovie, items: videoItems),
+            PageCollectionSection(type: .segmentedTabs, items: []), // вкладки
+//            PageCollectionSection(type: .dynamicContent, items: []) // контент меняется при переключении
         ]
         
         self.sections = sections
