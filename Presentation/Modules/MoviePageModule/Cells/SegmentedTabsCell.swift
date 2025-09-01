@@ -40,6 +40,10 @@ final class SegmentedTabsCell: UICollectionViewCell {
         onTabSelected?(segmentedControl.selectedSegmentIndex)
     }
 
+//    func configureSegmentedTabsCell(selectedIndex: Int) {
+//        segmentedControl.selectedSegmentIndex = selectedIndex
+//    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

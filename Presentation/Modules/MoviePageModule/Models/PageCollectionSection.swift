@@ -9,7 +9,7 @@ import Foundation
 
 struct PageCollectionSection {
     let type: MoviePageSectionType
-    let items: [PageCollectionItem]
+    var items: [PageCollectionItem]
 }
 
 enum MoviePageSectionType {
@@ -19,6 +19,6 @@ enum MoviePageSectionType {
     case overviewMovie
     case videoMovie
     case segmentedTabs
-//    case dynamicContent // 👈 для контента внутри вкладки
+    case dynamicContent
 
 }

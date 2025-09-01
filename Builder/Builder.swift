@@ -86,12 +86,14 @@ class Builder: BuilderProtocol {
         let movieDetailsRepository: MovieDetailsRepositoryProtocol = MockMovieDetailsRepository.shared
         let genreRepository: GenreRepositoryProtocol = MockGenreRepository.shared
         let movieVideoRepository: MovieVideoRepositoryProtocol = MockMovieVideoRepository.shared
+        let movieSimilarRepository: MovieSimilarRepositoryProtocol = MockMovieSimilarRepository.shared
         
         let presenter = MoviePagePresenter(view: pageView,
                                            router: router,
                                            movieDetailsRepository: movieDetailsRepository,
                                            genreRepository: genreRepository,
                                            movieVideoRepository: movieVideoRepository,
+                                           movieSimilarRepository: movieSimilarRepository,
                                            movieId: movieId)
         
         pageView.presenter = presenter

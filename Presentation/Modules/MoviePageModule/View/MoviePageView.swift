@@ -17,7 +17,8 @@ class MoviePageView: UIViewController, UICollectionViewDelegate {
     private var sections: [PageCollectionSection] = []
     
     private var isOverviewExpanded = false
-    
+    private var selectedTabIndex: Int = UISegmentedControl.noSegment
+
     lazy var collectionView: UICollectionView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentInsetAdjustmentBehavior = .never
@@ -30,6 +31,7 @@ class MoviePageView: UIViewController, UICollectionViewDelegate {
         $0.register(OverviewCell.self, forCellWithReuseIdentifier: OverviewCell.reuseId)
         $0.register(MovieVideoCell.self, forCellWithReuseIdentifier: MovieVideoCell.reuseId)
         $0.register(SegmentedTabsCell.self, forCellWithReuseIdentifier: SegmentedTabsCell.reuseId)
+        $0.register(SimilarMovieCell.self, forCellWithReuseIdentifier: SimilarMovieCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createPageLayout()))
     
@@ -55,6 +57,9 @@ class MoviePageView: UIViewController, UICollectionViewDelegate {
                 
             case .segmentedTabs:
                 return MoviePageLayoutFactory.setSegmentedTabsLayout()
+                
+            case .dynamicContent:
+                return MoviePageLayoutFactory.setDynamicContentLayout()
             }
         }
     }
@@ -176,6 +181,23 @@ extension MoviePageView: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SegmentedTabsCell.reuseId, for: indexPath) as? SegmentedTabsCell else {
                 return UICollectionViewCell()
             }
+            // передаём выбранный индекс, чтобы состояние не сбрасывалось при перезагрузках
+//            cell.configureSegmentedTabsCell(selectedIndex: selectedTabIndex) ???
+            cell.onTabSelected = { [weak self] idx in
+                self?.presenter.didSelectTab(index: idx)
+            }
+            return cell
+            
+        case .dynamicContent:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SimilarMovieCell.reuseId, for: indexPath) as? SimilarMovieCell else {
+                return UICollectionViewCell()
+            }
+            
+            let item = section.items[indexPath.item]
+            if case .similarMovie(let similarVM) = item {
+                cell.configureSimilarMovieCell(with: similarVM)
+            }
+            
             return cell
         }
     }
@@ -230,25 +252,6 @@ extension MoviePageView {
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
         print("TabBar появился")
     }
-    
-//    private func handleTabSelection(_ index: Int) {
-//        var newItems: [PageCollectionItem] = []
-//
-//        switch index {
-//        case 0: // More Like This
-//            newItems = [/* модели фильмов */]
-//        case 1: // About
-//            newItems = [/* инфа о фильме */]
-//        case 2: // Comments
-//            newItems = [/* комментарии */]
-//        default: break
-//        }
-//
-//        if let dynamicSectionIndex = sections.firstIndex(where: { $0.type == .dynamicContent }) {
-//            sections[dynamicSectionIndex].items = newItems
-//            collectionView.reloadSections(IndexSet(integer: dynamicSectionIndex))
-//        }
-//    }
 
 }
 

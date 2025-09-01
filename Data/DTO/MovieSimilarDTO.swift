@@ -1,5 +1,5 @@
 //
-//  SimilarMovieDTO.swift
+//  MovieSimilarDTO.swift
 //  MovieApp
 //
 //  Created by VladOS on 01.09.2025.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct SimilarMoviesResponseDTO: Decodable {
-    let results: [SimilarMovieDTO]
+struct MoviesSimilarResponseDTO: Decodable {
+    let results: [MovieSimilarDTO]
 }
 
-struct SimilarMovieDTO: Decodable {
+struct MovieSimilarDTO: Decodable {
     let id: Int
     let title: String
     let posterPath: String?

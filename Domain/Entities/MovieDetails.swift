@@ -10,17 +10,14 @@ import Foundation
 struct MovieDetails: Hashable {
     let id: Int
     let title: String
-    let originalTitle: String?//
-    
+    let originalTitle: String?
     let posterPath: String?
     let backdropPath: String?
-    
-    let runtime: Int?//
+    let runtime: Int?
     let releaseDate: String?
-    
     let genreIDs: [Int]
     let overview: String?
-    let originCountry: [String]? //
+    let originCountry: [String]?
     let voteAverage: Double?
     
     let isLocalImage: Bool
@@ -30,18 +27,15 @@ extension MovieDetails {
     init(dto: MovieDetailsDTO) {
         self.id = dto.id
         self.title = dto.title
-        self.originalTitle = dto.original_title
-        
-        self.posterPath = dto.poster_path
-        self.backdropPath = dto.backdrop_path
-        
+        self.originalTitle = dto.originalTitle
+        self.posterPath = dto.posterPath
+        self.backdropPath = dto.backdropPath
         self.runtime = dto.runtime
-        self.releaseDate = dto.release_date
-        
-        self.genreIDs = dto.genre_ids
+        self.releaseDate = dto.releaseDate
+        self.genreIDs = dto.genreIDs
         self.overview = dto.overview
-        self.originCountry = dto.origin_country
-        self.voteAverage = dto.vote_average
+        self.originCountry = dto.originCountry
+        self.voteAverage = dto.voteAverage
         
         self.isLocalImage = false
     }

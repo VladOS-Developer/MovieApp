@@ -10,15 +10,24 @@ import Foundation
 struct MovieDetailsDTO: Decodable {
     let id: Int
     let title: String
-    let original_title: String?     // - ?
-    
-    let poster_path: String?
-    let backdrop_path: String?
-    
-    let runtime: Int?               // - runtime не приходит в списках (только в /movie/{id}), но optional → всё ок.
-    let release_date: String?
-    let genre_ids: [Int]
+    let originalTitle: String?
+    let posterPath: String?
+    let backdropPath: String?
+    let runtime: Int?
+    let releaseDate: String?
+    let genreIDs: [Int]
     let overview: String?
-    let origin_country: [String]?   // - origin_country — больше про TV, чем про Movie. В TMDb у фильмов production_countries → можно поправить позже.
-    let vote_average: Double?
+    let originCountry: [String]?
+    let voteAverage: Double?
+
+    enum CodingKeys: String, CodingKey {
+        case id, title, overview, runtime
+        case originalTitle = "original_title"
+        case posterPath = "poster_path"
+        case backdropPath = "backdrop_path"
+        case releaseDate = "release_date"
+        case genreIDs = "genre_ids"
+        case originCountry = "origin_country"
+        case voteAverage = "vote_average"
+    }
 }
