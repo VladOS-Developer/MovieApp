@@ -7,6 +7,16 @@
 
 import Foundation
 
+struct ProductionCountryDTO: Decodable {
+    let iso3166_1: String
+    let name: String
+    
+    enum CodingKeys: String, CodingKey {
+        case iso3166_1 = "iso_3166_1"
+        case name
+    }
+}
+
 struct MovieDetailsDTO: Decodable {
     let id: Int
     let title: String
@@ -17,7 +27,7 @@ struct MovieDetailsDTO: Decodable {
     let releaseDate: String?
     let genreIDs: [Int]
     let overview: String?
-    let originCountry: [String]?
+    let productionCountries: [ProductionCountryDTO]?
     let voteAverage: Double?
 
     enum CodingKeys: String, CodingKey {
@@ -27,7 +37,9 @@ struct MovieDetailsDTO: Decodable {
         case backdropPath = "backdrop_path"
         case releaseDate = "release_date"
         case genreIDs = "genre_ids"
-        case originCountry = "origin_country"
+        case productionCountries = "production_countries"
         case voteAverage = "vote_average"
     }
 }
+
+

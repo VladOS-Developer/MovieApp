@@ -88,8 +88,10 @@ struct PageDetailsCellViewModel: Hashable {
         }
         
         // country
-        if let countries = movieDetails.originCountry, !countries.isEmpty {
-            self.countryText = countries.joined(separator: ", ")
+        if let productionCountries = movieDetails.productionCountries, !productionCountries.isEmpty {
+            // На случай, если name может быть nil
+            let names = productionCountries.compactMap { $0.name }
+            self.countryText = names.joined(separator: ", ")
         } else {
             self.countryText = ""
         }

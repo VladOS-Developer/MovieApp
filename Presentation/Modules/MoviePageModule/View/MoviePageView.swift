@@ -169,6 +169,7 @@ extension MoviePageView: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             
+            cell.delegate = self
             let item = section.items[indexPath.item]
             switch item {
             case .video(let videoVM):
@@ -213,6 +214,12 @@ extension MoviePageView: MoviePageViewProtocol {
 
 extension MoviePageView: PosterCellDelegate {
     func didTapPlayButton(in cell: PosterCell) {
+        presenter.didTapPlayTrailerButton()
+    }
+}
+
+extension MoviePageView: MovieVideoCellDelegate {
+    func didTapPlayButton(in cell: MovieVideoCell) {
         presenter.didTapPlayTrailerButton()
     }
 }

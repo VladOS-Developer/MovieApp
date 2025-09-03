@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol MovieVideoCellDelegate: AnyObject {
+    func didTapPlayButton(in cell: MovieVideoCell)
+}
+
 class MovieVideoCell: UICollectionViewCell {
     static let reuseId = "MovieTrailerCell"
+    
+    weak var delegate: MovieVideoCellDelegate?
     
     private lazy var videoImage: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -31,10 +37,27 @@ class MovieVideoCell: UICollectionViewCell {
         return $0
     }(UIStackView(arrangedSubviews: [videoSite, videoName, videoType]))
     
+    private lazy var playTrailerButton: UIButton = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        $0.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        $0.setBackgroundImage(.playBtn, for: .normal)
+        $0.backgroundColor = .systemBlue.withAlphaComponent(0.2)
+        $0.layer.cornerRadius = 20
+        $0.addTarget(self, action: #selector(didTapPlay), for: .touchUpInside)
+        return $0
+    }(UIButton())
+    
+    @objc private func didTapPlay() {
+        delegate?.didTapPlayButton(in: self)
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(videoImage)
         contentView.addSubview(videoStackLabel)
+        contentView.addSubview(playTrailerButton)
+
         setupConstraints()
     }
     
@@ -44,6 +67,9 @@ class MovieVideoCell: UICollectionViewCell {
             videoImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             videoImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             videoImage.heightAnchor.constraint(equalToConstant: 100),
+            
+            playTrailerButton.centerXAnchor.constraint(equalTo: videoImage.centerXAnchor),
+            playTrailerButton.centerYAnchor.constraint(equalTo: videoImage.centerYAnchor),
             
             videoStackLabel.centerYAnchor.constraint(equalTo: videoImage.centerYAnchor),
             videoStackLabel.leadingAnchor.constraint(equalTo: videoImage.trailingAnchor, constant: 20),

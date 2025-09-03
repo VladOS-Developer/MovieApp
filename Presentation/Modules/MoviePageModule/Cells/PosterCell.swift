@@ -28,8 +28,8 @@ final class PosterCell: UICollectionViewCell {
     
     private lazy var playTrailerButton: UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        $0.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        $0.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        $0.widthAnchor.constraint(equalToConstant: 45).isActive = true
         $0.setBackgroundImage(.playBtn, for: .normal)
         $0.backgroundColor = .appBlue.withAlphaComponent(0.2)
         $0.layer.cornerRadius = 20

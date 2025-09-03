@@ -63,8 +63,16 @@ struct MainDetailsCellViewModel: Hashable {
         self.genresText = genreNames.joined(separator: " / ")
         
         // country
-        if let countries = movie.originCountry, !countries.isEmpty {
-            self.countryText = countries.joined(separator: ", ")
+//        if let countries = movie.originCountry, !countries.isEmpty {
+//            self.countryText = countries.joined(separator: ", ")
+//        } else {
+//            self.countryText = ""
+//        }
+        
+        if let productionCountries = movie.productionCountries, !productionCountries.isEmpty {
+            // На случай, если name может быть nil
+            let names = productionCountries.compactMap { $0.name }
+            self.countryText = names.joined(separator: ", ")
         } else {
             self.countryText = ""
         }
