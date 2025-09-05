@@ -7,13 +7,13 @@
 
 import UIKit
 
-enum PageCollectionItem {
+enum PageCollectionItem: Hashable {
     
-    case movieDet(PageDetailsCellViewModel)
-    case genre(PageGenreCellViewModel)
-    case video(PageVideoCellViewModel)
+    case movieDet(DetailsCellViewModel)
+    case genre(GenreCellViewModel)
+    case video(VideoCellViewModel)
     case similarMovie(SimilarMovieCellViewModel)
-    
+ 
     var id: String {
         switch self {
         case .movieDet(let vm): return String(vm.id)

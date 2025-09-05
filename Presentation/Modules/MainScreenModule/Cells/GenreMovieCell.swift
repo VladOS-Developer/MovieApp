@@ -16,7 +16,7 @@ final class GenreMovieCell: UICollectionViewCell {
     static let reuseId = "GenreMovieCell"
     
     weak var delegate: GenreMovieCellDelegate? //
-    private var genreVM: MainGenreCellViewModel? //
+    private var genreVM: GenreCellViewModel? //
     
     private let tapActionID = UIAction.Identifier("genre.tap") //
     
@@ -33,7 +33,7 @@ final class GenreMovieCell: UICollectionViewCell {
         return button
     }()
     
-    func configureGenreCell(with genreVM: MainGenreCellViewModel) {
+    func configureGenreCell(with genreVM: GenreCellViewModel) {
         self.genreVM = genreVM
         genreButton.setTitle(genreVM.name, for: .normal)
         // Каждый раз при конфигурации ячейки снимаем старый action по идентификатору (защита от переиспользования)

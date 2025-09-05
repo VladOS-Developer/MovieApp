@@ -1,5 +1,5 @@
 //
-//  PageDetailsCellViewModel.swift
+//  DetailsCellViewModel.swift
 //  MovieApp
 //
 //  Created by VladOS on 27.08.2025.
@@ -7,22 +7,22 @@
 
 import UIKit
 
-struct PageDetailsCellViewModel: Hashable {
-    let id: Int//
-    let title: String//
+struct DetailsCellViewModel: Hashable {
+    let id: Int
+    let title: String
     
-    let posterImage: UIImage?//
-    let posterURL: URL?//
-    let backdropURL: URL?//
+    let posterImage: UIImage?
+    let posterURL: URL?
+    let backdropURL: URL?
     
-    let ratingText: String//
-    let ratingValue: Double?//
+    let ratingText: String
+    let ratingValue: Double?
     
-    let runtimeText: String//
-    let genresText: String//
-    let releaseDateText: String//
-    let countryText: String//
-    let overview: String?//
+    let runtimeText: String
+    let genresText: String
+    let releaseDateText: String
+    let countryText: String
+    let overview: String?
     
     init(movieDetails: MovieDetails, genres: [Genres]) {
         self.id = movieDetails.id
@@ -64,7 +64,7 @@ struct PageDetailsCellViewModel: Hashable {
             let minutes = runtime % 60
             self.runtimeText = "\(hours)h \(minutes)min"
         } else {
-            self.runtimeText = ""
+            self.runtimeText = "-"
         }
         
         // genres
@@ -93,7 +93,7 @@ struct PageDetailsCellViewModel: Hashable {
             let names = productionCountries.compactMap { $0.name }
             self.countryText = names.joined(separator: ", ")
         } else {
-            self.countryText = ""
+            self.countryText = "-"
         }
         
         

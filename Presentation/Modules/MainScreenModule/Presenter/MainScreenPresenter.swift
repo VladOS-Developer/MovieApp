@@ -14,20 +14,20 @@ protocol MainScreenPresenterProtocol: AnyObject {
     func didSelectMovie(with id: Int)
     
     init(view: MainScreenViewProtocol,
-         movieRepository: MovieDetailsRepositoryProtocol,
+         movieRepository: MovieRepositoryProtocol,
          genreRepository: GenreRepositoryProtocol)
 }
 
 class MainScreenPresenter {
     
     private weak var view: MainScreenViewProtocol?
-    private let movieRepository: MovieDetailsRepositoryProtocol
+    private let movieRepository: MovieRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
     
     private var sections: [MainCollectionSection] = []
     
     required init(view: MainScreenViewProtocol,
-                  movieRepository: MovieDetailsRepositoryProtocol,
+                  movieRepository: MovieRepositoryProtocol,
                   genreRepository: GenreRepositoryProtocol) {
         
         self.view = view
@@ -40,19 +40,19 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
     
     func getMoviesData() {
         let genres = genreRepository.fetchGenres()
-        let topMovies = movieRepository.fetchTopMovieDetails()
-        let upcoming = movieRepository.fetchUpcomingMovieDetails()
+        let topMovies = movieRepository.fetchTopMovies()
+        let upcoming = movieRepository.fetchUpcomingMovies()
         
         let genreItems = genres
-            .map { MainGenreCellViewModel(id: $0.id, name: $0.name) }
+            .map { GenreCellViewModel(id: $0.id, name: $0.name) }
             .map { MainCollectionItem.genre($0) }
         
         let topItems = topMovies
-            .map { MainDetailsCellViewModel(movie: $0, genres: genres) }
+            .map { MovieCellViewModel(movie: $0, genres: genres) }
             .map { MainCollectionItem.movie($0) }
         
         let upcomingItems = upcoming
-            .map { MainDetailsCellViewModel(movie: $0, genres: genres) }
+            .map { MovieCellViewModel(movie: $0, genres: genres) }
             .map { MainCollectionItem.movie($0) }
         
         let sections: [MainCollectionSection] = [

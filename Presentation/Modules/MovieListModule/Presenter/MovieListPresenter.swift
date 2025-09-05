@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MovieListPresenterProtocol: AnyObject {
-    init(view: MovieListViewProtocol, movieRepository: MovieDetailsRepositoryProtocol, genreRepository: GenreRepositoryProtocol, mode: MovieListMode)
+    init(view: MovieListViewProtocol, movieRepository: MovieRepositoryProtocol, genreRepository: GenreRepositoryProtocol, mode: MovieListMode)
     func viewDidLoad()
     func didSelectItem(at index: Int)
 }
@@ -20,16 +20,16 @@ protocol MovieListPresenterProtocol: AnyObject {
 class MovieListPresenter: MovieListPresenterProtocol {
     
     private weak var view: MovieListViewProtocol?
-    private let movieRepository: MovieDetailsRepositoryProtocol
+    private let movieRepository: MovieRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
     
     private let mode: MovieListMode
     
-    private var movies: [MovieDetails] = []
-    private var movieViewModel: [MainDetailsCellViewModel] = []
+    private var movies: [Movie] = []
+    private var movieViewModel: [MovieCellViewModel] = []
     private var allGenres: [Genres]
     
-    required init(view: MovieListViewProtocol, movieRepository: MovieDetailsRepositoryProtocol, genreRepository: GenreRepositoryProtocol, mode: MovieListMode) {
+    required init(view: MovieListViewProtocol, movieRepository: MovieRepositoryProtocol, genreRepository: GenreRepositoryProtocol, mode: MovieListMode) {
         self.view = view
         self.movieRepository = movieRepository
         self.genreRepository = genreRepository
@@ -43,14 +43,14 @@ class MovieListPresenter: MovieListPresenterProtocol {
         
         switch mode {
         case .top10:
-            movies = Array(movieRepository.fetchTopMovieDetails().prefix(10))
+            movies = Array(movieRepository.fetchTopMovies().prefix(10))
         case .upcoming:
-            movies = movieRepository.fetchUpcomingMovieDetails()
+            movies = movieRepository.fetchUpcomingMovies()
         case .genre(let id, _):
-            movies = movieRepository.fetchMovieDetails(byGenre: id)
+            movies = movieRepository.fetchMovies(byGenre: id)
         }
         
-        movieViewModel = movies.map { MainDetailsCellViewModel(movie: $0, genres: allGenres) }
+        movieViewModel = movies.map { MovieCellViewModel(movie: $0, genres: allGenres) }
         view?.updateMovies(movieViewModel)
     }
     

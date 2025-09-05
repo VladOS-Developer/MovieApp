@@ -8,8 +8,8 @@
 import UIKit
 
 enum MainCollectionItem {
-    case genre(MainGenreCellViewModel)
-    case movie(MainDetailsCellViewModel)
+    case genre(GenreCellViewModel)
+    case movie(MovieCellViewModel)
         
     var id: Int {
         switch self {
@@ -22,14 +22,6 @@ enum MainCollectionItem {
         switch self {
         case .movie(let vm): return vm.title
         case .genre(let vm): return vm.name
-        }
-    }
-    
-    var runtimeFormatted: String? {
-        switch self {
-        case .movie(let vm): return vm.runtimeText
-        case .genre: return nil
-            
         }
     }
 

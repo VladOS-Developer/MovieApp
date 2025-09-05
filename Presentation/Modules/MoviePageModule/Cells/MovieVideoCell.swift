@@ -76,7 +76,7 @@ class MovieVideoCell: UICollectionViewCell {
         ])
     }
     
-    func configureMovieVideoCell(with videoVM: PageVideoCellViewModel) {
+    func configureMovieVideoCell(with videoVM: VideoCellViewModel) {
         videoImage.image = videoVM.thumbnailImage
         videoSite.text = videoVM.site
         videoName.text = videoVM.name

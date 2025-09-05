@@ -11,13 +11,12 @@ protocol MoviePageViewProtocol: AnyObject {
     func showMovie(sections: [PageCollectionSection])
 }
 
-class MoviePageView: UIViewController, UICollectionViewDelegate {
+class MoviePageView: UIViewController {
     
     var presenter: MoviePagePresenterProtocol!
     private var sections: [PageCollectionSection] = []
-    
     private var isOverviewExpanded = false
-    private var selectedTabIndex: Int = UISegmentedControl.noSegment
+//    private var diffableDataSource: UICollectionViewDiffableDataSource<MoviePageSectionType, PageCollectionItem>!
 
     lazy var collectionView: UICollectionView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -81,6 +80,7 @@ class MoviePageView: UIViewController, UICollectionViewDelegate {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+//        configureDataSource()
         presenter.getMoviesData()
     }
     
@@ -89,6 +89,57 @@ class MoviePageView: UIViewController, UICollectionViewDelegate {
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(true)
         print("TabBar скрылся")
     }
+    
+//    private func configureDataSource() {
+//        diffableDataSource = UICollectionViewDiffableDataSource<MoviePageSectionType, PageCollectionItem>(
+//            collectionView: collectionView
+//        ) { [weak self] collectionView, indexPath, item in
+//            guard let self = self else { return UICollectionViewCell() }
+//            let sectionType = self.sections[indexPath.section].type
+//            
+//            switch sectionType {
+//            case .posterMovie:
+//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCell.reuseId, for: indexPath) as! PosterCell
+//                if case .movieDet(let vm) = item { cell.configurePosterCell(with: vm) }
+//                cell.delegate = self
+//                return cell
+//                
+//            case .stackButtons:
+//                return collectionView.dequeueReusableCell(withReuseIdentifier: StackButtonsCell.reuseId, for: indexPath) as! StackButtonsCell
+//                
+//            case .specificationMovie:
+//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SpecificationCell.reuseId, for: indexPath) as! SpecificationCell
+//                if case .movieDet(let vm) = item { cell.configureSpecificationCell(with: vm) }
+//                return cell
+//                
+//            case .overviewMovie:
+//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OverviewCell.reuseId, for: indexPath) as! OverviewCell
+//                if case .movieDet(let vm) = item {
+//                    cell.configureOverviewCell(with: vm.overview ?? "", expanded: self.isOverviewExpanded)
+//                }
+//                cell.delegate = self
+//                return cell
+//                
+//            case .videoMovie:
+//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieVideoCell.reuseId, for: indexPath) as! MovieVideoCell
+//                if case .video(let vm) = item { cell.configureMovieVideoCell(with: vm) }
+//                cell.delegate = self
+//                return cell
+//                
+//            case .segmentedTabs:
+//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SegmentedTabsCell.reuseId, for: indexPath) as! SegmentedTabsCell
+//                cell.onTabSelected = { [weak self] idx in
+//                    self?.presenter.didSelectTab(index: idx)
+//                }
+//                return cell
+//                
+//            case .dynamicContent:
+//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SimilarMovieCell.reuseId, for: indexPath) as! SimilarMovieCell
+//                if case .similarMovie(let vm) = item { cell.configureSimilarMovieCell(with: vm) }
+//                return cell
+//            }
+//        }
+//    }
     
 }
 
@@ -116,6 +167,7 @@ extension MoviePageView: UICollectionViewDataSource {
         
         switch section.type {
             
+            // PosterMovie
         case .posterMovie:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCell.reuseId, for: indexPath) as? PosterCell else {
                 return UICollectionViewCell()
@@ -131,12 +183,14 @@ extension MoviePageView: UICollectionViewDataSource {
             }
             return cell
             
+            // StackButtons
         case .stackButtons:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StackButtonsCell.reuseId, for: indexPath) as? StackButtonsCell else {
                 return UICollectionViewCell()
             }
             return cell
             
+            // SpecificationMovie
         case .specificationMovie:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SpecificationCell.reuseId, for: indexPath) as? SpecificationCell else {
                 return UICollectionViewCell()
@@ -150,6 +204,7 @@ extension MoviePageView: UICollectionViewDataSource {
             }
             return cell
             
+            // OverviewMovie
         case .overviewMovie:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OverviewCell.reuseId, for: indexPath) as? OverviewCell else {
                 return UICollectionViewCell()
@@ -164,6 +219,7 @@ extension MoviePageView: UICollectionViewDataSource {
             }
             return cell
             
+            // VideoMovie
         case .videoMovie:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieVideoCell.reuseId, for: indexPath) as? MovieVideoCell else {
                 return UICollectionViewCell()
@@ -178,37 +234,54 @@ extension MoviePageView: UICollectionViewDataSource {
             }
             return cell
             
+            // SegmentedTabs
         case .segmentedTabs:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SegmentedTabsCell.reuseId, for: indexPath) as? SegmentedTabsCell else {
                 return UICollectionViewCell()
             }
-            // передаём выбранный индекс, чтобы состояние не сбрасывалось при перезагрузках
-//            cell.configureSegmentedTabsCell(selectedIndex: selectedTabIndex) ???
+            
             cell.onTabSelected = { [weak self] idx in
                 self?.presenter.didSelectTab(index: idx)
             }
             return cell
             
+            // DynamicContent
         case .dynamicContent:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SimilarMovieCell.reuseId, for: indexPath) as? SimilarMovieCell else {
                 return UICollectionViewCell()
             }
             
             let item = section.items[indexPath.item]
+            
             if case .similarMovie(let similarVM) = item {
                 cell.configureSimilarMovieCell(with: similarVM)
+//                cell.delegate = self
             }
-            
             return cell
         }
     }
-    
 }
+
+// решить
+extension MoviePageView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let item = sections[indexPath.section].items[indexPath.item]
+//        if case .similarMovie(let vm) = item {
+//            presenter.didSelectSimilarMovie(movieId: vm.id) // ✅ дергаем презентер
+        }
+    }
+
 
 extension MoviePageView: MoviePageViewProtocol {
     func showMovie(sections: [PageCollectionSection]) {
         self.sections = sections
         collectionView.reloadData()
+        //        var snapshot = NSDiffableDataSourceSnapshot<MoviePageSectionType, PageCollectionItem>()
+        //        for section in sections {
+        //            snapshot.appendSections([section.type])
+        //            snapshot.appendItems(section.items, toSection: section.type)
+        //        }
+        //        diffableDataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
@@ -223,6 +296,13 @@ extension MoviePageView: MovieVideoCellDelegate {
         presenter.didTapPlayTrailerButton()
     }
 }
+
+//extension MoviePageView: SimilarMovieCellDelegate {
+//    func didSelectSimilarMovie(_ movieId: Int) {
+//        presenter.didSelectSimilarMovie(movieId: movieId)
+//        print("presenter")
+//    }
+//}
 
 extension MoviePageView: OverviewCellDelegate {
     func overviewCellDidToggle(_ cell: OverviewCell) {

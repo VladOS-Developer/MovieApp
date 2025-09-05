@@ -25,7 +25,7 @@ final class TopMovieCell: UICollectionViewCell {
     
     private lazy var originalTitleLabel: UILabel = CellLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appWhite)
     
-    private lazy var runtimeLabel: UILabel = CellLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appGray)
+    private lazy var runtimeLabel: UILabel = CellLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appGray) // - заменить на другой - или дополнить вью модель !
     
     private lazy var stackLabel: UIStackView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -56,11 +56,11 @@ final class TopMovieCell: UICollectionViewCell {
         ])
     }
     
-    func configureMovieCell(with movieVM: MainDetailsCellViewModel) {
+    func configureMovieCell(with movieVM: MovieCellViewModel) {
         imageViewMovie.image = movieVM.posterImage
         titleLabel.text = movieVM.title
         originalTitleLabel.text = movieVM.originalTitle
-        runtimeLabel.text = movieVM.runtimeText
+//        runtimeLabel.text = movieVM.runtimeText
     }
     
     required init?(coder: NSCoder) {

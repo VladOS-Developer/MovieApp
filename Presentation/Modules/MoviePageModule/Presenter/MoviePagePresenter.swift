@@ -23,14 +23,14 @@ protocol MoviePagePresenterProtocol: AnyObject {
 }
 
 class MoviePagePresenter: MoviePagePresenterProtocol {
-        
+    
     private weak var view: MoviePageViewProtocol?
     private let router: MoviePageRouterProtocol
     private let movieDetailsRepository: MovieDetailsRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
     private let movieVideoRepository: MovieVideoRepositoryProtocol
     private let movieSimilarRepository: MovieSimilarRepositoryProtocol
-    private let movieId: Int
+    private var movieId: Int
     
     private var sections: [PageCollectionSection] = []
     
@@ -57,12 +57,12 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         let allMovieDetails = movieDetailsRepository.fetchTopMovieDetails() + movieDetailsRepository.fetchUpcomingMovieDetails()
         guard let movieDetails = allMovieDetails.first(where: { $0.id == movieId }) else { return }
         
-        let detailsVM = PageDetailsCellViewModel(movieDetails: movieDetails, genres: genres)
+        let detailsVM = DetailsCellViewModel(movieDetails: movieDetails, genres: genres)
         let detailItems = PageCollectionItem.movieDet(detailsVM)
         
         let videos = movieVideoRepository.fetchMovieVideo(for: movieId)
         let videoItems = videos
-            .map { PageVideoCellViewModel(video: $0) }
+            .map { VideoCellViewModel(video: $0) }
             .map { PageCollectionItem.video($0) }
         
         let sections: [PageCollectionSection] = [
@@ -71,19 +71,18 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
             PageCollectionSection(type: .specificationMovie, items: [detailItems]),
             PageCollectionSection(type: .overviewMovie, items: [detailItems]),
             PageCollectionSection(type: .videoMovie, items: videoItems),
-            PageCollectionSection(type: .segmentedTabs, items: []), // вкладки
+            PageCollectionSection(type: .segmentedTabs, items: []),
             PageCollectionSection(type: .dynamicContent, items: []) // контент меняется при переключении
         ]
         
         self.sections = sections
         view?.showMovie(sections: sections)
-        
     }
     
     func didTapPlayTrailerButton() {
         router.showTrailerPlayer()
     }
-    
+        
     func didSelectTab(index: Int) {
         var newItems: [PageCollectionItem] = []
         
@@ -91,7 +90,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         case 0: // More Like This
             let similar = movieSimilarRepository.fetchSimilarMovie(for: movieId)
             newItems = similar
-                .map { SimilarMovieCellViewModel(similar: $0, isLocal: true) }
+                .map { SimilarMovieCellViewModel(movieSimilar: $0) }
                 .map { PageCollectionItem.similarMovie($0) }
             
         case 1: // About
@@ -105,8 +104,8 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         
         if let dynamicSectionIndex = sections.firstIndex(where: { $0.type == .dynamicContent }) {
             sections[dynamicSectionIndex].items = newItems
-            view?.showMovie(sections: sections) // ✅ обновляем вью через протокол
+            view?.showMovie(sections: sections)
         }
     }
-
+ 
 }

@@ -60,18 +60,15 @@ extension MovieDetails {
             
             MovieDetails(id: 4, title: "The Matrix", originalTitle: "", posterPath: "img4", backdropPath: "", runtime: 136, releaseDate: "2025-10-10", genreIDs: [878],
                   overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.", productionCountries: [ProductionCountry(iso3166_1: "", name: "United States")], voteAverage: 5, isLocalImage: true),
-            
-            MovieDetails(id: 5, title: "The Matrix", originalTitle: "", posterPath: "img5", backdropPath: "", runtime: 136, releaseDate: "2025-10-10", genreIDs: [878],
-                  overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.", productionCountries: [ProductionCountry(iso3166_1: "", name: "United States")], voteAverage: 5, isLocalImage: true),
         ]
     }
 
     static func mockUpcomingMovieDetails() -> [MovieDetails] {
         return [
-            MovieDetails(id: 10, title: "Percy Jackson", originalTitle: "", posterPath: "img8", backdropPath: "", runtime: 169, releaseDate: "2025-09-01", genreIDs: [12],
-                  overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.", productionCountries: [ProductionCountry(iso3166_1: "", name: "United States")], voteAverage: 8, isLocalImage: true),
+            MovieDetails(id: 5, title: "Percy Jackson", originalTitle: "", posterPath: "img5", backdropPath: "", runtime: 169, releaseDate: "2025-09-01", genreIDs: [12],
+                  overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved(Pakanajuhla).", productionCountries: [ProductionCountry(iso3166_1: "", name: "United States")], voteAverage: 8, isLocalImage: true),
             
-            MovieDetails(id: 11, title: "Inception", originalTitle: "", posterPath: "img9", backdropPath: "", runtime: 155, releaseDate: "2025-10-10", genreIDs: [16],
+            MovieDetails(id: 6, title: "Inception", originalTitle: "", posterPath: "img7", backdropPath: "", runtime: 155, releaseDate: "2025-10-10", genreIDs: [16],
                   overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.", productionCountries: [ProductionCountry(iso3166_1: "", name: "United States")], voteAverage: 4, isLocalImage: true)
         ]
     }

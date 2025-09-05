@@ -7,9 +7,16 @@
 
 import UIKit
 
+//protocol SimilarMovieCellDelegate: AnyObject {
+//    func didSelectSimilarMovie(_ movieId: Int)
+//}
+
 final class SimilarMovieCell: UICollectionViewCell {
     static let reuseId = "SimilarMovieCell"
-
+    
+//    weak var delegate: SimilarMovieCellDelegate?
+    private var movieId: Int?
+//    
     private lazy var similarImage: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentMode = .scaleAspectFill
@@ -46,6 +53,8 @@ final class SimilarMovieCell: UICollectionViewCell {
     }
     
     func configureSimilarMovieCell(with similarVM: SimilarMovieCellViewModel) {
+//        self.movieId = similarVM.id
+        
         similarTitle.text = similarVM.title
         
         if let image = similarVM.posterImage {

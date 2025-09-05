@@ -24,5 +24,5 @@ final class MoviePageRouter: MoviePageRouterProtocol {
             viewController?.present(trailerPlayerVC, animated: true)
         }
     }
-
+    
 }

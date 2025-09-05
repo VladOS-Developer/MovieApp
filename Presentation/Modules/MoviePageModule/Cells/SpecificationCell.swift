@@ -105,7 +105,7 @@ final class SpecificationCell: UICollectionViewCell {
         ])
     }
     
-    func configureSpecificationCell(with detailsVM: PageDetailsCellViewModel) {
+    func configureSpecificationCell(with detailsVM: DetailsCellViewModel) {
         voteAverageLabel.text = detailsVM.ratingText
         runtimeLabel.text = detailsVM.runtimeText
         genreLabel.text = detailsVM.genresText

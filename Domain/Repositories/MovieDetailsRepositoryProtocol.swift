@@ -11,5 +11,4 @@ protocol MovieDetailsRepositoryProtocol: AnyObject {
     func fetchTopMovieDetails() -> [MovieDetails]
     func fetchUpcomingMovieDetails() -> [MovieDetails]
     func fetchMovieDetails(byGenre id: Int) -> [MovieDetails]
-    func fetchMovieDetails(id: Int) -> MovieDetails?
 }

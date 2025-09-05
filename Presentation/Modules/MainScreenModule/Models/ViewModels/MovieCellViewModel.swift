@@ -1,47 +1,31 @@
 //
-//  MainDetailsCellViewModel.swift
+//  MovieCellViewModel.swift
 //  MovieApp
 //
-//  Created by VladOS on 08.08.2025.
+//  Created by VladOS on 05.09.2025.
 //
 
 import UIKit
 
-struct MainDetailsCellViewModel: Hashable {
-    let id: Int//
-    let title: String//
+struct MovieCellViewModel: Hashable {
+    let id: Int
+    let title: String
     let originalTitle: String?
-    
-    let runtimeText: String//
-    let releaseDateText: String//
-    
-    let genresText: String//
+    let releaseDateText: String
+    let genresText: String
     let overview: String?
-    
-    let countryText: String
-    
     let ratingText: String
     let ratingValue: Double?
-    
-    let posterImage: UIImage?//
-    let posterURL: URL?//
+    let posterImage: UIImage?
+    let posterURL: URL?
     let backdropURL: URL?
     
-    init(movie: MovieDetails, genres: [Genres]) {
+    init(movie: Movie, genres: [Genres]) {
         self.id = movie.id
         self.title = movie.title
         self.originalTitle = movie.originalTitle
         self.overview = movie.overview
-        
-        // runtime
-        if let runtime = movie.runtime {
-            let hours = runtime / 60
-            let minutes = runtime % 60
-            self.runtimeText = "\(hours)h \(minutes)min"
-        } else {
-            self.runtimeText = ""
-        }
-        
+
         // releaseDate
         if let dateString = movie.releaseDate {
             let formatter = DateFormatter()
@@ -61,21 +45,6 @@ struct MainDetailsCellViewModel: Hashable {
             .filter { movie.genreIDs.contains($0.id) }
             .map { $0.name }
         self.genresText = genreNames.joined(separator: " / ")
-        
-        // country
-//        if let countries = movie.originCountry, !countries.isEmpty {
-//            self.countryText = countries.joined(separator: ", ")
-//        } else {
-//            self.countryText = ""
-//        }
-        
-        if let productionCountries = movie.productionCountries, !productionCountries.isEmpty {
-            // На случай, если name может быть nil
-            let names = productionCountries.compactMap { $0.name }
-            self.countryText = names.joined(separator: ", ")
-        } else {
-            self.countryText = ""
-        }
         
         // rating
         if let value = movie.voteAverage, value > 0 {

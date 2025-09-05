@@ -44,7 +44,7 @@ class Builder: BuilderProtocol {
     static func createMainScreenController() -> UIViewController {
         let mainView = MainScreenView()
         
-        let movieRepository: MovieDetailsRepositoryProtocol = MockMovieDetailsRepository.shared
+        let movieRepository: MovieRepositoryProtocol = MockMovieRepository.shared
         let genreRepository: GenreRepositoryProtocol = MockGenreRepository.shared
         
         let presenter = MainScreenPresenter(view: mainView, movieRepository: movieRepository, genreRepository: genreRepository)
@@ -71,7 +71,7 @@ class Builder: BuilderProtocol {
     
     static func createMovieListController(mode: MovieListMode) -> UIViewController {
         let listView = MovieListView()
-        let movieRepository: MovieDetailsRepositoryProtocol = MockMovieDetailsRepository.shared
+        let movieRepository: MovieRepositoryProtocol = MockMovieRepository.shared
         let genreRepository: GenreRepositoryProtocol = MockGenreRepository.shared
         let presenter = MovieListPresenter(view: listView, movieRepository: movieRepository, genreRepository: genreRepository, mode: mode)
     
