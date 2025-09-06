@@ -40,7 +40,7 @@ final class PosterCell: UICollectionViewCell {
     @objc private func didTapPlay() {
         delegate?.didTapPlayButton(in: self)
     }
-
+   
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(posterView)
@@ -61,7 +61,7 @@ final class PosterCell: UICollectionViewCell {
             playTrailerButton.centerYAnchor.constraint(equalTo: posterView.centerYAnchor),
             
             posterLabel.bottomAnchor.constraint(equalTo: posterView.bottomAnchor, constant: -20),
-            posterLabel.centerXAnchor.constraint(equalTo: posterView.centerXAnchor)            
+            posterLabel.centerXAnchor.constraint(equalTo: posterView.centerXAnchor),
         ])
     }
     

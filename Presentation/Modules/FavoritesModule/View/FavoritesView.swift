@@ -14,6 +14,7 @@ protocol FavoritesViewProtocol: AnyObject {
 class FavoritesView: UIViewController {
 
     var presenter: FavoritesPresenterProtocol!
+    private var movies: [MovieCellViewModel] = []
     
     private lazy var sectionLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -39,6 +40,23 @@ class FavoritesView: UIViewController {
         tabBarVC.setTabBarButtonsHidden(false)
         print("TabBar появился")
     }
+   
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 22
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+//        collectionView.alwaysBounceVertical = true
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(FavoritesCell.self, forCellWithReuseIdentifier: FavoritesCell.reuseId)
+        return collectionView
+    }()
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -49,6 +67,7 @@ class FavoritesView: UIViewController {
         super.viewDidLoad()
         view.addSubview(topBackButton)
         view.addSubview(sectionLabel)
+        view.addSubview(collectionView)
         setupConstraints()
     }
     
@@ -65,9 +84,40 @@ class FavoritesView: UIViewController {
             
             topBackButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
             topBackButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            
+            collectionView.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 20),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
+}
+
+extension FavoritesView: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        8
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoritesCell.reuseId, for: indexPath) as? FavoritesCell else {
+            return UICollectionViewCell()
+        }
+        
+        cell.backgroundColor = .appGray
+        return cell
+    }
+}
+
+extension FavoritesView: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let columns: CGFloat = 2
+        let spacing: CGFloat = 22
+        let totalSpacing = spacing * (columns - 1) + 40 // sectionInsets left+right = 20+20
+        let width = (collectionView.bounds.width - totalSpacing) / columns
+        return CGSize(width: floor(width), height: floor(width * 1.2))
+    }
 }
 
 extension FavoritesView: FavoritesViewProtocol {

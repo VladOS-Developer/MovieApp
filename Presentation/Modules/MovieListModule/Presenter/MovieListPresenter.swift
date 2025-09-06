@@ -8,7 +8,11 @@
 import UIKit
 
 protocol MovieListPresenterProtocol: AnyObject {
-    init(view: MovieListViewProtocol, movieRepository: MovieRepositoryProtocol, genreRepository: GenreRepositoryProtocol, mode: MovieListMode)
+    init(view: MovieListViewProtocol,
+         movieRepository: MovieRepositoryProtocol,
+         genreRepository: GenreRepositoryProtocol,
+         mode: MovieListMode)
+    
     func viewDidLoad()
     func didSelectItem(at index: Int)
 }
@@ -29,7 +33,11 @@ class MovieListPresenter: MovieListPresenterProtocol {
     private var movieViewModel: [MovieCellViewModel] = []
     private var allGenres: [Genres]
     
-    required init(view: MovieListViewProtocol, movieRepository: MovieRepositoryProtocol, genreRepository: GenreRepositoryProtocol, mode: MovieListMode) {
+    required init(view: MovieListViewProtocol,
+                  movieRepository: MovieRepositoryProtocol,
+                  genreRepository: GenreRepositoryProtocol,
+                  mode: MovieListMode) {
+        
         self.view = view
         self.movieRepository = movieRepository
         self.genreRepository = genreRepository

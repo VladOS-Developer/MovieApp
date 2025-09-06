@@ -1,15 +1,14 @@
 //
-//  MovieListCell.swift
+//  FavoritesCell.swift
 //  MovieApp
 //
-//  Created by VladOS on 17.08.2025.
+//  Created by VladOS on 05.09.2025.
 //
 
 import UIKit
 
-class MovieListCell: UICollectionViewCell {
-    
-    static let reuseId = "MovieListCell"
+class FavoritesCell: UICollectionViewCell {
+    static let reuseId = "FavoritesCell"
     
     private lazy var posterImage: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -46,8 +45,7 @@ class MovieListCell: UICollectionViewCell {
         ])
     }
     
-    func configureListCell(with movieVM: MovieCellViewModel ) {
-        posterImage.image = movieVM.posterImage
+    func configureFavoritesCell() {
     }
     
     required init?(coder: NSCoder) {
