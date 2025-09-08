@@ -20,6 +20,7 @@ protocol MoviePagePresenterProtocol: AnyObject {
     func getMoviesData()
     func didTapPlayTrailerButton()
     func didSelectTab(index: Int)
+    func toggleFavorite()
 }
 
 class MoviePagePresenter: MoviePagePresenterProtocol {
@@ -33,6 +34,8 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     private var movieId: Int
     
     private var sections: [PageCollectionSection] = []
+    private let favoritesStorage = FavoritesStorage()
+    private var currentMovie: MovieDetails?
     
     required init(view: MoviePageViewProtocol,
                   router: MoviePageRouterProtocol,
@@ -53,9 +56,10 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     
     func getMoviesData() {
         let genres = genreRepository.fetchGenres()
-        
         let allMovieDetails = movieDetailsRepository.fetchTopMovieDetails() + movieDetailsRepository.fetchUpcomingMovieDetails()
+        
         guard let movieDetails = allMovieDetails.first(where: { $0.id == movieId }) else { return }
+        currentMovie = movieDetails
         
         let detailsVM = DetailsCellViewModel(movieDetails: movieDetails, genres: genres)
         let detailItems = PageCollectionItem.movieDet(detailsVM)
@@ -77,12 +81,34 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         
         self.sections = sections
         view?.showMovie(sections: sections)
+        
+        //при загрузке проверка статуса и обновление кнопки
+        let isFavorite = favoritesStorage.isFavorite(id: Int64(movieId))
+        view?.updateFavoriteState(isFavorite: isFavorite)
+    }
+    
+    func toggleFavorite() {
+        guard let movie = currentMovie else { return }
+        let id = Int64(movie.id)
+        
+        if favoritesStorage.isFavorite(id: id) {
+            favoritesStorage.removeFavorite(id: id)
+            view?.updateFavoriteState(isFavorite: false)
+        } else {
+            favoritesStorage.addFavorite(
+                id: id,
+                title: movie.title,
+                posterPath: movie.posterPath ?? "",
+                rating: movie.voteAverage ?? 0
+            )
+            view?.updateFavoriteState(isFavorite: true)
+        }
     }
     
     func didTapPlayTrailerButton() {
         router.showTrailerPlayer()
     }
-        
+    
     func didSelectTab(index: Int) {
         var newItems: [PageCollectionItem] = []
         
@@ -107,5 +133,5 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
             view?.showMovie(sections: sections)
         }
     }
- 
+    
 }

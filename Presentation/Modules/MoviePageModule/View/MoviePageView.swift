@@ -9,6 +9,7 @@ import UIKit
 
 protocol MoviePageViewProtocol: AnyObject {
     func showMovie(sections: [PageCollectionSection])
+    func updateFavoriteState(isFavorite: Bool)
 }
 
 class MoviePageView: UIViewController {
@@ -16,7 +17,6 @@ class MoviePageView: UIViewController {
     var presenter: MoviePagePresenterProtocol!
     private var sections: [PageCollectionSection] = []
     private var isOverviewExpanded = false
-//    private var diffableDataSource: UICollectionViewDiffableDataSource<MoviePageSectionType, PageCollectionItem>!
 
     lazy var collectionView: UICollectionView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +65,6 @@ class MoviePageView: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-//                navigationController?.isNavigationBarHidden = true // решить вопрос навигации
         view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
     }
     
@@ -80,7 +79,6 @@ class MoviePageView: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-//        configureDataSource()
         presenter.getMoviesData()
     }
     
@@ -89,58 +87,7 @@ class MoviePageView: UIViewController {
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(true)
         print("TabBar скрылся")
     }
-    
-//    private func configureDataSource() {
-//        diffableDataSource = UICollectionViewDiffableDataSource<MoviePageSectionType, PageCollectionItem>(
-//            collectionView: collectionView
-//        ) { [weak self] collectionView, indexPath, item in
-//            guard let self = self else { return UICollectionViewCell() }
-//            let sectionType = self.sections[indexPath.section].type
-//            
-//            switch sectionType {
-//            case .posterMovie:
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCell.reuseId, for: indexPath) as! PosterCell
-//                if case .movieDet(let vm) = item { cell.configurePosterCell(with: vm) }
-//                cell.delegate = self
-//                return cell
-//                
-//            case .stackButtons:
-//                return collectionView.dequeueReusableCell(withReuseIdentifier: StackButtonsCell.reuseId, for: indexPath) as! StackButtonsCell
-//                
-//            case .specificationMovie:
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SpecificationCell.reuseId, for: indexPath) as! SpecificationCell
-//                if case .movieDet(let vm) = item { cell.configureSpecificationCell(with: vm) }
-//                return cell
-//                
-//            case .overviewMovie:
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OverviewCell.reuseId, for: indexPath) as! OverviewCell
-//                if case .movieDet(let vm) = item {
-//                    cell.configureOverviewCell(with: vm.overview ?? "", expanded: self.isOverviewExpanded)
-//                }
-//                cell.delegate = self
-//                return cell
-//                
-//            case .videoMovie:
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieVideoCell.reuseId, for: indexPath) as! MovieVideoCell
-//                if case .video(let vm) = item { cell.configureMovieVideoCell(with: vm) }
-//                cell.delegate = self
-//                return cell
-//                
-//            case .segmentedTabs:
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SegmentedTabsCell.reuseId, for: indexPath) as! SegmentedTabsCell
-//                cell.onTabSelected = { [weak self] idx in
-//                    self?.presenter.didSelectTab(index: idx)
-//                }
-//                return cell
-//                
-//            case .dynamicContent:
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SimilarMovieCell.reuseId, for: indexPath) as! SimilarMovieCell
-//                if case .similarMovie(let vm) = item { cell.configureSimilarMovieCell(with: vm) }
-//                return cell
-//            }
-//        }
-//    }
-    
+
 }
 
 extension MoviePageView: UICollectionViewDataSource {
@@ -163,7 +110,7 @@ extension MoviePageView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = sections[indexPath.section]
-        //        let item = section.items[indexPath.item] // тут передача пустого массива для stackButtons (краш) секция думает что у неё 1 айтем → коллекция спрашивает items[0] → а массив пустой → краш.
+        // let item = section.items[indexPath.item] // тут передача пустого массива для stackButtons (краш) секция думает что у неё 1 айтем → коллекция спрашивает items[0] → а массив пустой → краш.
         
         switch section.type {
             
@@ -255,7 +202,6 @@ extension MoviePageView: UICollectionViewDataSource {
             
             if case .similarMovie(let similarVM) = item {
                 cell.configureSimilarMovieCell(with: similarVM)
-//                cell.delegate = self
             }
             return cell
         }
@@ -265,23 +211,21 @@ extension MoviePageView: UICollectionViewDataSource {
 // решить
 extension MoviePageView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let item = sections[indexPath.section].items[indexPath.item]
-//        if case .similarMovie(let vm) = item {
-//            presenter.didSelectSimilarMovie(movieId: vm.id) // ✅ дергаем презентер
-        }
     }
-
+}
 
 extension MoviePageView: MoviePageViewProtocol {
     func showMovie(sections: [PageCollectionSection]) {
         self.sections = sections
         collectionView.reloadData()
-        //        var snapshot = NSDiffableDataSourceSnapshot<MoviePageSectionType, PageCollectionItem>()
-        //        for section in sections {
-        //            snapshot.appendSections([section.type])
-        //            snapshot.appendItems(section.items, toSection: section.type)
-        //        }
-        //        diffableDataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func updateFavoriteState(isFavorite: Bool) {
+        let systemName = isFavorite ? "heart.fill" : "heart"
+        navigationItem.rightBarButtonItem?.image = UIImage(
+            systemName: systemName,
+            withConfiguration: UIImage.SymbolConfiguration(weight: .bold)
+        )
     }
 }
 
@@ -296,13 +240,6 @@ extension MoviePageView: MovieVideoCellDelegate {
         presenter.didTapPlayTrailerButton()
     }
 }
-
-//extension MoviePageView: SimilarMovieCellDelegate {
-//    func didSelectSimilarMovie(_ movieId: Int) {
-//        presenter.didSelectSimilarMovie(movieId: movieId)
-//        print("presenter")
-//    }
-//}
 
 extension MoviePageView: OverviewCellDelegate {
     func overviewCellDidToggle(_ cell: OverviewCell) {
@@ -332,12 +269,22 @@ extension MoviePageView {
             target: self,
             action: #selector(didTapBack))
         navigationItem.leftBarButtonItem?.tintColor = .appWhite
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(weight: .bold)),
+            style: .plain,
+            target: self,
+            action: #selector(didTapHeart))
+        navigationItem.rightBarButtonItem?.tintColor = .systemRed
     }
     
     @objc private func didTapBack() {
         navigationController?.popViewController(animated: true)
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
-        print("TabBar появился")
+    }
+    
+    @objc private func didTapHeart() {
+        presenter.toggleFavorite()
     }
 
 }

@@ -13,6 +13,7 @@ protocol FavoritesPresenterProtocol: AnyObject {
     func loadFavorites()
     func numberOfItems() -> Int
     func favorite(at index: Int) -> FavoriteMovie
+    func removeFavorite(id: Int64)
 }
 
 final class FavoritesPresenter {
@@ -23,6 +24,10 @@ final class FavoritesPresenter {
     required init(view: FavoritesViewProtocol) {
         self.view = view
     }
+    
+}
+
+extension FavoritesPresenter: FavoritesPresenterProtocol {
     
     func loadFavorites() {
         favorites = storage.fetchFavorites()
@@ -36,8 +41,9 @@ final class FavoritesPresenter {
     func favorite(at index: Int) -> FavoriteMovie {
         favorites[index]
     }
-}
-
-extension FavoritesPresenter: FavoritesPresenterProtocol {
     
+    func removeFavorite(id: Int64) {
+        storage.removeFavorite(id: id)
+        loadFavorites()
+    }
 }

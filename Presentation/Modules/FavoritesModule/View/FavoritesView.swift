@@ -107,7 +107,18 @@ extension FavoritesView: UICollectionViewDataSource {
         
         let favorite = presenter.favorite(at: indexPath.item)
         cell.configureFavoritesCell(with: favorite)
+        
+        cell.onFavoriteTapped = { [weak self] id in
+            self?.presenter.removeFavorite(id: id)
+        }
+        
         return cell
+    }
+}
+
+extension FavoritesView: FavoritesViewProtocol {
+    func reloadFavorites() {
+        collectionView.reloadData()
     }
 }
 
@@ -121,8 +132,4 @@ extension FavoritesView: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension FavoritesView: FavoritesViewProtocol {
-    func reloadFavorites() {
-        collectionView.reloadData()
-    }
-}
+
