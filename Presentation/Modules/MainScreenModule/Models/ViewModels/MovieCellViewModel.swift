@@ -19,12 +19,14 @@ struct MovieCellViewModel: Hashable {
     let posterImage: UIImage?
     let posterURL: URL?
     let backdropURL: URL?
+    let isFavorite: Bool
     
-    init(movie: Movie, genres: [Genres]) {
+    init(movie: Movie, genres: [Genres], isFavorite: Bool = false) {
         self.id = movie.id
         self.title = movie.title
         self.originalTitle = movie.originalTitle
         self.overview = movie.overview
+        self.isFavorite = isFavorite
 
         // releaseDate
         if let dateString = movie.releaseDate {

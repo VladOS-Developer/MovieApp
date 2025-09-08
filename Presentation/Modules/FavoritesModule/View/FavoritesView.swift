@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FavoritesViewProtocol: AnyObject {
-
+    func reloadFavorites()
 }
 
 class FavoritesView: UIViewController {
@@ -74,7 +74,7 @@ class FavoritesView: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(true)
-        print("TabBar скрылся")
+        presenter.loadFavorites()
     }
     
     private func setupConstraints() {
@@ -97,7 +97,7 @@ class FavoritesView: UIViewController {
 extension FavoritesView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        8
+        presenter.numberOfItems()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -105,7 +105,8 @@ extension FavoritesView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.backgroundColor = .appGray
+        let favorite = presenter.favorite(at: indexPath.item)
+        cell.configureFavoritesCell(with: favorite)
         return cell
     }
 }
@@ -121,5 +122,7 @@ extension FavoritesView: UICollectionViewDelegateFlowLayout {
 }
 
 extension FavoritesView: FavoritesViewProtocol {
-  
+    func reloadFavorites() {
+        collectionView.reloadData()
+    }
 }

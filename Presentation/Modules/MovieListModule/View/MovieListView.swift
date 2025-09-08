@@ -19,9 +19,6 @@ class MovieListView: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        //        let itemSize = ((view.bounds.width - 40) / 2) - 12
-        //        layout.itemSize = CGSize(width: itemSize, height: 200)
-        
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 22
         layout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
@@ -53,7 +50,7 @@ class MovieListView: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(true)
-        print("TabBar скрылся")
+        (presenter as? MovieListPresenter)?.viewWillAppear()
     }
     
     private func setupConstraints() {
@@ -64,8 +61,6 @@ class MovieListView: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
-    
-    
     
 }
 
@@ -81,17 +76,13 @@ extension MovieListView: UICollectionViewDataSource {
         }
         let movieVM = movies[indexPath.item]
         cell.configureListCell(with: movieVM)
+        
+        // проброс в презентер
+        cell.onFavoriteTapped = { [weak self] id in
+            (self?.presenter as? MovieListPresenter)?.toggleFavorite(for: id)
+        }
+        
         return cell
-    }
-}
-
-extension MovieListView: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let columns: CGFloat = 2
-        let spacing: CGFloat = 22
-        let totalSpacing = spacing * (columns - 1) + 40 // sectionInsets left+right = 20+20
-        let width = (collectionView.bounds.width - totalSpacing) / columns
-        return CGSize(width: floor(width), height: floor(width * 1.2))
     }
 }
 
@@ -110,6 +101,16 @@ extension MovieListView: MovieListViewProtocol {
     func updateMovies(_ movies: [MovieCellViewModel]) {
         self.movies = movies
         collectionView.reloadData()
+    }
+}
+
+extension MovieListView: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let columns: CGFloat = 2
+        let spacing: CGFloat = 22
+        let totalSpacing = spacing * (columns - 1) + 40 // sectionInsets left+right = 20+20
+        let width = (collectionView.bounds.width - totalSpacing) / columns
+        return CGSize(width: floor(width), height: floor(width * 1.2))
     }
 }
 

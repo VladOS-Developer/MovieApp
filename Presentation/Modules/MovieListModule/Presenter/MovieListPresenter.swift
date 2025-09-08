@@ -16,10 +16,6 @@ protocol MovieListPresenterProtocol: AnyObject {
     func viewDidLoad()
     func didSelectItem(at index: Int)
 }
-// optional helpers (необязательно для текущей реализации)
-//        func numberOfItems() -> Int
-//        func item(at index: Int) -> MovieCellViewModel
-//        func didSelectItem(at index: Int)
 
 class MovieListPresenter: MovieListPresenterProtocol {
     
@@ -28,10 +24,11 @@ class MovieListPresenter: MovieListPresenterProtocol {
     private let genreRepository: GenreRepositoryProtocol
     
     private let mode: MovieListMode
-    
     private var movies: [Movie] = []
     private var movieViewModel: [MovieCellViewModel] = []
     private var allGenres: [Genres]
+    
+    private let favoritesStorage = FavoritesStorage()//
     
     required init(view: MovieListViewProtocol,
                   movieRepository: MovieRepositoryProtocol,
@@ -62,16 +59,48 @@ class MovieListPresenter: MovieListPresenterProtocol {
         view?.updateMovies(movieViewModel)
     }
     
+    func viewWillAppear() {
+        // пересобираем список с актуальными состояниями
+        movieViewModel = movies.map {
+            MovieCellViewModel(
+                movie: $0,
+                genres: allGenres,
+                isFavorite: favoritesStorage.isFavorite(id: Int64($0.id))
+            )
+        }
+        view?.updateMovies(movieViewModel)
+    }
+    
     func didSelectItem(at index: Int) {
         let movie = movies[index]
         let moviePageVC = Builder.createMoviePageController(movieId: movie.id)
         (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
     }
     
+    func toggleFavorite(for movieId: Int) {
+        guard let movie = movies.first(where: { $0.id == movieId }) else { return }
+        
+        if favoritesStorage.isFavorite(id: Int64(movieId)) {
+            favoritesStorage.removeFavorite(id: Int64(movieId))
+        } else {
+            favoritesStorage.addFavorite(
+                id: Int64(movie.id),
+                title: movie.title,
+                posterPath: movie.posterPath ?? "",
+                rating: movie.voteAverage ?? 0
+            )
+        }
+        
+        // пересобираем вьюмодели и обновляем экран
+        movieViewModel = movies.map {
+            MovieCellViewModel(
+                movie: $0,
+                genres: allGenres,
+                isFavorite: favoritesStorage.isFavorite(id: Int64($0.id))
+            )
+        }
+        view?.updateMovies(movieViewModel)
+    }
+    
 }
-// helpers (на будущее)
-//        func numberOfItems() -> Int { vms.count }
-//        func item(at index: Int) -> MovieCellViewModel { vms[index] }
-//        func didSelectItem(at index: Int) {
-//            // тут позже будет переход на детали
-//        }
+

@@ -8,9 +8,11 @@
 import UIKit
 
 class MovieListCell: UICollectionViewCell {
-    
     static let reuseId = "MovieListCell"
     
+    private var movieId: Int = 0
+    var onFavoriteTapped: ((Int) -> Void)?
+ 
     private lazy var posterImage: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentMode = .scaleAspectFill
@@ -23,9 +25,13 @@ class MovieListCell: UICollectionViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.heightAnchor.constraint(equalToConstant: 25).isActive = true
         $0.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        $0.setBackgroundImage(.appHeart, for: .normal)
+        $0.addTarget(self, action: #selector(favoriteTapped), for: .touchUpInside)
         return $0
-    }(UIButton(primaryAction: nil))
+    }(UIButton(type: .system))
+    
+    @objc private func favoriteTapped() {
+        onFavoriteTapped?(movieId)
+    }
     
     override init(frame: CGRect) {
         super .init(frame: frame)
@@ -48,6 +54,13 @@ class MovieListCell: UICollectionViewCell {
     
     func configureListCell(with movieVM: MovieCellViewModel ) {
         posterImage.image = movieVM.posterImage
+        
+        movieId = movieVM.id
+        
+        let imageName = movieVM.isFavorite ? "heart.fill" : "heart"
+        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
+        favoriteButton.tintColor = .systemRed
+        
     }
     
     required init?(coder: NSCoder) {

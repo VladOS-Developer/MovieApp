@@ -45,7 +45,10 @@ class FavoritesCell: UICollectionViewCell {
         ])
     }
     
-    func configureFavoritesCell() {
+    func configureFavoritesCell(with favorite: FavoriteMovie) {
+        if let posterName = favorite.posterPath {
+            posterImage.image = UIImage(named: posterName) // локальные ассеты
+        }
     }
     
     required init?(coder: NSCoder) {
