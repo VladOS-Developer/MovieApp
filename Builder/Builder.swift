@@ -27,7 +27,9 @@ class Builder: BuilderProtocol {
         let view = PasscodeView()
         let keychain = KeychainManager()
         let service = PasscodeService(keychainManager: keychain)
-        let presenter = PasscodePresenter(view: view, service: service, sceneDelegate: sceneDelegate)
+        let presenter = PasscodePresenter(view: view,
+                                          service: service,
+                                          sceneDelegate: sceneDelegate)
         
         view.passcodePresenter = presenter
         return view
@@ -43,13 +45,17 @@ class Builder: BuilderProtocol {
     
     static func createMainScreenController() -> UIViewController {
         let mainView = MainScreenView()
-        
+        let router = MainScreenRouter()
         let movieRepository: MovieRepositoryProtocol = MockMovieRepository.shared
         let genreRepository: GenreRepositoryProtocol = MockGenreRepository.shared
         
-        let presenter = MainScreenPresenter(view: mainView, movieRepository: movieRepository, genreRepository: genreRepository)
+        let presenter = MainScreenPresenter(view: mainView,
+                                            router: router,
+                                            movieRepository: movieRepository,
+                                            genreRepository: genreRepository)
         
         mainView.presenter = presenter
+        router.viewController = mainView
         return UINavigationController(rootViewController: mainView)
     }
         
@@ -73,7 +79,11 @@ class Builder: BuilderProtocol {
         let listView = MovieListView()
         let movieRepository: MovieRepositoryProtocol = MockMovieRepository.shared
         let genreRepository: GenreRepositoryProtocol = MockGenreRepository.shared
-        let presenter = MovieListPresenter(view: listView, movieRepository: movieRepository, genreRepository: genreRepository, mode: mode)
+        
+        let presenter = MovieListPresenter(view: listView,
+                                           movieRepository: movieRepository,
+                                           genreRepository: genreRepository,
+                                           mode: mode)
     
         listView.presenter = presenter
         return listView

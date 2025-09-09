@@ -9,8 +9,6 @@ import UIKit
 
 protocol MainScreenViewProtocol: AnyObject {
     func showMovies(sections: [MainCollectionSection])
-    func navigateToMovieList(mode: MovieListMode)
-    func navigateToMoviePage(movieId: Int)
 }
 
 class MainScreenView: UIViewController {
@@ -142,24 +140,6 @@ extension MainScreenView: UICollectionViewDataSource {
     
 }
 
-extension MainScreenView: MainScreenViewProtocol {
-    
-    func navigateToMoviePage(movieId: Int) {
-        let moviePageVC = Builder.createMoviePageController(movieId: movieId)
-        navigationController?.pushViewController(moviePageVC, animated: true)
-    }
-    
-    func navigateToMovieList(mode: MovieListMode) {
-        let movieListVC = Builder.createMovieListController(mode: mode)
-        navigationController?.pushViewController(movieListVC, animated: true)
-    }
-    
-    func showMovies(sections: [MainCollectionSection]) {
-        self.sections = sections
-        collectionView.reloadData()
-    }
-}
-
 extension MainScreenView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -186,6 +166,13 @@ extension MainScreenView: MainSectionHeaderViewDelegate {
 extension MainScreenView: GenreMovieCellDelegate {
     func didTapGenre(id: Int, title: String) {
         presenter.didSelectGenre(id: id, title: title)
+    }
+}
+
+extension MainScreenView: MainScreenViewProtocol {
+    func showMovies(sections: [MainCollectionSection]) {
+        self.sections = sections
+        collectionView.reloadData()
     }
 }
 

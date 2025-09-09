@@ -32,11 +32,12 @@ class MovieListCell: UICollectionViewCell {
     @objc private func favoriteTapped() {
         onFavoriteTapped?(movieId)
     }
-    
+ 
     override init(frame: CGRect) {
         super .init(frame: frame)
         contentView.addSubview(posterImage)
         contentView.addSubview(favoriteButton)
+       
         setupConstraints()
     }
     
@@ -48,7 +49,7 @@ class MovieListCell: UICollectionViewCell {
             posterImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             favoriteButton.topAnchor.constraint(equalTo: posterImage.topAnchor, constant: 20),
-            favoriteButton.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: -20),
+            favoriteButton.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: -20)
         ])
     }
     

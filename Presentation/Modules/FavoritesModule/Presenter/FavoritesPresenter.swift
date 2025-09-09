@@ -13,7 +13,7 @@ protocol FavoritesPresenterProtocol: AnyObject {
     func loadFavorites()
     func numberOfItems() -> Int
     func favorite(at index: Int) -> FavoriteMovie
-    func removeFavorite(id: Int64)
+    func removeFavorite(id: Int32)
 }
 
 final class FavoritesPresenter {
@@ -42,7 +42,7 @@ extension FavoritesPresenter: FavoritesPresenterProtocol {
         favorites[index]
     }
     
-    func removeFavorite(id: Int64) {
+    func removeFavorite(id: Int32) {
         storage.removeFavorite(id: id)
         loadFavorites()
     }

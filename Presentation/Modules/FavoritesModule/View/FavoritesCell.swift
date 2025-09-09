@@ -10,8 +10,8 @@ import UIKit
 class FavoritesCell: UICollectionViewCell {
     static let reuseId = "FavoritesCell"
     
-    private var movieId: Int64 = 0
-    var onFavoriteTapped: ((Int64) -> Void)?
+    private var movieId: Int32 = 0
+    var onFavoriteTapped: ((Int32) -> Void)?
     
     private lazy var posterImage: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false

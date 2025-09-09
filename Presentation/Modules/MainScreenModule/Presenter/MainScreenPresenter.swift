@@ -14,6 +14,7 @@ protocol MainScreenPresenterProtocol: AnyObject {
     func didSelectMovie(with id: Int)
     
     init(view: MainScreenViewProtocol,
+         router: MainScreenRouterProtocol,
          movieRepository: MovieRepositoryProtocol,
          genreRepository: GenreRepositoryProtocol)
 }
@@ -21,16 +22,19 @@ protocol MainScreenPresenterProtocol: AnyObject {
 class MainScreenPresenter {
     
     private weak var view: MainScreenViewProtocol?
+    private let router: MainScreenRouterProtocol
     private let movieRepository: MovieRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
     
     private var sections: [MainCollectionSection] = []
     
     required init(view: MainScreenViewProtocol,
+                  router: MainScreenRouterProtocol,
                   movieRepository: MovieRepositoryProtocol,
                   genreRepository: GenreRepositoryProtocol) {
         
         self.view = view
+        self.router = router
         self.movieRepository = movieRepository
         self.genreRepository = genreRepository
     }
@@ -68,18 +72,18 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
     func didTapSeeAll(in section: Int) {
         guard section < sections.count else { return }
         switch sections[section].type {
-        case .topMovie:      view?.navigateToMovieList(mode: .top10)
-        case .upcomingMovie: view?.navigateToMovieList(mode: .upcoming)
+        case .topMovie:      router.showMovieList(mode: .top10)
+        case .upcomingMovie: router.showMovieList(mode: .upcoming)
         default: break
         }
     }
     
     func didSelectGenre(id: Int, title: String) {
-        view?.navigateToMovieList(mode: .genre(id: id, title: title))
+        router.showMovieList(mode: .genre(id: id, title: title))
     }
     
     func didSelectMovie(with id: Int) {
-        view?.navigateToMoviePage(movieId: id)
+        router.showMoviePage(movieId: id)
     }
     
 }

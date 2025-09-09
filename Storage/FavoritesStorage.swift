@@ -9,9 +9,9 @@ import CoreData
 
 protocol FavoritesStorageProtocol {
     func fetchFavorites() -> [FavoriteMovie]
-    func addFavorite(id: Int64, title: String, posterPath: String, rating: Double)
-    func removeFavorite(id: Int64)
-    func isFavorite(id: Int64) -> Bool
+    func addFavorite(id: Int32, title: String, posterPath: String, rating: Double)
+    func removeFavorite(id: Int32)
+    func isFavorite(id: Int32) -> Bool
 }
 
 final class FavoritesStorage: FavoritesStorageProtocol {
@@ -29,7 +29,7 @@ final class FavoritesStorage: FavoritesStorageProtocol {
         }
     }
 
-    func addFavorite(id: Int64, title: String, posterPath: String, rating: Double) {
+    func addFavorite(id: Int32, title: String, posterPath: String, rating: Double) {
         let favorite = FavoriteMovie(context: context)
         favorite.id = id
         favorite.title = title
@@ -38,7 +38,7 @@ final class FavoritesStorage: FavoritesStorageProtocol {
         save()
     }
 
-    func removeFavorite(id: Int64) {
+    func removeFavorite(id: Int32) {
         let request: NSFetchRequest<FavoriteMovie> = FavoriteMovie.fetchRequest()
         request.predicate = NSPredicate(format: "id == %d", id)
         do {
@@ -50,7 +50,7 @@ final class FavoritesStorage: FavoritesStorageProtocol {
         }
     }
 
-    func isFavorite(id: Int64) -> Bool {
+    func isFavorite(id: Int32) -> Bool {
         let request: NSFetchRequest<FavoriteMovie> = FavoriteMovie.fetchRequest()
         request.predicate = NSPredicate(format: "id == %d", id)
         do {

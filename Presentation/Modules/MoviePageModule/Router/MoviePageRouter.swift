@@ -16,7 +16,6 @@ final class MoviePageRouter: MoviePageRouterProtocol {
 
     func showTrailerPlayer() {
         let trailerPlayerVC = Builder.createTrailerPlayerController()
-//        viewController?.present(trailerPlayerVC, animated: true)
         
         if let navigationVC = viewController?.navigationController {
             navigationVC.pushViewController(trailerPlayerVC, animated: true)

@@ -11,10 +11,12 @@ protocol MoviePagePresenterProtocol: AnyObject {
     
     init(view: MoviePageViewProtocol,
          router: MoviePageRouterProtocol,
+         
          movieDetailsRepository: MovieDetailsRepositoryProtocol,
          genreRepository: GenreRepositoryProtocol,
          movieVideoRepository: MovieVideoRepositoryProtocol,
          movieSimilarRepository: MovieSimilarRepositoryProtocol,
+         
          movieId: Int)
     
     func getMoviesData()
@@ -83,13 +85,13 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         view?.showMovie(sections: sections)
         
         //при загрузке проверка статуса и обновление кнопки
-        let isFavorite = favoritesStorage.isFavorite(id: Int64(movieId))
+        let isFavorite = favoritesStorage.isFavorite(id: Int32(movieId))
         view?.updateFavoriteState(isFavorite: isFavorite)
     }
     
     func toggleFavorite() {
         guard let movie = currentMovie else { return }
-        let id = Int64(movie.id)
+        let id = Int32(movie.id)
         
         if favoritesStorage.isFavorite(id: id) {
             favoritesStorage.removeFavorite(id: id)

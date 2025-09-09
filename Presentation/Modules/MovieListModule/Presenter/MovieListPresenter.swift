@@ -65,7 +65,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
             MovieCellViewModel(
                 movie: $0,
                 genres: allGenres,
-                isFavorite: favoritesStorage.isFavorite(id: Int64($0.id))
+                isFavorite: favoritesStorage.isFavorite(id: Int32($0.id))
             )
         }
         view?.updateMovies(movieViewModel)
@@ -80,11 +80,11 @@ class MovieListPresenter: MovieListPresenterProtocol {
     func toggleFavorite(for movieId: Int) {
         guard let movie = movies.first(where: { $0.id == movieId }) else { return }
         
-        if favoritesStorage.isFavorite(id: Int64(movieId)) {
-            favoritesStorage.removeFavorite(id: Int64(movieId))
+        if favoritesStorage.isFavorite(id: Int32(movieId)) {
+            favoritesStorage.removeFavorite(id: Int32(movieId))
         } else {
             favoritesStorage.addFavorite(
-                id: Int64(movie.id),
+                id: Int32(movie.id),
                 title: movie.title,
                 posterPath: movie.posterPath ?? "",
                 rating: movie.voteAverage ?? 0
@@ -96,7 +96,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
             MovieCellViewModel(
                 movie: $0,
                 genres: allGenres,
-                isFavorite: favoritesStorage.isFavorite(id: Int64($0.id))
+                isFavorite: favoritesStorage.isFavorite(id: Int32($0.id))
             )
         }
         view?.updateMovies(movieViewModel)

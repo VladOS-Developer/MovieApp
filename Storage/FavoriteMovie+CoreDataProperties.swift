@@ -2,12 +2,13 @@
 //  FavoriteMovie+CoreDataProperties.swift
 //  MovieApp
 //
-//  Created by VladOS on 06.09.2025.
+//  Created by VladOS on 08.09.2025.
 //
 //
 
 import Foundation
 import CoreData
+
 
 extension FavoriteMovie {
 
@@ -15,7 +16,7 @@ extension FavoriteMovie {
         return NSFetchRequest<FavoriteMovie>(entityName: "FavoriteMovie")
     }
 
-    @NSManaged public var id: Int64
+    @NSManaged public var id: Int32
     @NSManaged public var title: String?
     @NSManaged public var posterPath: String?
     @NSManaged public var rating: Double
