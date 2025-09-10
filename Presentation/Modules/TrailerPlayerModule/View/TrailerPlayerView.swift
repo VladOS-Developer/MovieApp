@@ -6,14 +6,17 @@
 //
 
 import UIKit
+import YouTubeiOSPlayerHelper
 
 protocol TrailerPlayerViewProtocol: AnyObject {
-    
+    func loadVideo(with key: String)
 }
 
 class TrailerPlayerView: UIViewController {
-    
+        
     var presenter: TrailerPlayerPresenterProtocol!
+    
+    private let playerView = YTPlayerView()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -22,14 +25,31 @@ class TrailerPlayerView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Player"
+        setupPlayerView()
+        presenter.viewDidLoad()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    private func setupPlayerView() {
+        view.addSubview(playerView)
+        title = "Player"
         
+        playerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            playerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            playerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            playerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            playerView.heightAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: 9.0/16.0) // 16:9
+        ])
     }
+    
 }
 
 extension TrailerPlayerView: TrailerPlayerViewProtocol {
+    
+    func loadVideo(with key: String) {
+        playerView.load(withVideoId: key, playerVars: ["playsinline": 1, "autoplay": 1])
+    }
+    
     
 }

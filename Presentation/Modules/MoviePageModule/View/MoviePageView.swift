@@ -230,14 +230,19 @@ extension MoviePageView: MoviePageViewProtocol {
 }
 
 extension MoviePageView: PosterCellDelegate {
+    
     func didTapPlayButton(in cell: PosterCell) {
-        presenter.didTapPlayTrailerButton()
+        presenter.playMainTrailer()
     }
 }
 
 extension MoviePageView: MovieVideoCellDelegate {
+    
     func didTapPlayButton(in cell: MovieVideoCell) {
-        presenter.didTapPlayTrailerButton()
+        guard let indexPath = collectionView.indexPath(for: cell),
+              case .video(let vm) = sections[indexPath.section].items[indexPath.item] else { return }
+        
+        presenter.didTapPlayTrailerButton(videoVM: vm)
     }
 }
 
@@ -268,14 +273,14 @@ extension MoviePageView {
             style: .plain,
             target: self,
             action: #selector(didTapBack))
-        navigationItem.leftBarButtonItem?.tintColor = .appWhite
+        navigationItem.leftBarButtonItem?.tintColor = .systemPurple
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(weight: .bold)),
             style: .plain,
             target: self,
             action: #selector(didTapHeart))
-        navigationItem.rightBarButtonItem?.tintColor = .systemRed
+        navigationItem.rightBarButtonItem?.tintColor = .systemPurple
     }
     
     @objc private func didTapBack() {

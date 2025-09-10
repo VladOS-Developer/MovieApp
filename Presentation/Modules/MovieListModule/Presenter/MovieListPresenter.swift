@@ -87,7 +87,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
                 id: Int32(movie.id),
                 title: movie.title,
                 posterPath: movie.posterPath ?? "",
-                rating: movie.voteAverage ?? 0
+                voteAverage: movie.voteAverage ?? 0
             )
         }
         

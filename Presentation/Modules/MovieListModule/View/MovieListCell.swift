@@ -32,11 +32,32 @@ class MovieListCell: UICollectionViewCell {
     @objc private func favoriteTapped() {
         onFavoriteTapped?(movieId)
     }
- 
+    
+    private func makeView(with label: UILabel) -> UIView {
+        let container = UIView()
+        container.backgroundColor = .white.withAlphaComponent(0.2)
+        container.layer.cornerRadius = 5
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: container.topAnchor, constant: 4),
+            label.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -4),
+            label.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 8),
+            label.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -8)
+        ])
+        
+        return container
+    }
+    private lazy var voteAverageLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 14, weight: .bold), color: .systemPurple)
+    private lazy var voteAverageForView: UIView = makeView(with: voteAverageLabel)
+    
     override init(frame: CGRect) {
         super .init(frame: frame)
         contentView.addSubview(posterImage)
         contentView.addSubview(favoriteButton)
+        contentView.addSubview(voteAverageLabel)
+        contentView.addSubview(voteAverageForView)
        
         setupConstraints()
     }
@@ -49,18 +70,21 @@ class MovieListCell: UICollectionViewCell {
             posterImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             favoriteButton.topAnchor.constraint(equalTo: posterImage.topAnchor, constant: 20),
-            favoriteButton.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: -20)
+            favoriteButton.leadingAnchor.constraint(equalTo: posterImage.leadingAnchor, constant: 20),
+            
+            voteAverageForView.bottomAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: -20),
+            voteAverageForView.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: -20)
         ])
     }
     
     func configureListCell(with movieVM: MovieCellViewModel ) {
         posterImage.image = movieVM.posterImage
-        
+        voteAverageLabel.text = movieVM.ratingText
         movieId = movieVM.id
         
-        let imageName = movieVM.isFavorite ? "heart.fill" : "heart"
-        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
-        favoriteButton.tintColor = .systemRed
+        let posterName = movieVM.isFavorite ? "heart.fill" : "heart"
+        favoriteButton.setImage(UIImage(systemName: posterName), for: .normal)
+        favoriteButton.tintColor = .systemPurple
         
     }
     

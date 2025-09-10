@@ -15,7 +15,7 @@ final class PosterCell: UICollectionViewCell {
     static let reuseId = "PosterCell"
     
     weak var delegate: PosterCellDelegate?
-    
+
     private lazy var posterView: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentMode = .scaleAspectFill
@@ -28,11 +28,13 @@ final class PosterCell: UICollectionViewCell {
     
     private lazy var playTrailerButton: UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        $0.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        $0.setBackgroundImage(.playBtn, for: .normal)
-        $0.backgroundColor = .appBlue.withAlphaComponent(0.2)
-        $0.layer.cornerRadius = 20
+        $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        $0.widthAnchor.constraint(equalToConstant: 50).isActive = true
+//        $0.setBackgroundImage(.playBtn, for: .normal)
+        $0.setBackgroundImage(UIImage(systemName: "play.circle"), for: .normal)
+        $0.tintColor = .systemPurple
+//        $0.backgroundColor = .systemPurple.withAlphaComponent(0.3)
+        $0.layer.cornerRadius = 25
         $0.addTarget(self, action: #selector(didTapPlay), for: .touchUpInside)
         return $0
     }(UIButton())

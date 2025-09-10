@@ -8,19 +8,27 @@
 import UIKit
 
 protocol TrailerPlayerPresenterProtocol: AnyObject {
-    
-    init(view: TrailerPlayerViewProtocol)
+    func viewDidLoad()
+    init(view: TrailerPlayerViewProtocol, video: MovieVideo)
     
 }
 
 class TrailerPlayerPresenter {
     private weak var view: TrailerPlayerViewProtocol?
+    private let video: MovieVideo
     
-    required init(view: TrailerPlayerViewProtocol) {
+    required init(view: TrailerPlayerViewProtocol, video: MovieVideo) {
         self.view = view
+        self.video = video
     }
 }
 
 extension TrailerPlayerPresenter: TrailerPlayerPresenterProtocol {
+    
+    func viewDidLoad() {
+        view?.loadVideo(with: video.key) // или video.youtubeKey если сделал extension
+//        view?.loadVideo(with: video.youtubeKey)
+    }
+    
     
 }

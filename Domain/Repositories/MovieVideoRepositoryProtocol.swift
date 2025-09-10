@@ -8,5 +8,6 @@
 import Foundation
 
 protocol MovieVideoRepositoryProtocol: AnyObject {
-    func fetchMovieVideo(for movieId: Int) -> [MovieVideo]
+//    func fetchMovieVideo(for movieId: Int) -> [MovieVideo]
+    func fetchMovieVideo(for movieId: Int, completion: @escaping ([MovieVideo]) -> Void)
 }

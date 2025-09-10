@@ -2,7 +2,7 @@
 //  FavoriteMovie+CoreDataProperties.swift
 //  MovieApp
 //
-//  Created by VladOS on 08.09.2025.
+//  Created by VladOS on 09.09.2025.
 //
 //
 
@@ -17,9 +17,9 @@ extension FavoriteMovie {
     }
 
     @NSManaged public var id: Int32
-    @NSManaged public var title: String?
     @NSManaged public var posterPath: String?
-    @NSManaged public var rating: Double
+    @NSManaged public var voteAverage: Double
+    @NSManaged public var title: String?
 
 }
 

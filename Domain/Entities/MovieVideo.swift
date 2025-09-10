@@ -23,13 +23,18 @@ extension MovieVideo {
         self.site = dto.site
         self.type = dto.type
     }
+    
+    var youtubeKey: String { key }
+    
 }
 
 extension MovieVideo {
     static func mockMovieVideo() -> [MovieVideo] {
         return [
-            MovieVideo(id: "", key: "img10", name: "Official Teaser Trailer", site: "YouTube", type: "Trailer"),
-            MovieVideo(id: "", key: "img11", name: "New Trailer", site: "YouTube", type: "Clip"),
+            MovieVideo(id: "1", key: "d9MyW72ELq0", name: "Avatar: The Way of Water | Official Teaser", site: "YouTube", type: "Trailer"),
+            MovieVideo(id: "2", key: "6ZfuNTqbHE8", name: "Avengers: Infinity War Trailer", site: "YouTube", type: "Trailer"),
+            MovieVideo(id: "3", key: "EXeTwQWrcwY", name: "The Dark Knight Trailer", site: "YouTube", type: "Trailer"),
+            
         ]
     }
 }

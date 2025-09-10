@@ -17,7 +17,7 @@ protocol BuilderProtocol {
     
     static func createMovieListController(mode: MovieListMode) -> UIViewController
     static func createMoviePageController(movieId: Int) -> UIViewController
-    static func createTrailerPlayerController() -> UIViewController
+    static func createTrailerPlayerController(video: MovieVideo, useMock: Bool) -> UIViewController
 }
 
 class Builder: BuilderProtocol {
@@ -111,9 +111,17 @@ class Builder: BuilderProtocol {
         return pageView
     }
     
-    static func createTrailerPlayerController() -> UIViewController {
+    static func createTrailerPlayerController(video: MovieVideo, useMock: Bool = true) -> UIViewController {
         let playerView = TrailerPlayerView()
-        let presenter = TrailerPlayerPresenter(view: playerView)
+        let presenter = TrailerPlayerPresenter(view: playerView, video: video)
+        
+//        let repository: MovieVideoRepositoryProtocol = useMock
+//                ? MockMovieVideoRepository.shared
+//                : RealMovieVideoRepository()
+//            
+//            repository.fetchMovieVideo(for: 0) { videos in
+//                print("⚡️ Загружены видео (\(useMock ? "MOCK" : "API")):", videos)
+//            }
         
         playerView.presenter = presenter
         return playerView

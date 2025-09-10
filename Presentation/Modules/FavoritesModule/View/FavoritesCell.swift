@@ -27,7 +27,7 @@ class FavoritesCell: UICollectionViewCell {
         $0.widthAnchor.constraint(equalToConstant: 25).isActive = true
 //        $0.setBackgroundImage(.appHeart, for: .normal)
         $0.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        $0.tintColor = .systemRed
+        $0.tintColor = .systemPurple
         $0.addTarget(self, action: #selector(favoriteTapped), for: .touchUpInside)
         return $0
     }(UIButton(type: .system))
@@ -36,10 +36,33 @@ class FavoritesCell: UICollectionViewCell {
         onFavoriteTapped?(movieId)
     }
     
+    private func makeView(with label: UILabel) -> UIView {
+        let container = UIView()
+        container.backgroundColor = .white.withAlphaComponent(0.2)
+        container.layer.cornerRadius = 5
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: container.topAnchor, constant: 4),
+            label.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -4),
+            label.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 8),
+            label.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -8)
+        ])
+        
+        return container
+    }
+    private lazy var voteAverageLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 14, weight: .bold), color: .systemPurple)
+    
+    private lazy var voteAverageForView: UIView = makeView(with: voteAverageLabel)
+    
     override init(frame: CGRect) {
         super .init(frame: frame)
         contentView.addSubview(posterImage)
         contentView.addSubview(favoriteButton)
+        contentView.addSubview(voteAverageLabel)
+        contentView.addSubview(voteAverageForView)
+
         setupConstraints()
     }
     
@@ -51,7 +74,10 @@ class FavoritesCell: UICollectionViewCell {
             posterImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             favoriteButton.topAnchor.constraint(equalTo: posterImage.topAnchor, constant: 20),
-            favoriteButton.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: -20),
+            favoriteButton.leadingAnchor.constraint(equalTo: posterImage.leadingAnchor, constant: 20),
+            
+            voteAverageForView.bottomAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: -20),
+            voteAverageForView.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: -20)
         ])
     }
     
@@ -61,6 +87,12 @@ class FavoritesCell: UICollectionViewCell {
         if let posterName = favorite.posterPath {
             posterImage.image = UIImage(named: posterName) // локальные ассеты
         }
+        
+        if favorite.voteAverage > 0 {
+                voteAverageLabel.text = String(format: "%.1f", favorite.voteAverage)
+            } else {
+                voteAverageLabel.text = "-"
+            }
     }
     
     required init?(coder: NSCoder) {

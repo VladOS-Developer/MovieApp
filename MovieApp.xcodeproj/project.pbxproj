@@ -41,8 +41,10 @@
 		867176C02E6AEF5E00681D72 /* MockMovieRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867176BF2E6AEF5E00681D72 /* MockMovieRepository.swift */; };
 		867177482E6C701B00681D72 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867177472E6C701B00681D72 /* PersistenceController.swift */; };
 		8671774E2E6C741B00681D72 /* FavoritesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8671774D2E6C741B00681D72 /* FavoritesStorage.swift */; };
-		867177512E6F2ECE00681D72 /* FavoriteMovie+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867177502E6F2ECE00681D72 /* FavoriteMovie+CoreDataProperties.swift */; };
-		867177522E6F2ECE00681D72 /* FavoriteMovie+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8671774F2E6F2ECE00681D72 /* FavoriteMovie+CoreDataClass.swift */; };
+		867177D62E707F9200681D72 /* FavoriteMovie+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867177D42E707F9200681D72 /* FavoriteMovie+CoreDataClass.swift */; };
+		867177D72E707F9200681D72 /* FavoriteMovie+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867177D52E707F9200681D72 /* FavoriteMovie+CoreDataProperties.swift */; };
+		8671785B2E7194D200681D72 /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 8671785A2E7194D200681D72 /* YouTubeiOSPlayerHelper */; };
+		8671785D2E71A30900681D72 /* RealMovieVideoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8671785C2E71A30900681D72 /* RealMovieVideoRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,8 +82,9 @@
 		867176BF2E6AEF5E00681D72 /* MockMovieRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMovieRepository.swift; sourceTree = "<group>"; };
 		867177472E6C701B00681D72 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		8671774D2E6C741B00681D72 /* FavoritesStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStorage.swift; sourceTree = "<group>"; };
-		8671774F2E6F2ECE00681D72 /* FavoriteMovie+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteMovie+CoreDataClass.swift"; sourceTree = "<group>"; };
-		867177502E6F2ECE00681D72 /* FavoriteMovie+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteMovie+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		867177D42E707F9200681D72 /* FavoriteMovie+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteMovie+CoreDataClass.swift"; sourceTree = "<group>"; };
+		867177D52E707F9200681D72 /* FavoriteMovie+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteMovie+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		8671785C2E71A30900681D72 /* RealMovieVideoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealMovieVideoRepository.swift; sourceTree = "<group>"; };
 		868D07032E33982A00224CD9 /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -99,6 +102,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				86367ED52E3E80A900012D4E /* KeychainAccess in Frameworks */,
+				8671785B2E7194D200681D72 /* YouTubeiOSPlayerHelper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,8 +123,8 @@
 			isa = PBXGroup;
 			children = (
 				86367DD72E3A241400012D4E /* MovieApp.xcdatamodeld */,
-				8671774F2E6F2ECE00681D72 /* FavoriteMovie+CoreDataClass.swift */,
-				867177502E6F2ECE00681D72 /* FavoriteMovie+CoreDataProperties.swift */,
+				867177D42E707F9200681D72 /* FavoriteMovie+CoreDataClass.swift */,
+				867177D52E707F9200681D72 /* FavoriteMovie+CoreDataProperties.swift */,
 				867177472E6C701B00681D72 /* PersistenceController.swift */,
 				8671774D2E6C741B00681D72 /* FavoritesStorage.swift */,
 			);
@@ -236,13 +240,22 @@
 		867176192E65D00E00681D72 /* RepositoryImpl */ = {
 			isa = PBXGroup;
 			children = (
+				8671785E2E71A75200681D72 /* MovieVideo */,
 				867175792E60A4CA00681D72 /* MockGenreRepository.swift */,
 				8671757A2E60A4CA00681D72 /* MockMovieDetailsRepository.swift */,
-				8671757B2E60A4CA00681D72 /* MockMovieVideoRepository.swift */,
 				867176262E6603CF00681D72 /* MockMovieSimilarRepository.swift */,
 				867176BF2E6AEF5E00681D72 /* MockMovieRepository.swift */,
 			);
 			path = RepositoryImpl;
+			sourceTree = "<group>";
+		};
+		8671785E2E71A75200681D72 /* MovieVideo */ = {
+			isa = PBXGroup;
+			children = (
+				8671757B2E60A4CA00681D72 /* MockMovieVideoRepository.swift */,
+				8671785C2E71A30900681D72 /* RealMovieVideoRepository.swift */,
+			);
+			path = MovieVideo;
 			sourceTree = "<group>";
 		};
 		868D06FA2E33982A00224CD9 = {
@@ -290,6 +303,7 @@
 			name = MovieApp;
 			packageProductDependencies = (
 				86367ED42E3E80A900012D4E /* KeychainAccess */,
+				8671785A2E7194D200681D72 /* YouTubeiOSPlayerHelper */,
 			);
 			productName = MovieApp;
 			productReference = 868D07032E33982A00224CD9 /* MovieApp.app */;
@@ -321,6 +335,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				86367ED32E3E80A900012D4E /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				867178592E7194D200681D72 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 868D07042E33982A00224CD9 /* Products */;
@@ -356,6 +371,8 @@
 				867173F02E5DC19500681D72 /* MovieDetailsDTO.swift in Sources */,
 				86367EC52E3D16A300012D4E /* PasscodeStateExtension.swift in Sources */,
 				8671755D2E5F15CB00681D72 /* MovieVideoDTO.swift in Sources */,
+				867177D62E707F9200681D72 /* FavoriteMovie+CoreDataClass.swift in Sources */,
+				867177D72E707F9200681D72 /* FavoriteMovie+CoreDataProperties.swift in Sources */,
 				8671755B2E5F15BD00681D72 /* MovieVideo.swift in Sources */,
 				867176BE2E6AEF4200681D72 /* MovieRepositoryProtocol.swift in Sources */,
 				867176BC2E6AEA8300681D72 /* Movie.swift in Sources */,
@@ -363,13 +380,12 @@
 				867176A52E6A1ADD00681D72 /* TopRatedMovieDTO.swift in Sources */,
 				86367DDD2E3A241400012D4E /* AppDelegate.swift in Sources */,
 				86367DDE2E3A241400012D4E /* MovieApp.xcdatamodeld in Sources */,
+				8671785D2E71A30900681D72 /* RealMovieVideoRepository.swift in Sources */,
 				86367DDF2E3A241400012D4E /* SceneDelegate.swift in Sources */,
 				86367DF52E3A29A100012D4E /* Builder.swift in Sources */,
 				867174EC2E5EFB0300681D72 /* MovieDetailsRepositoryProtocol.swift in Sources */,
 				867176C02E6AEF5E00681D72 /* MockMovieRepository.swift in Sources */,
 				867176252E6603A200681D72 /* MovieSimilarRepositoryProtocol.swift in Sources */,
-				867177512E6F2ECE00681D72 /* FavoriteMovie+CoreDataProperties.swift in Sources */,
-				867177522E6F2ECE00681D72 /* FavoriteMovie+CoreDataClass.swift in Sources */,
 				8671757C2E60A4CA00681D72 /* MockGenreRepository.swift in Sources */,
 				867176272E6603CF00681D72 /* MockMovieSimilarRepository.swift in Sources */,
 				8671761D2E65D20100681D72 /* MovieSimilar.swift in Sources */,
@@ -602,6 +618,14 @@
 				kind = branch;
 			};
 		};
+		867178592E7194D200681D72 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/youtube/youtube-ios-player-helper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -609,6 +633,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 86367ED32E3E80A900012D4E /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
+		};
+		8671785A2E7194D200681D72 /* YouTubeiOSPlayerHelper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 867178592E7194D200681D72 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */;
+			productName = YouTubeiOSPlayerHelper;
 		};
 /* End XCSwiftPackageProductDependency section */
 

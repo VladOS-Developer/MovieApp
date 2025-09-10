@@ -9,7 +9,7 @@ import CoreData
 
 protocol FavoritesStorageProtocol {
     func fetchFavorites() -> [FavoriteMovie]
-    func addFavorite(id: Int32, title: String, posterPath: String, rating: Double)
+    func addFavorite(id: Int32, title: String, posterPath: String, voteAverage: Double)
     func removeFavorite(id: Int32)
     func isFavorite(id: Int32) -> Bool
 }
@@ -29,12 +29,12 @@ final class FavoritesStorage: FavoritesStorageProtocol {
         }
     }
 
-    func addFavorite(id: Int32, title: String, posterPath: String, rating: Double) {
+    func addFavorite(id: Int32, title: String, posterPath: String, voteAverage: Double) {
         let favorite = FavoriteMovie(context: context)
         favorite.id = id
         favorite.title = title
         favorite.posterPath = posterPath
-        favorite.rating = rating
+        favorite.voteAverage = voteAverage
         save()
     }
 

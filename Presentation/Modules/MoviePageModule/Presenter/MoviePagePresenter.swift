@@ -16,17 +16,17 @@ protocol MoviePagePresenterProtocol: AnyObject {
          genreRepository: GenreRepositoryProtocol,
          movieVideoRepository: MovieVideoRepositoryProtocol,
          movieSimilarRepository: MovieSimilarRepositoryProtocol,
-         
          movieId: Int)
     
     func getMoviesData()
-    func didTapPlayTrailerButton()
     func didSelectTab(index: Int)
     func toggleFavorite()
+    func didTapPlayTrailerButton(videoVM: VideoCellViewModel)
+    func playMainTrailer()
 }
 
 class MoviePagePresenter: MoviePagePresenterProtocol {
-    
+
     private weak var view: MoviePageViewProtocol?
     private let router: MoviePageRouterProtocol
     private let movieDetailsRepository: MovieDetailsRepositoryProtocol
@@ -35,6 +35,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     private let movieSimilarRepository: MovieSimilarRepositoryProtocol
     private var movieId: Int
     
+    private var videos: [MovieVideo] = []
     private var sections: [PageCollectionSection] = []
     private let favoritesStorage = FavoritesStorage()
     private var currentMovie: MovieDetails?
@@ -55,36 +56,50 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         self.movieSimilarRepository = movieSimilarRepository
         self.movieId = movieId
     }
-    
+
     func getMoviesData() {
+        // 1. Жанры + все фильмы
         let genres = genreRepository.fetchGenres()
         let allMovieDetails = movieDetailsRepository.fetchTopMovieDetails() + movieDetailsRepository.fetchUpcomingMovieDetails()
         
+        // 2. Текущий фильм
         guard let movieDetails = allMovieDetails.first(where: { $0.id == movieId }) else { return }
         currentMovie = movieDetails
         
+        // 3. Основные секции
         let detailsVM = DetailsCellViewModel(movieDetails: movieDetails, genres: genres)
         let detailItems = PageCollectionItem.movieDet(detailsVM)
         
-        let videos = movieVideoRepository.fetchMovieVideo(for: movieId)
-        let videoItems = videos
-            .map { VideoCellViewModel(video: $0) }
-            .map { PageCollectionItem.video($0) }
-        
-        let sections: [PageCollectionSection] = [
+        self.sections = [
             PageCollectionSection(type: .posterMovie, items: [detailItems]),
             PageCollectionSection(type: .stackButtons, items: []),
             PageCollectionSection(type: .specificationMovie, items: [detailItems]),
             PageCollectionSection(type: .overviewMovie, items: [detailItems]),
-            PageCollectionSection(type: .videoMovie, items: videoItems),
+            PageCollectionSection(type: .videoMovie, items: []), // пока пустая, видео загрузятся позже
             PageCollectionSection(type: .segmentedTabs, items: []),
-            PageCollectionSection(type: .dynamicContent, items: []) // контент меняется при переключении
+            PageCollectionSection(type: .dynamicContent, items: []) // переключаемый контент
         ]
         
-        self.sections = sections
+        // 4. Показываем базовую информацию сразу
         view?.showMovie(sections: sections)
         
-        //при загрузке проверка статуса и обновление кнопки
+        // 5. Подгружаем трейлеры асинхронно
+        movieVideoRepository.fetchMovieVideo(for: movieId) { [weak self] videos in
+            guard let self = self else { return }
+            
+            self.videos = videos // ✅ сохраняем
+            
+            let videoItems = videos
+                .map { VideoCellViewModel(video: $0) }
+                .map { PageCollectionItem.video($0) }
+            
+            if let index = self.sections.firstIndex(where: { $0.type == .videoMovie }) {
+                self.sections[index].items = videoItems
+                self.view?.showMovie(sections: self.sections) // обновляем только после загрузки видео
+            }
+        }
+        
+        // 6. Проверяем избранное
         let isFavorite = favoritesStorage.isFavorite(id: Int32(movieId))
         view?.updateFavoriteState(isFavorite: isFavorite)
     }
@@ -101,16 +116,24 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                 id: id,
                 title: movie.title,
                 posterPath: movie.posterPath ?? "",
-                rating: movie.voteAverage ?? 0
+                voteAverage: movie.voteAverage ?? 0
             )
             view?.updateFavoriteState(isFavorite: true)
         }
     }
     
-    func didTapPlayTrailerButton() {
-        router.showTrailerPlayer()
+    func playMainTrailer() {
+        // Ищем главный трейлер (обычно type == "Trailer")
+        guard let mainTrailer = videos.first(where: { $0.type == "Trailer" }) ?? videos.first else { return }
+        router.showTrailerPlayer(video: mainTrailer)
     }
     
+    func didTapPlayTrailerButton(videoVM: VideoCellViewModel) {
+//        router.showTrailerPlayer(video: video)
+        guard let video = videos.first(where: { $0.id == videoVM.id }) else { return }
+            router.showTrailerPlayer(video: video)
+    }
+   
     func didSelectTab(index: Int) {
         var newItems: [PageCollectionItem] = []
         
