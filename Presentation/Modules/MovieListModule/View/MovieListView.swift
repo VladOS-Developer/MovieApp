@@ -41,10 +41,16 @@ class MovieListView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavBar()
+        configureNavBarWithBackButton(title: title, backAction: #selector(didTapBack))
         view.addSubview(collectionView)
         setupConstraints()
         presenter.viewDidLoad()
+    }
+    
+    @objc private func didTapBack() {
+        navigationController?.popViewController(animated: true)
+        (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
+        print("TabBar появился")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -111,29 +117,5 @@ extension MovieListView: UICollectionViewDelegateFlowLayout {
         let totalSpacing = spacing * (columns - 1) + 40 // sectionInsets left+right = 20+20
         let width = (collectionView.bounds.width - totalSpacing) / columns
         return CGSize(width: floor(width), height: floor(width * 1.2))
-    }
-}
-
-extension MovieListView {
-    private func configureNavBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.titleTextAttributes = [
-            .foregroundColor: UIColor.appWhite,
-            .font: UIFont.systemFont(ofSize: 20, weight: .black)
-        ]
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(weight: .bold)),
-            style: .plain,
-            target: self,
-            action: #selector(didTapBack))
-        navigationItem.leftBarButtonItem?.tintColor = .appWhite
-    }
-    
-    @objc private func didTapBack() {
-        navigationController?.popViewController(animated: true)
-        (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
-        print("TabBar появился")
     }
 }

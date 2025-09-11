@@ -35,7 +35,7 @@ class MovieListCell: UICollectionViewCell {
     
     private func makeView(with label: UILabel) -> UIView {
         let container = UIView()
-        container.backgroundColor = .white.withAlphaComponent(0.2)
+        container.backgroundColor = .systemRed.withAlphaComponent(0.2)
         container.layer.cornerRadius = 5
         container.translatesAutoresizingMaskIntoConstraints = false
         container.addSubview(label)
@@ -49,7 +49,7 @@ class MovieListCell: UICollectionViewCell {
         
         return container
     }
-    private lazy var voteAverageLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 14, weight: .bold), color: .systemPurple)
+    private lazy var voteAverageLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 14, weight: .bold), color: .white)
     private lazy var voteAverageForView: UIView = makeView(with: voteAverageLabel)
     
     override init(frame: CGRect) {
@@ -84,7 +84,7 @@ class MovieListCell: UICollectionViewCell {
         
         let posterName = movieVM.isFavorite ? "heart.fill" : "heart"
         favoriteButton.setImage(UIImage(systemName: posterName), for: .normal)
-        favoriteButton.tintColor = .systemPurple
+        favoriteButton.tintColor = .systemRed
         
     }
     

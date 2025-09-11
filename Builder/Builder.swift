@@ -17,11 +17,11 @@ protocol BuilderProtocol {
     
     static func createMovieListController(mode: MovieListMode) -> UIViewController
     static func createMoviePageController(movieId: Int) -> UIViewController
-    static func createTrailerPlayerController(video: MovieVideo, useMock: Bool) -> UIViewController
+    static func createTrailerPlayerController(video: MovieVideo, movieTitle: String, useMock: Bool) -> UIViewController
 }
 
 class Builder: BuilderProtocol {
-    
+   
     static func getPasscodeController(sceneDelegate: SceneDelegateProtocol) -> UIViewController {
         
         let view = PasscodeView()
@@ -111,17 +111,17 @@ class Builder: BuilderProtocol {
         return pageView
     }
     
-    static func createTrailerPlayerController(video: MovieVideo, useMock: Bool = true) -> UIViewController {
+    static func createTrailerPlayerController(video: MovieVideo, movieTitle: String, useMock: Bool = true) -> UIViewController {
         let playerView = TrailerPlayerView()
-        let presenter = TrailerPlayerPresenter(view: playerView, video: video)
+        let presenter = TrailerPlayerPresenter(view: playerView, video: video, movieTitle: movieTitle)
         
-//        let repository: MovieVideoRepositoryProtocol = useMock
-//                ? MockMovieVideoRepository.shared
-//                : RealMovieVideoRepository()
-//            
-//            repository.fetchMovieVideo(for: 0) { videos in
-//                print("⚡️ Загружены видео (\(useMock ? "MOCK" : "API")):", videos)
-//            }
+        let repository: MovieVideoRepositoryProtocol = useMock
+                ? MockMovieVideoRepository.shared
+                : RealMovieVideoRepository()
+            
+            repository.fetchMovieVideo(for: 0) { videos in
+                print("Загружены видео (\(useMock ? "MOCK" : "API")):", videos)
+            }
         
         playerView.presenter = presenter
         return playerView

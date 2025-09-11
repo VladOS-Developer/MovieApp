@@ -52,10 +52,10 @@ extension Movie {
 extension Movie {
     static func mockTopRatedMovie() -> [Movie] {
         return [
-            Movie(id: 1, title: "The Dark Knight", originalTitle: "Batman raises the stakes",posterPath: "img1", backdropPath: "dark_knight_backdrop.jpg",
+            Movie(id: 1, title: "Avatar", originalTitle: "The Way of Water",posterPath: "img12", backdropPath: "dark_knight_backdrop.jpg",
                   overview: "", releaseDate: "2008-07-18",genreIDs: [28, 80, 18], voteAverage: 8, isLocalImage: true),
             
-            Movie(id: 2, title: "The Dark Knight", originalTitle: "Batman raises the stakes",posterPath: "img2", backdropPath: "dark_knight_backdrop.jpg",
+            Movie(id: 2, title: "Avengers", originalTitle: "Infinity War",posterPath: "img13", backdropPath: "dark_knight_backdrop.jpg",
                   overview: "", releaseDate: "2008-07-18",genreIDs: [28, 80, 18], voteAverage: 7.4, isLocalImage: true),
             
             Movie(id: 3, title: "The Dark Knight", originalTitle: "Batman raises the stakes",posterPath: "img3", backdropPath: "dark_knight_backdrop.jpg",

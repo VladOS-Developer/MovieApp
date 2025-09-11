@@ -70,7 +70,10 @@ class MoviePageView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavBar()
+        configureNavBarWithBackAndRightButton(title: title,
+                                              backAction: #selector(didTapBack),
+                                              rightSystemName: "heart",
+                                              rightAction: #selector(didTapHeart))
         view.addSubview(collectionView)
         edgesForExtendedLayout = [.top]
         NSLayoutConstraint.activate([
@@ -80,6 +83,15 @@ class MoviePageView: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         presenter.getMoviesData()
+    }
+    
+    @objc private func didTapBack() {
+        navigationController?.popViewController(animated: true)
+        (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
+    }
+    
+    @objc private func didTapHeart() {
+        presenter.toggleFavorite()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -232,7 +244,7 @@ extension MoviePageView: MoviePageViewProtocol {
 extension MoviePageView: PosterCellDelegate {
     
     func didTapPlayButton(in cell: PosterCell) {
-        presenter.playMainTrailer()
+        presenter.playPosterTrailer()
     }
 }
 
@@ -259,39 +271,3 @@ extension MoviePageView: OverviewCellDelegate {
     }
 }
 
-extension MoviePageView {
-    private func configureNavBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.titleTextAttributes = [
-            .foregroundColor: UIColor.appWhite,
-            .font: UIFont.systemFont(ofSize: 20, weight: .black)
-        ]
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.backward", withConfiguration: UIImage.SymbolConfiguration(weight: .bold)),
-            style: .plain,
-            target: self,
-            action: #selector(didTapBack))
-        navigationItem.leftBarButtonItem?.tintColor = .systemPurple
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(weight: .bold)),
-            style: .plain,
-            target: self,
-            action: #selector(didTapHeart))
-        navigationItem.rightBarButtonItem?.tintColor = .systemPurple
-    }
-    
-    @objc private func didTapBack() {
-        navigationController?.popViewController(animated: true)
-        (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
-    }
-    
-    @objc private func didTapHeart() {
-        presenter.toggleFavorite()
-    }
-
-}
-
-    

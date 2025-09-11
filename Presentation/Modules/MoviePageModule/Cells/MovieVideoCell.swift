@@ -41,8 +41,8 @@ class MovieVideoCell: UICollectionViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.heightAnchor.constraint(equalToConstant: 30).isActive = true
         $0.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        $0.setBackgroundImage(.playBtn, for: .normal)
-        $0.backgroundColor = .systemBlue.withAlphaComponent(0.2)
+        $0.setBackgroundImage(UIImage(systemName: "play.circle"), for: .normal)
+        $0.tintColor = .white
         $0.layer.cornerRadius = 20
         $0.addTarget(self, action: #selector(didTapPlay), for: .touchUpInside)
         return $0

@@ -10,6 +10,7 @@ import YouTubeiOSPlayerHelper
 
 protocol TrailerPlayerViewProtocol: AnyObject {
     func loadVideo(with key: String)
+    func setTitle(_ text: String)
 }
 
 class TrailerPlayerView: UIViewController {
@@ -17,22 +18,21 @@ class TrailerPlayerView: UIViewController {
     var presenter: TrailerPlayerPresenterProtocol!
     
     private let playerView = YTPlayerView()
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavBarWithBackButton(title: title, backAction: #selector(didTapBack))
+        view.backgroundColor = .black
         setupPlayerView()
         presenter.viewDidLoad()
     }
     
+    @objc private func didTapBack() {
+        navigationController?.popViewController(animated: true)
+    }
+    
     private func setupPlayerView() {
         view.addSubview(playerView)
-        title = "Player"
-        
         playerView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -46,10 +46,12 @@ class TrailerPlayerView: UIViewController {
 }
 
 extension TrailerPlayerView: TrailerPlayerViewProtocol {
+    func setTitle(_ text: String) {
+        navigationItem.title = text
+    }
+    
     
     func loadVideo(with key: String) {
         playerView.load(withVideoId: key, playerVars: ["playsinline": 1, "autoplay": 1])
     }
-    
-    
 }

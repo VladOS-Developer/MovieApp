@@ -22,7 +22,7 @@ protocol MoviePagePresenterProtocol: AnyObject {
     func didSelectTab(index: Int)
     func toggleFavorite()
     func didTapPlayTrailerButton(videoVM: VideoCellViewModel)
-    func playMainTrailer()
+    func playPosterTrailer()
 }
 
 class MoviePagePresenter: MoviePagePresenterProtocol {
@@ -122,18 +122,23 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         }
     }
     
-    func playMainTrailer() {
-        // Ищем главный трейлер (обычно type == "Trailer")
-        guard let mainTrailer = videos.first(where: { $0.type == "Trailer" }) ?? videos.first else { return }
-        router.showTrailerPlayer(video: mainTrailer)
+    func playPosterTrailer() {
+   
+        guard let posterTrailer = videos.first(where: { $0.type == "Trailer" }) ?? videos.first else { return }
+        
+        let title = currentMovie?.title ?? posterTrailer.name
+        router.showTrailerPlayer(video: posterTrailer, movieTitle: title)
     }
     
     func didTapPlayTrailerButton(videoVM: VideoCellViewModel) {
-//        router.showTrailerPlayer(video: video)
+        
         guard let video = videos.first(where: { $0.id == videoVM.id }) else { return }
-            router.showTrailerPlayer(video: video)
+        
+        // Добавляем имя трейлера к названию фильма
+        let title = "\(currentMovie?.title ?? "Trailer") — \(video.name)"
+        router.showTrailerPlayer(video: video, movieTitle: title)
     }
-   
+    
     func didSelectTab(index: Int) {
         var newItems: [PageCollectionItem] = []
         

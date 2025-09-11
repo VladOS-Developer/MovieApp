@@ -8,15 +8,15 @@
 import UIKit
 
 protocol MoviePageRouterProtocol: AnyObject {
-    func showTrailerPlayer(video: MovieVideo)
+    func showTrailerPlayer(video: MovieVideo, movieTitle: String)
 }
 
 final class MoviePageRouter: MoviePageRouterProtocol {
     weak var viewController: UIViewController?
 
-    func showTrailerPlayer(video: MovieVideo) {
+    func showTrailerPlayer(video: MovieVideo, movieTitle: String) {
         // Для теста UI с моками
-        let trailerPlayerVC = Builder.createTrailerPlayerController(video: video, useMock: true)
+        let trailerPlayerVC = Builder.createTrailerPlayerController(video: video, movieTitle: movieTitle, useMock: true)
         
         // Для реального API
 //        let trailerPlayerVC = Builder.createTrailerPlayerController(video: MovieVideo.mockMovieVideo().first!, useMock: false)

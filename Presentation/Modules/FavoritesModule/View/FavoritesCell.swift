@@ -25,9 +25,8 @@ class FavoritesCell: UICollectionViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.heightAnchor.constraint(equalToConstant: 25).isActive = true
         $0.widthAnchor.constraint(equalToConstant: 25).isActive = true
-//        $0.setBackgroundImage(.appHeart, for: .normal)
         $0.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        $0.tintColor = .systemPurple
+        $0.tintColor = .systemRed
         $0.addTarget(self, action: #selector(favoriteTapped), for: .touchUpInside)
         return $0
     }(UIButton(type: .system))
@@ -38,7 +37,7 @@ class FavoritesCell: UICollectionViewCell {
     
     private func makeView(with label: UILabel) -> UIView {
         let container = UIView()
-        container.backgroundColor = .white.withAlphaComponent(0.2)
+        container.backgroundColor = .systemRed.withAlphaComponent(0.2)
         container.layer.cornerRadius = 5
         container.translatesAutoresizingMaskIntoConstraints = false
         container.addSubview(label)
@@ -52,8 +51,7 @@ class FavoritesCell: UICollectionViewCell {
         
         return container
     }
-    private lazy var voteAverageLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 14, weight: .bold), color: .systemPurple)
-    
+    private lazy var voteAverageLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 14, weight: .bold), color: .white)
     private lazy var voteAverageForView: UIView = makeView(with: voteAverageLabel)
     
     override init(frame: CGRect) {
