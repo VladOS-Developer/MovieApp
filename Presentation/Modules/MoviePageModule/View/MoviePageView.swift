@@ -220,7 +220,6 @@ extension MoviePageView: UICollectionViewDataSource {
     }
 }
 
-// решить
 extension MoviePageView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     }
@@ -252,9 +251,9 @@ extension MoviePageView: MovieVideoCellDelegate {
     
     func didTapPlayButton(in cell: MovieVideoCell) {
         guard let indexPath = collectionView.indexPath(for: cell),
-              case .video(let vm) = sections[indexPath.section].items[indexPath.item] else { return }
+              case .video(let videoVM) = sections[indexPath.section].items[indexPath.item] else { return }
         
-        presenter.didTapPlayTrailerButton(videoVM: vm)
+        presenter.didTapPlayTrailerButton(videoVM: videoVM)
     }
 }
 

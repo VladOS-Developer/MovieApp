@@ -29,6 +29,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
 
     private weak var view: MoviePageViewProtocol?
     private let router: MoviePageRouterProtocol
+    
     private let movieDetailsRepository: MovieDetailsRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
     private let movieVideoRepository: MovieVideoRepositoryProtocol
@@ -36,6 +37,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     private var movieId: Int
     
     private var videos: [MovieVideo] = []
+    
     private var sections: [PageCollectionSection] = []
     private let favoritesStorage = FavoritesStorage()
     private var currentMovie: MovieDetails?
@@ -58,6 +60,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     }
 
     func getMoviesData() {
+        
         // 1. Жанры + все фильмы
         let genres = genreRepository.fetchGenres()
         let allMovieDetails = movieDetailsRepository.fetchTopMovieDetails() + movieDetailsRepository.fetchUpcomingMovieDetails()
@@ -83,11 +86,13 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         // 4. Показываем базовую информацию сразу
         view?.showMovie(sections: sections)
         
+//        self.videos = [] // сброс прошлых данных
+        
         // 5. Подгружаем трейлеры асинхронно
         movieVideoRepository.fetchMovieVideo(for: movieId) { [weak self] videos in
             guard let self = self else { return }
-            
-            self.videos = videos // ✅ сохраняем
+                        
+            self.videos = videos // перезаписали, не накапливаем
             
             let videoItems = videos
                 .map { VideoCellViewModel(video: $0) }
@@ -102,6 +107,20 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         // 6. Проверяем избранное
         let isFavorite = favoritesStorage.isFavorite(id: Int32(movieId))
         view?.updateFavoriteState(isFavorite: isFavorite)
+    }
+        
+    func playPosterTrailer() {
+        guard let video = videos.first else { return }
+        
+        let movieTitle = "\(video.name)"
+        router.showTrailerPlayer(video: video, movieTitle: movieTitle)
+    }
+    
+    func didTapPlayTrailerButton(videoVM: VideoCellViewModel) {
+        guard let video = videos.first(where: { $0.id == videoVM.id }) else { return }
+        
+        let movieTitle = "\(video.name)"
+        router.showTrailerPlayer(video: video, movieTitle: movieTitle)
     }
     
     func toggleFavorite() {
@@ -120,23 +139,6 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
             )
             view?.updateFavoriteState(isFavorite: true)
         }
-    }
-    
-    func playPosterTrailer() {
-   
-        guard let posterTrailer = videos.first(where: { $0.type == "Trailer" }) ?? videos.first else { return }
-        
-        let title = currentMovie?.title ?? posterTrailer.name
-        router.showTrailerPlayer(video: posterTrailer, movieTitle: title)
-    }
-    
-    func didTapPlayTrailerButton(videoVM: VideoCellViewModel) {
-        
-        guard let video = videos.first(where: { $0.id == videoVM.id }) else { return }
-        
-        // Добавляем имя трейлера к названию фильма
-        let title = "\(currentMovie?.title ?? "Trailer") — \(video.name)"
-        router.showTrailerPlayer(video: video, movieTitle: title)
     }
     
     func didSelectTab(index: Int) {

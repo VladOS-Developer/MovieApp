@@ -8,17 +8,15 @@
 import UIKit
 
 protocol GenreMovieCellDelegate: AnyObject {
-    func didTapGenre(id: Int, title: String) //
+    func didTapGenre(id: Int, title: String)
 }
 
 final class GenreMovieCell: UICollectionViewCell {
-    
     static let reuseId = "GenreMovieCell"
     
-    weak var delegate: GenreMovieCellDelegate? //
-    private var genreVM: GenreCellViewModel? //
+    weak var delegate: GenreMovieCellDelegate?
     
-    private let tapActionID = UIAction.Identifier("genre.tap") //
+    private let tapActionID = UIAction.Identifier("genre.tap")
     
     lazy var genreButton: UIButton = {
         var config = UIButton.Configuration.plain()
@@ -33,19 +31,17 @@ final class GenreMovieCell: UICollectionViewCell {
         return button
     }()
     
-    func configureGenreCell(with genreVM: GenreCellViewModel) {
-        self.genreVM = genreVM
-        genreButton.setTitle(genreVM.name, for: .normal)
-        // Каждый раз при конфигурации ячейки снимаем старый action по идентификатору (защита от переиспользования)
-        genreButton.removeAction(identifiedBy: tapActionID, for: .touchUpInside)
-        
-        let action = UIAction(identifier: tapActionID) { [weak self] _ in
-            guard let self,
-                  let genre = self.genreVM else { return }
-            self.delegate?.didTapGenre(id: genre.id, title: genre.name)
+        func configureGenreCell(id: Int, title: String) {
+            genreButton.setTitle(title, for: .normal)
+            
+            // Снимаем старый action (переиспользование ячеек)
+            genreButton.removeAction(identifiedBy: tapActionID, for: .touchUpInside)
+            
+            let action = UIAction(identifier: tapActionID) { [weak self] _ in
+                self?.delegate?.didTapGenre(id: id, title: title)
+            }
+            genreButton.addAction(action, for: .touchUpInside)
         }
-        genreButton.addAction(action, for: .touchUpInside)
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)

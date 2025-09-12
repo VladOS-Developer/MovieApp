@@ -33,10 +33,6 @@ extension TrailerPlayerPresenter: TrailerPlayerPresenterProtocol {
     
     func viewDidLoad() {
         view?.setTitle(movieTitle)
-        
-        view?.loadVideo(with: video.key) // или video.youtubeKey если сделал extension
-//        view?.loadVideo(with: video.youtubeKey)
+        view?.loadVideo(with: video.key)
     }
-    
-    
 }

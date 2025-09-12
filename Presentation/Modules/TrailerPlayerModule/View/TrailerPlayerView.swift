@@ -18,7 +18,7 @@ class TrailerPlayerView: UIViewController {
     var presenter: TrailerPlayerPresenterProtocol!
     
     private let playerView = YTPlayerView()
-
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavBarWithBackButton(title: title, backAction: #selector(didTapBack))
@@ -34,7 +34,6 @@ class TrailerPlayerView: UIViewController {
     private func setupPlayerView() {
         view.addSubview(playerView)
         playerView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             playerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             playerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -42,14 +41,12 @@ class TrailerPlayerView: UIViewController {
             playerView.heightAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: 9.0/16.0) // 16:9
         ])
     }
-    
 }
 
 extension TrailerPlayerView: TrailerPlayerViewProtocol {
     func setTitle(_ text: String) {
         navigationItem.title = text
     }
-    
     
     func loadVideo(with key: String) {
         playerView.load(withVideoId: key, playerVars: ["playsinline": 1, "autoplay": 1])

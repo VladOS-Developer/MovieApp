@@ -8,6 +8,7 @@
 import Foundation
 
 final class RealMovieVideoRepository: MovieVideoRepositoryProtocol {
+    
     func fetchMovieVideo(for movieId: Int, completion: @escaping ([MovieVideo]) -> Void) {
         // TODO: Реализовать запрос к TMDB API
         // Пример:

@@ -58,10 +58,10 @@ extension Movie {
             Movie(id: 2, title: "Avengers", originalTitle: "Infinity War",posterPath: "img13", backdropPath: "dark_knight_backdrop.jpg",
                   overview: "", releaseDate: "2008-07-18",genreIDs: [28, 80, 18], voteAverage: 7.4, isLocalImage: true),
             
-            Movie(id: 3, title: "The Dark Knight", originalTitle: "Batman raises the stakes",posterPath: "img3", backdropPath: "dark_knight_backdrop.jpg",
+            Movie(id: 3, title: "The Dark Knight", originalTitle: "Batman raises the stakes",posterPath: "img14", backdropPath: "dark_knight_backdrop.jpg",
                   overview: "", releaseDate: "2008-07-18",genreIDs: [28, 80, 18], voteAverage: 5.2, isLocalImage: true),
             
-            Movie(id: 4, title: "The Dark Knight", originalTitle: "Batman raises the stakes",posterPath: "img4", backdropPath: "dark_knight_backdrop.jpg",
+            Movie(id: 4, title: "Placeholder", originalTitle: "Batman raises the stakes",posterPath: "img11", backdropPath: "dark_knight_backdrop.jpg",
                   overview: "", releaseDate: "2008-07-18",genreIDs: [28, 80, 18], voteAverage: 4.3, isLocalImage: true),
         ]
     }

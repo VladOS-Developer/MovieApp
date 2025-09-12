@@ -26,12 +26,13 @@ struct MovieDetailsDTO: Decodable {
     let runtime: Int?
     let releaseDate: String?
     let genreIDs: [Int]
+    let genres: [GenreDTO]?
     let overview: String?
     let productionCountries: [ProductionCountryDTO]?
     let voteAverage: Double?
 
     enum CodingKeys: String, CodingKey {
-        case id, title, overview, runtime
+        case id, title, overview, runtime, genres
         case originalTitle = "original_title"
         case posterPath = "poster_path"
         case backdropPath = "backdrop_path"
