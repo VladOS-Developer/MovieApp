@@ -49,6 +49,10 @@ extension TrailerPlayerView: TrailerPlayerViewProtocol {
     }
     
     func loadVideo(with key: String) {
-        playerView.load(withVideoId: key, playerVars: ["playsinline": 1, "autoplay": 1])
+        playerView.load(withVideoId: key, playerVars: ["playsinline": 1,    // в приложении, а не на весь экран
+                                                       "autoplay": 1,       // сразу стартует
+                                                       "modestbranding": 1, // убирает часть логотипов
+                                                       "rel": 0             // не показывает похожие видео в конце
+                                                      ])
     }
 }

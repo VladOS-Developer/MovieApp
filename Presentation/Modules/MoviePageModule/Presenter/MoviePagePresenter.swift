@@ -110,17 +110,20 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     }
         
     func playPosterTrailer() {
-        guard let video = videos.first else { return }
+        guard let firstVideo = videos.first else { return }
+        let movieTitle = "\(firstVideo.name)"
         
-        let movieTitle = "\(video.name)"
-        router.showTrailerPlayer(video: video, movieTitle: movieTitle)
+        router.showTrailerPlayer(video: firstVideo, movieTitle: movieTitle)
     }
     
     func didTapPlayTrailerButton(videoVM: VideoCellViewModel) {
         guard let video = videos.first(where: { $0.id == videoVM.id }) else { return }
-        
         let movieTitle = "\(video.name)"
+        
         router.showTrailerPlayer(video: video, movieTitle: movieTitle)
+        
+        print("videoVM.id =", videoVM.id)
+        print("videos =", videos.map { $0.id })
     }
     
     func toggleFavorite() {

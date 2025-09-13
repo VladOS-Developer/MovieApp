@@ -1,0 +1,31 @@
+//
+//  CrewCellViewModel.swift
+//  MovieApp
+//
+//  Created by VladOS on 13.09.2025.
+//
+
+import UIKit
+
+struct CrewCellViewModel: Hashable {
+    let id: Int
+    let name: String
+    let job: String?
+    let department: String?
+    let profileURL: URL?
+    let profileImage: UIImage?
+
+    init(crew: CrewMember) {
+        self.id = crew.id
+        self.name = crew.name
+        self.job = crew.job
+        self.department = crew.department
+        if let p = crew.profilePath {
+            self.profileURL = URL(string: "https://image.tmdb.org/t/p/w185\(p)")
+            self.profileImage = nil
+        } else {
+            self.profileURL = nil
+            self.profileImage = UIImage(named: "placeholder_actor")
+        }
+    }
+}

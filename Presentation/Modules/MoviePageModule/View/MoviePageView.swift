@@ -260,11 +260,14 @@ extension MoviePageView: MovieVideoCellDelegate {
 extension MoviePageView: OverviewCellDelegate {
     func overviewCellDidToggle(_ cell: OverviewCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        
         // переключениу состояния
         isOverviewExpanded.toggle()
+        
         // перезагрузка ячейки — compositional layout пересчитает высоту (estimated)
         collectionView.performBatchUpdates({ [weak self] in
             guard let self = self else { return }
+            
             self.collectionView.reloadItems(at: [indexPath])
         }, completion: nil)
     }

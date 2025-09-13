@@ -56,13 +56,14 @@ final class SimilarMovieCell: UICollectionViewCell {
 //        self.movieId = similarVM.id
         
         similarTitle.text = similarVM.title
+        similarImage.image = similarVM.posterImage
         
-        if let image = similarVM.posterImage {
-            similarImage.image = image
-        } else {
-            similarImage.image = nil
-            // если будет URL — тут вставить загрузку с кешем
-        }
+//        if let image = similarVM.posterImage {
+//            similarImage.image = image
+//        } else {
+//            similarImage.image = nil
+//            // если будет URL — тут вставить загрузку с кешем
+//        }
     }
 
     required init?(coder: NSCoder) {

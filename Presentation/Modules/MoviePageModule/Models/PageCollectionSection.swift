@@ -20,5 +20,4 @@ enum MoviePageSectionType {
     case videoMovie
     case segmentedTabs
     case dynamicContent
-
 }
