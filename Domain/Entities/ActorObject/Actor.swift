@@ -27,13 +27,9 @@ extension Actor {
     }
     
     static func mockActor() -> Actor {
-        return Actor(
-            id: 1,
-            name: "Leonardo DiCaprio",
-            profilePath: "leonardo.jpg",
-            birthday: "1974-11-11",
-            placeOfBirth: "Los Angeles, California, USA",
-            biography: "American actor and producer known for Titanic, Inception, The Revenant..."
+        return Actor(id: 1,name: "Leonardo DiCaprio",profilePath: "leonardo.jpg",birthday: "1974-11-11",
+                     placeOfBirth: "Los Angeles, California, USA",
+                     biography: "American actor and producer known for Titanic, Inception, The Revenant..."
         )
     }
 }

@@ -17,7 +17,7 @@ enum PageCollectionItem: Hashable {
     case actorMovie(ActorMovieCellViewModel)
     case cast(CastCellViewModel)
     case crew(CrewCellViewModel)
- 
+    
     var id: String {
         switch self {
         case .movieDet(let vm): return String(vm.id)

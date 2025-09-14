@@ -12,7 +12,6 @@ protocol MainSectionHeaderViewDelegate: AnyObject {
 }
 
 class MainSectionHeaderView: UICollectionReusableView {
-    
     static let reuseId = "MainSectionHeaderView"
     
     weak var delegate: MainSectionHeaderViewDelegate?

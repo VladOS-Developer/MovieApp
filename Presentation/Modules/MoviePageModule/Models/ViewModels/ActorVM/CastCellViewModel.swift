@@ -18,12 +18,19 @@ struct CastCellViewModel: Hashable {
         self.id = cast.id
         self.name = cast.name
         self.character = cast.character
-        if let p = cast.profilePath {
-            self.profileURL = URL(string: "https://image.tmdb.org/t/p/w185\(p)")
-            self.profileImage = nil
-        } else {
+        
+        // images
+        if cast.isLocalImage {
+            self.profileImage = UIImage(named: cast.profilePath ?? "")
             self.profileURL = nil
-            self.profileImage = UIImage(named: "placeholder_actor")
+        } else {
+            self.profileImage = nil
+            if let path = cast.profilePath {
+                self.profileURL = URL(string: "https://image.tmdb.org/t/p/w185\(path)")
+            } else {
+                self.profileURL = nil
+            }
+            
         }
     }
 }

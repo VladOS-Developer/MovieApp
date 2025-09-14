@@ -16,6 +16,7 @@ protocol MoviePagePresenterProtocol: AnyObject {
          genreRepository: GenreRepositoryProtocol,
          movieVideoRepository: MovieVideoRepositoryProtocol,
          movieSimilarRepository: MovieSimilarRepositoryProtocol,
+         movieCreditsRepository: MovieCreditsRepositoryProtocol,
          movieId: Int)
     
     func getMoviesData()
@@ -34,6 +35,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     private let genreRepository: GenreRepositoryProtocol
     private let movieVideoRepository: MovieVideoRepositoryProtocol
     private let movieSimilarRepository: MovieSimilarRepositoryProtocol
+    private let movieCreditsRepository: MovieCreditsRepositoryProtocol
     private var movieId: Int
     
     private var videos: [MovieVideo] = []
@@ -48,6 +50,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                   genreRepository: GenreRepositoryProtocol,
                   movieVideoRepository: MovieVideoRepositoryProtocol,
                   movieSimilarRepository: MovieSimilarRepositoryProtocol,
+                  movieCreditsRepository: MovieCreditsRepositoryProtocol,
                   movieId: Int) {
         
         self.view = view
@@ -56,6 +59,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         self.genreRepository = genreRepository
         self.movieVideoRepository = movieVideoRepository
         self.movieSimilarRepository = movieSimilarRepository
+        self.movieCreditsRepository = movieCreditsRepository
         self.movieId = movieId
     }
 
@@ -86,12 +90,12 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         // 4. Показываем базовую информацию сразу
         view?.showMovie(sections: sections)
         
-//        self.videos = [] // сброс прошлых данных
+        //        self.videos = [] // сброс прошлых данных
         
         // 5. Подгружаем трейлеры асинхронно
         movieVideoRepository.fetchMovieVideo(for: movieId) { [weak self] videos in
             guard let self = self else { return }
-                        
+            
             self.videos = videos // перезаписали, не накапливаем
             
             let videoItems = videos
@@ -149,13 +153,18 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         
         switch index {
         case 0: // More Like This
+            
             let similar = movieSimilarRepository.fetchSimilarMovie(for: movieId)
             newItems = similar
-                .map { SimilarMovieCellViewModel(movieSimilar: $0) }
-                .map { PageCollectionItem.similarMovie($0) }
+                .map { SimilarMovieCellViewModel(movieSimilar: $0) } //
+                .map { PageCollectionItem.similarMovie($0) } // cast
             
         case 1: // About
-            newItems = []
+            
+            let credits = movieCreditsRepository.fetchCredits(for: movieId)
+            newItems = credits.cast
+                .map { CastCellViewModel(cast: $0) }
+                .map { PageCollectionItem.cast($0) }
             
         case 2: // Comments
             newItems = []
@@ -166,6 +175,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         if let dynamicSectionIndex = sections.firstIndex(where: { $0.type == .dynamicContent }) {
             sections[dynamicSectionIndex].items = newItems
             view?.showMovie(sections: sections)
+            view?.setSelectedTabIndex(index) // About → Cast and Crew == 1
         }
     }
     

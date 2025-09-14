@@ -20,8 +20,9 @@ struct CrewCellViewModel: Hashable {
         self.name = crew.name
         self.job = crew.job
         self.department = crew.department
-        if let p = crew.profilePath {
-            self.profileURL = URL(string: "https://image.tmdb.org/t/p/w185\(p)")
+        
+        if let path = crew.profilePath {
+            self.profileURL = URL(string: "https://image.tmdb.org/t/p/w185\(path)")
             self.profileImage = nil
         } else {
             self.profileURL = nil

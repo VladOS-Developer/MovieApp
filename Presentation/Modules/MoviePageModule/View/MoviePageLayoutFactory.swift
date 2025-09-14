@@ -81,7 +81,7 @@ enum MoviePageLayoutFactory {
         return section
     }
     
-    static func setDynamicContentLayout() -> NSCollectionLayoutSection {
+    static func setDynamicContentLayout(includeHeader: Bool) -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(150), heightDimension: .absolute(250)), subitems: [item])
@@ -90,7 +90,17 @@ enum MoviePageLayoutFactory {
         section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0)
         section.orthogonalScrollingBehavior = .continuous
         
+        if includeHeader {
+            section.boundarySupplementaryItems = [setCastAndCrewLayout()]
+        }
         return section
+    }
+    
+    private static func setCastAndCrewLayout() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(40))
+        
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: size, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        return header
     }
     
 }

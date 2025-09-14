@@ -13,6 +13,8 @@ struct CastMember: Hashable {
     let name: String
     let character: String?
     let profilePath: String?
+    
+    let isLocalImage: Bool
 }
 
 extension CastMember {
@@ -22,17 +24,19 @@ extension CastMember {
         self.name = dto.name
         self.character = dto.character
         self.profilePath = dto.profilePath
+        
+        self.isLocalImage = false
     }
 }
 
 extension CastMember {
     static func mockCast() -> [CastMember] {
         return [
-            CastMember(id: 6193, creditId: "52fe4214c3a36847f800b579",name: "Sam Worthington", character: "Jake Sully",profilePath: "/sam.jpg"),
-            CastMember(id: 1234, creditId: "52fe4214c3a36847f800b580",name: "Zoe Saldana", character: "Neytiri",profilePath: "/zoe.jpg"),
-            CastMember(id: 5678,creditId: "52fe4214c3a36847f800b581",name: "Sigourney Weaver",character: "Dr. Grace Augustine",profilePath: "/weaver.jpg"),
-            CastMember(id: 9012,creditId: "52fe4214c3a36847f800b582",name: "Stephen Lang",character: "Colonel Miles Quaritch",profilePath: "/lang.jpg"),
-            CastMember(id: 3456,creditId: "52fe4214c3a36847f800b583",name: "Giovanni Ribisi",character: "Parker Selfridge",profilePath: "/ribisi.jpg")
+            CastMember(id: 6193,creditId: "52fe4214c3a36847f800b579",name: "Sam Worthington", character: "Jake Sully",profilePath: "img9", isLocalImage: true),
+            CastMember(id: 1234,creditId: "52fe4214c3a36847f800b580",name: "Zoe Saldana", character: "Neytiri",profilePath: "img9", isLocalImage: true),
+            CastMember(id: 5678,creditId: "52fe4214c3a36847f800b581",name: "Sigourney Weaver",character: "Dr. Grace Augustine",profilePath: "img9", isLocalImage: true),
+            CastMember(id: 9012,creditId: "52fe4214c3a36847f800b582",name: "Stephen Lang",character: "Colonel Miles Quaritch",profilePath: "img9", isLocalImage: true),
+            CastMember(id: 3456,creditId: "52fe4214c3a36847f800b583",name: "Giovanni Ribisi",character: "Parker Selfridge",profilePath: "img9", isLocalImage: true)
         ]
     }
 }
