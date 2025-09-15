@@ -9,12 +9,12 @@ import UIKit
 
 enum PageCollectionItem: Hashable {
     
-    case movieDet(DetailsCellViewModel)
+    case movieDet(MovieDetailsCellViewModel)
     case genre(GenreCellViewModel)
-    case video(VideoCellViewModel)
-    case similarMovie(SimilarMovieCellViewModel)
+    case video(MovieVideoCellViewModel)
+    case similarMovie(MovieSimilarCellViewModel)
     case actor(ActorCellViewModel)
-    case actorMovie(ActorMovieCellViewModel)
+    case actorMovie(ActorMovieForMoviePageCellVM)
     case cast(CastCellViewModel)
     case crew(CrewCellViewModel)
     
@@ -22,11 +22,11 @@ enum PageCollectionItem: Hashable {
         switch self {
         case .movieDet(let vm): return String(vm.id)
         case .genre(let vm): return String(vm.id)
-        case .video(let vm): return vm.id
+        case .video(let vm): return String(vm.id)
         case .similarMovie(let vm): return String(vm.id)
         case .actor(let vm): return String(vm.id)
         case .actorMovie(let vm): return String(vm.id)
-        case .cast(let vm): return String(vm.id)            // "cast_\(vm.id)"
+        case .cast(let vm): return String(vm.id)            // "cast_\(vm.id)" чтобы избежать коллизий идентификаторов
         case .crew(let vm): return String(vm.id)            // "crew_\(vm.id)"
         }
     }

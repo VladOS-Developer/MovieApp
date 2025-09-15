@@ -1,5 +1,5 @@
 //
-//  SimilarMovieCellViewModel.swift
+//  MovieSimilarCellViewModel.swift
 //  MovieApp
 //
 //  Created by VladOS on 01.09.2025.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct SimilarMovieCellViewModel: Hashable {
+struct MovieSimilarCellViewModel: Hashable {
     let id: Int
     let title: String
     let originalTitle: String?
@@ -20,9 +20,6 @@ struct SimilarMovieCellViewModel: Hashable {
     
     let releaseDate: String?
     let releaseDateText: String
-    
-//    let genreIDs: [Int]?
-//    let genresText: String
     
     let voteAverage: Double?
     let ratingValue: Double?
@@ -79,12 +76,6 @@ struct SimilarMovieCellViewModel: Hashable {
         } else {
             self.releaseDateText = ""
         }
-//        
-//        // genres
-//        let genreNames = genres
-//            .filter { movieSimilar.genreIDs.contains($0.id) }
-//            .map { $0.name }
-//        self.genresText = genreNames.joined(separator: " / ")
-//        
+
     }
 }

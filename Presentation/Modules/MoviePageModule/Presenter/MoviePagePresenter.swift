@@ -23,7 +23,7 @@ protocol MoviePagePresenterProtocol: AnyObject {
     func didSelectTab(index: Int)
     func toggleFavorite()
     
-    func didTapPlayTrailerButton(videoVM: VideoCellViewModel)
+    func didTapPlayTrailerButton(videoVM: MovieVideoCellViewModel)
     func playPosterTrailer()
     
     func didSelectActor(castVM: CastCellViewModel)
@@ -77,7 +77,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         currentMovie = movieDetails
         
         // 3. Основные секции
-        let detailsVM = DetailsCellViewModel(movieDetails: movieDetails, genres: genres)
+        let detailsVM = MovieDetailsCellViewModel(movieDetails: movieDetails, genres: genres)
         let detailItems = PageCollectionItem.movieDet(detailsVM)
         
         self.sections = [
@@ -102,7 +102,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
             self.videos = videos // перезаписали, не накапливаем
             
             let videoItems = videos
-                .map { VideoCellViewModel(video: $0) }
+                .map { MovieVideoCellViewModel(video: $0) }
                 .map { PageCollectionItem.video($0) }
             
             if let index = self.sections.firstIndex(where: { $0.type == .videoMovie }) {
@@ -123,7 +123,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         router.showTrailerPlayer(video: firstVideo, movieTitle: movieTitle)
     }
     
-    func didTapPlayTrailerButton(videoVM: VideoCellViewModel) {
+    func didTapPlayTrailerButton(videoVM: MovieVideoCellViewModel) {
         guard let video = videos.first(where: { $0.id == videoVM.id }) else { return }
         let movieTitle = "\(video.name)"
         
@@ -159,7 +159,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
             
             let similar = movieSimilarRepository.fetchSimilarMovie(for: movieId)
             newItems = similar
-                .map { SimilarMovieCellViewModel(movieSimilar: $0) } //
+                .map { MovieSimilarCellViewModel(movieSimilar: $0) } //
                 .map { PageCollectionItem.similarMovie($0) } // cast
             
         case 1: // About

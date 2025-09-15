@@ -52,7 +52,7 @@ final class SimilarMovieCell: UICollectionViewCell {
         ])
     }
     
-    func configureSimilarMovieCell(with similarVM: SimilarMovieCellViewModel) {
+    func configureSimilarMovieCell(with similarVM: MovieSimilarCellViewModel) {
 //        self.movieId = similarVM.id
         
         similarTitle.text = similarVM.title

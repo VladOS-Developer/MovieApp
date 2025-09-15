@@ -1,5 +1,5 @@
 //
-//  VideoCellViewModel.swift
+//  MovieVideoCellViewModel.swift
 //  MovieApp
 //
 //  Created by VladOS on 28.08.2025.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct VideoCellViewModel: Hashable {
+struct MovieVideoCellViewModel: Hashable {
     let id: String
     let videoKey: String    // для запуска YouTube-видео
     let name: String        // название трейлера

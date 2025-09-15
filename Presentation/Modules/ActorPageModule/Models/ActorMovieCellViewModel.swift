@@ -2,7 +2,7 @@
 //  ActorMovieCellViewModel.swift
 //  MovieApp
 //
-//  Created by VladOS on 13.09.2025.
+//  Created by VladOS on 15.09.2025.
 //
 
 import UIKit

@@ -1,5 +1,5 @@
 //
-//  DetailsCellViewModel.swift
+//  MovieDetailsCellViewModel.swift
 //  MovieApp
 //
 //  Created by VladOS on 27.08.2025.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct DetailsCellViewModel: Hashable {
+struct MovieDetailsCellViewModel: Hashable {
     let id: Int
     let title: String
     
