@@ -18,6 +18,7 @@ protocol BuilderProtocol {
     static func createMovieListController(mode: MovieListMode) -> UIViewController
     static func createMoviePageController(movieId: Int) -> UIViewController
     static func createTrailerPlayerController(video: MovieVideo, movieTitle: String, useMock: Bool) -> UIViewController
+    static func createActorPageController(actorTitle: String) -> UIViewController
 }
 
 class Builder: BuilderProtocol {
@@ -127,6 +128,14 @@ class Builder: BuilderProtocol {
         
         playerView.presenter = presenter
         return playerView
+    }
+    
+    static func createActorPageController(actorTitle: String) -> UIViewController {
+        let ActorView = ActorPageView()
+        let presenter = ActorPagePresenter(view: ActorView, actorTitle: actorTitle)
+        
+        ActorView.presenter = presenter
+        return UINavigationController(rootViewController: ActorView)
     }
     
     
