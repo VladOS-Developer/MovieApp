@@ -264,6 +264,15 @@ extension MoviePageView: UICollectionViewDataSource {
 
 extension MoviePageView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let section = sections[indexPath.section]
+        let item = section.items[indexPath.item]
+        
+        switch item {
+        case .cast(let castVM):
+            presenter.didSelectActor(castVM: castVM)
+        default:
+            break
+        }
     }
 }
 

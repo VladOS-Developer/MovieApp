@@ -22,8 +22,11 @@ protocol MoviePagePresenterProtocol: AnyObject {
     func getMoviesData()
     func didSelectTab(index: Int)
     func toggleFavorite()
+    
     func didTapPlayTrailerButton(videoVM: VideoCellViewModel)
     func playPosterTrailer()
+    
+    func didSelectActor(castVM: CastCellViewModel)
 }
 
 class MoviePagePresenter: MoviePagePresenterProtocol {
@@ -178,5 +181,9 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
             view?.setSelectedTabIndex(index) // About → Cast and Crew == 1
         }
     }
+    
+    func didSelectActor(castVM: CastCellViewModel) {
+            router.showActorPage(actorName: castVM.name)
+        }
     
 }

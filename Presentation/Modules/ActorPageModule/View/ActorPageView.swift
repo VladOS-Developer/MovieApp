@@ -22,8 +22,8 @@ class ActorPageView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavBarWithBackButton(title: title, backAction: #selector(didTapBack))
         presenter.viewDidLoad()
+        configureNavBarWithBackButton(title: navigationItem.title, backAction: #selector(didTapBack))
     }
     
     @objc private func didTapBack() {

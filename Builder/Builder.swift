@@ -135,7 +135,7 @@ class Builder: BuilderProtocol {
         let presenter = ActorPagePresenter(view: ActorView, actorTitle: actorTitle)
         
         ActorView.presenter = presenter
-        return UINavigationController(rootViewController: ActorView)
+        return ActorView
     }
     
     
