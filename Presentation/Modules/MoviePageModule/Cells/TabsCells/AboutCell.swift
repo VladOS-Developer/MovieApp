@@ -7,15 +7,21 @@
 
 import UIKit
 
+protocol AboutCellDelegate: AnyObject {
+    func aboutCellDidTapProfileImage(_ cell: AboutCell)
+}
+
 class AboutCell: UICollectionViewCell {
     static let reuseId = "AboutCell"
+    
+    weak var delegate: AboutCellDelegate?
 
     private lazy var profileImageView: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 40
         $0.clipsToBounds = true
-        $0.backgroundColor = UIColor.white.withAlphaComponent(0.1)
+        $0.isUserInteractionEnabled = true
         return $0
     }(UIImageView())
     
@@ -48,14 +54,21 @@ class AboutCell: UICollectionViewCell {
             profileImageView.heightAnchor.constraint(equalToConstant: 80),
             
             nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 4),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 5),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
             
-            characterLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 2),
-            characterLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
-            characterLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
-//            characterLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -6)
+            characterLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
+            characterLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            characterLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            characterLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -5)
         ])
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage))
+        profileImageView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func didTapProfileImage() {
+        delegate?.aboutCellDidTapProfileImage(self)
     }
     
     func configureAboutCell(with vm: CastCellViewModel) {

@@ -13,7 +13,7 @@ final class SegmentedTabsCell: UICollectionViewCell {
     var onTabSelected: ((Int) -> Void)?
 
     private lazy var segmentedControl: UISegmentedControl = {
-        let items = ["More Like This", "About", "Comments"]
+        let items = ["More Like This", "About"]
         let control = UISegmentedControl(items: items)
         control.selectedSegmentIndex = UISegmentedControl.noSegment
         control.backgroundColor = .clear

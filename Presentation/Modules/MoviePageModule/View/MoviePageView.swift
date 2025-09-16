@@ -251,6 +251,7 @@ extension MoviePageView: UICollectionViewDataSource {
                     return UICollectionViewCell()
                 }
                 cell.configureAboutCell(with: castVM)
+                cell.delegate = self
                 return cell
                 
             default:
@@ -263,17 +264,7 @@ extension MoviePageView: UICollectionViewDataSource {
 }
 
 extension MoviePageView: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let section = sections[indexPath.section]
-        let item = section.items[indexPath.item]
-        
-        switch item {
-        case .cast(let castVM):
-            presenter.didSelectActor(castVM: castVM)
-        default:
-            break
-        }
-    }
+    
 }
 
 extension MoviePageView: MoviePageViewProtocol {
@@ -286,6 +277,15 @@ extension MoviePageView: MoviePageViewProtocol {
         selectedSegmentedTabsIndex = index
         collectionView.collectionViewLayout = createPageLayout() // пересоздать layout с header
         collectionView.reloadData()
+    }
+}
+
+extension MoviePageView: AboutCellDelegate {
+    func aboutCellDidTapProfileImage(_ cell: AboutCell) {
+        guard let indexPath = collectionView.indexPath(for: cell),
+              case .cast(let castVM) = sections[indexPath.section].items[indexPath.item] else { return }
+        
+        presenter.didSelectActor(castVM: castVM)
     }
 }
 
