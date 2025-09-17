@@ -50,8 +50,11 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
         // Header
         let headerVM = ActorHeaderCellViewModel(actorDetails: actorDetails, actorMovies: actorMovies)
         let headerSection = ActorPageCollectionSection(type: .header,items: [.header(headerVM)])
+        
+        // SocialStackButtons
+        let socialStackButtons = ActorPageCollectionSection(type: .socialStackButtons, items: [])
     
-        let sections: [ActorPageCollectionSection] = [headerSection]
+        let sections: [ActorPageCollectionSection] = [headerSection, socialStackButtons]
         
         self.sections = sections
         view?.showActorSections(sections: sections)

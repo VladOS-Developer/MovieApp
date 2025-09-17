@@ -26,6 +26,7 @@ class ActorPageView: UIViewController {
         $0.dataSource = self
         $0.delegate = self
         $0.register(ActorHeaderCell.self, forCellWithReuseIdentifier: ActorHeaderCell.reuseId)
+        $0.register(ActorStackButtonsCell.self, forCellWithReuseIdentifier: ActorStackButtonsCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createActorLayout()))
 
@@ -37,6 +38,8 @@ class ActorPageView: UIViewController {
             case .header:
                 return ActorPageLayoutFactory.setHeaderLayout()
           
+            case .socialStackButtons:
+                return ActorPageLayoutFactory.setSocialStackButtonLayout()
             }
         }
     }
@@ -72,19 +75,30 @@ extension ActorPageView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        sections[section].items.count
+//        sections[section].items.count
+        
+        switch sections[section].type {
+        case .socialStackButtons:
+            return 1 // возврат 1
+//        case .segmentedTabs:
+//            return 1
+        default:
+            return sections[section].items.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = sections[indexPath.section]
-        let item = section.items[indexPath.item]
+//        var item = section.items[indexPath.item] // тут передача пустого массива для stackButtons (краш) секция думает что у неё 1 айтем → коллекция спрашивает items[0] → а массив пустой → краш.
         
         switch section.type {
         case .header:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorHeaderCell.reuseId, for: indexPath) as? ActorHeaderCell else {
                 return UICollectionViewCell()
             }
-          
+            
+            let item = section.items[indexPath.item]
+            
             switch item {
             case .header(let headerVM):
                 cell.configure(with: headerVM)
@@ -93,6 +107,11 @@ extension ActorPageView: UICollectionViewDataSource {
             return cell
             // ... другие секции
 
+        case .socialStackButtons:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorStackButtonsCell.reuseId, for: indexPath) as? ActorStackButtonsCell else {
+                return UICollectionViewCell()
+            }
+            return cell
         }
     }
     

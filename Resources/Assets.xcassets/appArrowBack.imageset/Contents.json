@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "appArrowBack.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "telegram.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

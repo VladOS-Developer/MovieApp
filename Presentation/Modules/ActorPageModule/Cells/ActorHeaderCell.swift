@@ -70,8 +70,8 @@ final class ActorHeaderCell: UICollectionViewCell {
         contentView.addSubview(profileImageView)
         contentView.addSubview(moviesCountLabel)
         contentView.addSubview(imdbLabel)
-        setupSocialIcons()
-        contentView.addSubview(stackSocials)
+//        setupSocialIcons()
+//        contentView.addSubview(stackSocials)
         
         NSLayoutConstraint.activate([
             backPoster.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -85,7 +85,7 @@ final class ActorHeaderCell: UICollectionViewCell {
             dimmingView.bottomAnchor.constraint(equalTo: backPoster.bottomAnchor),
             
             profileImageView.centerXAnchor.constraint(equalTo: backPoster.centerXAnchor),
-            profileImageView.centerYAnchor.constraint(equalTo: backPoster.centerYAnchor),
+            profileImageView.centerYAnchor.constraint(equalTo: backPoster.centerYAnchor, constant: 10),
             profileImageView.widthAnchor.constraint(equalToConstant: 100),
             profileImageView.heightAnchor.constraint(equalToConstant: 100),
             
@@ -93,28 +93,28 @@ final class ActorHeaderCell: UICollectionViewCell {
             moviesCountLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
             imdbLabel.topAnchor.constraint(equalTo: moviesCountLabel.bottomAnchor, constant: 5),
-            imdbLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            imdbLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
             
-            stackSocials.topAnchor.constraint(equalTo: imdbLabel.bottomAnchor, constant: 10),
-            stackSocials.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+//            stackSocials.topAnchor.constraint(equalTo: imdbLabel.bottomAnchor, constant: 10),
+//            stackSocials.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
         
     }
     
-    private func setupSocialIcons() {
-        let icons = ["appHeart", "appHeart", "appHeart"]
-        icons.forEach { name in
-            let image = UIImageView(image: UIImage(named: name))
-            image.translatesAutoresizingMaskIntoConstraints = false
-            image.contentMode = .scaleAspectFit
-            image.isUserInteractionEnabled = true
-            NSLayoutConstraint.activate([
-                image.widthAnchor.constraint(equalToConstant: 25),
-                image.heightAnchor.constraint(equalToConstant: 25)
-            ])
-            stackSocials.addArrangedSubview(image)
-        }
-    }
+//    private func setupSocialIcons() {
+//        let icons = ["appHeart", "appHeart", "appHeart"]
+//        icons.forEach { name in
+//            let image = UIImageView(image: UIImage(named: name))
+//            image.translatesAutoresizingMaskIntoConstraints = false
+//            image.contentMode = .scaleAspectFit
+//            image.isUserInteractionEnabled = true
+//            NSLayoutConstraint.activate([
+//                image.widthAnchor.constraint(equalToConstant: 25),
+//                image.heightAnchor.constraint(equalToConstant: 25)
+//            ])
+//            stackSocials.addArrangedSubview(image)
+//        }
+//    }
     
     func configure(with headerVM: ActorHeaderCellViewModel) {
         moviesCountLabel.text = headerVM.moviesCountText  // пока хардкод, потом из VM "66"

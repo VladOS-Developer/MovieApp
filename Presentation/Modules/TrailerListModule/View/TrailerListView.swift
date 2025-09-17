@@ -28,7 +28,7 @@ class TrailerListView: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.heightAnchor.constraint(equalToConstant: 20).isActive = true
         $0.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        $0.setBackgroundImage(.appArrow, for: .normal)
+        $0.setBackgroundImage(.appArrowBack, for: .normal)
         return $0
     }(UIButton(primaryAction: backButtonAction))
     

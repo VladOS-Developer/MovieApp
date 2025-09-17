@@ -1,14 +1,14 @@
 //
-//  StackButtonsCell.swift
+//  ActorStackButtonsCell.swift
 //  MovieApp
 //
-//  Created by VladOS on 22.08.2025.
+//  Created by VladOS on 17.09.2025.
 //
 
 import UIKit
 
-class StackButtonsCell: UICollectionViewCell {
-    static let reuseId = "StackButtonsCell"
+class ActorStackButtonsCell: UICollectionViewCell {
+    static let reuseId = "ActorStackButtonsCell"
     
     private lazy var buttonsStack: UIStackView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -35,9 +35,9 @@ class StackButtonsCell: UICollectionViewCell {
  
     private func configureStackButtons() {
         let actions: [(String, Selector)] = [
-            ("appTelegram", #selector(didTapTelegram)),
-            ("appFacebook", #selector(didTapFacebook)),
-            ("appInstagram", #selector(didTapInstagram))
+            ("appTelegram", #selector(didTapActorTelegram)),
+            ("appFacebook", #selector(didTapActorFacebook)),
+            ("appInstagram", #selector(didTapActorInstagram))
         ]
         
         actions.forEach { (name, selector) in
@@ -50,9 +50,9 @@ class StackButtonsCell: UICollectionViewCell {
         }
     }
     
-    @objc private func didTapTelegram() { print("Telegram tapped") }
-    @objc private func didTapFacebook() { print("Facebook tapped") }
-    @objc private func didTapInstagram() { print("Instagram tapped") }
+    @objc private func didTapActorTelegram() { print("ActorTelegram tapped") }
+    @objc private func didTapActorFacebook() { print("ActorFacebook tapped") }
+    @objc private func didTapActorInstagram() { print("ActorInstagram tapped") }
 
     
     required init?(coder: NSCoder) {
