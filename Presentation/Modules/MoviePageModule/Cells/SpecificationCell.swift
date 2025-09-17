@@ -18,11 +18,11 @@ final class SpecificationCell: UICollectionViewCell {
         return $0
     }(UIImageView())
 
-    private lazy var voteAverageLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 14, weight: .bold), color: .appBlue)
+    private lazy var voteAverageLabel: UILabel = TextLabel(font: UIFont.systemFont(ofSize: 14, weight: .bold), color: .appBlue)
     private lazy var dotOne: UILabel = makeDot()
-    private lazy var runtimeLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appWhite)
+    private lazy var runtimeLabel: UILabel = TextLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appWhite)
     private lazy var dotTwo: UILabel = makeDot()
-    private lazy var genreLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appWhite)
+    private lazy var genreLabel: UILabel = TextLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appWhite)
     
     private func makeDot() -> UILabel {
         let label = UILabel()
@@ -33,9 +33,9 @@ final class SpecificationCell: UICollectionViewCell {
         return label
     }
     
-    private lazy var genreBorderLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appBlue)
-    private lazy var releaseDateBorderLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appBlue)
-    private lazy var countryBorderLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appBlue)
+    private lazy var genreBorderLabel: UILabel = TextLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appBlue)
+    private lazy var releaseDateBorderLabel: UILabel = TextLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appBlue)
+    private lazy var countryBorderLabel: UILabel = TextLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appBlue)
 
     private func makeBorderView(with label: UILabel) -> UIView {
         let container = UIView()

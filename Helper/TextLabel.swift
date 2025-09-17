@@ -1,5 +1,5 @@
 //
-//  CellLabel.swift
+//  TextLabel.swift
 //  MovieApp
 //
 //  Created by VladOS on 12.08.2025.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CellLabel: UILabel {
+class TextLabel: UILabel {
     
     init(font: UIFont, color: UIColor) {
         super.init(frame: .zero)

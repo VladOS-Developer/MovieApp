@@ -13,7 +13,7 @@ struct ActorBiographyCellViewModel: Hashable {
     let birthday: String?
     let placeOfBirth: String?
 
-    init(actor: Actor) {
+    init(actor: ActorDetails) {
         self.id = actor.id
         self.biography = actor.biography ?? "No biography available"
         self.birthday = actor.birthday

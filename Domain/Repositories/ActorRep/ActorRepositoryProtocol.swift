@@ -8,6 +8,6 @@
 import Foundation
 
 protocol ActorRepositoryProtocol: AnyObject {
-    func fetchActorDetails(by id: Int) -> Actor
+    func fetchActorDetails(by id: Int) -> ActorDetails
     func fetchActorMovies(by id: Int) -> [ActorMovie]
 }

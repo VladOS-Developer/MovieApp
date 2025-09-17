@@ -26,9 +26,9 @@ class MovieVideoCell: UICollectionViewCell {
         return $0
     }(UIImageView())
     
-    private lazy var videoSite: UILabel = CellLabel(font: .systemFont(ofSize: 12, weight: .bold), color: .appRed)
-    private lazy var videoName: UILabel = CellLabel(font: .systemFont(ofSize: 12, weight: .bold), color: .appWhite)
-    private lazy var videoType: UILabel = CellLabel(font: .systemFont(ofSize: 12, weight: .bold), color: .appGray)
+    private lazy var videoSite: UILabel = TextLabel(font: .systemFont(ofSize: 12, weight: .bold), color: .appRed)
+    private lazy var videoName: UILabel = TextLabel(font: .systemFont(ofSize: 12, weight: .bold), color: .appWhite)
+    private lazy var videoType: UILabel = TextLabel(font: .systemFont(ofSize: 12, weight: .bold), color: .appGray)
     
     private lazy var videoStackLabel: UIStackView = {
         $0.translatesAutoresizingMaskIntoConstraints = false

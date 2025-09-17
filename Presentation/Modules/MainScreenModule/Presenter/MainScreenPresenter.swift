@@ -11,7 +11,7 @@ protocol MainScreenPresenterProtocol: AnyObject {
     func getMoviesData()
     func didTapSeeAll(in section: Int)
     func didSelectGenre(id: Int, title: String)
-    func didSelectMovie(with id: Int)
+    func didSelectMovie(with id: Int, title: String)
     
     init(view: MainScreenViewProtocol,
          router: MainScreenRouterProtocol,
@@ -82,8 +82,8 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
         router.showMovieList(mode: .genre(id: id, title: title))
     }
     
-    func didSelectMovie(with id: Int) {
-        router.showMoviePage(movieId: id)
+    func didSelectMovie(with id: Int, title: String) {
+        router.showMoviePage(movieId: id, movieTitle: title )
     }
     
 }

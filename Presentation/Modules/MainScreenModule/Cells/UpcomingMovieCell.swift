@@ -21,11 +21,11 @@ final class UpcomingMovieCell: UICollectionViewCell {
         return $0
     }(UIImageView())
     
-    private lazy var titleLabel: UILabel = CellLabel(font: .systemFont(ofSize: 15, weight: .bold), color: .appWhite)
+    private lazy var titleLabel: UILabel = TextLabel(font: .systemFont(ofSize: 15, weight: .bold), color: .appWhite)
     
-    private lazy var releaseDate: UILabel = CellLabel(font: .systemFont(ofSize: 10, weight: .regular), color: .appWhite)
+    private lazy var releaseDate: UILabel = TextLabel(font: .systemFont(ofSize: 10, weight: .regular), color: .appWhite)
     
-    private lazy var genreLabel: UILabel = CellLabel(font: .systemFont(ofSize: 10, weight: .regular), color: .appWhite)
+    private lazy var genreLabel: UILabel = TextLabel(font: .systemFont(ofSize: 10, weight: .regular), color: .appWhite)
     
     private lazy var stackLabel: UIStackView = {
         $0.translatesAutoresizingMaskIntoConstraints = false

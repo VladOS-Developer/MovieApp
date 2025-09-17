@@ -11,6 +11,7 @@ protocol MoviePageViewProtocol: AnyObject {
     func showMovie(sections: [PageCollectionSection])
     func updateFavoriteState(isFavorite: Bool)
     func setSelectedTabIndex(_ index: Int)
+    func setTitle(_ text: String)
 }
 
 class MoviePageView: UIViewController {
@@ -277,6 +278,10 @@ extension MoviePageView: MoviePageViewProtocol {
         selectedSegmentedTabsIndex = index
         collectionView.collectionViewLayout = createPageLayout() // пересоздать layout с header
         collectionView.reloadData()
+    }
+    
+    func setTitle(_ text: String) {
+        navigationItem.title = text
     }
 }
 

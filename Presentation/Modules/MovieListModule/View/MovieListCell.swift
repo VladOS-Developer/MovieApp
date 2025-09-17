@@ -49,7 +49,7 @@ class MovieListCell: UICollectionViewCell {
         
         return container
     }
-    private lazy var voteAverageLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 14, weight: .bold), color: .white)
+    private lazy var voteAverageLabel: UILabel = TextLabel(font: UIFont.systemFont(ofSize: 14, weight: .bold), color: .white)
     private lazy var voteAverageForView: UIView = makeView(with: voteAverageLabel)
     
     override init(frame: CGRect) {

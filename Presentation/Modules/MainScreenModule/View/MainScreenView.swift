@@ -149,7 +149,7 @@ extension MainScreenView: UICollectionViewDelegate {
         case .topMovie, .upcomingMovie:
             let item = section.items[indexPath.item]
             if case .movie(let vm) = item {
-                presenter.didSelectMovie(with: vm.id)
+                presenter.didSelectMovie(with: vm.id, title: vm.title)
             }
         default:
             break

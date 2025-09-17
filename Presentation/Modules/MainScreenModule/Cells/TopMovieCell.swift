@@ -21,11 +21,11 @@ final class TopMovieCell: UICollectionViewCell {
         return $0
     }(UIImageView())
     
-    private lazy var titleLabel: UILabel = CellLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appWhite)
+    private lazy var titleLabel: UILabel = TextLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appWhite)
     
-    private lazy var originalTitleLabel: UILabel = CellLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appWhite)
+    private lazy var originalTitleLabel: UILabel = TextLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appWhite)
     
-    private lazy var runtimeLabel: UILabel = CellLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appGray) // - заменить на другой - или дополнить вью модель !
+    private lazy var runtimeLabel: UILabel = TextLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appGray) // - заменить на другой - или дополнить вью модель !
     
     private lazy var stackLabel: UIStackView = {
         $0.translatesAutoresizingMaskIntoConstraints = false

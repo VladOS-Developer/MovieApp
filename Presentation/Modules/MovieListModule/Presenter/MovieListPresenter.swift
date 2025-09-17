@@ -73,7 +73,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     
     func didSelectItem(at index: Int) {
         let movie = movies[index]
-        let moviePageVC = Builder.createMoviePageController(movieId: movie.id)
+        let moviePageVC = Builder.createMoviePageController(movieId: movie.id, movieTitle: movie.title)
         (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
     }
     

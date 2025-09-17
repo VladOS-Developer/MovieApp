@@ -8,24 +8,56 @@
 import UIKit
 
 protocol ActorPagePresenterProtocol: AnyObject {
+    func viewDidLoad()
+    
     init(view: ActorPageViewProtocol,
+         actorRepository: ActorRepositoryProtocol,
+         movieCreditsRepository: MovieCreditsRepositoryProtocol,
+         actorId: Int,
          actorTitle: String)
     
-    func viewDidLoad()
+    
 }
 
 class ActorPagePresenter: ActorPagePresenterProtocol {
     
     private weak var view: ActorPageViewProtocol?
-    private let actorTitle: String
+    private let actorRepository: ActorRepositoryProtocol
+    private let movieCreditsRepository: MovieCreditsRepositoryProtocol
     
-    required init(view: ActorPageViewProtocol, actorTitle: String) {
+    private var sections: [ActorPageCollectionSection] = []
+    private let actorTitle: String
+    private var actorId: Int
+    
+    required init(view: ActorPageViewProtocol,
+                  actorRepository: ActorRepositoryProtocol,
+                  movieCreditsRepository: MovieCreditsRepositoryProtocol,
+                  actorId: Int,
+                  actorTitle: String) {
+        
         self.view = view
         self.actorTitle = actorTitle
+        self.actorRepository = actorRepository
+        self.movieCreditsRepository = movieCreditsRepository
+        self.actorId = actorId
     }
     
     func viewDidLoad() {
+
+        let actorDetails = ActorDetails.mockActor(id: actorId)
+        let actorMovies = ActorMovie.mockActorMovies()
+        
+        // Header
+        let headerVM = ActorHeaderCellViewModel(actorDetails: actorDetails, actorMovies: actorMovies)
+        let headerSection = ActorPageCollectionSection(type: .header,items: [.header(headerVM)])
+    
+        let sections: [ActorPageCollectionSection] = [headerSection]
+        
+        self.sections = sections
+        view?.showActorSections(sections: sections)
         view?.setTitle(actorTitle)
     }
     
 }
+    
+

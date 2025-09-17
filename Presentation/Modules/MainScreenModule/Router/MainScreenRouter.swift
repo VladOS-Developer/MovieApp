@@ -8,15 +8,15 @@
 import UIKit
 
 protocol MainScreenRouterProtocol: AnyObject {
-    func showMoviePage(movieId: Int)
+    func showMoviePage(movieId: Int, movieTitle: String)
     func showMovieList(mode: MovieListMode)
 }
 
 class MainScreenRouter: MainScreenRouterProtocol {
     weak var viewController: UIViewController?
     
-    func showMoviePage(movieId: Int) {
-        let moviePageVC = Builder.createMoviePageController(movieId: movieId)
+    func showMoviePage(movieId: Int, movieTitle: String) {
+        let moviePageVC = Builder.createMoviePageController(movieId: movieId, movieTitle: movieTitle)
         
         if let navigationVC = viewController?.navigationController {
             navigationVC.pushViewController(moviePageVC, animated: true)

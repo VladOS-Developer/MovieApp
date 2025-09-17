@@ -11,11 +11,11 @@ final class MockActorRepository: ActorRepositoryProtocol {
     static let shared = MockActorRepository()
     private init() {}
 
-    func fetchActorDetails(by id: Int) -> Actor {
-        return Actor.mockActor()
+    func fetchActorDetails(by id: Int) -> ActorDetails {
+        return ActorDetails.mockActor(id: id)
     }
 
     func fetchActorMovies(by id: Int) -> [ActorMovie] {
-        return ActorMovie.mockMovies()
+        return ActorMovie.mockActorMovies()
     }
 }

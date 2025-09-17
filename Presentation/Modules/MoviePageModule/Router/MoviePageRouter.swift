@@ -9,7 +9,7 @@ import UIKit
 
 protocol MoviePageRouterProtocol: AnyObject {
     func showTrailerPlayer(video: MovieVideo, movieTitle: String)
-    func showActorPage(actorName: String)
+    func showActorPage(actorName: String, actorId: Int)
 }
 
 final class MoviePageRouter: MoviePageRouterProtocol {
@@ -17,10 +17,7 @@ final class MoviePageRouter: MoviePageRouterProtocol {
     
     func showTrailerPlayer(video: MovieVideo, movieTitle: String) {
         // Для теста UI с моками
-        let trailerPlayerVC = Builder.createTrailerPlayerController(video: video, movieTitle: movieTitle, useMock: true)
-        
-        // Для реального API
-        //        let trailerPlayerVC = Builder.createTrailerPlayerController(video: MovieVideo.mockMovieVideo().first!, useMock: false)
+        let trailerPlayerVC = Builder.createTrailerPlayerController(video: video, movieTitle: movieTitle)
         
         if let navigationVC = viewController?.navigationController {
             navigationVC.pushViewController(trailerPlayerVC, animated: true)
@@ -29,8 +26,8 @@ final class MoviePageRouter: MoviePageRouterProtocol {
         }
     }
     
-    func showActorPage(actorName: String) {
-        let vc = Builder.createActorPageController(actorTitle: actorName)
+    func showActorPage(actorName: String, actorId: Int) {
+        let vc = Builder.createActorPageController(actorTitle: actorName, actorId: actorId)
         viewController?.navigationController?.pushViewController(vc, animated: true)
     }
     

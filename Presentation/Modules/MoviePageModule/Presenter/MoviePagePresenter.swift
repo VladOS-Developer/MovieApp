@@ -17,6 +17,7 @@ protocol MoviePagePresenterProtocol: AnyObject {
          movieVideoRepository: MovieVideoRepositoryProtocol,
          movieSimilarRepository: MovieSimilarRepositoryProtocol,
          movieCreditsRepository: MovieCreditsRepositoryProtocol,
+         movieTitle: String,
          movieId: Int)
     
     func getMoviesData()
@@ -39,6 +40,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     private let movieVideoRepository: MovieVideoRepositoryProtocol
     private let movieSimilarRepository: MovieSimilarRepositoryProtocol
     private let movieCreditsRepository: MovieCreditsRepositoryProtocol
+    private let movieTitle: String
     private var movieId: Int
     
     private var videos: [MovieVideo] = []
@@ -54,6 +56,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                   movieVideoRepository: MovieVideoRepositoryProtocol,
                   movieSimilarRepository: MovieSimilarRepositoryProtocol,
                   movieCreditsRepository: MovieCreditsRepositoryProtocol,
+                  movieTitle: String,
                   movieId: Int) {
         
         self.view = view
@@ -64,6 +67,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         self.movieSimilarRepository = movieSimilarRepository
         self.movieCreditsRepository = movieCreditsRepository
         self.movieId = movieId
+        self.movieTitle = movieTitle
     }
 
     func getMoviesData() {
@@ -92,9 +96,8 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         
         // 4. Показываем базовую информацию сразу
         view?.showMovie(sections: sections)
-        
-        //        self.videos = [] // сброс прошлых данных
-        
+        view?.setTitle(movieTitle)
+                
         // 5. Подгружаем трейлеры асинхронно
         movieVideoRepository.fetchMovieVideo(for: movieId) { [weak self] videos in
             guard let self = self else { return }
@@ -183,7 +186,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     }
     
     func didSelectActor(castVM: CastCellViewModel) {
-            router.showActorPage(actorName: castVM.name)
-        }
+        router.showActorPage(actorName: castVM.name, actorId: castVM.id )
+    }
     
 }

@@ -23,9 +23,7 @@ final class PosterCell: UICollectionViewCell {
         $0.layer.cornerRadius = 10
         return $0
     }(UIImageView())
-    
-    private lazy var posterLabel: UILabel = CellLabel(font: UIFont.systemFont(ofSize: 20, weight: .bold), color: .appWhite)
-    
+        
     private lazy var playTrailerButton: UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -45,7 +43,6 @@ final class PosterCell: UICollectionViewCell {
         super.init(frame: frame)
         contentView.addSubview(posterView)
         contentView.addSubview(playTrailerButton)
-        contentView.addSubview(posterLabel)
 
         setupConstraints()
     }
@@ -60,14 +57,11 @@ final class PosterCell: UICollectionViewCell {
             playTrailerButton.centerXAnchor.constraint(equalTo: posterView.centerXAnchor),
             playTrailerButton.centerYAnchor.constraint(equalTo: posterView.centerYAnchor),
             
-            posterLabel.bottomAnchor.constraint(equalTo: posterView.bottomAnchor, constant: -20),
-            posterLabel.centerXAnchor.constraint(equalTo: posterView.centerXAnchor),
         ])
     }
     
     func configurePosterCell(with detailsVM: MovieDetailsCellViewModel) {
         posterView.image = detailsVM.posterImage
-        posterLabel.text = detailsVM.title
     }
     
     required init?(coder: NSCoder) {

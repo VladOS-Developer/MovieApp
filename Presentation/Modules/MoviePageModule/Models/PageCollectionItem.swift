@@ -13,10 +13,7 @@ enum PageCollectionItem: Hashable {
     case genre(GenreCellViewModel)
     case video(MovieVideoCellViewModel)
     case similarMovie(MovieSimilarCellViewModel)
-    case actor(ActorCellViewModel)
-    case actorMovie(ActorMovieForMoviePageCellVM)
     case cast(CastCellViewModel)
-    case crew(CrewCellViewModel)
     
     var id: String {
         switch self {
@@ -24,10 +21,7 @@ enum PageCollectionItem: Hashable {
         case .genre(let vm): return String(vm.id)
         case .video(let vm): return String(vm.id)
         case .similarMovie(let vm): return String(vm.id)
-        case .actor(let vm): return String(vm.id)
-        case .actorMovie(let vm): return String(vm.id)
         case .cast(let vm): return String(vm.id)            // "cast_\(vm.id)" чтобы избежать коллизий идентификаторов
-        case .crew(let vm): return String(vm.id)            // "crew_\(vm.id)"
         }
     }
     
@@ -37,10 +31,7 @@ enum PageCollectionItem: Hashable {
         case .genre(let vm): return vm.name
         case .video(let vm): return vm.name
         case .similarMovie(let vm): return vm.title
-        case .actor(let vm): return vm.name
-        case .actorMovie(let vm): return vm.title
         case .cast(let vm): return vm.name
-        case .crew(let vm): return vm.name
         }
     }
     
@@ -50,10 +41,7 @@ enum PageCollectionItem: Hashable {
         case .genre: return nil
         case .video(let vm): return vm.thumbnailImage
         case .similarMovie(let vm): return vm.posterImage
-        case .actor(let vm): return vm.profileImage
-        case .actorMovie(let vm): return vm.posterImage
         case .cast(let vm): return vm.profileImage
-        case .crew(let vm): return vm.profileImage
         }
     }
     
@@ -63,10 +51,7 @@ enum PageCollectionItem: Hashable {
         case .genre: return nil
         case .video(let vm): return vm.thumbnailURL
         case .similarMovie(let vm): return vm.posterURL
-        case .actor(let vm): return vm.profileURL
-        case .actorMovie(let vm): return vm.posterURL
         case .cast(let vm): return vm.profileURL
-        case .crew(let vm): return vm.profileURL
         }
     }
 }

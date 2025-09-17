@@ -16,9 +16,9 @@ protocol BuilderProtocol {
     static func createFavoritesController() -> UIViewController
     
     static func createMovieListController(mode: MovieListMode) -> UIViewController
-    static func createMoviePageController(movieId: Int) -> UIViewController
-    static func createTrailerPlayerController(video: MovieVideo, movieTitle: String, useMock: Bool) -> UIViewController
-    static func createActorPageController(actorTitle: String) -> UIViewController
+    static func createMoviePageController(movieId: Int, movieTitle: String) -> UIViewController
+    static func createTrailerPlayerController(video: MovieVideo, movieTitle: String) -> UIViewController
+    static func createActorPageController(actorTitle: String, actorId: Int) -> UIViewController
 }
 
 class Builder: BuilderProtocol {
@@ -90,7 +90,7 @@ class Builder: BuilderProtocol {
         return listView
     }
     
-    static func createMoviePageController(movieId: Int) -> UIViewController {
+    static func createMoviePageController(movieId: Int, movieTitle: String) -> UIViewController {
         let pageView = MoviePageView()
         let router = MoviePageRouter()
         
@@ -107,6 +107,7 @@ class Builder: BuilderProtocol {
                                            movieVideoRepository: movieVideoRepository,
                                            movieSimilarRepository: movieSimilarRepository,
                                            movieCreditsRepository: movieCreditsRepository,
+                                           movieTitle: movieTitle,
                                            movieId: movieId)
         
         pageView.presenter = presenter
@@ -114,25 +115,25 @@ class Builder: BuilderProtocol {
         return pageView
     }
     
-    static func createTrailerPlayerController(video: MovieVideo, movieTitle: String, useMock: Bool = true) -> UIViewController {
+    static func createTrailerPlayerController(video: MovieVideo, movieTitle: String) -> UIViewController {
         let playerView = TrailerPlayerView()
         let presenter = TrailerPlayerPresenter(view: playerView, video: video, movieTitle: movieTitle)
-        
-        let repository: MovieVideoRepositoryProtocol = useMock
-                ? MockMovieVideoRepository.shared
-                : RealMovieVideoRepository()
-            
-            repository.fetchMovieVideo(for: 0) { videos in
-                print("Загружены видео (\(useMock ? "MOCK" : "API")):", videos)
-            }
-        
+     
         playerView.presenter = presenter
         return playerView
     }
     
-    static func createActorPageController(actorTitle: String) -> UIViewController {
+    static func createActorPageController(actorTitle: String, actorId: Int) -> UIViewController {
         let ActorView = ActorPageView()
-        let presenter = ActorPagePresenter(view: ActorView, actorTitle: actorTitle)
+        
+        let actorRepository: ActorRepositoryProtocol = MockActorRepository.shared
+        let movieCreditsRepository: MovieCreditsRepositoryProtocol = MockMovieCreditsRepository.shared
+        
+        let presenter = ActorPagePresenter(view: ActorView,
+                                           actorRepository: actorRepository,
+                                           movieCreditsRepository: movieCreditsRepository,
+                                           actorId: actorId,
+                                           actorTitle: actorTitle)
         
         ActorView.presenter = presenter
         return ActorView

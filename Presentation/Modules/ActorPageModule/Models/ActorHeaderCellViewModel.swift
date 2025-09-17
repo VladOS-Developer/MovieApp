@@ -12,17 +12,32 @@ struct ActorHeaderCellViewModel: Hashable {
     let name: String
     let profileURL: URL?
     let profileImage: UIImage?
-
-    init(actor: Actor) {
-        self.id = actor.id
-        self.name = actor.name
-
-        if let path = actor.profilePath {
-            self.profileURL = URL(string: "https://image.tmdb.org/t/p/w500\(path)")
-            self.profileImage = nil
-        } else {
+    let birthday: String?
+    let placeOfBirth: String?
+    let biography: String?
+    let moviesCountText: String
+    
+    init(actorDetails: ActorDetails, actorMovies: [ActorMovie]) {
+        self.id = actorDetails.id
+        self.name = actorDetails.name
+        self.birthday = actorDetails.birthday
+        self.placeOfBirth = actorDetails.placeOfBirth
+        self.biography = actorDetails.biography
+        
+        self.moviesCountText = "\(actorMovies.count) Movies"
+        
+        // images
+        if actorDetails.isLocalImage {
+            self.profileImage = UIImage(named: actorDetails.profilePath ?? "")
             self.profileURL = nil
-            self.profileImage = UIImage(named: "placeholder_actor")
+        } else {
+            self.profileImage = nil
+            if let path = actorDetails.profilePath {
+                self.profileURL = URL(string: "https://image.tmdb.org/t/p/w500\(path)")
+            } else {
+                self.profileURL = nil
+            }
         }
     }
+    
 }
