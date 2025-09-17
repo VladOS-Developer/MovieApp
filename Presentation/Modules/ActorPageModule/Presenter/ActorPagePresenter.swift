@@ -9,6 +9,7 @@ import UIKit
 
 protocol ActorPagePresenterProtocol: AnyObject {
     func viewDidLoad()
+    func didActorSelectTab(index: Int)
     
     init(view: ActorPageViewProtocol,
          actorRepository: ActorRepositoryProtocol,
@@ -53,12 +54,19 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
         
         // SocialStackButtons
         let socialStackButtons = ActorPageCollectionSection(type: .socialStackButtons, items: [])
+        
+        // SegmentedTabs
+        let actorSegmentedTabs = ActorPageCollectionSection(type: .actorSegmentedTabs, items: [])
     
-        let sections: [ActorPageCollectionSection] = [headerSection, socialStackButtons]
+        let sections: [ActorPageCollectionSection] = [headerSection, socialStackButtons, actorSegmentedTabs]
         
         self.sections = sections
         view?.showActorSections(sections: sections)
         view?.setTitle(actorTitle)
+    }
+    
+    func didActorSelectTab(index: Int) {
+
     }
     
 }

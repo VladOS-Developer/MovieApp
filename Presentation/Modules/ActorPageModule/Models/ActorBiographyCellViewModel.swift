@@ -9,12 +9,14 @@ import UIKit
 
 struct ActorBiographyCellViewModel: Hashable {
     let id: Int
-    let biography: String
-    let birthday: String?
-    let placeOfBirth: String?
+    let name: String // имя
+    let biography: String // текст биографии
+    let birthday: String? // дата рождения
+    let placeOfBirth: String? // место рождения
 
     init(actor: ActorDetails) {
         self.id = actor.id
+        self.name = actor.name
         self.biography = actor.biography ?? "No biography available"
         self.birthday = actor.birthday
         self.placeOfBirth = actor.placeOfBirth

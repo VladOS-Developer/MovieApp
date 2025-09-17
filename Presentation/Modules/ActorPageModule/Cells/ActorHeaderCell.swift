@@ -20,7 +20,7 @@ final class ActorHeaderCell: UICollectionViewCell {
     
     private lazy var dimmingView: UIView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = UIColor.black.withAlphaComponent(0.50) // мягкое затемнение
+        $0.backgroundColor = UIColor.black.withAlphaComponent(0.65) // мягкое затемнение
         $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
         return $0
@@ -29,7 +29,7 @@ final class ActorHeaderCell: UICollectionViewCell {
     private lazy var profileImageView: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentMode = .scaleAspectFill
-        $0.layer.cornerRadius = 50
+        $0.layer.cornerRadius = 65
         $0.clipsToBounds = true
         $0.backgroundColor = UIColor.white.withAlphaComponent(0.1)
         return $0
@@ -70,8 +70,6 @@ final class ActorHeaderCell: UICollectionViewCell {
         contentView.addSubview(profileImageView)
         contentView.addSubview(moviesCountLabel)
         contentView.addSubview(imdbLabel)
-//        setupSocialIcons()
-//        contentView.addSubview(stackSocials)
         
         NSLayoutConstraint.activate([
             backPoster.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -85,9 +83,9 @@ final class ActorHeaderCell: UICollectionViewCell {
             dimmingView.bottomAnchor.constraint(equalTo: backPoster.bottomAnchor),
             
             profileImageView.centerXAnchor.constraint(equalTo: backPoster.centerXAnchor),
-            profileImageView.centerYAnchor.constraint(equalTo: backPoster.centerYAnchor, constant: 10),
-            profileImageView.widthAnchor.constraint(equalToConstant: 100),
-            profileImageView.heightAnchor.constraint(equalToConstant: 100),
+            profileImageView.centerYAnchor.constraint(equalTo: backPoster.centerYAnchor, constant: 15),
+            profileImageView.widthAnchor.constraint(equalToConstant: 130),
+            profileImageView.heightAnchor.constraint(equalToConstant: 130),
             
             moviesCountLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5),
             moviesCountLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
@@ -95,26 +93,9 @@ final class ActorHeaderCell: UICollectionViewCell {
             imdbLabel.topAnchor.constraint(equalTo: moviesCountLabel.bottomAnchor, constant: 5),
             imdbLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
             
-//            stackSocials.topAnchor.constraint(equalTo: imdbLabel.bottomAnchor, constant: 10),
-//            stackSocials.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
         
     }
-    
-//    private func setupSocialIcons() {
-//        let icons = ["appHeart", "appHeart", "appHeart"]
-//        icons.forEach { name in
-//            let image = UIImageView(image: UIImage(named: name))
-//            image.translatesAutoresizingMaskIntoConstraints = false
-//            image.contentMode = .scaleAspectFit
-//            image.isUserInteractionEnabled = true
-//            NSLayoutConstraint.activate([
-//                image.widthAnchor.constraint(equalToConstant: 25),
-//                image.heightAnchor.constraint(equalToConstant: 25)
-//            ])
-//            stackSocials.addArrangedSubview(image)
-//        }
-//    }
     
     func configure(with headerVM: ActorHeaderCellViewModel) {
         moviesCountLabel.text = headerVM.moviesCountText  // пока хардкод, потом из VM "66"

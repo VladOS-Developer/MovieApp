@@ -27,6 +27,7 @@ class ActorPageView: UIViewController {
         $0.delegate = self
         $0.register(ActorHeaderCell.self, forCellWithReuseIdentifier: ActorHeaderCell.reuseId)
         $0.register(ActorStackButtonsCell.self, forCellWithReuseIdentifier: ActorStackButtonsCell.reuseId)
+        $0.register(ActorSegmentedTabsCell.self, forCellWithReuseIdentifier: ActorSegmentedTabsCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createActorLayout()))
 
@@ -40,6 +41,9 @@ class ActorPageView: UIViewController {
           
             case .socialStackButtons:
                 return ActorPageLayoutFactory.setSocialStackButtonLayout()
+                
+            case .actorSegmentedTabs:
+                return ActorPageLayoutFactory.setActorSegmentedTabsLayout()
             }
         }
     }
@@ -80,8 +84,8 @@ extension ActorPageView: UICollectionViewDataSource {
         switch sections[section].type {
         case .socialStackButtons:
             return 1 // возврат 1
-//        case .segmentedTabs:
-//            return 1
+        case .actorSegmentedTabs:
+            return 1
         default:
             return sections[section].items.count
         }
@@ -109,6 +113,12 @@ extension ActorPageView: UICollectionViewDataSource {
 
         case .socialStackButtons:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorStackButtonsCell.reuseId, for: indexPath) as? ActorStackButtonsCell else {
+                return UICollectionViewCell()
+            }
+            return cell 
+            
+        case .actorSegmentedTabs:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorSegmentedTabsCell.reuseId, for: indexPath) as? ActorSegmentedTabsCell else {
                 return UICollectionViewCell()
             }
             return cell

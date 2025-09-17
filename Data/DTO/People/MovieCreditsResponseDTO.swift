@@ -1,5 +1,5 @@
 //
-//  MovieCreditsDTO.swift
+//  MovieCreditsResponseDTO.swift
 //  MovieApp
 //
 //  Created by VladOS on 13.09.2025.

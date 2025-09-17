@@ -18,4 +18,8 @@ final class MockActorRepository: ActorRepositoryProtocol {
     func fetchActorMovies(by id: Int) -> [ActorMovie] {
         return ActorMovie.mockActorMovies()
     }
+    
+    func fetchActorImages(by id: Int) -> [ActorImages] {
+        return ActorImages.mockActorImages()
+    }
 }
