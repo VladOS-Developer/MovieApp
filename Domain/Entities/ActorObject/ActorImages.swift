@@ -27,6 +27,9 @@ extension ActorImages {
             ActorImages(id: "1", filePath: "img12", isLocalImage: true),
             ActorImages(id: "2", filePath: "img13", isLocalImage: true),
             ActorImages(id: "3", filePath: "img14", isLocalImage: true),
+            ActorImages(id: "4", filePath: "img12", isLocalImage: true),
+            ActorImages(id: "5", filePath: "img13", isLocalImage: true),
+            ActorImages(id: "6", filePath: "img14", isLocalImage: true),
         ]
     }
 }

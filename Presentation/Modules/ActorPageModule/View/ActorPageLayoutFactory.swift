@@ -55,7 +55,6 @@ enum ActorPageLayoutFactory {
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 0, trailing: 0)
-        
         return section
     }
     
@@ -68,16 +67,14 @@ enum ActorPageLayoutFactory {
     }
 
     static func setGalleryLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3),heightDimension: .absolute(120))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),heightDimension: .absolute(120))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .fixed(10)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(150), heightDimension: .absolute(200)), subitems: [item])
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20)
         
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
         section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
         return section
     }
 }

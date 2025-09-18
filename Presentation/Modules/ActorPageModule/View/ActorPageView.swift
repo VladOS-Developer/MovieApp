@@ -33,6 +33,7 @@ class ActorPageView: UIViewController {
         $0.register(ActorSegmentedTabsCell.self, forCellWithReuseIdentifier: ActorSegmentedTabsCell.reuseId)
         $0.register(ActorFilmographyCell.self, forCellWithReuseIdentifier: ActorFilmographyCell.reuseId)
         $0.register(ActorOverviewCell.self, forCellWithReuseIdentifier: ActorOverviewCell.reuseId)
+        $0.register(ActorGalleryImageCell.self, forCellWithReuseIdentifier: ActorGalleryImageCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createActorLayout()))
 
@@ -57,7 +58,7 @@ class ActorPageView: UIViewController {
                 return ActorPageLayoutFactory.setBiographyLayout()
                 
             case .gallery:
-                <#code#>
+                return ActorPageLayoutFactory.setGalleryLayout()
             }
         }
     }
@@ -167,7 +168,17 @@ extension ActorPageView: UICollectionViewDataSource {
             return cell
             
         case .gallery:
-            <#code#>
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorGalleryImageCell.reuseId, for: indexPath) as? ActorGalleryImageCell else {
+                return UICollectionViewCell()
+            }
+            
+            let item = section.items[indexPath.item]
+            switch item {
+            case .gallery(let imageVM):
+                cell.configureGalleryImageCell(with: imageVM)
+            default: break
+            }
+            return cell
         }
     }
     

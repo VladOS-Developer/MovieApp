@@ -68,6 +68,7 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
         
         let actorDetails = ActorDetails.mockActor(id: actorId)
         let actorMovies = ActorMovie.mockActorMovies()
+        let actorImages = ActorImages.mockActorImages()
         
         var newSections: [ActorPageCollectionSection] = []
         
@@ -80,9 +81,14 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
         if index == 0 { // Filmography
             let moviesVM = actorMovies.map { ActorMovieCellViewModel(actorMovie: $0) }
             newSections.append(.init(type: .filmography, items: moviesVM.map { .filmography($0) }))
-        } else { // Biography
+        } else {
+            // Biography
             let bioVM = ActorBiographyCellViewModel(actor: actorDetails)
             newSections.append(.init(type: .biography, items: [.biography(bioVM)]))
+            
+            // Gallery
+            let imagesVM = actorImages.map { ActorImagesCellViewModel(actorImage: $0) }
+            newSections.append(.init(type: .gallery, items: imagesVM.map { .gallery($0) }))
         }
         
         self.sections = newSections
