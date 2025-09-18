@@ -1,5 +1,5 @@
 //
-//  ActorGalleryCellViewModel.swift
+//  ActorImagesCellViewModel.swift
 //  MovieApp
 //
 //  Created by VladOS on 17.09.2025.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct ActorGalleryCellViewModel: Hashable {
+struct ActorImagesCellViewModel: Hashable {
 //    let images: [ActorImages]
     
     let image: UIImage?

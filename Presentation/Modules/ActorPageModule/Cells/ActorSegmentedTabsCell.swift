@@ -7,10 +7,13 @@
 
 import UIKit
 
+protocol ActorSegmentedTabsCellDelegate: AnyObject {
+    func didSelectTab(index: Int)
+}
+
 final class ActorSegmentedTabsCell: UICollectionViewCell {
     static let reuseId = "ActorSegmentedTabsCell"
-
-    var onActorTabSelected: ((Int) -> Void)?
+    weak var delegate: ActorSegmentedTabsCellDelegate?
 
     private lazy var segmentedControl: UISegmentedControl = {
         let items = ["Filmography", "Biography"]
@@ -20,7 +23,7 @@ final class ActorSegmentedTabsCell: UICollectionViewCell {
         control.selectedSegmentTintColor = .systemBlue
         control.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
         control.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-        control.addTarget(self, action: #selector(actorTabChanged), for: .valueChanged)
+        control.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
         return control
     }()
 
@@ -36,10 +39,14 @@ final class ActorSegmentedTabsCell: UICollectionViewCell {
         ])
     }
 
-    @objc private func actorTabChanged() {
-        onActorTabSelected?(segmentedControl.selectedSegmentIndex)
-    }
-
+//    @objc private func actorTabChanged() {
+//        onActorTabSelected?(segmentedControl.selectedSegmentIndex)
+//    }
+    
+    @objc private func didChangeSegment() {
+            delegate?.didSelectTab(index: segmentedControl.selectedSegmentIndex)
+        }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

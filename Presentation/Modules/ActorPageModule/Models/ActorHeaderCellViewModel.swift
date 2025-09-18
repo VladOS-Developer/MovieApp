@@ -15,6 +15,7 @@ struct ActorHeaderCellViewModel: Hashable {
     let birthday: String?
     let placeOfBirth: String?
     let biography: String?
+    
     let moviesCountText: String
     
     init(actorDetails: ActorDetails, actorMovies: [ActorMovie]) {

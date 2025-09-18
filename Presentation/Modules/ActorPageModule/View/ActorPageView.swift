@@ -10,13 +10,15 @@ import UIKit
 protocol ActorPageViewProtocol: AnyObject {
     func setTitle(_ text: String)
     func showActorSections(sections: [ActorPageCollectionSection])
+    func setSelectedTabIndex(_ index: Int)
 }
 
 class ActorPageView: UIViewController {
-    
     var presenter: ActorPagePresenterProtocol!
     
     private var sections: [ActorPageCollectionSection] = []
+    
+    private var selectedSegmentedTabsIndex: Int = 0
     
     lazy var collectionView: UICollectionView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -28,6 +30,7 @@ class ActorPageView: UIViewController {
         $0.register(ActorHeaderCell.self, forCellWithReuseIdentifier: ActorHeaderCell.reuseId)
         $0.register(ActorStackButtonsCell.self, forCellWithReuseIdentifier: ActorStackButtonsCell.reuseId)
         $0.register(ActorSegmentedTabsCell.self, forCellWithReuseIdentifier: ActorSegmentedTabsCell.reuseId)
+        $0.register(ActorFilmographyCell.self, forCellWithReuseIdentifier: ActorFilmographyCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createActorLayout()))
 
@@ -44,6 +47,9 @@ class ActorPageView: UIViewController {
                 
             case .actorSegmentedTabs:
                 return ActorPageLayoutFactory.setActorSegmentedTabsLayout()
+                
+            case .filmography:
+                return ActorPageLayoutFactory.setFilmographyLayout()
             }
         }
     }
@@ -121,10 +127,31 @@ extension ActorPageView: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorSegmentedTabsCell.reuseId, for: indexPath) as? ActorSegmentedTabsCell else {
                 return UICollectionViewCell()
             }
+            cell.delegate = self
+            return cell
+            
+        case .filmography:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorFilmographyCell.reuseId, for: indexPath) as? ActorFilmographyCell else {
+                return UICollectionViewCell()
+            }
+            
+            let item = section.items[indexPath.item]
+            
+            switch item {
+            case .filmography(let movieVM):
+                cell.configureFilmographyMovieCell(with: movieVM)
+            default: break
+            }
             return cell
         }
     }
     
+}
+
+extension ActorPageView: ActorSegmentedTabsCellDelegate {
+    func didSelectTab(index: Int) {
+        presenter.didActorSelectTab(index: index)
+    }
 }
 
 extension ActorPageView: UICollectionViewDelegate {
@@ -132,6 +159,10 @@ extension ActorPageView: UICollectionViewDelegate {
 }
 
 extension ActorPageView: ActorPageViewProtocol {
+    func setSelectedTabIndex(_ index: Int) {
+        
+    }
+    
     func showActorSections(sections: [ActorPageCollectionSection]) {
         self.sections = sections
         collectionView.reloadData()
