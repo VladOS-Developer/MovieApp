@@ -19,6 +19,7 @@ class ActorPageView: UIViewController {
     private var sections: [ActorPageCollectionSection] = []
     
     private var selectedSegmentedTabsIndex: Int = 0
+    private var isBiographyExpanded = false
     
     lazy var collectionView: UICollectionView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -31,6 +32,7 @@ class ActorPageView: UIViewController {
         $0.register(ActorStackButtonsCell.self, forCellWithReuseIdentifier: ActorStackButtonsCell.reuseId)
         $0.register(ActorSegmentedTabsCell.self, forCellWithReuseIdentifier: ActorSegmentedTabsCell.reuseId)
         $0.register(ActorFilmographyCell.self, forCellWithReuseIdentifier: ActorFilmographyCell.reuseId)
+        $0.register(ActorOverviewCell.self, forCellWithReuseIdentifier: ActorOverviewCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createActorLayout()))
 
@@ -50,6 +52,12 @@ class ActorPageView: UIViewController {
                 
             case .filmography:
                 return ActorPageLayoutFactory.setFilmographyLayout()
+                
+            case .biography:
+                return ActorPageLayoutFactory.setBiographyLayout()
+                
+            case .gallery:
+                <#code#>
             }
         }
     }
@@ -143,6 +151,23 @@ extension ActorPageView: UICollectionViewDataSource {
             default: break
             }
             return cell
+            
+        case .biography:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorOverviewCell.reuseId, for: indexPath) as? ActorOverviewCell else {
+                return UICollectionViewCell()
+            }
+            
+            let item = section.items[indexPath.item]
+            switch item {
+            case .biography(let detailsVM):
+                cell.configureActorOverviewCell(with: detailsVM.biography, expanded: isBiographyExpanded)
+                cell.delegate = self
+            default: break
+            }
+            return cell
+            
+        case .gallery:
+            <#code#>
         }
     }
     
@@ -153,6 +178,22 @@ extension ActorPageView: ActorSegmentedTabsCellDelegate {
         presenter.didActorSelectTab(index: index)
     }
 }
+
+extension ActorPageView: ActorOverviewCellDelegate {
+    func actorOverviewCellDidToggle(_ cell: ActorOverviewCell) {
+        
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        isBiographyExpanded.toggle()
+        
+        // перезагрузка ячейки — compositional layout пересчитает высоту (estimated)
+        collectionView.performBatchUpdates({ [weak self] in
+            guard let self = self else { return }
+            
+            self.collectionView.reloadItems(at: [indexPath])
+        }, completion: nil)
+    }
+}
+
 
 extension ActorPageView: UICollectionViewDelegate {
     

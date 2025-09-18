@@ -8,12 +8,14 @@
 import Foundation
 
 struct ActorImages: Hashable {
+    let id: String
     let filePath: String?
     let isLocalImage: Bool
 }
 
 extension ActorImages {
     init(dto: ActorImageDTO) {
+        self.id = UUID().uuidString
         self.filePath = dto.filePath
         self.isLocalImage = false
     }
@@ -22,9 +24,9 @@ extension ActorImages {
 extension ActorImages {
     static func mockActorImages() -> [ActorImages] {
         return [
-            ActorImages(filePath: "img12", isLocalImage: true),
-            ActorImages(filePath: "img13", isLocalImage: true),
-            ActorImages(filePath: "img14", isLocalImage: true),
+            ActorImages(id: "1", filePath: "img12", isLocalImage: true),
+            ActorImages(id: "2", filePath: "img13", isLocalImage: true),
+            ActorImages(id: "3", filePath: "img14", isLocalImage: true),
         ]
     }
 }

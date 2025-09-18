@@ -81,8 +81,8 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
             let moviesVM = actorMovies.map { ActorMovieCellViewModel(actorMovie: $0) }
             newSections.append(.init(type: .filmography, items: moviesVM.map { .filmography($0) }))
         } else { // Biography
-            //                let bioVM = ActorBiographyCellViewModel(actor: actorDetails)
-            //                newSections.append(.init(type: .biography, items: [.biography(bioVM)]))
+            let bioVM = ActorBiographyCellViewModel(actor: actorDetails)
+            newSections.append(.init(type: .biography, items: [.biography(bioVM)]))
         }
         
         self.sections = newSections

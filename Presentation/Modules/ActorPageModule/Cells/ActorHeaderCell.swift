@@ -43,7 +43,7 @@ final class ActorHeaderCell: UICollectionViewCell {
         return $0
     }(UILabel())
     
-    private lazy var imdbLabel: UILabel = {
+    private lazy var ratingLabel: UILabel = {
         let label = PaddingLabel(withInsets: 5, 5, 5, 5)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 12, weight: .bold)
@@ -69,7 +69,7 @@ final class ActorHeaderCell: UICollectionViewCell {
         contentView.addSubview(dimmingView)
         contentView.addSubview(profileImageView)
         contentView.addSubview(moviesCountLabel)
-        contentView.addSubview(imdbLabel)
+        contentView.addSubview(ratingLabel)
         
         NSLayoutConstraint.activate([
             backPoster.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -90,8 +90,8 @@ final class ActorHeaderCell: UICollectionViewCell {
             moviesCountLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5),
             moviesCountLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
-            imdbLabel.topAnchor.constraint(equalTo: moviesCountLabel.bottomAnchor, constant: 5),
-            imdbLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            ratingLabel.topAnchor.constraint(equalTo: moviesCountLabel.bottomAnchor, constant: 5),
+            ratingLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
             
         ])
         
@@ -99,7 +99,7 @@ final class ActorHeaderCell: UICollectionViewCell {
     
     func configure(with headerVM: ActorHeaderCellViewModel) {
         moviesCountLabel.text = headerVM.moviesCountText  // пока хардкод, потом из VM "66"
-        imdbLabel.text = "Rating Top 67" // тоже можно из VM
+        ratingLabel.text = "Rating Top 67" // тоже можно из VM
         profileImageView.image = headerVM.profileImage
         backPoster.image = headerVM.profileImage
     }

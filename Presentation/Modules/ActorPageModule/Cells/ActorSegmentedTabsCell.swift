@@ -13,6 +13,7 @@ protocol ActorSegmentedTabsCellDelegate: AnyObject {
 
 final class ActorSegmentedTabsCell: UICollectionViewCell {
     static let reuseId = "ActorSegmentedTabsCell"
+    
     weak var delegate: ActorSegmentedTabsCellDelegate?
 
     private lazy var segmentedControl: UISegmentedControl = {
@@ -38,10 +39,6 @@ final class ActorSegmentedTabsCell: UICollectionViewCell {
             segmentedControl.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-
-//    @objc private func actorTabChanged() {
-//        onActorTabSelected?(segmentedControl.selectedSegmentIndex)
-//    }
     
     @objc private func didChangeSegment() {
             delegate?.didSelectTab(index: segmentedControl.selectedSegmentIndex)

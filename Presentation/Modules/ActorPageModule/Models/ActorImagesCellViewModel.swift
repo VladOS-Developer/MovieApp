@@ -8,20 +8,14 @@
 import UIKit
 
 struct ActorImagesCellViewModel: Hashable {
-//    let images: [ActorImages]
-    
+    let id: String
+    let filePath: String?
     let image: UIImage?
     let imageURL: URL?
     
     init(actorImage: ActorImages) {
-        
-//        if actorImage.isLocalImage {
-//            self.image = UIImage(named: actorImage.filePath)
-//            self.imageURL = nil
-//        } else {
-//            self.image = nil
-//            self.imageURL = URL(string: "https://image.tmdb.org/t/p/w500\(actorImage.filePath)")
-//        }
+        self.id = actorImage.id
+        self.filePath = actorImage.filePath
         
         // images
         if actorImage.isLocalImage {

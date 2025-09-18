@@ -48,7 +48,7 @@ class AboutCell: UICollectionViewCell {
         contentView.addSubview(characterLabel)
         
         NSLayoutConstraint.activate([
-            profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -15),
             profileImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             profileImageView.widthAnchor.constraint(equalToConstant: 80),
             profileImageView.heightAnchor.constraint(equalToConstant: 80),

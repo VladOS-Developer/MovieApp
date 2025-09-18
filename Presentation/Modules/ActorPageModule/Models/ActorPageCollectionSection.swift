@@ -17,6 +17,6 @@ enum ActorPageSectionType {
     case socialStackButtons
     case actorSegmentedTabs
     case filmography
-//    case biography
-
+    case biography
+    case gallery
 }
