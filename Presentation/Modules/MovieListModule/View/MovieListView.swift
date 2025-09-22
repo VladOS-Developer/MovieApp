@@ -106,7 +106,10 @@ extension MovieListView: MovieListViewProtocol {
     
     func updateMovies(_ movies: [MovieCellViewModel]) {
         self.movies = movies
-        collectionView.reloadData()
+        Task { @MainActor in
+            collectionView.reloadData()
+        }
+        
     }
 }
 

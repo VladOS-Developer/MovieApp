@@ -7,10 +7,6 @@
 
 import Foundation
 
-struct MoviesSimilarResponseDTO: Decodable {
-    let results: [MovieSimilarDTO]
-}
-
 struct MovieSimilarDTO: Decodable {
     let id: Int
     let title: String

@@ -14,6 +14,7 @@ protocol MovieListPresenterProtocol: AnyObject {
          mode: MovieListMode)
     
     func viewDidLoad()
+    func viewWillAppear()
     func didSelectItem(at index: Int)
 }
 
@@ -26,7 +27,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     private let mode: MovieListMode
     private var movies: [Movie] = []
     private var movieViewModel: [MovieCellViewModel] = []
-    private var allGenres: [Genres]
+    private var allGenres: [Genres] = []
     
     private let favoritesStorage = FavoritesStorage()//
     
@@ -40,23 +41,35 @@ class MovieListPresenter: MovieListPresenterProtocol {
         self.genreRepository = genreRepository
         
         self.mode = mode
-        self.allGenres = genreRepository.fetchGenres()
+        //        self.allGenres = try await self.genreRepository.fetchGenres()
     }
     
     func viewDidLoad() {
         view?.setTitle(mode.title)
         
-        switch mode {
-        case .top10:
-            movies = Array(movieRepository.fetchTopMovies().prefix(10))
-        case .upcoming:
-            movies = movieRepository.fetchUpcomingMovies()
-        case .genre(let id, _):
-            movies = movieRepository.fetchMovies(byGenre: id)
+        Task { [weak self] in
+            guard let self = self else { return }
+            do {
+                self.allGenres = try await self.genreRepository.fetchGenres()
+                
+                switch self.mode {
+                case .top10:
+                    let top = try await self.movieRepository.fetchTopMovies()
+                    self.movies = Array(top.prefix(10))
+                case .upcoming:
+                    self.movies = try await self.movieRepository.fetchUpcomingMovies()
+                case .genre(let id, _):
+                    self.movies = try await self.movieRepository.fetchMovies(byGenre: id)
+                }
+                
+                self.movieViewModel = self.movies.map {
+                    MovieCellViewModel(movie: $0, genres: self.allGenres)
+                }
+                self.view?.updateMovies(self.movieViewModel)
+            } catch {
+                print("Ошибка загрузки фильмов: \(error)")
+            }
         }
-        
-        movieViewModel = movies.map { MovieCellViewModel(movie: $0, genres: allGenres) }
-        view?.updateMovies(movieViewModel)
     }
     
     func viewWillAppear() {

@@ -8,6 +8,7 @@
 import Foundation
 
 protocol MovieDetailsRepositoryProtocol: AnyObject {
+    
     func fetchTopMovieDetails() -> [MovieDetails]
     func fetchUpcomingMovieDetails() -> [MovieDetails]
     func fetchMovieDetails(byGenre id: Int) -> [MovieDetails]

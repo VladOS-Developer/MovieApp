@@ -10,22 +10,26 @@ import UIKit
 protocol TrailerPlayerPresenterProtocol: AnyObject {
     func viewDidLoad()
     init(view: TrailerPlayerViewProtocol,
+         movieVideoRepository: MovieVideoRepositoryProtocol,
          video: MovieVideo,
          movieTitle: String)
 }
 
 class TrailerPlayerPresenter {
     private weak var view: TrailerPlayerViewProtocol?
+    private let movieVideoRepository: MovieVideoRepositoryProtocol
     private let video: MovieVideo
     private let movieTitle: String
     
     required init(view: TrailerPlayerViewProtocol,
+                  movieVideoRepository: MovieVideoRepositoryProtocol,
                   video: MovieVideo,
                   movieTitle: String) {
         
         self.view = view
         self.video = video
         self.movieTitle = movieTitle
+        self.movieVideoRepository = movieVideoRepository
     }
 }
 

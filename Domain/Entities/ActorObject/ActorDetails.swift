@@ -29,13 +29,7 @@ extension ActorDetails {
         
         self.isLocalImage = false
     }
-    
-//    static func mockActor(id: Int) -> ActorDetails {
-//        
-//        return ActorDetails(id: 1,name: "Leonardo DiCaprio",profilePath: "img1",birthday: "1974-11-11",placeOfBirth: "Los Angeles, California, USA",
-//                            biography: "American actor and producer known for Titanic, Inception, The Revenant...", isLocalImage: true)
-//    }
-//    
+
     static func mockActor(id: Int) -> ActorDetails {
         switch id {
         case 6193:

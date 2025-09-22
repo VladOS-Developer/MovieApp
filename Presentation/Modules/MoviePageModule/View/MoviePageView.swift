@@ -76,6 +76,7 @@ class MoviePageView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureNavBarWithBackAndRightButton(title: title,
                                               backAction: #selector(didTapBack),
                                               rightSystemName: "heart",
@@ -113,10 +114,13 @@ extension MoviePageView: UICollectionViewDataSource {
     // MARK: updateFavoriteState
     func updateFavoriteState(isFavorite: Bool) {
         let systemName = isFavorite ? "heart.fill" : "heart"
-        navigationItem.rightBarButtonItem?.image = UIImage(
-            systemName: systemName,
-            withConfiguration: UIImage.SymbolConfiguration(weight: .bold)
-        )
+        
+        Task { @MainActor in
+            navigationItem.rightBarButtonItem?.image = UIImage(
+                systemName: systemName,
+                withConfiguration: UIImage.SymbolConfiguration(weight: .bold)
+            )
+        }
     }
     
     // MARK: viewForSupplementaryElementOfKind

@@ -22,6 +22,9 @@ protocol BuilderProtocol {
 }
 
 class Builder: BuilderProtocol {
+    
+    private static let useMock = true // false когда API ключ
+    private static let apiKey = "key"
    
     static func getPasscodeController(sceneDelegate: SceneDelegateProtocol) -> UIViewController {
         
@@ -47,8 +50,16 @@ class Builder: BuilderProtocol {
     static func createMainScreenController() -> UIViewController {
         let mainView = MainScreenView()
         let router = MainScreenRouter()
-        let movieRepository: MovieRepositoryProtocol = MockMovieRepository.shared
-        let genreRepository: GenreRepositoryProtocol = MockGenreRepository.shared
+        
+//        let movieRepository: MovieRepositoryProtocol = MockMovieRepository.shared
+//        let genreRepository: GenreRepositoryProtocol = MockGenreRepository.shared
+        let movieRepository: MovieRepositoryProtocol = useMock
+                    ? MockMovieRepository.shared
+                    : MovieRepository(networkService: NetworkService(apiKey: apiKey))
+
+                let genreRepository: GenreRepositoryProtocol = useMock
+                    ? MockGenreRepository.shared
+                    : GenreRepository(networkService: NetworkService(apiKey: apiKey))
         
         let presenter = MainScreenPresenter(view: mainView,
                                             router: router,
@@ -117,7 +128,13 @@ class Builder: BuilderProtocol {
     
     static func createTrailerPlayerController(video: MovieVideo, movieTitle: String) -> UIViewController {
         let playerView = TrailerPlayerView()
-        let presenter = TrailerPlayerPresenter(view: playerView, video: video, movieTitle: movieTitle)
+        
+        let movieVideoRepository: MovieVideoRepositoryProtocol = MockMovieVideoRepository.shared
+        
+        let presenter = TrailerPlayerPresenter(view: playerView,
+                                               movieVideoRepository: movieVideoRepository,
+                                               video: video,
+                                               movieTitle: movieTitle)
      
         playerView.presenter = presenter
         return playerView

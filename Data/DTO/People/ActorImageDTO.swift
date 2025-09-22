@@ -1,16 +1,11 @@
 //
-//  ActorImagesResponseDTO.swift
+//  ActorImageDTO.swift
 //  MovieApp
 //
-//  Created by VladOS on 17.09.2025.
+//  Created by VladOS on 22.09.2025.
 //
 
 import Foundation
-
-struct ActorImagesResponseDTO: Decodable {
-    let id: Int
-    let profiles: [ActorImageDTO]
-}
 
 struct ActorImageDTO: Decodable {
     let filePath: String

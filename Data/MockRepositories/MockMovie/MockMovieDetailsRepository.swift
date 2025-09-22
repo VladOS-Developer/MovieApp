@@ -8,6 +8,7 @@
 import Foundation
 
 final class MockMovieDetailsRepository: MovieDetailsRepositoryProtocol {
+    
     static let shared = MockMovieDetailsRepository()
     
     func fetchTopMovieDetails() -> [MovieDetails] {

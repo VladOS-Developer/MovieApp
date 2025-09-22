@@ -98,7 +98,7 @@ extension ActorPageView: UICollectionViewDataSource {
         
         switch sections[section].type {
         case .socialStackButtons:
-            return 1 // возврат 1
+            return 1
         case .actorSegmentedTabs:
             return 1
         default:

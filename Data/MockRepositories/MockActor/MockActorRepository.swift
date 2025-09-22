@@ -8,8 +8,8 @@
 import Foundation
 
 final class MockActorRepository: ActorRepositoryProtocol {
+    
     static let shared = MockActorRepository()
-    private init() {}
 
     func fetchActorDetails(by id: Int) -> ActorDetails {
         return ActorDetails.mockActor(id: id)

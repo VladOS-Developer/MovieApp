@@ -43,30 +43,40 @@ class MainScreenPresenter {
 extension MainScreenPresenter: MainScreenPresenterProtocol {
     
     func getMoviesData() {
-        let genres = genreRepository.fetchGenres()
-        let topMovies = movieRepository.fetchTopMovies()
-        let upcoming = movieRepository.fetchUpcomingMovies()
         
-        let genreItems = genres
-            .map { GenreCellViewModel(id: $0.id, name: $0.name) }
-            .map { MainCollectionItem.genre($0) }
-        
-        let topItems = topMovies
-            .map { MovieCellViewModel(movie: $0, genres: genres) }
-            .map { MainCollectionItem.movie($0) }
-        
-        let upcomingItems = upcoming
-            .map { MovieCellViewModel(movie: $0, genres: genres) }
-            .map { MainCollectionItem.movie($0) }
-        
-        let sections: [MainCollectionSection] = [
-            MainCollectionSection(type: .genresMovie, items: genreItems),
-            MainCollectionSection(type: .topMovie, items: topItems),
-            MainCollectionSection(type: .upcomingMovie, items: upcomingItems)
-        ]
-        
-        self.sections = sections
-        view?.showMovies(sections: sections)
+        Task {
+            do {
+                async let genresTask = genreRepository.fetchGenres()
+                async let topMoviesTask = movieRepository.fetchTopMovies()
+                async let upcomingTask = movieRepository.fetchUpcomingMovies()
+                
+                let (genres, topMovies, upcomingMovies) = try await (genresTask, topMoviesTask, upcomingTask)
+                
+                let genreItems = genres.map { GenreCellViewModel(id: $0.id, name: $0.name) }
+                    .map { MainCollectionItem.genre($0) }
+                
+                let topItems = topMovies.map { MovieCellViewModel(movie: $0, genres: genres) }
+                    .map { MainCollectionItem.movie($0) }
+                
+                let upcomingItems = upcomingMovies.map { MovieCellViewModel(movie: $0, genres: genres) }
+                    .map { MainCollectionItem.movie($0) }
+                
+                let sections: [MainCollectionSection] = [
+                    MainCollectionSection(type: .genresMovie, items: genreItems),
+                    MainCollectionSection(type: .topMovie, items: topItems),
+                    MainCollectionSection(type: .upcomingMovie, items: upcomingItems)
+                ]
+                
+                self.sections = sections
+                
+                await MainActor.run {
+                    self.view?.showMovies(sections: sections)
+                }
+                
+            } catch {
+                print("Failed to fetch movies: \(error)")
+            }
+        }
     }
     
     func didTapSeeAll(in section: Int) {

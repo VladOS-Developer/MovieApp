@@ -8,6 +8,7 @@
 import Foundation
 
 final class MockMovieSimilarRepository: MovieSimilarRepositoryProtocol {
+    
     static let shared = MockMovieSimilarRepository()
     
     func fetchSimilarMovie(for movieId: Int) -> [MovieSimilar] {

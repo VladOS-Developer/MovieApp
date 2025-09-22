@@ -7,11 +7,6 @@
 
 import Foundation
 
-struct MovieVideosResponseDTO: Decodable {
-    let id: Int
-    let results: [MovieVideoDTO]
-}
-
 struct MovieVideoDTO: Decodable {
     let id: String
     let key: String     // для запуска YouTube-видео

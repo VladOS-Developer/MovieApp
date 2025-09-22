@@ -7,10 +7,6 @@
 
 import Foundation
 
-struct UpcomingResponseDTO: Decodable {
-    let results: [UpcomingMovieDTO]
-}
-
 struct UpcomingMovieDTO: Decodable {
     let id: Int
     let title: String
@@ -32,3 +28,4 @@ struct UpcomingMovieDTO: Decodable {
         case voteAverage = "vote_average"
     }
 }
+

@@ -1,15 +1,11 @@
 //
-//  ActorMoviesResponseDTO.swift
+//  ActorMovieDTO.swift
 //  MovieApp
 //
-//  Created by VladOS on 13.09.2025.
+//  Created by VladOS on 22.09.2025.
 //
 
 import Foundation
-
-struct ActorMoviesResponseDTO: Decodable {
-    let cast: [ActorMovieDTO]
-}
 
 struct ActorMovieDTO: Decodable {
     let id: Int
