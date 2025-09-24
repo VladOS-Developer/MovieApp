@@ -128,7 +128,7 @@ extension MoviePageView: UICollectionViewDataSource {
         
         if kind == UICollectionView.elementKindSectionHeader,
            sections[indexPath.section].type == .dynamicContent,selectedSegmentedTabsIndex == 1 {
-             guard let header = collectionView.dequeueReusableSupplementaryView(
+            guard let header = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
                 withReuseIdentifier: CastAndCrewHeaderView.reuseId,for: indexPath) as? CastAndCrewHeaderView else { return UICollectionReusableView() }
             return header

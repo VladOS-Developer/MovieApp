@@ -78,8 +78,8 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                 let genres = try await genreRepository.fetchGenres()
                 //                    let genres = genresDTO.map { Genres(dto: $0) }
                 
-                let topMovies = movieDetailsRepository.fetchTopMovieDetails()
-                let upcomingMovies = movieDetailsRepository.fetchUpcomingMovieDetails()
+                let topMovies = try await movieDetailsRepository.fetchTopMovieDetails()
+                let upcomingMovies = try await movieDetailsRepository.fetchUpcomingMovieDetails()
                 let allMovieDetails = topMovies + upcomingMovies
                 
                 // 2. Текущий фильм
@@ -170,33 +170,68 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     }
     
     func didSelectTab(index: Int) {
-        var newItems: [PageCollectionItem] = []
-        
-        switch index {
-        case 0: // More Like This
-            
-            let similar = movieSimilarRepository.fetchSimilarMovie(for: movieId)
-            newItems = similar
-                .map { MovieSimilarCellViewModel(movieSimilar: $0) } //
-                .map { PageCollectionItem.similarMovie($0) } // cast
-            
-        case 1: // About
-            
-            let credits = movieCreditsRepository.fetchCredits(for: movieId)
-            newItems = credits.cast
-                .map { CastCellViewModel(cast: $0) }
-                .map { PageCollectionItem.cast($0) }
-            
-        case 2: // Comments
-            newItems = []
-            
-        default: break
-        }
-        
-        if let dynamicSectionIndex = sections.firstIndex(where: { $0.type == .dynamicContent }) {
-            sections[dynamicSectionIndex].items = newItems
-            view?.showMovie(sections: sections)
-            view?.setSelectedTabIndex(index) // About → Cast and Crew == 1
+//        var newItems: [PageCollectionItem] = []
+//        
+//        switch index {
+//        case 0: // More Like This
+//            
+//            let similar = movieSimilarRepository.fetchSimilarMovie(for: movieId)
+//            newItems = similar
+//                .map { MovieSimilarCellViewModel(movieSimilar: $0) } //
+//                .map { PageCollectionItem.similarMovie($0) } // cast
+//            
+//        case 1: // About
+//            
+//            let credits = movieCreditsRepository.fetchCredits(for: movieId)
+//            newItems = credits.cast
+//                .map { CastCellViewModel(cast: $0) }
+//                .map { PageCollectionItem.cast($0) }
+//            
+//        case 2: // Comments
+//            newItems = []
+//            
+//        default: break
+//        }
+//        
+//        if let dynamicSectionIndex = sections.firstIndex(where: { $0.type == .dynamicContent }) {
+//            sections[dynamicSectionIndex].items = newItems
+//            view?.showMovie(sections: sections)
+//            view?.setSelectedTabIndex(index) // About → Cast and Crew == 1
+//        }
+        Task {
+            do {
+                var newItems: [PageCollectionItem] = []
+                
+                switch index {
+                case 0: // More Like This
+                    let similar = try await movieSimilarRepository.fetchSimilarMovie(for: movieId)
+                    newItems = similar
+                        .map { MovieSimilarCellViewModel(movieSimilar: $0) }
+                        .map { PageCollectionItem.similarMovie($0) }
+                    
+                case 1: // About
+                    let credits = try await movieCreditsRepository.fetchCredits(for: movieId)
+                    newItems = credits.cast
+                        .map { CastCellViewModel(cast: $0) }
+                        .map { PageCollectionItem.cast($0) }
+                    
+                case 2: // Comments
+                    newItems = []
+                    
+                default: break
+                }
+                
+                if let dynamicSectionIndex = sections.firstIndex(where: { $0.type == .dynamicContent }) {
+                    sections[dynamicSectionIndex].items = newItems
+                    
+                    await MainActor.run {
+                        view?.showMovie(sections: sections)
+                        view?.setSelectedTabIndex(index)
+                    }
+                }
+            } catch {
+                print("Ошибка загрузки вкладки \(index): \(error)")
+            }
         }
     }
     

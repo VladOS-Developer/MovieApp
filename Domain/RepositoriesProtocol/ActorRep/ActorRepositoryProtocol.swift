@@ -8,7 +8,8 @@
 import Foundation
 
 protocol ActorRepositoryProtocol: AnyObject {
-    func fetchActorDetails(by id: Int) -> ActorDetails
-    func fetchActorMovies(by id: Int) -> [ActorMovie]
-    func fetchActorImages(by id: Int) -> [ActorImages]
+    
+    func fetchActorDetails(by id: Int) async throws -> ActorDetails
+    func fetchActorMovies(by id: Int) async throws -> [ActorMovie]
+    func fetchActorImages(by id: Int) async throws -> [ActorImages]
 }

@@ -25,7 +25,8 @@ class Builder: BuilderProtocol {
     
     private static let useMock = true // false когда API ключ
     private static let apiKey = "key"
-   
+    
+    //MARK: Passcode
     static func getPasscodeController(sceneDelegate: SceneDelegateProtocol) -> UIViewController {
         
         let view = PasscodeView()
@@ -39,6 +40,7 @@ class Builder: BuilderProtocol {
         return view
     }
     
+    //MARK: TabBar
     static func createTabBarController() -> UIViewController {
         let tabBarView = TabBarView()
         let presenter = TabBarPresenter(view: tabBarView)
@@ -47,19 +49,16 @@ class Builder: BuilderProtocol {
         return tabBarView
     }
     
+    //MARK: MainScreen
     static func createMainScreenController() -> UIViewController {
         let mainView = MainScreenView()
         let router = MainScreenRouter()
-        
-//        let movieRepository: MovieRepositoryProtocol = MockMovieRepository.shared
-//        let genreRepository: GenreRepositoryProtocol = MockGenreRepository.shared
+ 
         let movieRepository: MovieRepositoryProtocol = useMock
-                    ? MockMovieRepository.shared
-                    : MovieRepository(networkService: NetworkService(apiKey: apiKey))
-
-                let genreRepository: GenreRepositoryProtocol = useMock
-                    ? MockGenreRepository.shared
-                    : GenreRepository(networkService: NetworkService(apiKey: apiKey))
+        ? MockMovieRepository.shared : MovieRepository(networkService: NetworkService(apiKey: apiKey))
+        
+        let genreRepository: GenreRepositoryProtocol = useMock
+        ? MockGenreRepository.shared : GenreRepository(networkService: NetworkService(apiKey: apiKey))
         
         let presenter = MainScreenPresenter(view: mainView,
                                             router: router,
@@ -70,7 +69,8 @@ class Builder: BuilderProtocol {
         router.viewController = mainView
         return UINavigationController(rootViewController: mainView)
     }
-        
+    
+    //MARK: TrailerList
     static func createTrailerListController() -> UIViewController {
         let trailerListView = TrailerListView()
         let presenter = TrailerListPresenter(view: trailerListView)
@@ -79,6 +79,7 @@ class Builder: BuilderProtocol {
         return UINavigationController(rootViewController: trailerListView)
     }
     
+    //MARK: Favorites
     static func createFavoritesController() -> UIViewController {
         let favoritesView = FavoritesView()
         let presenter = FavoritesPresenter(view: favoritesView)
@@ -87,10 +88,15 @@ class Builder: BuilderProtocol {
         return UINavigationController(rootViewController: favoritesView)
     }
     
+    //MARK: MovieList
     static func createMovieListController(mode: MovieListMode) -> UIViewController {
         let listView = MovieListView()
-        let movieRepository: MovieRepositoryProtocol = MockMovieRepository.shared
-        let genreRepository: GenreRepositoryProtocol = MockGenreRepository.shared
+        
+        let movieRepository: MovieRepositoryProtocol = useMock
+        ? MockMovieRepository.shared : MovieRepository(networkService: NetworkService(apiKey: apiKey))
+        
+        let genreRepository: GenreRepositoryProtocol = useMock
+        ? MockGenreRepository.shared : GenreRepository(networkService: NetworkService(apiKey: apiKey))
         
         let presenter = MovieListPresenter(view: listView,
                                            movieRepository: movieRepository,
@@ -101,15 +107,25 @@ class Builder: BuilderProtocol {
         return listView
     }
     
+    //MARK: MoviePage
     static func createMoviePageController(movieId: Int, movieTitle: String) -> UIViewController {
         let pageView = MoviePageView()
         let router = MoviePageRouter()
         
-        let movieDetailsRepository: MovieDetailsRepositoryProtocol = MockMovieDetailsRepository.shared
-        let genreRepository: GenreRepositoryProtocol = MockGenreRepository.shared
-        let movieVideoRepository: MovieVideoRepositoryProtocol = MockMovieVideoRepository.shared
-        let movieSimilarRepository: MovieSimilarRepositoryProtocol = MockMovieSimilarRepository.shared
-        let movieCreditsRepository: MovieCreditsRepositoryProtocol = MockMovieCreditsRepository.shared
+        let movieDetailsRepository: MovieDetailsRepositoryProtocol = useMock
+        ? MockMovieDetailsRepository.shared : MovieDetailsRepository(networkService: NetworkService(apiKey: apiKey))
+        
+        let genreRepository: GenreRepositoryProtocol = useMock
+        ? MockGenreRepository.shared : GenreRepository(networkService: NetworkService(apiKey: apiKey))
+        
+        let movieVideoRepository: MovieVideoRepositoryProtocol = useMock
+        ? MockMovieVideoRepository.shared : MovieVideoRepository(networkService: NetworkService(apiKey: apiKey))
+        
+        let movieSimilarRepository: MovieSimilarRepositoryProtocol = useMock
+        ? MockMovieSimilarRepository.shared : MovieSimilarRepository(networkService: NetworkService(apiKey: apiKey))
+        
+        let movieCreditsRepository: MovieCreditsRepositoryProtocol = useMock
+        ? MockMovieCreditsRepository.shared : MovieCreditsRepository(networkService: NetworkService(apiKey: apiKey))
         
         let presenter = MoviePagePresenter(view: pageView,
                                            router: router,
@@ -126,10 +142,12 @@ class Builder: BuilderProtocol {
         return pageView
     }
     
+    //MARK: TrailerPlayer
     static func createTrailerPlayerController(video: MovieVideo, movieTitle: String) -> UIViewController {
         let playerView = TrailerPlayerView()
         
-        let movieVideoRepository: MovieVideoRepositoryProtocol = MockMovieVideoRepository.shared
+        let movieVideoRepository: MovieVideoRepositoryProtocol = useMock
+        ? MockMovieVideoRepository.shared : MovieVideoRepository(networkService: NetworkService(apiKey: apiKey))
         
         let presenter = TrailerPlayerPresenter(view: playerView,
                                                movieVideoRepository: movieVideoRepository,
@@ -140,11 +158,15 @@ class Builder: BuilderProtocol {
         return playerView
     }
     
+    //MARK: ActorPage
     static func createActorPageController(actorTitle: String, actorId: Int) -> UIViewController {
         let ActorView = ActorPageView()
+                
+        let actorRepository: ActorRepositoryProtocol = useMock
+        ? MockActorRepository.shared : ActorRepository(networkService: NetworkService(apiKey: apiKey))
         
-        let actorRepository: ActorRepositoryProtocol = MockActorRepository.shared
-        let movieCreditsRepository: MovieCreditsRepositoryProtocol = MockMovieCreditsRepository.shared
+        let movieCreditsRepository: MovieCreditsRepositoryProtocol = useMock
+        ? MockMovieCreditsRepository.shared : MovieCreditsRepository(networkService: NetworkService(apiKey: apiKey))
         
         let presenter = ActorPagePresenter(view: ActorView,
                                            actorRepository: actorRepository,

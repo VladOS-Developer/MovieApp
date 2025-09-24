@@ -9,5 +9,6 @@ import Foundation
 
 struct ActorMoviesResponseDTO: Decodable {
     let cast: [ActorMovieDTO]
+    let crew: [ActorMovieDTO]?
 }
 

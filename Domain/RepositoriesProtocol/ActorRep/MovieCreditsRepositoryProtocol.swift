@@ -8,5 +8,6 @@
 import Foundation
 
 protocol MovieCreditsRepositoryProtocol: AnyObject {
-    func fetchCredits(for movieId: Int) -> MovieCredits
+    
+    func fetchCredits(for movieId: Int) async throws -> MovieCredits
 }

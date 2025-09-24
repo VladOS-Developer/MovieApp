@@ -8,18 +8,17 @@
 import Foundation
 
 final class MockMovieDetailsRepository: MovieDetailsRepositoryProtocol {
-    
     static let shared = MockMovieDetailsRepository()
     
-    func fetchTopMovieDetails() -> [MovieDetails] {
+    func fetchTopMovieDetails() async throws -> [MovieDetails] {
         MovieDetails.mockTopMovieDetails()
     }
     
-    func fetchUpcomingMovieDetails() -> [MovieDetails] {
+    func fetchUpcomingMovieDetails() async throws -> [MovieDetails] {
         MovieDetails.mockUpcomingMovieDetails()
     }
     
-    func fetchMovieDetails(byGenre id: Int) -> [MovieDetails] {
+    func fetchMovieDetails(byGenre id: Int) async throws -> [MovieDetails] {
         let all = MovieDetails.mockTopMovieDetails() + MovieDetails.mockUpcomingMovieDetails()
         return all.filter { $0.genreIDs.contains(id) }
     }

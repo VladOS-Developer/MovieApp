@@ -16,6 +16,7 @@ extension MovieCredits {
     init(dto: MovieCreditsResponseDTO) {
         self.cast = dto.cast.map { CastMember(dto: $0) }
         self.crew = dto.crew.map { CrewMember(dto: $0) }
+     
     }
 }
 

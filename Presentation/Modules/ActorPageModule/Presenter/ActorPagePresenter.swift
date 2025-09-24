@@ -22,12 +22,18 @@ protocol ActorPagePresenterProtocol: AnyObject {
 class ActorPagePresenter: ActorPagePresenterProtocol {
     
     private weak var view: ActorPageViewProtocol?
+    
     private let actorRepository: ActorRepositoryProtocol
     private let movieCreditsRepository: MovieCreditsRepositoryProtocol
     
-    private var sections: [ActorPageCollectionSection] = []
-    private let actorTitle: String
     private var actorId: Int
+    private let actorTitle: String
+    
+    private var actorDetails: ActorDetails?
+    private var actorMovies: [ActorMovie] = []
+    private var actorImages: [ActorImages] = []
+    
+    private var sections: [ActorPageCollectionSection] = []
     
     required init(view: ActorPageViewProtocol,
                   actorRepository: ActorRepositoryProtocol,
@@ -43,59 +49,105 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
     }
     
     func viewDidLoad() {
-
-        let actorDetails = ActorDetails.mockActor(id: actorId)
-        let actorMovies = ActorMovie.mockActorMovies()
         
-        // Header
-        let headerVM = ActorHeaderCellViewModel(actorDetails: actorDetails, actorMovies: actorMovies)
-        let headerSection = ActorPageCollectionSection(type: .header,items: [.header(headerVM)])
-        
-        // SocialStackButtons
-        let socialStackButtons = ActorPageCollectionSection(type: .socialStackButtons, items: [])
-        
-        // SegmentedTabs
-        let actorSegmentedTabs = ActorPageCollectionSection(type: .actorSegmentedTabs, items: [])
+        Task {
+            do {
+                // 🔹 параллельная загрузка
+                async let detailsTask = actorRepository.fetchActorDetails(by: actorId)
+                async let moviesTask  = actorRepository.fetchActorMovies(by: actorId)
+                async let imagesTask  = actorRepository.fetchActorImages(by: actorId)
+                
+                let (details, movies, images) = try await (detailsTask, moviesTask, imagesTask)
+                
+                self.actorDetails = details
+                self.actorMovies = movies
+                self.actorImages = images
+                
+                let initialSections = buildBaseSections(details: details, movies: movies)
+                
+                await MainActor.run {
+                    self.sections = initialSections
+                    self.view?.showActorSections(sections: initialSections)
+                    self.view?.setTitle(self.actorTitle)
+                }
+                
+            } catch {
+                print("Ошибка загрузки данных актёра: \(error)")
+            }
+        }
+    }
     
-        let sections: [ActorPageCollectionSection] = [headerSection, socialStackButtons, actorSegmentedTabs]
+    private func buildBaseSections(details: ActorDetails, movies: [ActorMovie]) -> [ActorPageCollectionSection] {
+        let headerVM = ActorHeaderCellViewModel(actorDetails: details, actorMovies: movies)
         
-        self.sections = sections
-        view?.showActorSections(sections: sections)
-        view?.setTitle(actorTitle)
+        return [
+            .init(type: .header, items: [.header(headerVM)]),
+            .init(type: .socialStackButtons, items: []),
+            .init(type: .actorSegmentedTabs, items: [])
+        ]
     }
     
     func didActorSelectTab(index: Int) {
         
-        let actorDetails = ActorDetails.mockActor(id: actorId)
-        let actorMovies = ActorMovie.mockActorMovies()
-        let actorImages = ActorImages.mockActorImages()
+        //        let actorDetails = ActorDetails.mockActor(id: actorId)
+        //        let actorMovies = ActorMovie.mockActorMovies()
+        //        let actorImages = ActorImages.mockActorImages()
+        //
+        //        var newSections: [ActorPageCollectionSection] = []
+        //
+        //        // оставляем header + buttons + tabs
+        //        let headerVM = ActorHeaderCellViewModel(actorDetails: actorDetails, actorMovies: actorMovies)
+        //        newSections.append(.init(type: .header, items: [.header(headerVM)]))
+        //        newSections.append(.init(type: .socialStackButtons, items: []))
+        //        newSections.append(.init(type: .actorSegmentedTabs, items: []))
+        //
+        //        if index == 0 { // Filmography
+        //            let moviesVM = actorMovies.map { ActorMovieCellViewModel(actorMovie: $0) }
+        //            newSections.append(.init(type: .filmography, items: moviesVM.map { .filmography($0) }))
+        //        } else {
+        //            // Biography
+        //            let bioVM = ActorBiographyCellViewModel(actor: actorDetails)
+        //            newSections.append(.init(type: .biography, items: [.biography(bioVM)]))
+        //
+        //            // Gallery
+        //            let imagesVM = actorImages.map { ActorImagesCellViewModel(actorImage: $0) }
+        //            newSections.append(.init(type: .gallery, items: imagesVM.map { .gallery($0) }))
+        //        }
+        //
+        //        self.sections = newSections
+        //        view?.showActorSections(sections: newSections)
+        //        view?.setSelectedTabIndex(index)
+        //    }
+        guard let details = actorDetails else { return }
         
         var newSections: [ActorPageCollectionSection] = []
         
-        // оставляем header + buttons + tabs
-        let headerVM = ActorHeaderCellViewModel(actorDetails: actorDetails, actorMovies: actorMovies)
+        // 🔹 Базовый блок (header + кнопки + tabs)
+        let headerVM = ActorHeaderCellViewModel(actorDetails: details, actorMovies: actorMovies)
         newSections.append(.init(type: .header, items: [.header(headerVM)]))
         newSections.append(.init(type: .socialStackButtons, items: []))
         newSections.append(.init(type: .actorSegmentedTabs, items: []))
         
-        if index == 0 { // Filmography
+        if index == 0 {
+            // Filmography
             let moviesVM = actorMovies.map { ActorMovieCellViewModel(actorMovie: $0) }
             newSections.append(.init(type: .filmography, items: moviesVM.map { .filmography($0) }))
         } else {
-            // Biography
-            let bioVM = ActorBiographyCellViewModel(actor: actorDetails)
+            // Biography + Gallery
+            let bioVM = ActorBiographyCellViewModel(actor: details)
             newSections.append(.init(type: .biography, items: [.biography(bioVM)]))
             
             // Gallery
-            let imagesVM = actorImages.map { ActorImagesCellViewModel(actorImage: $0) }
-            newSections.append(.init(type: .gallery, items: imagesVM.map { .gallery($0) }))
+            let galleryVM = actorImages.map { ActorImagesCellViewModel(actorImage: $0) }
+            newSections.append(.init(type: .gallery, items: galleryVM.map { .gallery($0) }))
         }
         
-        self.sections = newSections
-        view?.showActorSections(sections: newSections)
-        view?.setSelectedTabIndex(index)
+        Task { @MainActor in
+            self.sections = newSections
+            self.view?.showActorSections(sections: newSections)
+            self.view?.setSelectedTabIndex(index)
+        }
+        
     }
-    
 }
-    
 

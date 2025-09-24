@@ -8,11 +8,10 @@
 import Foundation
 
 final class MockMovieCreditsRepository: MovieCreditsRepositoryProtocol {
-    
     static let shared = MockMovieCreditsRepository()
     
-    func fetchCredits(for movieId: Int) -> MovieCredits {
+    func fetchCredits(for movieId: Int) async throws -> MovieCredits {
         return MovieCredits.mockCredits()
     }
-   
+    
 }

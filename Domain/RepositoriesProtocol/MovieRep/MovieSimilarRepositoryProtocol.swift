@@ -9,5 +9,5 @@ import Foundation
 
 protocol MovieSimilarRepositoryProtocol: AnyObject {
     
-    func fetchSimilarMovie(for movieId: Int) -> [MovieSimilar]
+    func fetchSimilarMovie(for movieId: Int) async throws -> [MovieSimilar]
 }

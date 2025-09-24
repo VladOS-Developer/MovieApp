@@ -8,7 +8,6 @@
 import Foundation
 
 final class MockMovieVideoRepository: MovieVideoRepositoryProtocol {
-    
     static let shared = MockMovieVideoRepository()
 
     func fetchMovieVideo(for movieId: Int) async throws -> [MovieVideo] {
