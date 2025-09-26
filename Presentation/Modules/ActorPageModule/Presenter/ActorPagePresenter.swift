@@ -88,36 +88,7 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
     }
     
     func didActorSelectTab(index: Int) {
-        
-        //        let actorDetails = ActorDetails.mockActor(id: actorId)
-        //        let actorMovies = ActorMovie.mockActorMovies()
-        //        let actorImages = ActorImages.mockActorImages()
-        //
-        //        var newSections: [ActorPageCollectionSection] = []
-        //
-        //        // оставляем header + buttons + tabs
-        //        let headerVM = ActorHeaderCellViewModel(actorDetails: actorDetails, actorMovies: actorMovies)
-        //        newSections.append(.init(type: .header, items: [.header(headerVM)]))
-        //        newSections.append(.init(type: .socialStackButtons, items: []))
-        //        newSections.append(.init(type: .actorSegmentedTabs, items: []))
-        //
-        //        if index == 0 { // Filmography
-        //            let moviesVM = actorMovies.map { ActorMovieCellViewModel(actorMovie: $0) }
-        //            newSections.append(.init(type: .filmography, items: moviesVM.map { .filmography($0) }))
-        //        } else {
-        //            // Biography
-        //            let bioVM = ActorBiographyCellViewModel(actor: actorDetails)
-        //            newSections.append(.init(type: .biography, items: [.biography(bioVM)]))
-        //
-        //            // Gallery
-        //            let imagesVM = actorImages.map { ActorImagesCellViewModel(actorImage: $0) }
-        //            newSections.append(.init(type: .gallery, items: imagesVM.map { .gallery($0) }))
-        //        }
-        //
-        //        self.sections = newSections
-        //        view?.showActorSections(sections: newSections)
-        //        view?.setSelectedTabIndex(index)
-        //    }
+     
         guard let details = actorDetails else { return }
         
         var newSections: [ActorPageCollectionSection] = []

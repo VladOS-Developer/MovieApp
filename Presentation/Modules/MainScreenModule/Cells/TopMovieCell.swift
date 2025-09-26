@@ -22,17 +22,14 @@ final class TopMovieCell: UICollectionViewCell {
     }(UIImageView())
     
     private lazy var titleLabel: UILabel = TextLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appWhite)
-    
-    private lazy var originalTitleLabel: UILabel = TextLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appWhite)
-    
-    private lazy var runtimeLabel: UILabel = TextLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appGray) // - заменить на другой - или дополнить вью модель !
-    
+    private lazy var originalTitleLabel: UILabel = TextLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appGray)
+        
     private lazy var stackLabel: UIStackView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.axis = .vertical
         $0.spacing = 5
         return $0
-    }(UIStackView(arrangedSubviews: [titleLabel, originalTitleLabel, runtimeLabel]))
+    }(UIStackView(arrangedSubviews: [titleLabel, originalTitleLabel]))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,7 +57,6 @@ final class TopMovieCell: UICollectionViewCell {
         imageViewMovie.image = movieVM.posterImage
         titleLabel.text = movieVM.title
         originalTitleLabel.text = movieVM.originalTitle
-//        runtimeLabel.text = movieVM.runtimeText
     }
     
     required init?(coder: NSCoder) {

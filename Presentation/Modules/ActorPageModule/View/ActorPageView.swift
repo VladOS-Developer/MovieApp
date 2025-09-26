@@ -89,10 +89,12 @@ class ActorPageView: UIViewController {
 
 extension ActorPageView: UICollectionViewDataSource {
     
+    //MARK: numberOfSections
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         sections.count
     }
     
+    //MARK: numberOfItemsInSection
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        sections[section].items.count
         
@@ -106,6 +108,7 @@ extension ActorPageView: UICollectionViewDataSource {
         }
     }
     
+    //MARK: cellForItemAt
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = sections[indexPath.section]
 //        var item = section.items[indexPath.item] // тут передача пустого массива для stackButtons (краш) секция думает что у неё 1 айтем → коллекция спрашивает items[0] → а массив пустой → краш.
@@ -184,12 +187,14 @@ extension ActorPageView: UICollectionViewDataSource {
     
 }
 
+//MARK: ActorSegmentedTabsCellDelegate
 extension ActorPageView: ActorSegmentedTabsCellDelegate {
     func didSelectTab(index: Int) {
         presenter.didActorSelectTab(index: index)
     }
 }
 
+//MARK: ActorOverviewCellDelegate
 extension ActorPageView: ActorOverviewCellDelegate {
     func actorOverviewCellDidToggle(_ cell: ActorOverviewCell) {
         
@@ -210,6 +215,7 @@ extension ActorPageView: UICollectionViewDelegate {
     
 }
 
+//MARK: ActorPageViewProtocol
 extension ActorPageView: ActorPageViewProtocol {
     func setSelectedTabIndex(_ index: Int) {
         

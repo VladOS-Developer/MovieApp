@@ -32,11 +32,11 @@ extension CastMember {
 extension CastMember {
     static func mockCast() -> [CastMember] {
         return [
-            CastMember(id: 6193,creditId: "52fe4214c3a36847f800b579",name: "Sam Worthington", character: "Jake Sully",profilePath: "img1", isLocalImage: true),
-            CastMember(id: 1234,creditId: "52fe4214c3a36847f800b580",name: "Zoe Saldana", character: "Neytiri",profilePath: "img2", isLocalImage: true),
-            CastMember(id: 5678,creditId: "52fe4214c3a36847f800b581",name: "Sigourney Weaver",character: "Dr. Grace Augustine",profilePath: "img3", isLocalImage: true),
-            CastMember(id: 9012,creditId: "52fe4214c3a36847f800b582",name: "Stephen Lang",character: "Colonel Miles Quaritch",profilePath: "img4", isLocalImage: true),
-            CastMember(id: 3456,creditId: "52fe4214c3a36847f800b583",name: "Giovanni Ribisi",character: "Parker Selfridge",profilePath: "img5", isLocalImage: true)
+            CastMember(id: 6193,creditId: "52fe4214c3a36847f800b579",name: "Sam Worthington", character: "Jake Sully",profilePath: "actor1", isLocalImage: true),
+            CastMember(id: 1234,creditId: "52fe4214c3a36847f800b580",name: "Zoe Saldana", character: "Neytiri",profilePath: "actor2", isLocalImage: true),
+            CastMember(id: 5678,creditId: "52fe4214c3a36847f800b581",name: "Sigourney Weaver",character: "Dr. Grace Augustine",profilePath: "actor3", isLocalImage: true),
+            CastMember(id: 9012,creditId: "52fe4214c3a36847f800b582",name: "Stephen Lang",character: "Colonel Miles Quaritch",profilePath: "actor4", isLocalImage: true),
+            CastMember(id: 3456,creditId: "52fe4214c3a36847f800b583",name: "Giovanni Ribisi",character: "Parker Selfridge",profilePath: "actor5", isLocalImage: true)
         ]
     }
 }

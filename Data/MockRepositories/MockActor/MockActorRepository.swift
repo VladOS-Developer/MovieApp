@@ -19,6 +19,6 @@ final class MockActorRepository: ActorRepositoryProtocol {
     }
     
     func fetchActorImages(by id: Int) async throws -> [ActorImages] {
-        return ActorImages.mockActorImages()
+        return ActorImages.mockActorImages(for: id)
     }
 }
