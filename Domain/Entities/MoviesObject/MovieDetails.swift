@@ -74,4 +74,5 @@ extension MovieDetails {
                   overview: "On the lush alien world of Pandora live the Na’vi, beings who appear primitive but are highly evolved.", productionCountries: [ProductionCountry(iso3166_1: "", name: "United States")], voteAverage: 4, isLocalImage: true)
         ]
     }
+
 }

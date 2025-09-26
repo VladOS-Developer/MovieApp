@@ -22,4 +22,14 @@ final class MockMovieDetailsRepository: MovieDetailsRepositoryProtocol {
         let all = MovieDetails.mockTopMovieDetails() + MovieDetails.mockUpcomingMovieDetails()
         return all.filter { $0.genreIDs.contains(id) }
     }
+    
+    func fetchMovieDetails(byId id: Int) async throws -> MovieDetails {
+        let all = MovieDetails.mockTopMovieDetails() + MovieDetails.mockUpcomingMovieDetails()
+        guard let movie = all.first(where: { $0.id == id }) else {
+            throw NSError(domain: "MockMovieDetailsRepository", code: 404, userInfo: [NSLocalizedDescriptionKey: "Movie not found"])
+        }
+        return movie
+    }
+    
 }
+

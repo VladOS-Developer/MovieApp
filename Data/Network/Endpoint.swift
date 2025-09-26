@@ -10,14 +10,15 @@ import UIKit
 enum Endpoint {
     case topRatedMovies
     case upcomingMovies
-    case moviesByGenre(Int)
     case genres
+    case moviesByGenre(Int)
     case movieVideos(Int)
     case movieSimilar(Int)
     case movieCredits(Int)
     case actorDetails(Int)
     case actorMovies(Int)
     case actorImages(Int)
+    case movieDetails(Int)
     
     var path: String {
         switch self {
@@ -27,11 +28,11 @@ enum Endpoint {
         case .upcomingMovies:
             return "/movie/upcoming"
             
-        case .moviesByGenre(let genreId):
-            return "/discover/movie?with_genres=\(genreId)"
-            
         case .genres:
             return "/genre/movie/list"
+            
+        case .moviesByGenre(let genreId):
+            return "/discover/movie?with_genres=\(genreId)"
             
         case .movieVideos(let movieId):
             return "/movie/\(movieId)/videos"
@@ -50,6 +51,9 @@ enum Endpoint {
             
         case .actorImages(let actorId):
             return "/person/\(actorId)/images"
+            
+        case .movieDetails(let movieId):
+            return "/movie/\(movieId)"
             
         }
         

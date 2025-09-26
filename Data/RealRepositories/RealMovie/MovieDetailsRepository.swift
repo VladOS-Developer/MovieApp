@@ -29,4 +29,9 @@ final class MovieDetailsRepository: MovieDetailsRepositoryProtocol {
         return response.results.map { MovieDetails(dto: $0) }
     }
     
+    func fetchMovieDetails(byId id: Int) async throws -> MovieDetails {
+        let response: MovieDetailsDTO = try await networkService.request(.movieDetails(id))
+        return MovieDetails(dto: response)
+    }
+    
 }

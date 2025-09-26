@@ -268,10 +268,22 @@ extension MoviePageView: UICollectionViewDataSource {
     
 }
 
+//MARK: didSelectItemAt
 extension MoviePageView: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let item = sections[indexPath.section].items[indexPath.item]
+        
+        switch item {
+        case .similarMovie(let similarVM):
+            presenter.didSelectSimilarMovie(similarVM)
+        default:
+            break
+        }
+    }
 }
 
+//MARK: MoviePageViewProtocol
 extension MoviePageView: MoviePageViewProtocol {
     func showMovie(sections: [PageCollectionSection]) {
         self.sections = sections
@@ -289,6 +301,7 @@ extension MoviePageView: MoviePageViewProtocol {
     }
 }
 
+//MARK: AboutCellDelegate
 extension MoviePageView: AboutCellDelegate {
     func aboutCellDidTapProfileImage(_ cell: AboutCell) {
         guard let indexPath = collectionView.indexPath(for: cell),
@@ -298,12 +311,14 @@ extension MoviePageView: AboutCellDelegate {
     }
 }
 
+//MARK: PosterCellDelegate
 extension MoviePageView: PosterCellDelegate {
     func didTapPlayButton(in cell: PosterCell) {
         presenter.playPosterTrailer()
     }
 }
 
+//MARK: MovieVideoCellDelegate
 extension MoviePageView: MovieVideoCellDelegate {
     func didTapPlayButton(in cell: MovieVideoCell) {
         guard let indexPath = collectionView.indexPath(for: cell),
@@ -313,6 +328,7 @@ extension MoviePageView: MovieVideoCellDelegate {
     }
 }
 
+//MARK: OverviewCellDelegate
 extension MoviePageView: OverviewCellDelegate {
     func overviewCellDidToggle(_ cell: OverviewCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }

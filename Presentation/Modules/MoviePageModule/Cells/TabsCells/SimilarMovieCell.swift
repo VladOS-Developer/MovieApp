@@ -15,7 +15,7 @@ final class SimilarMovieCell: UICollectionViewCell {
     static let reuseId = "SimilarMovieCell"
     
 //    weak var delegate: SimilarMovieCellDelegate?
-    private var movieId: Int?
+//    private var movieId: Int?
 //    
     private lazy var similarImage: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
