@@ -20,6 +20,7 @@ final class ActorSegmentedTabsCell: UICollectionViewCell {
         let items = ["Filmography", "Biography"]
         let control = UISegmentedControl(items: items)
         control.selectedSegmentIndex = UISegmentedControl.noSegment
+        control.selectedSegmentIndex = 0
         control.backgroundColor = .clear
         control.selectedSegmentTintColor = .systemBlue
         control.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)

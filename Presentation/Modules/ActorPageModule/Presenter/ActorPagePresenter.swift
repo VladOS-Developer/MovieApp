@@ -10,8 +10,10 @@ import UIKit
 protocol ActorPagePresenterProtocol: AnyObject {
     func viewDidLoad()
     func didActorSelectTab(index: Int)
+    func didSelectFilmographyMovie(_ movie: ActorMovieCellViewModel)
     
     init(view: ActorPageViewProtocol,
+         router: ActorPageRouterProtocol,
          actorRepository: ActorRepositoryProtocol,
          movieCreditsRepository: MovieCreditsRepositoryProtocol,
          actorId: Int,
@@ -20,8 +22,9 @@ protocol ActorPagePresenterProtocol: AnyObject {
 }
 
 class ActorPagePresenter: ActorPagePresenterProtocol {
-    
+        
     private weak var view: ActorPageViewProtocol?
+    private let router: ActorPageRouterProtocol
     
     private let actorRepository: ActorRepositoryProtocol
     private let movieCreditsRepository: MovieCreditsRepositoryProtocol
@@ -36,6 +39,7 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
     private var sections: [ActorPageCollectionSection] = []
     
     required init(view: ActorPageViewProtocol,
+                  router: ActorPageRouterProtocol,
                   actorRepository: ActorRepositoryProtocol,
                   movieCreditsRepository: MovieCreditsRepositoryProtocol,
                   actorId: Int,
@@ -46,13 +50,18 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
         self.actorRepository = actorRepository
         self.movieCreditsRepository = movieCreditsRepository
         self.actorId = actorId
+        self.router = router
+    }
+    
+    func didSelectFilmographyMovie(_ movie: ActorMovieCellViewModel) {
+        router.openMoviePage(movieId: movie.id, movieTitle: movie.title)
     }
     
     func viewDidLoad() {
         
         Task {
             do {
-                // 🔹 параллельная загрузка
+                // параллельная загрузка
                 async let detailsTask = actorRepository.fetchActorDetails(by: actorId)
                 async let moviesTask  = actorRepository.fetchActorMovies(by: actorId)
                 async let imagesTask  = actorRepository.fetchActorImages(by: actorId)
@@ -69,6 +78,8 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
                     self.sections = initialSections
                     self.view?.showActorSections(sections: initialSections)
                     self.view?.setTitle(self.actorTitle)
+                    
+                    self.didActorSelectTab(index: 0)
                 }
                 
             } catch {
@@ -78,6 +89,7 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
     }
     
     private func buildBaseSections(details: ActorDetails, movies: [ActorMovie]) -> [ActorPageCollectionSection] {
+        
         let headerVM = ActorHeaderCellViewModel(actorDetails: details, actorMovies: movies)
         
         return [
@@ -93,7 +105,7 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
         
         var newSections: [ActorPageCollectionSection] = []
         
-        // 🔹 Базовый блок (header + кнопки + tabs)
+        // Базовый блок (header + кнопки + tabs)
         let headerVM = ActorHeaderCellViewModel(actorDetails: details, actorMovies: actorMovies)
         newSections.append(.init(type: .header, items: [.header(headerVM)]))
         newSections.append(.init(type: .socialStackButtons, items: []))
@@ -116,7 +128,6 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
         Task { @MainActor in
             self.sections = newSections
             self.view?.showActorSections(sections: newSections)
-            self.view?.setSelectedTabIndex(index)
         }
         
     }

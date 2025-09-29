@@ -35,32 +35,22 @@ class FavoritesCell: UICollectionViewCell {
         onFavoriteTapped?(movieId)
     }
     
-    private func makeView(with label: UILabel) -> UIView {
-        let container = UIView()
-        container.backgroundColor = .systemRed.withAlphaComponent(0.2)
-        container.layer.cornerRadius = 5
-        container.translatesAutoresizingMaskIntoConstraints = false
-        container.addSubview(label)
-        
-        NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: container.topAnchor, constant: 4),
-            label.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -4),
-            label.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 8),
-            label.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -8)
-        ])
-        
-        return container
-    }
-    private lazy var voteAverageLabel: UILabel = TextLabel(font: UIFont.systemFont(ofSize: 14, weight: .bold), color: .white)
-    private lazy var voteAverageForView: UIView = makeView(with: voteAverageLabel)
+    private lazy var voteAverageLabel: UILabel = {
+        let label = PaddingLabel(withInsets: 3, 3, 5, 5)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        label.textColor = .appWhite
+        label.backgroundColor = .appGray.withAlphaComponent(0.5)
+        label.layer.cornerRadius = 4
+        label.clipsToBounds = true
+        return label
+    }()
     
     override init(frame: CGRect) {
         super .init(frame: frame)
         contentView.addSubview(posterImage)
         contentView.addSubview(favoriteButton)
         contentView.addSubview(voteAverageLabel)
-        contentView.addSubview(voteAverageForView)
-
         setupConstraints()
     }
     
@@ -74,8 +64,8 @@ class FavoritesCell: UICollectionViewCell {
             favoriteButton.topAnchor.constraint(equalTo: posterImage.topAnchor, constant: 20),
             favoriteButton.leadingAnchor.constraint(equalTo: posterImage.leadingAnchor, constant: 20),
             
-            voteAverageForView.bottomAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: -20),
-            voteAverageForView.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: -20)
+            voteAverageLabel.topAnchor.constraint(equalTo: posterImage.topAnchor, constant: 20),
+            voteAverageLabel.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: -20)
         ])
     }
     

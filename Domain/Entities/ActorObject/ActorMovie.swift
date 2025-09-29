@@ -30,11 +30,11 @@ extension ActorMovie {
 
     static func mockActorMovies() -> [ActorMovie] {
         return [
-            ActorMovie(id: 10, title: "Inception", posterPath: "img1", releaseDate: "2010-07-16", character: "Cobb", isLocalImage: true),
-            ActorMovie(id: 11, title: "Titanic", posterPath: "img2", releaseDate: "1997-12-19", character: "Jack Dawson", isLocalImage: true),
-            ActorMovie(id: 12, title: "The Revenant", posterPath: "img3", releaseDate: "2015-12-25", character: "Hugh Glass", isLocalImage: true),
-            ActorMovie(id: 13, title: "The Revenant", posterPath: "img4", releaseDate: "2015-12-25", character: "Hugh Glass", isLocalImage: true),
-            ActorMovie(id: 13, title: "The Revenant", posterPath: "img5", releaseDate: "2015-12-25", character: "Hugh Glass", isLocalImage: true)
+            ActorMovie(id: 1, title: "Avatar", posterPath: "film1", releaseDate: "2010-07-16", character: "Cobb", isLocalImage: true),
+            ActorMovie(id: 2, title: "Avengers", posterPath: "film2", releaseDate: "1997-12-19", character: "Jack Dawson", isLocalImage: true),
+            ActorMovie(id: 3, title: "The Dark Knight", posterPath: "film3", releaseDate: "2015-12-25", character: "Hugh Glass", isLocalImage: true),
+            ActorMovie(id: 4, title: "Matrix: Reloaded", posterPath: "film4", releaseDate: "2015-12-25", character: "Hugh Glass", isLocalImage: true),
+            ActorMovie(id: 5, title: "Dune: Part Two", posterPath: "film5", releaseDate: "2015-12-25", character: "Hugh Glass", isLocalImage: true)
         ]
     }
 }

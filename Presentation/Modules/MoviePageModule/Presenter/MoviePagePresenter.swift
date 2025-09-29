@@ -130,6 +130,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                 print("Ошибка загрузки данных: \(error)")
             }
         }
+        
     }
     
     //MARK: didSelectTab

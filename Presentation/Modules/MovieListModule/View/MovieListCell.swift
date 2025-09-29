@@ -45,6 +45,7 @@ class MovieListCell: UICollectionViewCell {
         label.clipsToBounds = true
         return label
     }()
+    
     override init(frame: CGRect) {
         super .init(frame: frame)
         contentView.addSubview(posterImage)

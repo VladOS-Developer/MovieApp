@@ -10,7 +10,6 @@ import UIKit
 protocol ActorPageViewProtocol: AnyObject {
     func setTitle(_ text: String)
     func showActorSections(sections: [ActorPageCollectionSection])
-    func setSelectedTabIndex(_ index: Int)
 }
 
 class ActorPageView: UIViewController {
@@ -24,7 +23,6 @@ class ActorPageView: UIViewController {
     lazy var collectionView: UICollectionView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentInsetAdjustmentBehavior = .never
-//        $0.alwaysBounceVertical = false
         $0.backgroundColor = .clear
         $0.dataSource = self
         $0.delegate = self
@@ -71,6 +69,7 @@ class ActorPageView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
+        edgesForExtendedLayout = [.top]
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -127,7 +126,6 @@ extension ActorPageView: UICollectionViewDataSource {
             default: break
             }
             return cell
-            // ... другие секции
 
         case .socialStackButtons:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorStackButtonsCell.reuseId, for: indexPath) as? ActorStackButtonsCell else {
@@ -210,17 +208,25 @@ extension ActorPageView: ActorOverviewCellDelegate {
     }
 }
 
-
+//MARK: didSelectItemAt
 extension ActorPageView: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let item = sections[indexPath.section].items[indexPath.item]
+        
+        switch item {
+        case .filmography(let movieVM):
+            presenter.didSelectFilmographyMovie(movieVM)
+        default:
+            break
+        }
+    }
 }
 
 //MARK: ActorPageViewProtocol
 extension ActorPageView: ActorPageViewProtocol {
-    func setSelectedTabIndex(_ index: Int) {
-        
-    }
-    
+
     func showActorSections(sections: [ActorPageCollectionSection]) {
         self.sections = sections
         collectionView.reloadData()

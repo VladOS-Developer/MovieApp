@@ -9,11 +9,13 @@ import UIKit
 
 struct ActorMovieCellViewModel: Hashable {
     let id: Int
+    let title: String
     let posterURL: URL?
     let posterImage: UIImage?
     
     init(actorMovie: ActorMovie) {
         self.id = actorMovie.id
+        self.title = actorMovie.title
         
         // images
         if actorMovie.isLocalImage {

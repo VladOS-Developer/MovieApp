@@ -160,7 +160,8 @@ class Builder: BuilderProtocol {
     
     //MARK: ActorPage
     static func createActorPageController(actorTitle: String, actorId: Int) -> UIViewController {
-        let ActorView = ActorPageView()
+        let actorView = ActorPageView()
+        let router = ActorPageRouter()
                 
         let actorRepository: ActorRepositoryProtocol = useMock
         ? MockActorRepository.shared : ActorRepository(networkService: NetworkService(apiKey: apiKey))
@@ -168,14 +169,17 @@ class Builder: BuilderProtocol {
         let movieCreditsRepository: MovieCreditsRepositoryProtocol = useMock
         ? MockMovieCreditsRepository.shared : MovieCreditsRepository(networkService: NetworkService(apiKey: apiKey))
         
-        let presenter = ActorPagePresenter(view: ActorView,
+        let presenter = ActorPagePresenter(view: actorView,
+                                           router: router,
                                            actorRepository: actorRepository,
                                            movieCreditsRepository: movieCreditsRepository,
                                            actorId: actorId,
                                            actorTitle: actorTitle)
         
-        ActorView.presenter = presenter
-        return ActorView
+        actorView.presenter = presenter
+        router.viewController = actorView
+        return actorView
+        
     }
     
     

@@ -38,5 +38,4 @@ final class MoviePageRouter: MoviePageRouterProtocol {
         viewController?.navigationController?.pushViewController(moviePageVC, animated: true)
     }
     
-    
 }

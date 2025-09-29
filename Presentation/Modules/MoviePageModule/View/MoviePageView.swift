@@ -76,7 +76,6 @@ class MoviePageView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureNavBarWithBackAndRightButton(title: title,
                                               backAction: #selector(didTapBack),
                                               rightSystemName: "heart",
@@ -100,13 +99,15 @@ class MoviePageView: UIViewController {
     
     @objc private func didTapBack() {
         navigationController?.popViewController(animated: true)
-        (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
+        if !(navigationController?.topViewController is ActorPageView) {
+            (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
+        }
     }
     
     @objc private func didTapHeart() {
         presenter.toggleFavorite()
     }
-   
+    
 }
 
 extension MoviePageView: UICollectionViewDataSource {
