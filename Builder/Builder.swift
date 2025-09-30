@@ -73,15 +73,18 @@ class Builder: BuilderProtocol {
     //MARK: TrailerList
     static func createTrailerListController() -> UIViewController {
         let trailerListView = TrailerListView()
+        let router = TrailerListRouter()
         
         let movieVideoRepository: MovieVideoRepositoryProtocol = useMock
         ? MockMovieVideoRepository.shared : MovieVideoRepository(networkService: NetworkService(apiKey: apiKey))
         
         let presenter = TrailerListPresenter(view: trailerListView,
+                                             router: router,
                                              movieVideoRepository: movieVideoRepository)
         
         
         trailerListView.presenter = presenter
+        router.viewController = trailerListView
         return UINavigationController(rootViewController: trailerListView)
     }
     

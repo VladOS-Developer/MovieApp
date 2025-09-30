@@ -39,7 +39,6 @@ class TrailerListView: UIViewController {
         tabBarVC.selectedIndex = 0
         tabBarVC.setTabBarButtonsHidden(false)
         print("TabBar появился")
-       
     }
     
     private lazy var videoTableView: UITableView = {
@@ -47,7 +46,7 @@ class TrailerListView: UIViewController {
         $0.backgroundColor = .clear
         $0.separatorStyle = .none
         $0.dataSource = self
-        $0.register(TrailerMovieVideoCell.self, forCellReuseIdentifier: TrailerMovieVideoCell.reuseId)
+        $0.register(TrailerVideoCell.self, forCellReuseIdentifier: TrailerVideoCell.reuseId)
         return $0
     }(UITableView())
     
@@ -68,7 +67,6 @@ class TrailerListView: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(true)
-        print("TabBar скрылся")
     }
     
     private func setupConstraints() {
@@ -94,22 +92,30 @@ extension TrailerListView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: TrailerMovieVideoCell.reuseId,for: indexPath) as? TrailerMovieVideoCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TrailerVideoCell.reuseId,for: indexPath) as? TrailerVideoCell else {
             return UITableViewCell()
         }
         
         cell.configureTrailerMovieVideoCell(with: videos[indexPath.row])
-        cell.backgroundColor = .clear
+        cell.delegate = self
         return cell
     }
 }
 
-
 extension TrailerListView: TrailerListViewProtocol {
+    
     func showVideos(_ videos: [TrailerVideoCellViewModel]) {
         self.videos = videos
         videoTableView.reloadData()
     }
+}
+
+extension TrailerListView: TrailerVideoCellDelegate  {
     
+    func didTapTrailerListButton(in cell: TrailerVideoCell) {
+        guard let indexPath = videoTableView.indexPath(for: cell) else { return }
+        
+        let videoVM = videos[indexPath.row]
+        presenter.didTapTrailerListButton(videoVM: videoVM)
+    }
 }

@@ -1,5 +1,5 @@
 //
-//  TrailerMovieVideoCell.swift
+//  TrailerVideoCell.swift
 //  MovieApp
 //
 //  Created by VladOS on 30.09.2025.
@@ -7,14 +7,14 @@
 
 import UIKit
 
-protocol TrailerMovieVideoCellDelegate: AnyObject {
-    func didTapPlayTrailerButton(in cell: TrailerMovieVideoCell)
+protocol TrailerVideoCellDelegate: AnyObject {
+    func didTapTrailerListButton(in cell: TrailerVideoCell)
 }
 
-class TrailerMovieVideoCell: UITableViewCell {
+class TrailerVideoCell: UITableViewCell {
     static let reuseId = "TrailerMovieVideoCell"
     
-    weak var delegate: TrailerMovieVideoCell?
+    weak var delegate: TrailerVideoCellDelegate?
     
     private lazy var videoImage: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -30,14 +30,16 @@ class TrailerMovieVideoCell: UITableViewCell {
     
     private lazy var playTrailerButton: UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        $0.widthAnchor.constraint(equalToConstant: 30).isActive = true
         $0.setBackgroundImage(UIImage(systemName: "play.circle"), for: .normal)
         $0.tintColor = .white
-        //            $0.addTarget(self, action: #selector(didTapPlay), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(didTapPlay), for: .touchUpInside)
         return $0
     }(UIButton())
     
     @objc private func didTapPlay() {
-        //            delegate?.didTapPlayButton(in: self)
+        delegate?.didTapTrailerListButton(in: self)
     }
     
     private lazy var imageContainer: UIView = {
@@ -68,13 +70,16 @@ class TrailerMovieVideoCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         contentView.addSubview(containerStack)
+        backgroundColor = .clear
+        selectionStyle = .none
         
         NSLayoutConstraint.activate([
-            containerStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            containerStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            containerStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            containerStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            containerStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            containerStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            containerStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            containerStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             
             videoImage.topAnchor.constraint(equalTo: imageContainer.topAnchor),
             videoImage.leadingAnchor.constraint(equalTo: imageContainer.leadingAnchor),
@@ -82,13 +87,8 @@ class TrailerMovieVideoCell: UITableViewCell {
             videoImage.bottomAnchor.constraint(equalTo: imageContainer.bottomAnchor),
             
             playTrailerButton.centerXAnchor.constraint(equalTo: videoImage.centerXAnchor),
-            playTrailerButton.centerYAnchor.constraint(equalTo: videoImage.centerYAnchor),
-            playTrailerButton.heightAnchor.constraint(equalToConstant: 30),
-            playTrailerButton.widthAnchor.constraint(equalToConstant: 30)
+            playTrailerButton.centerYAnchor.constraint(equalTo: videoImage.centerYAnchor)
         ])
-        
-        backgroundColor = .clear
-        selectionStyle = .none
     }
     
     func configureTrailerMovieVideoCell(with videoVM: TrailerVideoCellViewModel) {
