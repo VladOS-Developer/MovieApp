@@ -16,7 +16,7 @@ final class TabBarView: UITabBarController {
     var presenter: TabBarPresenterProtocol!
     
     private var tabBarButtons: [UIButton] = []
-    private let tabsIcon: [UIImage] = [.homeWhite, .trailerWhite, .favoritesWhite]
+    private let tabsIcon: [UIImage] = [.homeWhite, .appYoutube, .appFavorite]
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -57,7 +57,7 @@ final class TabBarView: UITabBarController {
     }
     
     private func LayoutTabBarButtons() {
-        let btnSize: CGFloat = 30
+        let btnSize: CGFloat = 35
         let totalWidth = view.bounds.width
         let spacing = totalWidth / CGFloat(tabBarButtons.count + 1)
         let yPosition = view.bounds.height - btnSize - 50

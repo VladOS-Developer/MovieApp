@@ -57,9 +57,9 @@ class ActorOverviewCell: UICollectionViewCell {
             overviewStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             overviewStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             overviewStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            overviewStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            overviewStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
             
-            viewMoreButton.topAnchor.constraint(equalTo: actorOverviewLabel.bottomAnchor),
+            viewMoreButton.topAnchor.constraint(equalTo: actorOverviewLabel.bottomAnchor, constant: 0),
             viewMoreButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
         ])
     }

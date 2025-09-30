@@ -8,12 +8,13 @@
 import UIKit
 
 protocol TrailerListViewProtocol: AnyObject {
-    
+    func showVideos(_ videos: [TrailerVideoCellViewModel])
 }
 
 class TrailerListView: UIViewController {
     
     var presenter: TrailerListPresenterProtocol!
+    private var videos: [TrailerVideoCellViewModel] = []
     
     private lazy var sectionLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -41,6 +42,15 @@ class TrailerListView: UIViewController {
        
     }
     
+    private lazy var videoTableView: UITableView = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = .clear
+        $0.separatorStyle = .none
+        $0.dataSource = self
+        $0.register(TrailerMovieVideoCell.self, forCellReuseIdentifier: TrailerMovieVideoCell.reuseId)
+        return $0
+    }(UITableView())
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
@@ -50,7 +60,9 @@ class TrailerListView: UIViewController {
         super.viewDidLoad()
         view.addSubview(topBackButton)
         view.addSubview(sectionLabel)
+        view.addSubview(videoTableView)
         setupConstraints()
+        presenter.loadTopVideos()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,11 +78,38 @@ class TrailerListView: UIViewController {
             
             topBackButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
             topBackButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            
+            videoTableView.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 20),
+            videoTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            videoTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            videoTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
 }
 
+extension TrailerListView: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        videos.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: TrailerMovieVideoCell.reuseId,for: indexPath) as? TrailerMovieVideoCell else {
+            return UITableViewCell()
+        }
+        
+        cell.configureTrailerMovieVideoCell(with: videos[indexPath.row])
+        cell.backgroundColor = .clear
+        return cell
+    }
+}
+
+
 extension TrailerListView: TrailerListViewProtocol {
+    func showVideos(_ videos: [TrailerVideoCellViewModel]) {
+        self.videos = videos
+        videoTableView.reloadData()
+    }
     
 }

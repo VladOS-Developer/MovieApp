@@ -8,6 +8,8 @@
 import Foundation
 
 final class MovieVideoRepository: MovieVideoRepositoryProtocol {
+    
+    
     private let networkService: NetworkServiceProtocol
     
     init(networkService: NetworkServiceProtocol) {
@@ -17,6 +19,11 @@ final class MovieVideoRepository: MovieVideoRepositoryProtocol {
     func fetchMovieVideo(for movieId: Int) async throws -> [MovieVideo] {
         let response: MovieVideosResponseDTO = try await networkService.request(.movieVideos(movieId))
         return response.results.map { MovieVideo(dto: $0) } // маппинг в домен
+    }
+    
+    func fetchTopVideos() async throws -> [MovieVideo] {
+        let response: MovieVideosResponseDTO = try await networkService.request(.trendingMovies)
+        return response.results.map { MovieVideo(dto: $0) }
     }
     
 }

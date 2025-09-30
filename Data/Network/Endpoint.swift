@@ -19,6 +19,7 @@ enum Endpoint {
     case actorMovies(Int)
     case actorImages(Int)
     case movieDetails(Int)
+    case trendingMovies
     
     var path: String {
         switch self {
@@ -54,6 +55,9 @@ enum Endpoint {
             
         case .movieDetails(let movieId):
             return "/movie/\(movieId)"
+            
+        case .trendingMovies:
+            return "/trending/movie/day"
             
         }
         
