@@ -92,7 +92,7 @@ class TrailerVideoCell: UITableViewCell {
     }
     
     func configureTrailerMovieVideoCell(with videoVM: TrailerVideoCellViewModel) {
-        //            videoImage.image = videoVM.thumbnailImage ?? UIImage(systemName: "film")
+//        videoImage.image = videoVM.thumbnailImage ?? UIImage(systemName: "film")
         videoImage.image = videoVM.thumbnailImage
         videoSite.text = videoVM.site
         videoName.text = videoVM.name
