@@ -84,6 +84,53 @@ class ActorPageView: UIViewController {
     @objc private func didTapBack() {
         navigationController?.popViewController(animated: true)
     }
+    
+    // MARK: - Animation showZoomedImage
+    private func showZoomedImage(from cell: UICollectionViewCell, image: UIImage) {
+        
+        let startFrame = cell.convert(cell.bounds, to: view)
+        
+        let zoomImageView = UIImageView(image: image)
+        zoomImageView.frame = startFrame
+        zoomImageView.contentMode = .scaleAspectFit
+        zoomImageView.backgroundColor = .clear
+        zoomImageView.isUserInteractionEnabled = true
+        zoomImageView.tag = 33
+        
+        let backgroundView = UIView(frame: view.bounds)
+        backgroundView.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
+        backgroundView.alpha = 0
+        backgroundView.tag = 32
+        
+        view.addSubview(backgroundView)
+        view.addSubview(zoomImageView)
+        
+        UIView.animate(withDuration: 0.4) {
+            backgroundView.alpha = 1
+            
+            let insetBounds = self.view.bounds.insetBy(dx: 20, dy: 80)
+            zoomImageView.frame = insetBounds
+        }
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissZoomedImage))
+        zoomImageView.addGestureRecognizer(tap)
+    }
+    
+    // MARK: - Animation dismissZoomedImage
+    @objc private func dismissZoomedImage(_ sender: UITapGestureRecognizer) {
+        
+        guard let zoomImageView = view.viewWithTag(33) as? UIImageView,
+              
+              let backgroundView = view.viewWithTag(32) else { return }
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            backgroundView.alpha = 0
+            zoomImageView.alpha = 0
+        }, completion: { _ in
+            zoomImageView.removeFromSuperview()
+            backgroundView.removeFromSuperview()
+        })
+    }
 }
 
 extension ActorPageView: UICollectionViewDataSource {
@@ -218,6 +265,15 @@ extension ActorPageView: UICollectionViewDelegate {
         switch item {
         case .filmography(let movieVM):
             presenter.didSelectFilmographyMovie(movieVM)
+//        default:
+//            break
+            
+        case .gallery:
+            if let cell = collectionView.cellForItem(at: indexPath) as? ActorGalleryImageCell,
+               let image = cell.image {
+                showZoomedImage(from: cell, image: image)
+            }
+            
         default:
             break
         }

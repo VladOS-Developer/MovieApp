@@ -93,9 +93,9 @@ extension TrailerPlayerView: TrailerPlayerViewProtocol {
         currentVideoKey = key
         playerView.load(withVideoId: key, playerVars: ["playsinline": 1, "autoplay": 1, "modestbranding": 1, "rel": 0])
         // выделить выбранную миниатюру, если она есть
-        if let idx = videoViewModels.firstIndex(where: { $0.videoKey == key }) {
-            let ip = IndexPath(item: idx, section: 0)
-            collectionView.selectItem(at: ip, animated: true, scrollPosition: .centeredHorizontally)
+        if let index = videoViewModels.firstIndex(where: { $0.videoKey == key }) {
+            let indexPath = IndexPath(item: index, section: 0)
+            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
         }
     }
     
@@ -104,9 +104,9 @@ extension TrailerPlayerView: TrailerPlayerViewProtocol {
         collectionView.reloadData()
         // выделить текущее видео (если совпадает)
         if let key = currentVideoKey,
-           let idx = videos.firstIndex(where: { $0.videoKey == key }) {
-            let ip = IndexPath(item: idx, section: 0)
-            collectionView.selectItem(at: ip, animated: false, scrollPosition: .centeredHorizontally)
+           let index = videos.firstIndex(where: { $0.videoKey == key }) {
+            let indexPath = IndexPath(item: index, section: 0)
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
         }
     }
 }
@@ -131,7 +131,6 @@ extension TrailerPlayerView: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //        presenter.didSelectVideo(at: indexPath.item)
         let previousKey = currentVideoKey
         presenter.didSelectVideo(at: indexPath.item)
         

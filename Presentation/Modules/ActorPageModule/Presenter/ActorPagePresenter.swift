@@ -18,7 +18,6 @@ protocol ActorPagePresenterProtocol: AnyObject {
          movieCreditsRepository: MovieCreditsRepositoryProtocol,
          actorId: Int,
          actorTitle: String)
-    
 }
 
 class ActorPagePresenter: ActorPagePresenterProtocol {

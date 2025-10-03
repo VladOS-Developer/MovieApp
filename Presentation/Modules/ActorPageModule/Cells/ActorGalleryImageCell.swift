@@ -10,6 +10,8 @@ import UIKit
 class ActorGalleryImageCell: UICollectionViewCell {
     static let reuseId = "ActorGalleryImageCell"
     
+    var image: UIImage? { imageView.image }
+    
     private let imageView: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentMode = .scaleAspectFill

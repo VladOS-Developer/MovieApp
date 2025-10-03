@@ -31,7 +31,6 @@ class TrailerListPresenter {
         self.view = view
         self.router = router
         self.movieVideoRepository = movieVideoRepository
-        print("Presenter инициализирован, view: \(view)")
     }
     
     func loadTopVideos() {

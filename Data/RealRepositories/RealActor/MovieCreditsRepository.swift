@@ -15,8 +15,8 @@ final class MovieCreditsRepository: MovieCreditsRepositoryProtocol {
     }
     
     func fetchCredits(for movieId: Int) async throws -> MovieCredits {
-        let response: MovieCreditsResponseDTO = try await networkService.request(.movieCredits(movieId))
-        return MovieCredits(dto: response)
+        let dto: MovieCreditsResponseDTO = try await networkService.request(.movieCredits(movieId))
+        return MovieCredits(dto: dto)
     }
     
 }

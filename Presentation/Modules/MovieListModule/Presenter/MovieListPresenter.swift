@@ -41,7 +41,6 @@ class MovieListPresenter: MovieListPresenterProtocol {
         self.genreRepository = genreRepository
         
         self.mode = mode
-        //        self.allGenres = try await self.genreRepository.fetchGenres()
     }
     
     func viewDidLoad() {
@@ -56,8 +55,10 @@ class MovieListPresenter: MovieListPresenterProtocol {
                 case .top10:
                     let top = try await self.movieRepository.fetchTopMovies()
                     self.movies = Array(top.prefix(10))
+                    
                 case .upcoming:
                     self.movies = try await self.movieRepository.fetchUpcomingMovies()
+                    
                 case .genre(let id, _):
                     self.movies = try await self.movieRepository.fetchMovies(byGenre: id)
                 }
