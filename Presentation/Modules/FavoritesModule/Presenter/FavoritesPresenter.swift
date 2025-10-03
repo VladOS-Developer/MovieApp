@@ -8,26 +8,38 @@
 import UIKit
 
 protocol FavoritesPresenterProtocol: AnyObject {
-    init(view: FavoritesViewProtocol)
+    init(view: FavoritesViewProtocol,
+         router: FavoritesRouterProtocol)
     
     func loadFavorites()
     func numberOfItems() -> Int
     func favorite(at index: Int) -> FavoriteMovie
     func removeFavorite(id: Int32)
+    func didSelectFavorite(_ movie: FavoriteMovie)
 }
 
 final class FavoritesPresenter {
+    
     private weak var view: FavoritesViewProtocol?
+    private let router: FavoritesRouterProtocol
+    
     private let storage = FavoritesStorage()
     private var favorites: [FavoriteMovie] = []
     
-    required init(view: FavoritesViewProtocol) {
+    required init(view: FavoritesViewProtocol,
+                  router: FavoritesRouterProtocol) {
+        
         self.view = view
+        self.router = router
     }
     
 }
 
 extension FavoritesPresenter: FavoritesPresenterProtocol {
+    
+    func didSelectFavorite(_ movie: FavoriteMovie) {
+        router.openMoviePage(movieId: Int(movie.id), movieTitle: movie.title ?? "")
+    }
     
     func loadFavorites() {
         favorites = storage.fetchFavorites()

@@ -18,7 +18,6 @@ final class MoviePageRouter: MoviePageRouterProtocol {
     weak var viewController: UIViewController?
     
     func showTrailerPlayer(video: MovieVideo, movieTitle: String) {
-        // Для теста UI с моками
         let trailerPlayerVC = Builder.createTrailerPlayerController(video: video, movieTitle: movieTitle)
         
         if let navigationVC = viewController?.navigationController {

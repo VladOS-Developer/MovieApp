@@ -91,9 +91,14 @@ class Builder: BuilderProtocol {
     //MARK: Favorites
     static func createFavoritesController() -> UIViewController {
         let favoritesView = FavoritesView()
-        let presenter = FavoritesPresenter(view: favoritesView)
+        let router = FavoritesRouter()
+        let presenter = FavoritesPresenter(view: favoritesView, router: router)
         
+        
+//        favoritesView.presenter = presenter
+//        return UINavigationController(rootViewController: favoritesView)
         favoritesView.presenter = presenter
+        router.viewController = favoritesView
         return UINavigationController(rootViewController: favoritesView)
     }
     

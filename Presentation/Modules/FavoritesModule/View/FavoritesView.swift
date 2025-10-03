@@ -116,6 +116,14 @@ extension FavoritesView: UICollectionViewDataSource {
     }
 }
 
+extension FavoritesView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let favorite = presenter.favorite(at: indexPath.item)
+        presenter.didSelectFavorite(favorite)
+    }
+}
+
 extension FavoritesView: FavoritesViewProtocol {
     func reloadFavorites() {
         collectionView.reloadData()
