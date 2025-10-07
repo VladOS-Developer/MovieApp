@@ -60,7 +60,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
                     self.movies = try await self.movieRepository.fetchUpcomingMovies()
                     
                 case .genre(let id, _):
-                    self.movies = try await self.movieRepository.fetchMovies(byGenre: id)
+                    self.movies = try await self.movieRepository.fetchMovies(byGenre: id, page: 1)
                 }
                 
                 self.movieViewModel = self.movies.map {

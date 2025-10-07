@@ -94,9 +94,6 @@ class Builder: BuilderProtocol {
         let router = FavoritesRouter()
         let presenter = FavoritesPresenter(view: favoritesView, router: router)
         
-        
-//        favoritesView.presenter = presenter
-//        return UINavigationController(rootViewController: favoritesView)
         favoritesView.presenter = presenter
         router.viewController = favoritesView
         return UINavigationController(rootViewController: favoritesView)

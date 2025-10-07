@@ -10,15 +10,15 @@ import Foundation
 final class MockMovieDetailsRepository: MovieDetailsRepositoryProtocol {
     static let shared = MockMovieDetailsRepository()
     
-    func fetchTopMovieDetails() async throws -> [MovieDetails] {
+    func fetchTopMovieDetails(page: Int) async throws -> [MovieDetails] {
         MovieDetails.mockTopMovieDetails()
     }
     
-    func fetchUpcomingMovieDetails() async throws -> [MovieDetails] {
+    func fetchUpcomingMovieDetails(page: Int) async throws -> [MovieDetails] {
         MovieDetails.mockUpcomingMovieDetails()
     }
     
-    func fetchMovieDetails(byGenre id: Int) async throws -> [MovieDetails] {
+    func fetchMovieDetails(byGenre id: Int, page: Int) async throws -> [MovieDetails] {
         let all = MovieDetails.mockTopMovieDetails() + MovieDetails.mockUpcomingMovieDetails()
         return all.filter { $0.genreIDs.contains(id) }
     }

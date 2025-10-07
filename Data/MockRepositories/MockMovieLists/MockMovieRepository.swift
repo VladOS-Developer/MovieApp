@@ -18,7 +18,7 @@ final class MockMovieRepository: MovieRepositoryProtocol {
         Movie.mockUpcomingMovie()
     }
     
-    func fetchMovies(byGenre id: Int) async throws -> [Movie] {
+    func fetchMovies(byGenre id: Int, page: Int) async throws -> [Movie] {
         let all = Movie.mockTopRatedMovie() + Movie.mockUpcomingMovie()
         return all.filter { $0.genreIDs.contains(id) }
     }

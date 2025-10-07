@@ -78,8 +78,8 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
             do {
                 // 1. Жанры + все фильмы
                 let genres = try await genreRepository.fetchGenres()
-                let topMovies = try await movieDetailsRepository.fetchTopMovieDetails()
-                let upcomingMovies = try await movieDetailsRepository.fetchUpcomingMovieDetails()
+                let topMovies = try await movieDetailsRepository.fetchTopMovieDetails(page: 1)
+                let upcomingMovies = try await movieDetailsRepository.fetchUpcomingMovieDetails(page: 1)
                 let allMovieDetails = topMovies + upcomingMovies
                 
                 // 2. Текущий фильм

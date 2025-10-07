@@ -21,7 +21,7 @@ final class MovieVideoRepository: MovieVideoRepositoryProtocol {
     }
     
     func fetchTopVideos() async throws -> [MovieVideo] {
-        let response: MovieVideosResponseDTO = try await networkService.request(.trendingMovies)
+        let response: MovieVideosResponseDTO = try await networkService.request(.trendingMovies(page: 1))
         return response.results.map { MovieVideo(dto: $0) }
     }
     

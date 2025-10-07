@@ -8,10 +8,10 @@
 import UIKit
 
 enum Endpoint {
-    case topRatedMovies
-    case upcomingMovies
+    case topRatedMovies(page: Int)
+    case upcomingMovies(page: Int)
     case genres
-    case moviesByGenre(Int)
+    case moviesByGenre(Int, page: Int)
     case movieVideos(Int)
     case movieSimilar(Int)
     case movieCredits(Int)
@@ -19,21 +19,21 @@ enum Endpoint {
     case actorMovies(Int)
     case actorImages(Int)
     case movieDetails(Int)
-    case trendingMovies
+    case trendingMovies(page: Int)
     
     var path: String {
         switch self {
-        case .topRatedMovies:
+        case .topRatedMovies(_):
             return "/movie/top_rated"
             
-        case .upcomingMovies:
+        case .upcomingMovies(_):
             return "/movie/upcoming"
             
         case .genres:
             return "/genre/movie/list"
             
-        case .moviesByGenre(let genreId):
-            return "/discover/movie?with_genres=\(genreId)"
+        case .moviesByGenre(_, _):
+            return "/discover/movie"
             
         case .movieVideos(let movieId):
             return "/movie/\(movieId)/videos"
@@ -56,10 +56,28 @@ enum Endpoint {
         case .movieDetails(let movieId):
             return "/movie/\(movieId)"
             
-        case .trendingMovies:
+        case .trendingMovies(_):
             return "/trending/movie/day"
             
         }
+    }
+    
+    var queryItems: [URLQueryItem] {
         
+        switch self {
+            
+        case .topRatedMovies(let page),
+             .upcomingMovies(let page),
+             .trendingMovies(let page):
+            return [URLQueryItem(name: "page", value: "\(page)")]
+            
+        case .moviesByGenre(let genreId, let page):
+            return [
+                URLQueryItem(name: "with_genres", value: "\(genreId)"),
+                URLQueryItem(name: "page", value: "\(page)")
+            ]
+        default:
+            return []
+        }
     }
 }
