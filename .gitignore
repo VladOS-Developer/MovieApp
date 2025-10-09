@@ -163,6 +163,8 @@ xcuserdata
 
 ### SwiftPM ###
 
+# Secrets
+Secrets.xcconfig
 
 ### Xcode ###
 

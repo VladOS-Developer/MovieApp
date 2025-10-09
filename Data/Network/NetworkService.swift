@@ -14,11 +14,11 @@ protocol NetworkServiceProtocol {
 final class NetworkService: NetworkServiceProtocol {
     
     private let baseURL = "https://api.themoviedb.org/3"
-    private var apiKey = "Key"
+    private var apiKey: String
     
     init(apiKey: String) {
-        self.apiKey = apiKey
-    }
+            self.apiKey = apiKey
+        }
     
     func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T {
         guard var components = URLComponents(string: baseURL + endpoint.path) else {

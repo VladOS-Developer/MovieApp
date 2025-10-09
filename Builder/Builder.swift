@@ -24,7 +24,14 @@ protocol BuilderProtocol {
 class Builder: BuilderProtocol {
     
     private static let useMock = true // false когда API ключ
-    private static let apiKey = "key"
+    
+    // Загрузка ключа из Info.plist
+    private static var apiKey: String {
+        guard let key = Bundle.main.object(forInfoDictionaryKey: "TMDB_API_KEY") as? String else {
+            fatalError("TMDB_API_KEY not found in Info.plist")
+        }
+        return key
+    }
     
     //MARK: Passcode
     static func getPasscodeController(sceneDelegate: SceneDelegateProtocol) -> UIViewController {

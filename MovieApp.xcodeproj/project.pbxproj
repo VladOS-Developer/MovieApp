@@ -78,6 +78,7 @@
 		867179182E75AD4F00681D72 /* MovieCreditsRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867179172E75AD4F00681D72 /* MovieCreditsRepositoryProtocol.swift */; };
 		8671791A2E75AD7B00681D72 /* MockMovieCreditsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867179192E75AD7B00681D72 /* MockMovieCreditsRepository.swift */; };
 		867179252E75B60A00681D72 /* MovieCredits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867179242E75B60A00681D72 /* MovieCredits.swift */; };
+		869608282E96DF590040E51A /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 869608272E96DF590040E51A /* Secrets.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -152,6 +153,7 @@
 		867179192E75AD7B00681D72 /* MockMovieCreditsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMovieCreditsRepository.swift; sourceTree = "<group>"; };
 		867179242E75B60A00681D72 /* MovieCredits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCredits.swift; sourceTree = "<group>"; };
 		868D07032E33982A00224CD9 /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		869608272E96DF590040E51A /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -514,6 +516,7 @@
 				86367DE62E3A24AD00012D4E /* Storage */,
 				86367DE52E3A249300012D4E /* Resources */,
 				868D07042E33982A00224CD9 /* Products */,
+				869608272E96DF590040E51A /* Secrets.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -558,7 +561,7 @@
 		868D06FB2E33982A00224CD9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = 1;
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
@@ -597,6 +600,7 @@
 			files = (
 				86367DE12E3A241400012D4E /* Assets.xcassets in Resources */,
 				86367DE32E3A241400012D4E /* LaunchScreen.storyboard in Resources */,
+				869608282E96DF590040E51A /* Secrets.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -693,6 +697,7 @@
 /* Begin XCBuildConfiguration section */
 		868D071A2E33982C00224CD9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 869608272E96DF590040E51A /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -719,6 +724,7 @@
 		};
 		868D071B2E33982C00224CD9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 869608272E96DF590040E51A /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
