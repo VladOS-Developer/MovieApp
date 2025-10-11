@@ -25,6 +25,7 @@ class MainScreenView: UIViewController {
         $0.register(TopMovieCell.self, forCellWithReuseIdentifier: TopMovieCell.reuseId)
         $0.register(UpcomingMovieCell.self, forCellWithReuseIdentifier: UpcomingMovieCell.reuseId)
         $0.register(MainSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MainSectionHeaderView.reuseId)
+        $0.register(SearchHeaderCell.self, forCellWithReuseIdentifier: SearchHeaderCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createLayout()))
     
@@ -33,6 +34,9 @@ class MainScreenView: UIViewController {
             let currentSection = sections[section]
             
             switch currentSection.type {
+            case .searchHeader:
+                return MainScreenLayoutFactory.setSearchHeaderLayout()
+                
             case .genresMovie:
                 return MainScreenLayoutFactory.setGenreMovieLayout()
                 
@@ -41,6 +45,7 @@ class MainScreenView: UIViewController {
                 
             case .upcomingMovie:
                 return MainScreenLayoutFactory.setUpcomingMovieLayout()
+            
             }
         }
     }
@@ -82,6 +87,19 @@ extension MainScreenView: UICollectionViewDataSource {
         
         switch section.type {
             
+        case .searchHeader:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchHeaderCell.reuseId, for: indexPath) as? SearchHeaderCell else {
+                return UICollectionViewCell()
+            }
+            
+//            cell.onSearchTapped = { [weak self] in
+//                 self?.presenter.didTapSearch()
+//            }
+//            cell.onSettingsTapped = { [weak self] in
+//                // self?.presenter.didTapSettings() (навигация в новый модуль)
+//            }
+            return cell
+            
         case .genresMovie:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenreMovieCell.reuseId, for: indexPath) as? GenreMovieCell else {
                 return UICollectionViewCell()
@@ -120,6 +138,7 @@ extension MainScreenView: UICollectionViewDataSource {
             }
             
             return cell
+        
         }
     }
     

@@ -13,12 +13,14 @@ struct MainCollectionSection {
 }
 
 enum MainSectionType {
+    case searchHeader
     case genresMovie
     case topMovie
     case upcomingMovie
     
     var title: String {
         switch self {
+        case .searchHeader: return ""
         case .genresMovie: return "Discover Your Next Favorite Movies"
         case .topMovie: return "Top Movies This Week"
         case .upcomingMovie: return "Upcoming"

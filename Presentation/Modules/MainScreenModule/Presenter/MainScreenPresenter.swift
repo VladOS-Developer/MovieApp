@@ -62,6 +62,7 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
                     .map { MainCollectionItem.movie($0) }
                 
                 let sections: [MainCollectionSection] = [
+                    MainCollectionSection(type: .searchHeader, items: [.searchHeaderItem]),
                     MainCollectionSection(type: .genresMovie, items: genreItems),
                     MainCollectionSection(type: .topMovie, items: topItems),
                     MainCollectionSection(type: .upcomingMovie, items: upcomingItems)

@@ -10,11 +10,14 @@ import UIKit
 enum MainCollectionItem {
     case genre(GenreCellViewModel)
     case movie(MovieCellViewModel)
+    case searchHeaderItem
         
     var id: Int {
         switch self {
         case .movie(let vm): return vm.id
         case .genre(let vm): return vm.id
+        case .searchHeaderItem: return -1
+            
         }
     }
     
@@ -22,6 +25,7 @@ enum MainCollectionItem {
         switch self {
         case .movie(let vm): return vm.title
         case .genre(let vm): return vm.name
+        case .searchHeaderItem: return "Search"
         }
     }
 
@@ -29,6 +33,7 @@ enum MainCollectionItem {
         switch self {
         case .movie(let vm): return vm.releaseDateText
         case .genre: return nil
+        case .searchHeaderItem: return nil
         }
     }
 
@@ -36,6 +41,7 @@ enum MainCollectionItem {
         switch self {
         case .movie(let vm): return vm.genresText
         case .genre: return nil
+        case .searchHeaderItem: return nil
         }
     }
 
@@ -43,6 +49,8 @@ enum MainCollectionItem {
         switch self {
         case .movie(let vm): return vm.posterImage
         case .genre: return nil
+        case .searchHeaderItem: return nil
+            
         }
     }
 
@@ -50,6 +58,7 @@ enum MainCollectionItem {
         switch self {
         case .movie(let vm): return vm.posterURL
         case .genre: return nil
+        case .searchHeaderItem: return nil
         }
     }
 }
