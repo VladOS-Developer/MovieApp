@@ -28,4 +28,5 @@ final class MovieRepository: MovieRepositoryProtocol {
         let response: TopRatedResponseDTO = try await networkService.request(.moviesByGenre(id, page: 1))
         return response.results.map { Movie(dto: $0) }
     }
+    
 }

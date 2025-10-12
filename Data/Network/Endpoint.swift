@@ -76,6 +76,8 @@ enum Endpoint {
                 URLQueryItem(name: "with_genres", value: "\(genreId)"),
                 URLQueryItem(name: "page", value: "\(page)")
             ]
+            
+            
         default:
             return []
         }

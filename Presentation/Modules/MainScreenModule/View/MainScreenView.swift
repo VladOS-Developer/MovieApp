@@ -26,6 +26,7 @@ class MainScreenView: UIViewController {
         $0.register(UpcomingMovieCell.self, forCellWithReuseIdentifier: UpcomingMovieCell.reuseId)
         $0.register(MainSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MainSectionHeaderView.reuseId)
         $0.register(SearchHeaderCell.self, forCellWithReuseIdentifier: SearchHeaderCell.reuseId)
+        $0.register(SearchResultCell.self, forCellWithReuseIdentifier: SearchResultCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createLayout()))
     
@@ -37,6 +38,9 @@ class MainScreenView: UIViewController {
             case .searchHeader:
                 return MainScreenLayoutFactory.setSearchHeaderLayout()
                 
+            case .searchResults:
+                return MainScreenLayoutFactory.setSearchResultLayout()
+                
             case .genresMovie:
                 return MainScreenLayoutFactory.setGenreMovieLayout()
                 
@@ -45,6 +49,7 @@ class MainScreenView: UIViewController {
                 
             case .upcomingMovie:
                 return MainScreenLayoutFactory.setUpcomingMovieLayout()
+            
             
             }
         }
@@ -100,6 +105,12 @@ extension MainScreenView: UICollectionViewDataSource {
 //            }
             return cell
             
+        case .searchResults:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCell.reuseId, for: indexPath) as? SearchResultCell else {
+                return UICollectionViewCell()
+            }
+            return cell
+            
         case .genresMovie:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenreMovieCell.reuseId, for: indexPath) as? GenreMovieCell else {
                 return UICollectionViewCell()
@@ -139,6 +150,7 @@ extension MainScreenView: UICollectionViewDataSource {
             
             return cell
         
+       
         }
     }
     

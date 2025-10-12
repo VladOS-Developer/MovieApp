@@ -57,9 +57,23 @@ enum MainScreenLayoutFactory {
     
     static func setSearchHeaderLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50)))
+        
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50)), subitems: [item])
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = .init(top: 16, leading: 16, bottom: 8, trailing: 16)
+        return section
+    }
+    
+    static func setSearchResultLayout() -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),heightDimension: .estimated(200)))
+        
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1),heightDimension: .estimated(200)),subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 16
+        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
+        
         return section
     }
 }
