@@ -9,6 +9,7 @@ import UIKit
 
 protocol MainScreenViewProtocol: AnyObject {
     func showMovies(sections: [MainCollectionSection])
+    func reloadSearchResultsSection(with items: [MainCollectionItem])
 }
 
 class MainScreenView: UIViewController {
@@ -50,7 +51,6 @@ class MainScreenView: UIViewController {
             case .upcomingMovie:
                 return MainScreenLayoutFactory.setUpcomingMovieLayout()
             
-            
             }
         }
     }
@@ -65,6 +65,8 @@ class MainScreenView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
+        edgesForExtendedLayout = [.top]
+      
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -73,7 +75,6 @@ class MainScreenView: UIViewController {
         ])
         presenter.getMoviesData()
     }
-
 }
 
 extension MainScreenView: UICollectionViewDataSource {
@@ -96,6 +97,9 @@ extension MainScreenView: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchHeaderCell.reuseId, for: indexPath) as? SearchHeaderCell else {
                 return UICollectionViewCell()
             }
+            cell.onTextChanged = { [weak self] text in
+                self?.presenter.didUpdateSearchQuery(text)
+            }
             
 //            cell.onSearchTapped = { [weak self] in
 //                 self?.presenter.didTapSearch()
@@ -108,6 +112,10 @@ extension MainScreenView: UICollectionViewDataSource {
         case .searchResults:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCell.reuseId, for: indexPath) as? SearchResultCell else {
                 return UICollectionViewCell()
+            }
+            
+            if case .movie(let vm) = item {
+                cell.configureResultCell(with: vm)
             }
             return cell
             
@@ -134,7 +142,6 @@ extension MainScreenView: UICollectionViewDataSource {
                 cell.configureMovieCell(with: movieVM)
             default: break
             }
-            
             return cell
             
         case .upcomingMovie:
@@ -147,10 +154,8 @@ extension MainScreenView: UICollectionViewDataSource {
                 cell.configureUpcomingCell(with: movieVM)
             default: break
             }
-            
             return cell
         
-       
         }
     }
     
@@ -164,7 +169,7 @@ extension MainScreenView: UICollectionViewDataSource {
         let showSeeAll = section.type == .topMovie || section.type == .upcomingMovie
         header.setHeaderView(with: section.type.title, showsButton: showSeeAll)
         
-        header.sectionIndex = indexPath.section //
+        header.sectionIndex = indexPath.section
         header.delegate = self
         return header
     }
@@ -177,8 +182,9 @@ extension MainScreenView: UICollectionViewDelegate {
         let section = sections[indexPath.section]
         
         switch section.type {
-        case .topMovie, .upcomingMovie:
+        case .topMovie, .upcomingMovie, .searchResults:
             let item = section.items[indexPath.item]
+            
             if case .movie(let vm) = item {
                 presenter.didSelectMovie(with: vm.id, title: vm.title)
             }
@@ -190,7 +196,7 @@ extension MainScreenView: UICollectionViewDelegate {
 
 extension MainScreenView: MainSectionHeaderViewDelegate {
     func didTapSeeAllButton(in section: Int) {
-        presenter.didTapSeeAll(in: section) //
+        presenter.didTapSeeAll(in: section)
     }
 }
 
@@ -201,6 +207,25 @@ extension MainScreenView: GenreMovieCellDelegate {
 }
 
 extension MainScreenView: MainScreenViewProtocol {
+    
+    func reloadSearchResultsSection(with items: [MainCollectionItem]) {
+        // Обновляем модель секций локально
+        if let index = sections.firstIndex(where: { $0.type == .searchResults }) {
+            sections[index] = MainCollectionSection(type: .searchResults, items: items)
+            // Перезагружаем только эту секцию
+            collectionView.performBatchUpdates {
+                collectionView.reloadSections(IndexSet(integer: index))
+            }
+            // Если секция видимая и нужен переход слоя layout
+            collectionView.collectionViewLayout.invalidateLayout()
+        }
+        
+//        if let tabBarVC = tabBarController as? TabBarView {
+//            let shouldHide = !items.isEmpty
+//            tabBarVC.setTabBarButtonsHidden(shouldHide)
+//        }
+    }
+    
     func showMovies(sections: [MainCollectionSection]) {
         self.sections = sections
         collectionView.reloadData()

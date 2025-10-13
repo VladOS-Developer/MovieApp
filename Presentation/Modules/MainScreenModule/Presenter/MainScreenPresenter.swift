@@ -12,6 +12,7 @@ protocol MainScreenPresenterProtocol: AnyObject {
     func didTapSeeAll(in section: Int)
     func didSelectGenre(id: Int, title: String)
     func didSelectMovie(with id: Int, title: String)
+    func didUpdateSearchQuery(_ query: String)
     
     init(view: MainScreenViewProtocol,
          router: MainScreenRouterProtocol,
@@ -28,6 +29,9 @@ class MainScreenPresenter {
     
     private var sections: [MainCollectionSection] = []
     
+    private var currentSearchTask: Task<(), Never>?
+    private var searchDebounceWorkItem: DispatchWorkItem?
+    
     required init(view: MainScreenViewProtocol,
                   router: MainScreenRouterProtocol,
                   movieRepository: MovieRepositoryProtocol,
@@ -41,7 +45,7 @@ class MainScreenPresenter {
 }
 
 extension MainScreenPresenter: MainScreenPresenterProtocol {
-    
+
     func getMoviesData() {
         
         Task {
@@ -63,6 +67,7 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
                 
                 let sections: [MainCollectionSection] = [
                     MainCollectionSection(type: .searchHeader, items: [.searchHeaderItem]),
+                    MainCollectionSection(type: .searchResults, items: []),
                     MainCollectionSection(type: .genresMovie, items: genreItems),
                     MainCollectionSection(type: .topMovie, items: topItems),
                     MainCollectionSection(type: .upcomingMovie, items: upcomingItems)
@@ -79,12 +84,63 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
             }
         }
     }
+
+    func didUpdateSearchQuery(_ query: String) {
+        // Отменяем предыдущий debounce
+        searchDebounceWorkItem?.cancel()
+        
+        let trimmed = query.trimmingCharacters(in: .whitespaces)
+        
+        // Если запрос короткий (<3), сразу очищаем результаты
+        if trimmed.count < 3 {
+            currentSearchTask?.cancel()
+            Task { @MainActor in
+                self.view?.reloadSearchResultsSection(with: [])
+            }
+            return
+        }
+        
+        // Делаем debounce на 0.5 сек
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.performSearch(trimmed)
+        }
+        searchDebounceWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: workItem)
+    }
     
+    private func performSearch(_ query: String) {
+        currentSearchTask?.cancel()
+        
+        currentSearchTask = Task {
+            do {
+                let genres = try await genreRepository.fetchGenres()
+                let results = try await movieRepository.searchMovies(query: query, page: 1)
+                let items = results.map { MainCollectionItem.movie(MovieCellViewModel(movie: $0, genres: genres)) }
+
+                await MainActor.run {
+                    self.view?.reloadSearchResultsSection(with: items)
+                }
+            } catch {
+                if !Task.isCancelled {
+                    print("Search failed: \(error)")
+                    
+                    await MainActor.run {
+                        self.view?.reloadSearchResultsSection(with: [])
+                    }
+                }
+            }
+        }
+    }
+ 
     func didTapSeeAll(in section: Int) {
         guard section < sections.count else { return }
+        
         switch sections[section].type {
-        case .topMovie:      router.showMovieList(mode: .top10)
-        case .upcomingMovie: router.showMovieList(mode: .upcoming)
+        case .topMovie:
+            router.showMovieList(mode: .top10)
+        case .upcomingMovie:
+            router.showMovieList(mode: .upcoming)
         default: break
         }
     }

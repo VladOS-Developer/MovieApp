@@ -68,7 +68,7 @@ class TrailerListView: UIViewController {
         super.viewWillAppear(animated)
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(true)
     }
-    
+ 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             sectionLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

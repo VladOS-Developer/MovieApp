@@ -20,16 +20,13 @@ final class SearchResultCell: UICollectionViewCell {
         return $0
     }(UIImageView())
     
-    private lazy var resultLabel: UILabel = TextLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appWhite)
-
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.addSubview(resultImage)
         setupConstraints()
     }
 
-
-    func configure(with viewModel: MovieCellViewModel) {
-        resultLabel.text = viewModel.title
+    func configureResultCell(with viewModel: MovieCellViewModel) {
         resultImage.image = viewModel.posterImage
     }
 
@@ -38,16 +35,12 @@ final class SearchResultCell: UICollectionViewCell {
             resultImage.topAnchor.constraint(equalTo: contentView.topAnchor),
             resultImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             resultImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            resultImage.heightAnchor.constraint(equalToConstant: 150),
-            
-            resultLabel.topAnchor.constraint(equalTo: resultImage.bottomAnchor, constant: 5),
-            resultLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            resultLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            resultLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
+            resultImage.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
         ])
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }

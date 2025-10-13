@@ -8,7 +8,6 @@
 import UIKit
 
 final class TopMovieCell: UICollectionViewCell {
-    
     static let reuseId = "TopMovieCell"
     
     private lazy var imageViewMovie: UIImageView = {

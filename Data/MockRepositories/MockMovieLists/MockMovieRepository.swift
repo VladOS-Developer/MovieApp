@@ -22,6 +22,12 @@ final class MockMovieRepository: MovieRepositoryProtocol {
         let all = Movie.mockTopRatedMovie() + Movie.mockUpcomingMovie()
         return all.filter { $0.genreIDs.contains(id) }
     }
+    
+    func searchMovies(query: String, page: Int) async throws -> [Movie] {
+        let all = Movie.mockTopRatedMovie() + Movie.mockUpcomingMovie()
+        let filtered = all.filter { $0.title.lowercased().contains(query.lowercased()) }
+        return filtered
+    }
 }
 
 // MARK: Dispatch group (iOS 13-14)

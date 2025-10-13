@@ -9,7 +9,7 @@ import Foundation
 
 struct MainCollectionSection {
     let type: MainSectionType
-    let items: [MainCollectionItem]
+    var items: [MainCollectionItem]
 }
 
 enum MainSectionType {
@@ -23,7 +23,7 @@ enum MainSectionType {
     var title: String {
         switch self {
         case .searchHeader: return ""
-        case .searchResults: return "Search Result"
+        case .searchResults: return ""
         case .genresMovie: return "Discover Your Next Favorite Movies"
         case .topMovie: return "Top Movies This Week"
         case .upcomingMovie: return "Upcoming"

@@ -7,11 +7,12 @@
 
 import UIKit
 
-final class SearchHeaderCell: UICollectionViewCell {
+final class SearchHeaderCell: UICollectionViewCell, UITextFieldDelegate {
     static let reuseId = "SearchHeaderCell"
     
-    var onSearchTapped: (() -> Void)?
-    var onSettingsTapped: (() -> Void)?
+    var onTextChanged: ((String) -> ())?
+    var onSearchTapped: (() -> ())?
+    var onSettingsTapped: (() -> ())?
     
     private lazy var searchButton: UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -37,6 +38,7 @@ final class SearchHeaderCell: UICollectionViewCell {
         $0.layer.cornerRadius = 10
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
         $0.leftViewMode = .always
+        $0.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         return $0
     }(UITextField())
     
@@ -45,26 +47,31 @@ final class SearchHeaderCell: UICollectionViewCell {
         contentView.addSubview(searchButton)
         contentView.addSubview(settingsButton)
         contentView.addSubview(textField)
+        textField.delegate = self
         setupConstraints()
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            searchButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            searchButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             searchButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             searchButton.widthAnchor.constraint(equalToConstant: 30),
             searchButton.heightAnchor.constraint(equalToConstant: 30),
             
-            settingsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            settingsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             settingsButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             settingsButton.widthAnchor.constraint(equalToConstant: 30),
             settingsButton.heightAnchor.constraint(equalToConstant: 30),
             
-            textField.leadingAnchor.constraint(equalTo: searchButton.trailingAnchor, constant: 8),
-            textField.trailingAnchor.constraint(equalTo: settingsButton.leadingAnchor, constant: -8),
+            textField.leadingAnchor.constraint(equalTo: searchButton.trailingAnchor, constant: 10),
+            textField.trailingAnchor.constraint(equalTo: settingsButton.leadingAnchor, constant: -10),
             textField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             textField.heightAnchor.constraint(equalToConstant: 36)
         ])
+    }
+    
+    @objc private func textDidChange() {
+        onTextChanged?(textField.text ?? "")
     }
     
     @objc private func searchTapped() {
@@ -78,4 +85,5 @@ final class SearchHeaderCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }

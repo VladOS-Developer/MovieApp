@@ -29,4 +29,11 @@ final class MovieRepository: MovieRepositoryProtocol {
         return response.results.map { Movie(dto: $0) }
     }
     
+    func searchMovies(query: String, page: Int = 1) async throws -> [Movie] {
+        // TMDB возвращает results: [MovieDTO], у тебя есть TopRatedResponseDTO / UpcomingResponseDTO.
+        // Если всё DTO-ы имеют поле results: reuse TopRatedResponseDTO.
+        let response: TopRatedResponseDTO = try await networkService.request(.searchMovies(query: query, page: page))
+        return response.results.map { Movie(dto: $0) }
+    }
+    
 }

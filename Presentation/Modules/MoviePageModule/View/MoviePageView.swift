@@ -273,6 +273,10 @@ extension MoviePageView: UICollectionViewDataSource {
 extension MoviePageView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        guard sections.indices.contains(indexPath.section),
+              sections[indexPath.section].items.indices.contains(indexPath.item)
+        else { return }
+        
         let item = sections[indexPath.section].items[indexPath.item]
         
         switch item {

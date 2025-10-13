@@ -260,13 +260,15 @@ extension ActorPageView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        guard sections.indices.contains(indexPath.section),
+              sections[indexPath.section].items.indices.contains(indexPath.item)
+        else { return }
+        
         let item = sections[indexPath.section].items[indexPath.item]
         
         switch item {
         case .filmography(let movieVM):
             presenter.didSelectFilmographyMovie(movieVM)
-//        default:
-//            break
             
         case .gallery:
             if let cell = collectionView.cellForItem(at: indexPath) as? ActorGalleryImageCell,

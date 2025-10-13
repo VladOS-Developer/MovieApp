@@ -27,6 +27,7 @@ final class TabBarView: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBar.isHidden = true
+        view.backgroundColor = .clear
         
         tabsIcon.enumerated().forEach {
             let tabBarButton = createTabBarButton(icon: $0.element, tag: $0.offset)
@@ -60,7 +61,7 @@ final class TabBarView: UITabBarController {
         let btnSize: CGFloat = 35
         let totalWidth = view.bounds.width
         let spacing = totalWidth / CGFloat(tabBarButtons.count + 1)
-        let yPosition = view.bounds.height - btnSize - 50
+        let yPosition = view.bounds.height - btnSize - 40
         
         for (index, button) in tabBarButtons.enumerated() {
             let x = spacing * CGFloat(index + 1)
