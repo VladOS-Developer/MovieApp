@@ -19,6 +19,7 @@ protocol BuilderProtocol {
     static func createMoviePageController(movieId: Int, movieTitle: String) -> UIViewController
     static func createTrailerPlayerController(video: MovieVideo, movieTitle: String) -> UIViewController
     static func createActorPageController(actorTitle: String, actorId: Int) -> UIViewController
+    static func SettingsPageController() -> UIViewController
 }
 
 class Builder: BuilderProtocol {
@@ -197,7 +198,15 @@ class Builder: BuilderProtocol {
         actorView.presenter = presenter
         router.viewController = actorView
         return actorView
-        
+    }
+    
+    //MARK: SettingPage
+    static func SettingsPageController() -> UIViewController {
+        let settingView = SettingsPageView()
+        let presenter = SettingsPagePresenter(view: settingView)
+    
+        settingView.presenter = presenter
+        return settingView
     }
     
     

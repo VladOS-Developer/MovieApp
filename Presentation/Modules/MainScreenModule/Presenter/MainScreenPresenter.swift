@@ -13,6 +13,7 @@ protocol MainScreenPresenterProtocol: AnyObject {
     func didSelectGenre(id: Int, title: String)
     func didSelectMovie(with id: Int, title: String)
     func didUpdateSearchQuery(_ query: String)
+    func didTapSettings()
     
     init(view: MainScreenViewProtocol,
          router: MainScreenRouterProtocol,
@@ -151,6 +152,10 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
     
     func didSelectMovie(with id: Int, title: String) {
         router.showMoviePage(movieId: id, movieTitle: title )
+    }
+    
+    func didTapSettings() {
+        router.showSettingsPage()
     }
     
 }

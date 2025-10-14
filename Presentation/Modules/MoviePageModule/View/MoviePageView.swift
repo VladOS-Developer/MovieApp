@@ -80,6 +80,7 @@ class MoviePageView: UIViewController {
                                               backAction: #selector(didTapBack),
                                               rightSystemName: "heart",
                                               rightAction: #selector(didTapHeart))
+        
         view.addSubview(collectionView)
         edgesForExtendedLayout = [.top]
         NSLayoutConstraint.activate([

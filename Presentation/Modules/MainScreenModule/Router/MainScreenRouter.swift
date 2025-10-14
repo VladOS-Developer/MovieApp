@@ -10,9 +10,11 @@ import UIKit
 protocol MainScreenRouterProtocol: AnyObject {
     func showMoviePage(movieId: Int, movieTitle: String)
     func showMovieList(mode: MovieListMode)
+    func showSettingsPage()
 }
 
 class MainScreenRouter: MainScreenRouterProtocol {
+    
     weak var viewController: UIViewController?
     
     func showMoviePage(movieId: Int, movieTitle: String) {
@@ -35,5 +37,14 @@ class MainScreenRouter: MainScreenRouterProtocol {
         }
     }
     
+    func showSettingsPage() {
+        let settingPageVC = Builder.SettingsPageController()
+        
+        if let navigationVC = viewController?.navigationController {
+            navigationVC.pushViewController(settingPageVC, animated: true)
+        } else {
+            viewController?.present(settingPageVC, animated: true)
+        }
+    }
     
 }

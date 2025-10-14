@@ -101,12 +101,13 @@ extension MainScreenView: UICollectionViewDataSource {
                 self?.presenter.didUpdateSearchQuery(text)
             }
             
-//            cell.onSearchTapped = { [weak self] in
-//                 self?.presenter.didTapSearch()
-//            }
-//            cell.onSettingsTapped = { [weak self] in
-//                // self?.presenter.didTapSettings() (навигация в новый модуль)
-//            }
+            cell.onCancelTapped = { [weak self] in
+                self?.presenter.didUpdateSearchQuery("")
+            }
+            
+            cell.onSettingsTapped = { [weak self] in
+                 self?.presenter.didTapSettings()
+            }
             return cell
             
         case .searchResults:

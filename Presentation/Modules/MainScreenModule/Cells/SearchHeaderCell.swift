@@ -11,21 +11,21 @@ final class SearchHeaderCell: UICollectionViewCell, UITextFieldDelegate {
     static let reuseId = "SearchHeaderCell"
     
     var onTextChanged: ((String) -> ())?
-    var onSearchTapped: (() -> ())?
+    var onCancelTapped: (() -> ())?
     var onSettingsTapped: (() -> ())?
     
-    private lazy var searchButton: UIButton = {
+    private lazy var cancelButton: UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
-        $0.tintColor = .appWhite
-        $0.addTarget(self, action: #selector(searchTapped), for: .touchUpInside)
+        $0.setImage(UIImage(systemName: "eraser.line.dashed"), for: .normal)
+        $0.tintColor = .appBlue
+        $0.addTarget(self, action: #selector(сancelTapped), for: .touchUpInside)
         return $0
     }(UIButton(type: .system))
     
     private lazy var settingsButton: UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setImage(UIImage(systemName: "gearshape"), for: .normal)
-        $0.tintColor = .appWhite
+        $0.tintColor = .appBlue
         $0.addTarget(self, action: #selector(settingsTapped), for: .touchUpInside)
         return $0
     }(UIButton(type: .system))
@@ -44,7 +44,7 @@ final class SearchHeaderCell: UICollectionViewCell, UITextFieldDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(searchButton)
+        contentView.addSubview(cancelButton)
         contentView.addSubview(settingsButton)
         contentView.addSubview(textField)
         textField.delegate = self
@@ -53,17 +53,17 @@ final class SearchHeaderCell: UICollectionViewCell, UITextFieldDelegate {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            searchButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            searchButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            searchButton.widthAnchor.constraint(equalToConstant: 30),
-            searchButton.heightAnchor.constraint(equalToConstant: 30),
+            cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            cancelButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            cancelButton.widthAnchor.constraint(equalToConstant: 30),
+            cancelButton.heightAnchor.constraint(equalToConstant: 30),
             
             settingsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             settingsButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             settingsButton.widthAnchor.constraint(equalToConstant: 30),
             settingsButton.heightAnchor.constraint(equalToConstant: 30),
             
-            textField.leadingAnchor.constraint(equalTo: searchButton.trailingAnchor, constant: 10),
+            textField.leadingAnchor.constraint(equalTo: cancelButton.trailingAnchor, constant: 10),
             textField.trailingAnchor.constraint(equalTo: settingsButton.leadingAnchor, constant: -10),
             textField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             textField.heightAnchor.constraint(equalToConstant: 36)
@@ -74,8 +74,10 @@ final class SearchHeaderCell: UICollectionViewCell, UITextFieldDelegate {
         onTextChanged?(textField.text ?? "")
     }
     
-    @objc private func searchTapped() {
-        onSearchTapped?()
+    @objc private func сancelTapped() {
+        textField.text = ""
+        onTextChanged?("") // очистка поисковых результатов
+        onCancelTapped?()
     }
     
     @objc private func settingsTapped() {
