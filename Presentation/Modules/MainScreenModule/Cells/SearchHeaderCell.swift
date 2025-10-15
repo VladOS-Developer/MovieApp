@@ -76,7 +76,7 @@ final class SearchHeaderCell: UICollectionViewCell, UITextFieldDelegate {
     
     @objc private func сancelTapped() {
         textField.text = ""
-        onTextChanged?("") // очистка поисковых результатов
+        onTextChanged?("")
         onCancelTapped?()
     }
     

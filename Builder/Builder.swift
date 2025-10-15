@@ -206,7 +206,8 @@ class Builder: BuilderProtocol {
         let presenter = SettingsPagePresenter(view: settingView)
     
         settingView.presenter = presenter
-        return settingView
+//        return settingView
+        return UINavigationController(rootViewController: settingView)
     }
     
     
