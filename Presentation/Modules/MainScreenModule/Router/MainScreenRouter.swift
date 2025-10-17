@@ -38,7 +38,7 @@ class MainScreenRouter: MainScreenRouterProtocol {
     }
     
     func showSettingsPage() {
-        let settingPageVC = Builder.SettingsPageController()
+        let settingPageVC = Builder.createSettingsPageController()
         viewController?.present(settingPageVC, animated: true)
 //        if let navigationVC = viewController?.navigationController {
 //            navigationVC.pushViewController(settingPageVC, animated: true)

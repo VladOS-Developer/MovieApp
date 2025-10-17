@@ -7,10 +7,12 @@
 
 import UIKit
 
-protocol SettingsViewProtocol: AnyObject {
+protocol SettingsPageViewProtocol: AnyObject {
+    func openPasscodeModule(isSetting: Bool)
+    func showAlert(title: String, message: String)
 }
 
-class SettingsPageView: UIViewController, SettingsViewProtocol {
+class SettingsPageView: UIViewController, SettingsPageViewProtocol {
     
     var presenter: SettingsPresenterProtocol!
     
@@ -48,6 +50,19 @@ class SettingsPageView: UIViewController, SettingsViewProtocol {
         navigationController?.popViewController(animated: true)
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
     }
+    
+    func openPasscodeModule(isSetting: Bool) {
+        
+        let passcodeVC = Builder.getPasscodeController(sceneDelegate: nil, isSetting: isSetting)
+        navigationController?.pushViewController(passcodeVC, animated: true)
+    }
+
+    func showAlert(title: String, message: String) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
         
 }
 
@@ -64,10 +79,19 @@ extension SettingsPageView: UITableViewDataSource {
         }
         
         let cellItems = SettingItems.allCases[indexPath.row]
-        cell.cellSetup(cellType: cellItems)
         
-        cell.completion = {
-            print(indexPath.row)
+        cell.configureSettingsCell(cellType: cellItems)
+        
+        cell.completion = { [weak self] in
+            
+            guard let self else { return }
+            
+            switch SettingItems.allCases[indexPath.row] {
+            case .changePassword:
+                presenter.didSelectChangePassword()
+            case .deletePassword:
+                presenter.didSelectDeletePassword()
+            }
         }
         
         cell.backgroundColor = .clear

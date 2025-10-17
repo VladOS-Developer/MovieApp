@@ -20,14 +20,15 @@ class PasscodeService {
             
         case .success(let code):
             return code.isEmpty ? .setNewPasscode : .inputPasscode
-        case .failure(_):
+        case .failure(let error):
+            print("[PasscodeService] getCurrentState error: \(error.localizedDescription)")
             return .setNewPasscode
         }
     }
     
     func save(passcode: [Int]) {
         let codeString = passcode.map(String.init).joined()
-        print("Saving:" , codeString)
+        print("[PasscodeService] Saving passcode ✅")
         keychainManager.save(key: KeychainKeys.passcode.rawValue, value: codeString)
     }
     
@@ -36,12 +37,18 @@ class PasscodeService {
             
         case .success(let code):
             return code
-        case .failure(_):
+        case .failure(let error):
+            print("[PasscodeService] loadPasscode error: \(error.localizedDescription)")
             return nil
         }
     }
     
-    func clear() {
-        keychainManager.save(key: KeychainKeys.passcode.rawValue, value: "")
+    func deletePasscode() {
+        switch keychainManager.delete(key: KeychainKeys.passcode.rawValue) {
+        case .success:
+            print("[PasscodeService] Passcode deleted successfully")
+        case .failure(let error):
+            print("[PasscodeService] Failed to delete passcode: \(error.localizedDescription)")
+        }
     }
 }

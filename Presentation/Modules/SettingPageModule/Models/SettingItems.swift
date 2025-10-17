@@ -8,6 +8,6 @@
 import Foundation
 
 enum SettingItems: String, CaseIterable {
-    case password = "Сhange password"
-    case delete = "Delete all"
+    case changePassword = "Сhange password"
+    case deletePassword = "Delete password"
 }

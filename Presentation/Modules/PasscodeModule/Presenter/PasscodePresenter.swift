@@ -8,6 +8,8 @@
 import UIKit
 
 protocol PasscodePresenterProtocol: AnyObject {
+    
+    var isSetting: Bool { get set }
     var passcode: [Int] { get set }
     var templatePasscode: [Int]? { get set }
     
@@ -17,17 +19,21 @@ protocol PasscodePresenterProtocol: AnyObject {
     func checkPasscode()                        // проверка пароля
     func clearPasscode(state: PasscodeState)    // удалить пароль
     
-    init (view: PasscodeViewProtocol, service: PasscodeService, sceneDelegate: SceneDelegateProtocol)
+    init (view: PasscodeViewProtocol,
+          service: PasscodeService,
+          sceneDelegate: SceneDelegateProtocol?,
+          isSetting: Bool)
 }
 
 class PasscodePresenter: PasscodePresenterProtocol {
     
     private weak var view: PasscodeViewProtocol?
-    weak var sceneDelegate: SceneDelegateProtocol?
+    private weak var sceneDelegate: SceneDelegateProtocol?
     
     private let service: PasscodeService
-    private let state: PasscodeState
+    private var state: PasscodeState
     
+    var isSetting: Bool
     var templatePasscode: [Int]?
     
     var passcode: [Int] = [] {
@@ -42,11 +48,16 @@ class PasscodePresenter: PasscodePresenterProtocol {
         }
     }
     
-    required init(view: PasscodeViewProtocol, service: PasscodeService, sceneDelegate: SceneDelegateProtocol) {
+    required init(view: PasscodeViewProtocol,
+                  service: PasscodeService,
+                  sceneDelegate: SceneDelegateProtocol?,
+                  isSetting: Bool) {
+        
         self.view = view
         self.service = service
-        self.state = service.getCurrentState()
         self.sceneDelegate = sceneDelegate
+        self.state = service.getCurrentState()
+        self.isSetting = isSetting
         
         view.passcodeState(state: state)
     }
@@ -66,11 +77,15 @@ class PasscodePresenter: PasscodePresenterProtocol {
     
     func setNewPasscode() {
         if let template = templatePasscode {
-            if passcode == template{
+            if passcode == template {
                 service.save(passcode: passcode)
-                print("Passcode saved")
-                // Route to next module
-                self.sceneDelegate?.startMainScreen()
+                print("Passcode updated ✅")
+                view?.passcodeState(state: .successChanged)
+                
+                // возврат назад в настройки
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    (self.view as? UIViewController)?.navigationController?.popViewController(animated: true)
+                }
             } else {
                 view?.passcodeState(state: .codeMismatch)
             }
@@ -86,7 +101,7 @@ class PasscodePresenter: PasscodePresenterProtocol {
             return
         }
         if passcode == stored.digits {
-            print("Correct code")
+            print("Correct code ✅")
             // Route to next module
             self.sceneDelegate?.startMainScreen()
         } else {

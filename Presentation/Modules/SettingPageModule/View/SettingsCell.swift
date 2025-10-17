@@ -63,9 +63,9 @@ class SettingsCell: UITableViewCell {
         ])
     }
     
-    func cellSetup(cellType: SettingItems) {
+    func configureSettingsCell(cellType: SettingItems) {
         switch cellType {
-        case .password, .delete:
+        case .changePassword, .deletePassword:
             stackSetting.addArrangedSubview(changedButton)
         }
         

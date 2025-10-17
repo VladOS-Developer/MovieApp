@@ -18,8 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-//        window?.rootViewController = Builder.getPasscodeController(sceneDelegate: self) // временная заглушка скрытие пасскод модуля
-        window?.rootViewController = Builder.createTabBarController() // для работы с таббаром
+        window?.rootViewController = Builder.getPasscodeController(sceneDelegate: self, isSetting: false)// временная заглушка скрытие пасскод модуля
+//        window?.rootViewController = Builder.createTabBarController() // для работы с таббаром
         window?.makeKeyAndVisible()
     }
 

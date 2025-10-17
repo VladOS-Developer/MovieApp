@@ -15,6 +15,7 @@ enum KeychainKeys: String {
 protocol KeychainManagerProtocol: AnyObject {
     func save(key: String, value: String)
     func load(key: String) -> Result <String , Error>
+    func delete(key: String) -> Result<Void, Error>
 }
 
 class KeychainManager: KeychainManagerProtocol {
@@ -24,12 +25,13 @@ class KeychainManager: KeychainManagerProtocol {
     func save(key: String, value: String) {
         keychain[key] = value
     }
-    
+
     func load(key: String) -> Result <String, Error> {
         do {
             let passcode = try keychain.getString(key) ?? ""
             return .success(passcode)
         } catch {
+            print("[Keychain] Failed to load key \(key): \(error.localizedDescription)")
             return .failure(error)
         }
     }
@@ -39,9 +41,9 @@ class KeychainManager: KeychainManagerProtocol {
             try keychain.remove(key)
             return .success(())
         } catch {
+            print("[Keychain] Failed to delete key \(key): \(error.localizedDescription)")
             return .failure(error)
         }
     }
-    
     
 }

@@ -13,6 +13,7 @@ enum PasscodeState {
     case setNewPasscode
     case repeatPasscode
     case codeMismatch
+    case successChanged
 }
 
 extension PasscodeState {
@@ -20,17 +21,20 @@ extension PasscodeState {
     var passcodeLabel: String {
         switch self {
         case .inputPasscode: return "Введите код"
-        case .wrongPasscode: return "Неверный код"
+        case .wrongPasscode: return "Неверный код ❌"
         case .setNewPasscode: return "Установить код"
         case .repeatPasscode: return "Повторите код"
-        case .codeMismatch: return "Коды не совпадают"
+        case .codeMismatch: return "Коды не совпадают ❌"
+        case .successChanged: return "Пароль успешно изменён ✅"
         }
     }
     
     var labelColor: UIColor {
         switch self {
-        case .wrongPasscode, .codeMismatch: return .appRed
+        case .wrongPasscode, .codeMismatch: return .systemRed
+        case .successChanged: return .systemGreen
         default: return .appWhite
         }
     }
 }
+

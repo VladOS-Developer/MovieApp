@@ -8,7 +8,7 @@
 import UIKit
 
 protocol BuilderProtocol {
-    static func getPasscodeController(sceneDelegate: SceneDelegateProtocol) -> UIViewController
+    static func getPasscodeController(sceneDelegate: SceneDelegateProtocol?, isSetting: Bool) -> UIViewController
     
     static func createTabBarController() -> UIViewController
     static func createMainScreenController() -> UIViewController
@@ -19,7 +19,7 @@ protocol BuilderProtocol {
     static func createMoviePageController(movieId: Int, movieTitle: String) -> UIViewController
     static func createTrailerPlayerController(video: MovieVideo, movieTitle: String) -> UIViewController
     static func createActorPageController(actorTitle: String, actorId: Int) -> UIViewController
-    static func SettingsPageController() -> UIViewController
+    static func createSettingsPageController() -> UIViewController
 }
 
 class Builder: BuilderProtocol {
@@ -35,14 +35,15 @@ class Builder: BuilderProtocol {
     }
     
     //MARK: Passcode
-    static func getPasscodeController(sceneDelegate: SceneDelegateProtocol) -> UIViewController {
+    static func getPasscodeController(sceneDelegate: SceneDelegateProtocol?, isSetting: Bool) -> UIViewController {
         
         let view = PasscodeView()
         let keychain = KeychainManager()
         let service = PasscodeService(keychainManager: keychain)
         let presenter = PasscodePresenter(view: view,
                                           service: service,
-                                          sceneDelegate: sceneDelegate)
+                                          sceneDelegate: sceneDelegate,
+                                          isSetting: isSetting)
         
         view.passcodePresenter = presenter
         return view
@@ -201,12 +202,14 @@ class Builder: BuilderProtocol {
     }
     
     //MARK: SettingPage
-    static func SettingsPageController() -> UIViewController {
+    static func createSettingsPageController() -> UIViewController {
         let settingView = SettingsPageView()
-        let presenter = SettingsPagePresenter(view: settingView)
+        let keychain = KeychainManager()
+        let service = PasscodeService(keychainManager: keychain)
+        
+        let presenter = SettingsPagePresenter(view: settingView, service: service)
     
         settingView.presenter = presenter
-//        return settingView
         return UINavigationController(rootViewController: settingView)
     }
     
