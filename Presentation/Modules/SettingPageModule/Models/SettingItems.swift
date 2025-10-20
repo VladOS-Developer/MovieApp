@@ -11,3 +11,4 @@ enum SettingItems: String, CaseIterable {
     case changePassword = "Сhange password"
     case deletePassword = "Delete password"
 }
+    

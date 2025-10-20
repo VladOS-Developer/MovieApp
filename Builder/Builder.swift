@@ -34,7 +34,7 @@ class Builder: BuilderProtocol {
         return key
     }
     
-    //MARK: Passcode
+    //MARK: - Passcode
     static func getPasscodeController(sceneDelegate: SceneDelegateProtocol?, isSetting: Bool) -> UIViewController {
         
         let view = PasscodeView()
@@ -49,7 +49,7 @@ class Builder: BuilderProtocol {
         return view
     }
     
-    //MARK: TabBar
+    //MARK: - TabBar
     static func createTabBarController() -> UIViewController {
         let tabBarView = TabBarView()
         let presenter = TabBarPresenter(view: tabBarView)
@@ -58,7 +58,7 @@ class Builder: BuilderProtocol {
         return tabBarView
     }
     
-    //MARK: MainScreen
+    //MARK: - MainScreen
     static func createMainScreenController() -> UIViewController {
         let mainView = MainScreenView()
         let router = MainScreenRouter()
@@ -79,7 +79,7 @@ class Builder: BuilderProtocol {
         return UINavigationController(rootViewController: mainView)
     }
     
-    //MARK: TrailerList
+    //MARK: - TrailerList
     static func createTrailerListController() -> UIViewController {
         let trailerListView = TrailerListView()
         let router = TrailerListRouter()
@@ -97,7 +97,7 @@ class Builder: BuilderProtocol {
         return UINavigationController(rootViewController: trailerListView)
     }
     
-    //MARK: Favorites
+    //MARK: - Favorites
     static func createFavoritesController() -> UIViewController {
         let favoritesView = FavoritesView()
         let router = FavoritesRouter()
@@ -108,7 +108,7 @@ class Builder: BuilderProtocol {
         return UINavigationController(rootViewController: favoritesView)
     }
     
-    //MARK: MovieList
+    //MARK: - MovieList
     static func createMovieListController(mode: MovieListMode) -> UIViewController {
         let listView = MovieListView()
         
@@ -127,7 +127,7 @@ class Builder: BuilderProtocol {
         return listView
     }
     
-    //MARK: MoviePage
+    //MARK: - MoviePage
     static func createMoviePageController(movieId: Int, movieTitle: String) -> UIViewController {
         let pageView = MoviePageView()
         let router = MoviePageRouter()
@@ -162,7 +162,7 @@ class Builder: BuilderProtocol {
         return pageView
     }
     
-    //MARK: TrailerPlayer
+    //MARK: - TrailerPlayer
     static func createTrailerPlayerController(video: MovieVideo, movieTitle: String) -> UIViewController {
         let playerView = TrailerPlayerView()
         
@@ -178,7 +178,7 @@ class Builder: BuilderProtocol {
         return playerView
     }
     
-    //MARK: ActorPage
+    //MARK: - ActorPage
     static func createActorPageController(actorTitle: String, actorId: Int) -> UIViewController {
         let actorView = ActorPageView()
         let router = ActorPageRouter()
@@ -201,7 +201,7 @@ class Builder: BuilderProtocol {
         return actorView
     }
     
-    //MARK: SettingPage
+    //MARK: - SettingPage
     static func createSettingsPageController() -> UIViewController {
         let settingView = SettingsPageView()
         let keychain = KeychainManager()

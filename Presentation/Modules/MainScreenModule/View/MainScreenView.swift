@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - MainScreenViewProtocol
+
 protocol MainScreenViewProtocol: AnyObject {
     func showMovies(sections: [MainCollectionSection])
     func reloadSearchResultsSection(with items: [MainCollectionItem])
@@ -17,6 +19,28 @@ class MainScreenView: UIViewController {
     var presenter: MainScreenPresenterProtocol!
     private var sections: [MainCollectionSection] = []
     
+// MARK: - TMDB Attribution View
+    
+    private let tmdbAttributionView: UIStackView = {
+        let logo = UIImageView(image: UIImage(named: "tmdb_logo"))
+        logo.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        logo.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        logo.contentMode = .scaleAspectFit
+        
+        let label = UILabel()
+        label.text = "Data provided by TMDB"
+        label.font = .systemFont(ofSize: 12)
+        label.textColor = .appGray
+
+        let stack = UIStackView(arrangedSubviews: [logo, label])
+        stack.axis = .horizontal
+        stack.alignment = .center
+        stack.spacing = 8
+        return stack
+    }()
+
+// MARK: - UIcollectionView
+
     lazy var collectionView: UICollectionView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .clear
@@ -55,6 +79,7 @@ class MainScreenView: UIViewController {
         }
     }
     
+// MARK: - viewDidLayoutSubviews
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
@@ -62,20 +87,29 @@ class MainScreenView: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
     }
     
+// MARK: - viewDidLoad
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
+        view.addSubview(tmdbAttributionView)
+        tmdbAttributionView.translatesAutoresizingMaskIntoConstraints = false
         edgesForExtendedLayout = [.top]
       
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            tmdbAttributionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            tmdbAttributionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -20)
         ])
         presenter.getMoviesData()
     }
 }
+
+// MARK: - UICollectionViewDataSource
 
 extension MainScreenView: UICollectionViewDataSource {
     
@@ -160,6 +194,9 @@ extension MainScreenView: UICollectionViewDataSource {
         }
     }
     
+    
+// MARK: - viewForSupplementaryElementOfKind
+
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainSectionHeaderView.reuseId, for: indexPath) as? MainSectionHeaderView else {
             return UICollectionReusableView()
@@ -176,6 +213,8 @@ extension MainScreenView: UICollectionViewDataSource {
     }
     
 }
+
+// MARK: - UICollectionViewDelegate
 
 extension MainScreenView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -195,17 +234,23 @@ extension MainScreenView: UICollectionViewDelegate {
     }
 }
 
+// MARK: - MainSectionHeaderViewDelegate
+
 extension MainScreenView: MainSectionHeaderViewDelegate {
     func didTapSeeAllButton(in section: Int) {
         presenter.didTapSeeAll(in: section)
     }
 }
 
+// MARK: - GenreMovieCellDelegate
+
 extension MainScreenView: GenreMovieCellDelegate {
     func didTapGenre(id: Int, title: String) {
         presenter.didSelectGenre(id: id, title: title)
     }
 }
+
+// MARK: - MainScreenViewProtocol
 
 extension MainScreenView: MainScreenViewProtocol {
     
@@ -220,11 +265,6 @@ extension MainScreenView: MainScreenViewProtocol {
             // Если секция видимая и нужен переход слоя layout
             collectionView.collectionViewLayout.invalidateLayout()
         }
-        
-//        if let tabBarVC = tabBarController as? TabBarView {
-//            let shouldHide = !items.isEmpty
-//            tabBarVC.setTabBarButtonsHidden(shouldHide)
-//        }
     }
     
     func showMovies(sections: [MainCollectionSection]) {

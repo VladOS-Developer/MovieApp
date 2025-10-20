@@ -40,11 +40,6 @@ class MainScreenRouter: MainScreenRouterProtocol {
     func showSettingsPage() {
         let settingPageVC = Builder.createSettingsPageController()
         viewController?.present(settingPageVC, animated: true)
-//        if let navigationVC = viewController?.navigationController {
-//            navigationVC.pushViewController(settingPageVC, animated: true)
-//        } else {
-//            viewController?.present(settingPageVC, animated: true)
-//        }
     }
     
 }
