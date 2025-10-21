@@ -18,7 +18,8 @@ protocol MainScreenPresenterProtocol: AnyObject {
     init(view: MainScreenViewProtocol,
          router: MainScreenRouterProtocol,
          movieRepository: MovieRepositoryProtocol,
-         genreRepository: GenreRepositoryProtocol)
+         genreRepository: GenreRepositoryProtocol,
+         imageLoader: ImageLoaderProtocol)
 }
 
 class MainScreenPresenter {
@@ -27,6 +28,7 @@ class MainScreenPresenter {
     private let router: MainScreenRouterProtocol
     private let movieRepository: MovieRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
+    private let imageLoader: ImageLoaderProtocol
     
     private var sections: [MainCollectionSection] = []
     
@@ -36,19 +38,22 @@ class MainScreenPresenter {
     required init(view: MainScreenViewProtocol,
                   router: MainScreenRouterProtocol,
                   movieRepository: MovieRepositoryProtocol,
-                  genreRepository: GenreRepositoryProtocol) {
+                  genreRepository: GenreRepositoryProtocol,
+                  imageLoader: ImageLoaderProtocol) {
         
         self.view = view
         self.router = router
         self.movieRepository = movieRepository
         self.genreRepository = genreRepository
+        self.imageLoader = imageLoader
     }
 }
 
 extension MainScreenPresenter: MainScreenPresenterProtocol {
-
+    
+    //MARK: - getMoviesData
+    
     func getMoviesData() {
-        
         Task {
             do {
                 async let genresTask = genreRepository.fetchGenres()
@@ -57,15 +62,36 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
                 
                 let (genres, topMovies, upcomingMovies) = try await (genresTask, topMoviesTask, upcomingTask)
                 
-                let genreItems = genres.map { GenreCellViewModel(id: $0.id, name: $0.name) }
+                // Top rated
+                let topItems: [MainCollectionItem] = await topMovies.asyncMap { movie in
+                    
+                    var viewModel = MovieCellViewModel(movie: movie, genres: genres)
+                    viewModel.posterImage = await imageLoader.loadImage(
+                        from: viewModel.posterURL,
+                        localName: movie.posterPath,
+                        isLocal: movie.isLocalImage
+                    )
+                    return .movie(viewModel)
+                }
+                
+                // Upcoming
+                let upcomingItems: [MainCollectionItem] = await upcomingMovies.asyncMap { movie in
+                    
+                    var viewModel = MovieCellViewModel(movie: movie, genres: genres)
+                    viewModel.posterImage = await imageLoader.loadImage(
+                        from: viewModel.posterURL,
+                        localName: movie.posterPath,
+                        isLocal: movie.isLocalImage
+                    )
+                    return .movie(viewModel)
+                }
+                
+                // Genres
+                let genreItems = genres
+                    .map { GenreCellViewModel(id: $0.id, name: $0.name) }
                     .map { MainCollectionItem.genre($0) }
                 
-                let topItems = topMovies.map { MovieCellViewModel(movie: $0, genres: genres) }
-                    .map { MainCollectionItem.movie($0) }
-                
-                let upcomingItems = upcomingMovies.map { MovieCellViewModel(movie: $0, genres: genres) }
-                    .map { MainCollectionItem.movie($0) }
-                
+                // Sections
                 let sections: [MainCollectionSection] = [
                     MainCollectionSection(type: .searchHeader, items: [.searchHeaderItem]),
                     MainCollectionSection(type: .searchResults, items: []),
@@ -79,13 +105,14 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
                 await MainActor.run {
                     self.view?.showMovies(sections: sections)
                 }
-                
             } catch {
                 print("Failed to fetch movies: \(error)")
             }
         }
     }
-
+    
+    //MARK: - didUpdateSearchQuery
+    
     func didUpdateSearchQuery(_ query: String) {
         // Отменяем предыдущий debounce
         searchDebounceWorkItem?.cancel()
@@ -95,6 +122,7 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
         // Если запрос короткий (<3), сразу очищаем результаты
         if trimmed.count < 3 {
             currentSearchTask?.cancel()
+            
             Task { @MainActor in
                 self.view?.reloadSearchResultsSection(with: [])
             }
@@ -110,6 +138,8 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: workItem)
     }
     
+    //MARK: - performSearch
+    
     private func performSearch(_ query: String) {
         currentSearchTask?.cancel()
         
@@ -117,8 +147,19 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
             do {
                 let genres = try await genreRepository.fetchGenres()
                 let results = try await movieRepository.searchMovies(query: query, page: 1)
-                let items = results.map { MainCollectionItem.movie(MovieCellViewModel(movie: $0, genres: genres)) }
-
+                
+                let items: [MainCollectionItem] = await results.asyncMap { movie in
+                    
+                    var viewModel = MovieCellViewModel(movie: movie, genres: genres)
+                    
+                    viewModel.posterImage = await imageLoader.loadImage(
+                        from: viewModel.posterURL,
+                        localName: movie.posterPath,
+                        isLocal: movie.isLocalImage
+                    )
+                    return .movie(viewModel)
+                }
+                
                 await MainActor.run {
                     self.view?.reloadSearchResultsSection(with: items)
                 }
@@ -133,7 +174,9 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
             }
         }
     }
- 
+    
+    //MARK: - didTapSeeAll
+    
     func didTapSeeAll(in section: Int) {
         guard section < sections.count else { return }
         
@@ -145,18 +188,24 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
         default: break
         }
     }
+    //MARK: - didSelectGenre
     
     func didSelectGenre(id: Int, title: String) {
         router.showMovieList(mode: .genre(id: id, title: title))
     }
     
+    //MARK: - didSelectMovie
+    
     func didSelectMovie(with id: Int, title: String) {
         router.showMoviePage(movieId: id, movieTitle: title )
     }
+    
+    //MARK: - didTapSettings
     
     func didTapSettings() {
         router.showSettingsPage()
     }
     
 }
+
 

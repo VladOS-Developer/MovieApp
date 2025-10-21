@@ -24,7 +24,7 @@ protocol BuilderProtocol {
 
 class Builder: BuilderProtocol {
     
-    private static let useMock = true // false когда API ключ
+    private static let useMock = false // false когда API ключ
     
     // Загрузка ключа из Info.plist
     private static var apiKey: String {
@@ -62,6 +62,7 @@ class Builder: BuilderProtocol {
     static func createMainScreenController() -> UIViewController {
         let mainView = MainScreenView()
         let router = MainScreenRouter()
+        let imageLoader = KingfisherImageLoader()
  
         let movieRepository: MovieRepositoryProtocol = useMock
         ? MockMovieRepository.shared : MovieRepository(networkService: NetworkService(apiKey: apiKey))
@@ -72,13 +73,14 @@ class Builder: BuilderProtocol {
         let presenter = MainScreenPresenter(view: mainView,
                                             router: router,
                                             movieRepository: movieRepository,
-                                            genreRepository: genreRepository)
+                                            genreRepository: genreRepository,
+                                            imageLoader: imageLoader)
         
         mainView.presenter = presenter
         router.viewController = mainView
         return UINavigationController(rootViewController: mainView)
     }
-    
+     
     //MARK: - TrailerList
     static func createTrailerListController() -> UIViewController {
         let trailerListView = TrailerListView()

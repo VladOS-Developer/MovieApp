@@ -30,7 +30,7 @@ final class MockMovieRepository: MovieRepositoryProtocol {
     }
 }
 
-// MARK: Dispatch group (iOS 13-14)
+// MARK:  Dispatch group (iOS 13-14)
 //    func fetchTopMovies(completion: @escaping (Result<[Movie], Error>) -> Void) {
 //        completion(.success(Movie.mockTopRatedMovie()))
 //    }
