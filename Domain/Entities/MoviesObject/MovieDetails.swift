@@ -38,7 +38,7 @@ extension MovieDetails {
         self.backdropPath = dto.backdropPath
         self.runtime = dto.runtime
         self.releaseDate = dto.releaseDate
-        self.genreIDs = dto.genreIDs
+        self.genreIDs = dto.genreIDs ?? dto.genres?.map { $0.id } ?? []
         self.genres = dto.genres?.map { Genres(dto: $0) }
         self.overview = dto.overview
         self.productionCountries = dto.productionCountries?.map { ProductionCountry(iso3166_1: $0.iso3166_1, name: $0.name) }

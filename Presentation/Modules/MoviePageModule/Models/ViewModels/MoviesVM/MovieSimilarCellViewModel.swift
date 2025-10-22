@@ -13,8 +13,9 @@ struct MovieSimilarCellViewModel: Hashable {
     let originalTitle: String?
     let overview: String?
     
-    let posterImage: UIImage?
-    let posterURL: URL?
+    var posterImage: UIImage?
+    var posterURL: URL?
+    
     let backdropPath: String?
     let backdropURL: URL?
     

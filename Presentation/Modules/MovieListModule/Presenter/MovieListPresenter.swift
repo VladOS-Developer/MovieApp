@@ -11,6 +11,7 @@ protocol MovieListPresenterProtocol: AnyObject {
     init(view: MovieListViewProtocol,
          movieRepository: MovieRepositoryProtocol,
          genreRepository: GenreRepositoryProtocol,
+         imageLoader: ImageLoaderProtocol,
          mode: MovieListMode)
     
     func viewDidLoad()
@@ -23,6 +24,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     private weak var view: MovieListViewProtocol?
     private let movieRepository: MovieRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
+    private let imageLoader: ImageLoaderProtocol
     
     private let mode: MovieListMode
     private var movies: [Movie] = []
@@ -34,62 +36,124 @@ class MovieListPresenter: MovieListPresenterProtocol {
     required init(view: MovieListViewProtocol,
                   movieRepository: MovieRepositoryProtocol,
                   genreRepository: GenreRepositoryProtocol,
+                  imageLoader: ImageLoaderProtocol,
                   mode: MovieListMode) {
         
         self.view = view
         self.movieRepository = movieRepository
         self.genreRepository = genreRepository
+        self.imageLoader = imageLoader
         
         self.mode = mode
     }
+    
+    //MARK: - viewDidLoad
     
     func viewDidLoad() {
         view?.setTitle(mode.title)
         
         Task { [weak self] in
-            guard let self = self else { return }
-            do {
-                self.allGenres = try await self.genreRepository.fetchGenres()
-                
-                switch self.mode {
-                case .top10:
-                    let top = try await self.movieRepository.fetchTopMovies()
-                    self.movies = Array(top.prefix(10))
-                    
-                case .upcoming:
-                    self.movies = try await self.movieRepository.fetchUpcomingMovies()
-                    
-                case .genre(let id, _):
-                    self.movies = try await self.movieRepository.fetchMovies(byGenre: id, page: 1)
+            guard let self else { return }
+            await self.loadMovies()
+        }
+    }
+    
+    //MARK: - viewWillAppear
+    
+    func viewWillAppear() {
+        
+        Task {
+            // пересобираем список с актуальными состояниями
+            movieViewModel = await movies.asyncMap { movie in
+                var movieVM = MovieCellViewModel(
+                    movie: movie,
+                    genres: allGenres,
+                    isFavorite: favoritesStorage.isFavorite(id: Int32(movie.id))
+                )
+                // подгружаем постер, если его нет в памяти
+                if movieVM.posterImage == nil {
+                    movieVM.posterImage = await imageLoader.loadImage(
+                        from: movieVM.posterURL,
+                        localName: movie.posterPath,
+                        isLocal: movie.isLocalImage
+                    )
                 }
-                
-                self.movieViewModel = self.movies.map {
-                    MovieCellViewModel(movie: $0, genres: self.allGenres)
-                }
-                self.view?.updateMovies(self.movieViewModel)
-            } catch {
-                print("Ошибка загрузки фильмов: \(error)")
+                return movieVM
+            }
+            
+            await MainActor.run {
+                view?.updateMovies(movieViewModel)
             }
         }
     }
     
-    func viewWillAppear() {
-        // пересобираем список с актуальными состояниями
-        movieViewModel = movies.map {
-            MovieCellViewModel(
-                movie: $0,
-                genres: allGenres,
-                isFavorite: favoritesStorage.isFavorite(id: Int32($0.id))
-            )
+    //MARK: - loadMovies
+    
+    private func loadMovies() async {
+        do {
+            // Параллельный запуск загрузки жанров
+            async let genresTask = genreRepository.fetchGenres()
+            let moviesTask: [Movie]
+            
+            switch mode {
+            case .top10:
+                let top = try await movieRepository.fetchTopMovies()
+                moviesTask = Array(top.prefix(10))
+                
+            case .upcoming:
+                moviesTask = try await movieRepository.fetchUpcomingMovies()
+                
+            case .genre(let id, _):
+                moviesTask = try await movieRepository.fetchMovies(byGenre: id, page: 1)
+            }
+            
+            // Синхронизация результатов завершения обеих асинхронных задач
+            let (genres, movies) = try await (genresTask, moviesTask)
+            
+            // Сохраняем данные в свойства презентера
+            self.allGenres = genres
+            self.movies = movies
+            
+            // Асинхронная сборка ViewModel
+            let viewModels: [MovieCellViewModel] = await movies.asyncMap { movie in
+                var movieVM = MovieCellViewModel(
+                    movie: movie,
+                    genres: genres,
+                    isFavorite: favoritesStorage.isFavorite(id: Int32(movie.id))
+                )
+                
+                movieVM.posterImage = await imageLoader.loadImage(
+                    from: movieVM.posterURL,
+                    localName: movie.posterPath,
+                    isLocal: movie.isLocalImage
+                )
+                return movieVM
+            }
+            
+            // Сохраняем готовые ViewModel
+            self.movieViewModel = viewModels
+            
+            // Обновляем UI на главном потоке
+            await MainActor.run {
+                view?.updateMovies(viewModels)
+            }
+            
+        } catch {
+            print("Ошибка загрузки фильмов: \(error)")
         }
-        view?.updateMovies(movieViewModel)
     }
+    
+    //MARK: - didSelectItem
     
     func didSelectItem(at index: Int) {
         let movie = movies[index]
+        // проверяем id
+        print("DEBUG: opening movie with id =", movie.id)
         let moviePageVC = Builder.createMoviePageController(movieId: movie.id, movieTitle: movie.title)
         (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
     }
+    
+    //MARK: - toggleFavorite
     
     func toggleFavorite(for movieId: Int) {
         guard let movie = movies.first(where: { $0.id == movieId }) else { return }

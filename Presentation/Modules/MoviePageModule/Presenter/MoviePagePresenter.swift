@@ -11,6 +11,7 @@ protocol MoviePagePresenterProtocol: AnyObject {
     
     init(view: MoviePageViewProtocol,
          router: MoviePageRouterProtocol,
+         imageLoader: ImageLoaderProtocol,
          
          movieDetailsRepository: MovieDetailsRepositoryProtocol,
          genreRepository: GenreRepositoryProtocol,
@@ -35,6 +36,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     
     private weak var view: MoviePageViewProtocol?
     private let router: MoviePageRouterProtocol
+    private let imageLoader: ImageLoaderProtocol
     
     private let movieDetailsRepository: MovieDetailsRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
@@ -52,6 +54,8 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     
     required init(view: MoviePageViewProtocol,
                   router: MoviePageRouterProtocol,
+                  imageLoader: ImageLoaderProtocol,
+                  
                   movieDetailsRepository: MovieDetailsRepositoryProtocol,
                   genreRepository: GenreRepositoryProtocol,
                   movieVideoRepository: MovieVideoRepositoryProtocol,
@@ -62,6 +66,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         
         self.view = view
         self.router = router
+        self.imageLoader = imageLoader
         self.movieDetailsRepository = movieDetailsRepository
         self.genreRepository = genreRepository
         self.movieVideoRepository = movieVideoRepository
@@ -71,109 +76,173 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         self.movieTitle = movieTitle
     }
     
-    //MARK: getMoviesData
+    //MARK: - getMoviesData
+    
     func getMoviesData() {
-        
         Task {
             do {
-                // 1. Жанры + все фильмы
+                // 1) Загружаем жанры
                 let genres = try await genreRepository.fetchGenres()
-                let topMovies = try await movieDetailsRepository.fetchTopMovieDetails(page: 1)
-                let upcomingMovies = try await movieDetailsRepository.fetchUpcomingMovieDetails(page: 1)
-                let allMovieDetails = topMovies + upcomingMovies
                 
-                // 2. Текущий фильм
-                guard let movieDetails = allMovieDetails.first(where: { $0.id == movieId }) else { return }
+                // 2) Пытаемся найти фильм в топ/апкоминг
+                let topDetails = try await movieDetailsRepository.fetchTopMovieDetails(page: 1)
+                let upcomingDetails = try await movieDetailsRepository.fetchUpcomingMovieDetails(page: 1)
+                let allDetails = topDetails + upcomingDetails
+                
+                var movieDetails: MovieDetails?
+                
+                if let found = allDetails.first(where: { $0.id == movieId }) {
+                    movieDetails = found
+                } else {
+                    // Если не нашли, запрашиваем напрямую по ID
+                    print("MoviePagePresenter: movie with id \(movieId) not found in top/upcoming, fetching by id...")
+                    movieDetails = try await movieDetailsRepository.fetchMovieDetails(byId: movieId)
+                }
+                
+                guard let movieDetails = movieDetails else {
+                    print("MoviePagePresenter: movie with id \(movieId) not found")
+                    return
+                }
+                
                 currentMovie = movieDetails
                 
-                // 3. Основные секции
-                let detailsVM = MovieDetailsCellViewModel(movieDetails: movieDetails, genres: genres)
-                let detailItems = PageCollectionItem.movieDet(detailsVM)
+                // 3) Корректно формируем viewModel — проверяем genreIDs или genres
+                let genreIDs = movieDetails.genreIDs
+                let movieVM = MovieDetailsCellViewModel(
+                    movieDetails: movieDetails,
+                    genres: genres.filter { genreIDs.contains($0.id) }
+                )
                 
+                // 4) Загружаем постер
+                var detailsVM = movieVM
+                detailsVM.posterImage = await imageLoader.loadImage(
+                    from: detailsVM.posterURL,
+                    localName: movieDetails.posterPath,
+                    isLocal: movieDetails.isLocalImage
+                )
+                
+                // 5) Создаём секции
+                let detailItem = PageCollectionItem.movieDet(detailsVM)
                 self.sections = [
-                    PageCollectionSection(type: .posterMovie, items: [detailItems]),
+                    PageCollectionSection(type: .posterMovie, items: [detailItem]),
                     PageCollectionSection(type: .stackButtons, items: []),
-                    PageCollectionSection(type: .specificationMovie, items: [detailItems]),
-                    PageCollectionSection(type: .overviewMovie, items: [detailItems]),
+                    PageCollectionSection(type: .specificationMovie, items: [detailItem]),
+                    PageCollectionSection(type: .overviewMovie, items: [detailItem]),
                     PageCollectionSection(type: .videoMovie, items: []),
                     PageCollectionSection(type: .segmentedTabs, items: []),
                     PageCollectionSection(type: .dynamicContent, items: [])
                 ]
                 
-                // 4. Показываем базовую информацию сразу
+                // 6) Отображаем базовую информацию
                 await MainActor.run {
-                    self.view?.showMovie(sections: sections)
-                    self.view?.setTitle(movieTitle)
+                    self.view?.setTitle(self.movieTitle)
+                    self.view?.showMovie(sections: self.sections)
                 }
                 
-                // 5. Подгружаем трейлеры асинхронно
+                // 7) Подгружаем трейлеры
                 let videos = try await movieVideoRepository.fetchMovieVideo(for: movieId)
                 self.videos = videos
                 
                 let videoItems = videos
-                    .map { MovieVideoCellViewModel(video: $0) }
+                    .map { MovieVideoCellViewModel(video: $0, isLocal: false) }
                     .map { PageCollectionItem.video($0) }
                 
-                if let index = self.sections.firstIndex(where: { $0.type == .videoMovie }) {
-                    self.sections[index].items = videoItems
-                    
-                    await MainActor.run {
-                        self.view?.showMovie(sections: self.sections)
-                    }
+                if let indexSection = self.sections.firstIndex(where: { $0.type == .videoMovie }) {
+                    self.sections[indexSection].items = videoItems
+                    await MainActor.run { self.view?.showMovie(sections: self.sections) }
                 }
                 
-                // 6. Проверяем избранное
+                // 8) Проверяем избранное
                 let isFavorite = favoritesStorage.isFavorite(id: Int32(movieId))
-                view?.updateFavoriteState(isFavorite: isFavorite)
+                await MainActor.run { self.view?.updateFavoriteState(isFavorite: isFavorite) }
                 
             } catch {
-                print("Ошибка загрузки данных: \(error)")
+                print("MoviePagePresenter.getMoviesData error:", error)
             }
         }
-        
     }
     
-    //MARK: didSelectTab
+    //MARK: - didSelectTab
+    
     func didSelectTab(index: Int) {
-        
         Task {
             do {
-                var newItems: [PageCollectionItem] = []
-                
                 switch index {
-                case 0: // More Like This
+                case 0:
+                    // More like this
                     let similar = try await movieSimilarRepository.fetchSimilarMovie(for: movieId)
-                    newItems = similar
-                        .map { MovieSimilarCellViewModel(movieSimilar: $0) }
-                        .map { PageCollectionItem.similarMovie($0) }
                     
-                case 1: // About
-                    let credits = try await movieCreditsRepository.fetchCredits(for: movieId)
-                    newItems = credits.cast
-                        .map { CastCellViewModel(cast: $0) }
-                        .map { PageCollectionItem.cast($0) }
-                    
-                case 2: // Comments
-                    newItems = []
-                    
-                default: break
-                }
-                
-                if let dynamicSectionIndex = sections.firstIndex(where: { $0.type == .dynamicContent }) {
-                    sections[dynamicSectionIndex].items = newItems
-                    
-                    await MainActor.run {
-                        view?.showMovie(sections: sections)
-                        view?.setSelectedTabIndex(index)
+                    // Формируем viewModels и подгружаем постеры асинхронно
+                    let similarItems: [PageCollectionItem] = await similar.asyncMap { movieSimilar in
+                        
+                        var movieSimilarVM = MovieSimilarCellViewModel(movieSimilar: movieSimilar)
+                        
+                        // Загружаем изображение через imageLoader (учитываем локальную картинку)
+                        movieSimilarVM.posterImage = await imageLoader.loadImage(
+                            from: movieSimilarVM.posterURL,
+                            localName: movieSimilar.posterPath,
+                            isLocal: movieSimilar.isLocalImage
+                        )
+                        return .similarMovie(movieSimilarVM)
                     }
+                    
+                    if let dynamicSectionIndex = self.sections.firstIndex(where: { $0.type == .dynamicContent }) {
+                        self.sections[dynamicSectionIndex].items = similarItems
+                        
+                        await MainActor.run {
+                            self.view?.showMovie(sections: self.sections)
+                            self.view?.setSelectedTabIndex(index)
+                        }
+                    }
+                    
+                case 1:
+                    // About
+                    let credits = try await movieCreditsRepository.fetchCredits(for: movieId)
+                    
+                    // Подгружаем профайлы актёров (если есть)
+                    let castItems: [PageCollectionItem] = await credits.cast.asyncMap { castMember in
+                        
+                        var castVM = CastCellViewModel(cast: castMember)
+                        
+                        castVM.profileImage = await imageLoader.loadImage(
+                            from: castVM.profileURL,
+                            localName: castMember.profilePath,
+                            isLocal: castMember.isLocalImage
+                        )
+                        return .cast(castVM)
+                    }
+                    
+                    if let dynamicSectionIndex = self.sections.firstIndex(where: { $0.type == .dynamicContent }) {
+                        self.sections[dynamicSectionIndex].items = castItems
+                        
+                        await MainActor.run {
+                            self.view?.showMovie(sections: self.sections)
+                            self.view?.setSelectedTabIndex(index)
+                        }
+                    }
+                    
+                case 2:
+                    // Comments
+                    if let dynamicSectionIndex = self.sections.firstIndex(where: { $0.type == .dynamicContent }) {
+                        self.sections[dynamicSectionIndex].items = []
+                        
+                        await MainActor.run {
+                            self.view?.showMovie(sections: self.sections)
+                            self.view?.setSelectedTabIndex(index)
+                        }
+                    }
+                    
+                default:
+                    break
                 }
             } catch {
-                print("Ошибка загрузки вкладки \(index): \(error)")
+                print("MoviePagePresenter.didSelectTab error:", error)
             }
         }
     }
     
-    //MARK: toggleFavorite
+    //MARK: - toggleFavorite
+    
     func toggleFavorite() {
         guard let movie = currentMovie else { return }
         let id = Int32(movie.id)
@@ -192,7 +261,8 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         }
     }
     
-    //MARK: didTapPlayTrailerButton
+    //MARK: - didTapPlayTrailerButton
+    
     func didTapPlayTrailerButton(videoVM: MovieVideoCellViewModel) {
         guard let video = videos.first(where: { $0.id == videoVM.id }) else { return }
         let movieTitle = "\(video.name)"
@@ -203,7 +273,8 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         print("videos =", videos.map { $0.id })
     }
     
-    //MARK: playPosterTrailer
+    //MARK: - playPosterTrailer
+    
     func playPosterTrailer() {
         guard let firstVideo = videos.first else { return }
         let movieTitle = "\(firstVideo.name)"
@@ -211,12 +282,14 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
         router.showTrailerPlayer(video: firstVideo, movieTitle: movieTitle)
     }
     
-    //MARK: didSelectActor
+    //MARK: - didSelectActor
+    
     func didSelectActor(castVM: CastCellViewModel) {
         router.showActorPage(actorName: castVM.name, actorId: castVM.id )
     }
     
-    //MARK: didSelectSimilarMovie
+    //MARK: - didSelectSimilarMovie
+    
     func didSelectSimilarMovie(_ movie: MovieSimilarCellViewModel) {
         router.showMoviePage(movieId: movie.id, movieTitle: movie.title)
     }

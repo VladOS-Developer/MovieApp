@@ -113,6 +113,7 @@ class Builder: BuilderProtocol {
     //MARK: - MovieList
     static func createMovieListController(mode: MovieListMode) -> UIViewController {
         let listView = MovieListView()
+        let imageLoader = KingfisherImageLoader()
         
         let movieRepository: MovieRepositoryProtocol = useMock
         ? MockMovieRepository.shared : MovieRepository(networkService: NetworkService(apiKey: apiKey))
@@ -123,6 +124,7 @@ class Builder: BuilderProtocol {
         let presenter = MovieListPresenter(view: listView,
                                            movieRepository: movieRepository,
                                            genreRepository: genreRepository,
+                                           imageLoader: imageLoader,
                                            mode: mode)
     
         listView.presenter = presenter
@@ -133,6 +135,7 @@ class Builder: BuilderProtocol {
     static func createMoviePageController(movieId: Int, movieTitle: String) -> UIViewController {
         let pageView = MoviePageView()
         let router = MoviePageRouter()
+        let imageLoader = KingfisherImageLoader()
         
         let movieDetailsRepository: MovieDetailsRepositoryProtocol = useMock
         ? MockMovieDetailsRepository.shared : MovieDetailsRepository(networkService: NetworkService(apiKey: apiKey))
@@ -151,6 +154,7 @@ class Builder: BuilderProtocol {
         
         let presenter = MoviePagePresenter(view: pageView,
                                            router: router,
+                                           imageLoader: imageLoader,
                                            movieDetailsRepository: movieDetailsRepository,
                                            genreRepository: genreRepository,
                                            movieVideoRepository: movieVideoRepository,

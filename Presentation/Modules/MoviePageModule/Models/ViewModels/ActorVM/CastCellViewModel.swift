@@ -11,8 +11,9 @@ struct CastCellViewModel: Hashable {
     let id: Int
     let name: String
     let character: String?
-    let profileURL: URL?
-    let profileImage: UIImage?
+    
+    var profileURL: URL?
+    var profileImage: UIImage?
 
     init(cast: CastMember) {
         self.id = cast.id

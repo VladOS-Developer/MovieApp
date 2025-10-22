@@ -14,8 +14,8 @@ struct MovieVideoCellViewModel: Hashable {
     let site: String        // обычно "YouTube"
     let type: String        // Trailer / Teaser / Clip
     
-    let thumbnailImage: UIImage? // для моков
-    let thumbnailURL: URL?       // для API
+    var thumbnailImage: UIImage? // для моков
+    var thumbnailURL: URL?       // для API
     
     init(video: MovieVideo, isLocal: Bool = true) {
         self.id = video.id

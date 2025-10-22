@@ -25,7 +25,7 @@ struct MovieDetailsDTO: Decodable {
     let backdropPath: String?
     let runtime: Int?
     let releaseDate: String?
-    let genreIDs: [Int]
+    let genreIDs: [Int]?
     let genres: [GenreDTO]?
     let overview: String?
     let productionCountries: [ProductionCountryDTO]?

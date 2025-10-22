@@ -113,7 +113,8 @@ class MoviePageView: UIViewController {
 
 extension MoviePageView: UICollectionViewDataSource {
     
-    // MARK: updateFavoriteState
+    // MARK: - updateFavoriteState
+    
     func updateFavoriteState(isFavorite: Bool) {
         let systemName = isFavorite ? "heart.fill" : "heart"
         
@@ -125,7 +126,8 @@ extension MoviePageView: UICollectionViewDataSource {
         }
     }
     
-    // MARK: viewForSupplementaryElementOfKind
+    // MARK: - viewForSupplementaryElementOfKind
+    
     func collectionView(_ collectionView: UICollectionView,viewForSupplementaryElementOfKind kind: String,at indexPath: IndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionView.elementKindSectionHeader,
@@ -138,12 +140,14 @@ extension MoviePageView: UICollectionViewDataSource {
         return UICollectionReusableView()
     }
     
-    // MARK: numberOfSections
+    // MARK: - numberOfSections
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         sections.count
     }
     
-    // MARK: numberOfItemsInSection
+    // MARK: - numberOfItemsInSection
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //        sections[section].items.count
         switch sections[section].type {
@@ -156,7 +160,8 @@ extension MoviePageView: UICollectionViewDataSource {
         }
     }
     
-    // MARK: cellForItemAt
+    // MARK: - cellForItemAt
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = sections[indexPath.section]
         // let item = section.items[indexPath.item] // тут передача пустого массива для stackButtons (краш) секция думает что у неё 1 айтем → коллекция спрашивает items[0] → а массив пустой → краш.
@@ -270,7 +275,8 @@ extension MoviePageView: UICollectionViewDataSource {
     
 }
 
-//MARK: didSelectItemAt
+//MARK: - didSelectItemAt
+
 extension MoviePageView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -289,7 +295,8 @@ extension MoviePageView: UICollectionViewDelegate {
     }
 }
 
-//MARK: MoviePageViewProtocol
+//MARK: - MoviePageViewProtocol
+
 extension MoviePageView: MoviePageViewProtocol {
     func showMovie(sections: [PageCollectionSection]) {
         self.sections = sections
@@ -307,7 +314,8 @@ extension MoviePageView: MoviePageViewProtocol {
     }
 }
 
-//MARK: AboutCellDelegate
+//MARK: - AboutCellDelegate
+
 extension MoviePageView: AboutCellDelegate {
     func aboutCellDidTapProfileImage(_ cell: AboutCell) {
         guard let indexPath = collectionView.indexPath(for: cell),
@@ -317,14 +325,16 @@ extension MoviePageView: AboutCellDelegate {
     }
 }
 
-//MARK: PosterCellDelegate
+//MARK: - PosterCellDelegate
+
 extension MoviePageView: PosterCellDelegate {
     func didTapPlayButton(in cell: PosterCell) {
         presenter.playPosterTrailer()
     }
 }
 
-//MARK: MovieVideoCellDelegate
+//MARK: - MovieVideoCellDelegate
+
 extension MoviePageView: MovieVideoCellDelegate {
     func didTapPlayButton(in cell: MovieVideoCell) {
         guard let indexPath = collectionView.indexPath(for: cell),
@@ -334,7 +344,8 @@ extension MoviePageView: MovieVideoCellDelegate {
     }
 }
 
-//MARK: OverviewCellDelegate
+//MARK: - OverviewCellDelegate
+
 extension MoviePageView: OverviewCellDelegate {
     func overviewCellDidToggle(_ cell: OverviewCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }

@@ -11,8 +11,8 @@ struct MovieDetailsCellViewModel: Hashable {
     let id: Int
     let title: String
     
-    let posterImage: UIImage?
-    let posterURL: URL?
+    var posterImage: UIImage?
+    var posterURL: URL?
     let backdropURL: URL?
     
     let ratingText: String
