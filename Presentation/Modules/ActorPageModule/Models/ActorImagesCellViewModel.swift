@@ -10,8 +10,8 @@ import UIKit
 struct ActorImagesCellViewModel: Hashable {
     let id: String
     let filePath: String?
-    let image: UIImage?
-    let imageURL: URL?
+    var image: UIImage?
+    var imageURL: URL?
     
     init(actorImage: ActorImages) {
         self.id = actorImage.id

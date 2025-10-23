@@ -192,6 +192,7 @@ class Builder: BuilderProtocol {
     static func createActorPageController(actorTitle: String, actorId: Int) -> UIViewController {
         let actorView = ActorPageView()
         let router = ActorPageRouter()
+        let imageLoader = KingfisherImageLoader()
                 
         let actorRepository: ActorRepositoryProtocol = useMock
         ? MockActorRepository.shared : ActorRepository(networkService: NetworkService(apiKey: apiKey))
@@ -201,6 +202,7 @@ class Builder: BuilderProtocol {
         
         let presenter = ActorPagePresenter(view: actorView,
                                            router: router,
+                                           imageLoader: imageLoader,
                                            actorRepository: actorRepository,
                                            movieCreditsRepository: movieCreditsRepository,
                                            actorId: actorId,

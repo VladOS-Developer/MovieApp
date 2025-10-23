@@ -10,8 +10,8 @@ import UIKit
 struct ActorHeaderCellViewModel: Hashable {
     let id: Int
     let name: String
-    let profileURL: URL?
-    let profileImage: UIImage?
+    var profileURL: URL?
+    var profileImage: UIImage?
     let birthday: String?
     let placeOfBirth: String?
     let biography: String?

@@ -14,6 +14,7 @@ protocol ActorPagePresenterProtocol: AnyObject {
     
     init(view: ActorPageViewProtocol,
          router: ActorPageRouterProtocol,
+         imageLoader: ImageLoaderProtocol,
          actorRepository: ActorRepositoryProtocol,
          movieCreditsRepository: MovieCreditsRepositoryProtocol,
          actorId: Int,
@@ -21,9 +22,10 @@ protocol ActorPagePresenterProtocol: AnyObject {
 }
 
 class ActorPagePresenter: ActorPagePresenterProtocol {
-        
+    
     private weak var view: ActorPageViewProtocol?
     private let router: ActorPageRouterProtocol
+    private let imageLoader: ImageLoaderProtocol
     
     private let actorRepository: ActorRepositoryProtocol
     private let movieCreditsRepository: MovieCreditsRepositoryProtocol
@@ -39,28 +41,26 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
     
     required init(view: ActorPageViewProtocol,
                   router: ActorPageRouterProtocol,
+                  imageLoader: ImageLoaderProtocol,
                   actorRepository: ActorRepositoryProtocol,
                   movieCreditsRepository: MovieCreditsRepositoryProtocol,
                   actorId: Int,
                   actorTitle: String) {
         
         self.view = view
+        self.router = router
+        self.imageLoader = imageLoader
         self.actorTitle = actorTitle
         self.actorRepository = actorRepository
         self.movieCreditsRepository = movieCreditsRepository
         self.actorId = actorId
-        self.router = router
-    }
-    
-    func didSelectFilmographyMovie(_ movie: ActorMovieCellViewModel) {
-        router.openMoviePage(movieId: movie.id, movieTitle: movie.title)
+        
     }
     
     func viewDidLoad() {
-        
         Task {
             do {
-                // параллельная загрузка
+                // Загружаем всё параллельно
                 async let detailsTask = actorRepository.fetchActorDetails(by: actorId)
                 async let moviesTask  = actorRepository.fetchActorMovies(by: actorId)
                 async let imagesTask  = actorRepository.fetchActorImages(by: actorId)
@@ -71,14 +71,20 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
                 self.actorMovies = movies
                 self.actorImages = images
                 
-                let initialSections = buildBaseSections(details: details, movies: movies)
+                // Подгружаем изображения
+                let headerVM = await buildHeaderVM(details: details, movies: movies)
+                let movieVMs  = await buildMovieVM(movies: movies)
+                let galleryVMs = await buildGalleryVM(images: images)
+                
+                let sections = buildSections(headerVM: headerVM,
+                                             moviesVM: movieVMs,
+                                             galleryVMs: galleryVMs,
+                                             tabIndex: 0)
                 
                 await MainActor.run {
-                    self.sections = initialSections
-                    self.view?.showActorSections(sections: initialSections)
+                    self.sections = sections
                     self.view?.setTitle(self.actorTitle)
-                    
-                    self.didActorSelectTab(index: 0)
+                    self.view?.showActorSections(sections: sections)
                 }
                 
             } catch {
@@ -87,48 +93,91 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
         }
     }
     
-    private func buildBaseSections(details: ActorDetails, movies: [ActorMovie]) -> [ActorPageCollectionSection] {
+    private func buildHeaderVM(details: ActorDetails, movies: [ActorMovie]) async -> ActorHeaderCellViewModel {
+        var avtorHeaderVM = ActorHeaderCellViewModel(actorDetails: details, actorMovies: movies)
         
-        let headerVM = ActorHeaderCellViewModel(actorDetails: details, actorMovies: movies)
+        if let url = avtorHeaderVM.profileURL {
+            avtorHeaderVM.profileImage = await imageLoader.loadImage(from: url, localName: nil, isLocal: false)
+        }
+        return avtorHeaderVM
+    }
+    
+    private func buildMovieVM(movies: [ActorMovie]) async -> [ActorMovieCellViewModel] {
+        await withTaskGroup(of: ActorMovieCellViewModel.self) { group in
+            for movie in movies {
+                group.addTask { [imageLoader] in
+                    var actorMovieVM = ActorMovieCellViewModel(actorMovie: movie)
+                    if let url = actorMovieVM.posterURL {
+                        actorMovieVM.posterImage = await imageLoader.loadImage(from: url, localName: nil, isLocal: false)
+                    }
+                    return actorMovieVM
+                }
+            }
+            return await group.reduce(into: [ActorMovieCellViewModel](), { $0.append($1) })
+        }
+    }
+    
+    private func buildGalleryVM(images: [ActorImages]) async -> [ActorImagesCellViewModel] {
+        await withTaskGroup(of: ActorImagesCellViewModel.self) { group in
+            for image in images {
+                group.addTask { [imageLoader] in
+                    var actorImagesVM = ActorImagesCellViewModel(actorImage: image)
+                    if let url = actorImagesVM.imageURL {
+                        actorImagesVM.image = await imageLoader.loadImage(from: url, localName: nil, isLocal: false)
+                    }
+                    return actorImagesVM
+                }
+            }
+            return await group.reduce(into: [ActorImagesCellViewModel](), { $0.append($1) })
+        }
+    }
+    
+    private func buildSections(headerVM: ActorHeaderCellViewModel,
+                               moviesVM: [ActorMovieCellViewModel],
+                               galleryVMs: [ActorImagesCellViewModel],
+                               tabIndex: Int) -> [ActorPageCollectionSection] {
         
-        return [
+        var sections: [ActorPageCollectionSection] = [
             .init(type: .header, items: [.header(headerVM)]),
             .init(type: .socialStackButtons, items: []),
             .init(type: .actorSegmentedTabs, items: [])
         ]
+        
+        if tabIndex == 0 {
+            sections.append(.init(type: .filmography, items: moviesVM.map { .filmography($0) }))
+        } else {
+            if let details = actorDetails {
+                let bioVM = ActorBiographyCellViewModel(actor: details)
+                sections.append(.init(type: .biography, items: [.biography(bioVM)]))
+            }
+            sections.append(.init(type: .gallery, items: galleryVMs.map { .gallery($0) }))
+        }
+        
+        return sections
     }
     
     func didActorSelectTab(index: Int) {
-     
         guard let details = actorDetails else { return }
         
-        var newSections: [ActorPageCollectionSection] = []
-        
-        // Базовый блок (header + кнопки + tabs)
-        let headerVM = ActorHeaderCellViewModel(actorDetails: details, actorMovies: actorMovies)
-        newSections.append(.init(type: .header, items: [.header(headerVM)]))
-        newSections.append(.init(type: .socialStackButtons, items: []))
-        newSections.append(.init(type: .actorSegmentedTabs, items: []))
-        
-        if index == 0 {
-            // Filmography
-            let moviesVM = actorMovies.map { ActorMovieCellViewModel(actorMovie: $0) }
-            newSections.append(.init(type: .filmography, items: moviesVM.map { .filmography($0) }))
-        } else {
-            // Biography + Gallery
-            let bioVM = ActorBiographyCellViewModel(actor: details)
-            newSections.append(.init(type: .biography, items: [.biography(bioVM)]))
+        Task {
+            let headerVM = await buildHeaderVM(details: details, movies: actorMovies)
+            let movieVM = await buildMovieVM(movies: actorMovies)
+            let galleryVM = await buildGalleryVM(images: actorImages)
             
-            // Gallery
-            let galleryVM = actorImages.map { ActorImagesCellViewModel(actorImage: $0) }
-            newSections.append(.init(type: .gallery, items: galleryVM.map { .gallery($0) }))
+            let newSections = buildSections(headerVM: headerVM,
+                                            moviesVM: movieVM,
+                                            galleryVMs: galleryVM,
+                                            tabIndex: index)
+            
+            await MainActor.run {
+                self.sections = newSections
+                self.view?.showActorSections(sections: newSections)
+            }
         }
-        
-        Task { @MainActor in
-            self.sections = newSections
-            self.view?.showActorSections(sections: newSections)
-        }
-        
+    }
+    
+    func didSelectFilmographyMovie(_ movie: ActorMovieCellViewModel) {
+        router.openMoviePage(movieId: movie.id, movieTitle: movie.title)
     }
 }
 
