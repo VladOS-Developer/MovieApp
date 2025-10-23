@@ -103,7 +103,11 @@ class Builder: BuilderProtocol {
     static func createFavoritesController() -> UIViewController {
         let favoritesView = FavoritesView()
         let router = FavoritesRouter()
-        let presenter = FavoritesPresenter(view: favoritesView, router: router)
+        let imageLoader = KingfisherImageLoader()
+        
+        let presenter = FavoritesPresenter(view: favoritesView,
+                                           router: router,
+                                           imageLoader: imageLoader)
         
         favoritesView.presenter = presenter
         router.viewController = favoritesView

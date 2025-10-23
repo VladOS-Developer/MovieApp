@@ -156,7 +156,8 @@ class MovieListPresenter: MovieListPresenterProtocol {
     //MARK: - toggleFavorite
     
     func toggleFavorite(for movieId: Int) {
-        guard let movie = movies.first(where: { $0.id == movieId }) else { return }
+        guard let index = movies.firstIndex(where: { $0.id == movieId }) else { return }
+        let movie = movies[index]
         
         if favoritesStorage.isFavorite(id: Int32(movieId)) {
             favoritesStorage.removeFavorite(id: Int32(movieId))
@@ -169,16 +170,12 @@ class MovieListPresenter: MovieListPresenterProtocol {
             )
         }
         
-        // пересобираем вьюмодели и обновляем экран
-        movieViewModel = movies.map {
-            MovieCellViewModel(
-                movie: $0,
-                genres: allGenres,
-                isFavorite: favoritesStorage.isFavorite(id: Int32($0.id))
-            )
-        }
-        view?.updateMovies(movieViewModel)
+        movieViewModel[index].isFavorite = favoritesStorage.isFavorite(id: Int32(movieId))
+        
+        // Обновляем конкретную ячейку напрямую через view
+        view?.updateFavoriteState(at: index, isFavorite: movieViewModel[index].isFavorite)
     }
+    
     
 }
 

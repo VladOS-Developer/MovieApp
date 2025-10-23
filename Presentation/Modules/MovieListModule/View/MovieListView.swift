@@ -10,6 +10,7 @@ import UIKit
 protocol MovieListViewProtocol: AnyObject {
     func setTitle(_ text: String)
     func updateMovies(_ movies: [MovieCellViewModel])
+    func updateFavoriteState(at index: Int, isFavorite: Bool)
 }
 
 class MovieListView: UIViewController {
@@ -80,6 +81,7 @@ extension MovieListView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieListCell.reuseId, for: indexPath) as? MovieListCell else {
             return UICollectionViewCell()
         }
+        
         let movieVM = movies[indexPath.item]
         cell.configureListCell(with: movieVM)
         
@@ -106,11 +108,20 @@ extension MovieListView: MovieListViewProtocol {
     
     func updateMovies(_ movies: [MovieCellViewModel]) {
         self.movies = movies
+        
         Task { @MainActor in
             collectionView.reloadData()
         }
-        
     }
+    
+    func updateFavoriteState(at index: Int, isFavorite: Bool) {
+        Task { @MainActor in
+            if let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? MovieListCell {
+                cell.setFavoriteState(isFavorite)
+            }
+        }
+    }
+    
 }
 
 extension MovieListView: UICollectionViewDelegateFlowLayout {

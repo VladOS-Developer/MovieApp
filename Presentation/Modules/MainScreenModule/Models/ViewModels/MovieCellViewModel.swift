@@ -19,7 +19,7 @@ struct MovieCellViewModel: Hashable {
     var posterImage: UIImage?
     let posterURL: URL?
     let backdropURL: URL?
-    let isFavorite: Bool
+    var isFavorite: Bool
     
     init(movie: Movie, genres: [Genres], isFavorite: Bool = false) {
         self.id = movie.id

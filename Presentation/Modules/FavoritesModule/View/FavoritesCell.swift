@@ -10,7 +10,7 @@ import UIKit
 class FavoritesCell: UICollectionViewCell {
     static let reuseId = "FavoritesCell"
     
-    private var movieId: Int32 = 0
+    var movieId: Int32 = 0
     var onFavoriteTapped: ((Int32) -> Void)?
     
     private lazy var posterImage: UIImageView = {
@@ -69,12 +69,9 @@ class FavoritesCell: UICollectionViewCell {
         ])
     }
     
-    func configureFavoritesCell(with favorite: FavoriteMovie) {
+    func configureFavoritesCell(with favorite: FavoriteMovie, image: UIImage?) {
         movieId = favorite.id
-        
-        if let posterName = favorite.posterPath {
-            posterImage.image = UIImage(named: posterName) // локальные ассеты
-        }
+        posterImage.image = image
         
         if favorite.voteAverage > 0 {
                 voteAverageLabel.text = String(format: "%.1f", favorite.voteAverage)
@@ -82,7 +79,7 @@ class FavoritesCell: UICollectionViewCell {
                 voteAverageLabel.text = "-"
             }
     }
-    
+   
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

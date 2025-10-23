@@ -69,6 +69,11 @@ class MovieListCell: UICollectionViewCell {
         ])
     }
     
+    func setFavoriteState(_ isFavorite: Bool) {
+        let systemName = isFavorite ? "heart.fill" : "heart"
+        favoriteButton.setImage(UIImage(systemName: systemName), for: .normal)
+    }
+    
     func configureListCell(with movieVM: MovieCellViewModel ) {
         posterImage.image = movieVM.posterImage
         voteAverageLabel.text = movieVM.ratingText
