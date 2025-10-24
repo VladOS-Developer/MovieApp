@@ -27,6 +27,7 @@ class SettingsPageView: UIViewController, SettingsPageViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tabelView)
+//        tabelView.dataSource = self
         tabelView.delegate = self
         view.backgroundColor = .appBGTop
         
@@ -124,6 +125,7 @@ extension SettingsPageView: UITableViewDelegate {
             }
         }, for: .touchUpInside)
         
+        
         footerView.addSubview(label)
         footerView.addSubview(linkButton)
         
@@ -131,7 +133,6 @@ extension SettingsPageView: UITableViewDelegate {
             label.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 20),
             label.leadingAnchor.constraint(equalTo: footerView.leadingAnchor, constant: 20),
             label.trailingAnchor.constraint(equalTo: footerView.trailingAnchor, constant: -20),
-            label.bottomAnchor.constraint(equalTo: footerView.bottomAnchor, constant: -20),
 
             linkButton.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10),
             linkButton.centerXAnchor.constraint(equalTo: footerView.centerXAnchor),
@@ -140,8 +141,8 @@ extension SettingsPageView: UITableViewDelegate {
         
         return footerView
     }
-    
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 70
-    }
+            return 100
+        }
 }

@@ -76,7 +76,7 @@ final class SpecificationCell: UICollectionViewCell {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             starImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            starImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            starImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2),
             
             voteAverageLabel.leadingAnchor.constraint(equalTo: starImageView.trailingAnchor, constant: 7),
             voteAverageLabel.centerYAnchor.constraint(equalTo: starImageView.centerYAnchor),
@@ -94,14 +94,15 @@ final class SpecificationCell: UICollectionViewCell {
             genreLabel.centerYAnchor.constraint(equalTo: starImageView.centerYAnchor),
             genreLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -20),
             
-            genreForView.topAnchor.constraint(equalTo: genreLabel.bottomAnchor, constant: 10),
+            genreForView.topAnchor.constraint(equalTo: genreLabel.bottomAnchor, constant: 7),
             genreForView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             
             releaseDateForView.leadingAnchor.constraint(equalTo: genreForView.trailingAnchor, constant: 7),
             releaseDateForView.centerYAnchor.constraint(equalTo: genreForView.centerYAnchor),
             
-            countryForView.leadingAnchor.constraint(equalTo: releaseDateForView.trailingAnchor, constant: 7),
-            countryForView.centerYAnchor.constraint(equalTo: genreForView.centerYAnchor)
+            countryForView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            countryForView.topAnchor.constraint(equalTo: genreForView.bottomAnchor, constant: 7),
+            
         ])
     }
     

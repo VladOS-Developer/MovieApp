@@ -30,10 +30,10 @@ class MovieVideoCell: UICollectionViewCell {
     private lazy var videoName: UILabel = TextLabel(font: .systemFont(ofSize: 12, weight: .bold), color: .appWhite)
     private lazy var videoType: UILabel = TextLabel(font: .systemFont(ofSize: 12, weight: .bold), color: .appGray)
     
-    private lazy var videoStackLabel: UIStackView = {
+    private lazy var stackLabel: UIStackView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.axis = .vertical
-        $0.spacing = 5
+        $0.spacing = 10
         return $0
     }(UIStackView(arrangedSubviews: [videoSite, videoName, videoType]))
     
@@ -54,9 +54,9 @@ class MovieVideoCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(videoImage)
-        contentView.addSubview(videoStackLabel)
+        contentView.addSubview(stackLabel)
         contentView.addSubview(playTrailerButton)
-
+        videoName.lineBreakMode = .byTruncatingTail
         setupConstraints()
     }
     
@@ -70,8 +70,10 @@ class MovieVideoCell: UICollectionViewCell {
             playTrailerButton.centerXAnchor.constraint(equalTo: videoImage.centerXAnchor),
             playTrailerButton.centerYAnchor.constraint(equalTo: videoImage.centerYAnchor),
             
-            videoStackLabel.centerYAnchor.constraint(equalTo: videoImage.centerYAnchor),
-            videoStackLabel.leadingAnchor.constraint(equalTo: videoImage.trailingAnchor, constant: 20),
+            stackLabel.leadingAnchor.constraint(equalTo: videoImage.trailingAnchor, constant: 10),
+            stackLabel.centerYAnchor.constraint(equalTo: videoImage.centerYAnchor),
+            stackLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 170),
+            stackLabel.heightAnchor.constraint(lessThanOrEqualToConstant: 100)
         ])
     }
     

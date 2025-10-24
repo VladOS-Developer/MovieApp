@@ -87,6 +87,11 @@ enum Endpoint {
                 URLQueryItem(name: "page", value: "\(page)")
             ]
             
+//        case .actorMovies(_, let page):
+//            return [
+//                URLQueryItem(name: "page", value: "\(page)")
+//            ]
+            
         default:
             return []
         }

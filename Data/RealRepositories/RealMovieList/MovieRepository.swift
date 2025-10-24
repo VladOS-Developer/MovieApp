@@ -15,8 +15,8 @@ final class MovieRepository: MovieRepositoryProtocol {
     }
     
     func fetchTopMovies() async throws -> [Movie] {
-//        let topRandomPage = Int.random(in: 1...50)
-        let response: TopRatedResponseDTO = try await networkService.request(.topRatedMovies(page: 1))
+        let topRandomPage = Int.random(in: 1...50)
+        let response: TopRatedResponseDTO = try await networkService.request(.topRatedMovies(page: topRandomPage))
         return response.results.map { Movie(dto: $0) }
     }
     
@@ -31,10 +31,8 @@ final class MovieRepository: MovieRepositoryProtocol {
         return response.results.map { Movie(dto: $0) }
     }
     
-    func searchMovies(query: String, page: Int = 1) async throws -> [Movie] {
-        // TMDB возвращает results: [MovieDTO], у тебя есть TopRatedResponseDTO / UpcomingResponseDTO.
-        // Если всё DTO-ы имеют поле results: reuse TopRatedResponseDTO.
-        let response: TopRatedResponseDTO = try await networkService.request(.searchMovies(query: query, page: page))
+    func searchMovies(query: String, page: Int) async throws -> [Movie] {
+        let response: TopRatedResponseDTO = try await networkService.request(.searchMovies(query: query, page: 1))
         return response.results.map { Movie(dto: $0) }
     }
     

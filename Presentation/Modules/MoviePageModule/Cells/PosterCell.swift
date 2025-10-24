@@ -52,7 +52,7 @@ final class PosterCell: UICollectionViewCell {
             posterView.topAnchor.constraint(equalTo: contentView.topAnchor),
             posterView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             posterView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            posterView.heightAnchor.constraint(equalTo: posterView.widthAnchor, multiplier: 0.75),
+            posterView.heightAnchor.constraint(equalTo: posterView.widthAnchor, multiplier: 1.5),
             
             playTrailerButton.centerXAnchor.constraint(equalTo: posterView.centerXAnchor),
             playTrailerButton.centerYAnchor.constraint(equalTo: posterView.centerYAnchor),

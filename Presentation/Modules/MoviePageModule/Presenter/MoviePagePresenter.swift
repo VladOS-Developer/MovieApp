@@ -141,9 +141,11 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                 
                 // 7) Подгружаем трейлеры
                 let videos = try await movieVideoRepository.fetchMovieVideo(for: movieId)
-                self.videos = videos
+                let limitedMovieVideo = Array(videos.prefix(3))
                 
-                let videoItems = videos
+                self.videos = limitedMovieVideo
+                
+                let videoItems = limitedMovieVideo
                     .map { MovieVideoCellViewModel(video: $0, isLocal: false) }
                     .map { PageCollectionItem.video($0) }
                 
@@ -191,7 +193,6 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                         
                         await MainActor.run {
                             self.view?.showMovie(sections: self.sections)
-                            self.view?.setSelectedTabIndex(index)
                         }
                     }
                     
@@ -217,18 +218,6 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                         
                         await MainActor.run {
                             self.view?.showMovie(sections: self.sections)
-                            self.view?.setSelectedTabIndex(index)
-                        }
-                    }
-                    
-                case 2:
-                    // Comments
-                    if let dynamicSectionIndex = self.sections.firstIndex(where: { $0.type == .dynamicContent }) {
-                        self.sections[dynamicSectionIndex].items = []
-                        
-                        await MainActor.run {
-                            self.view?.showMovie(sections: self.sections)
-                            self.view?.setSelectedTabIndex(index)
                         }
                     }
                     

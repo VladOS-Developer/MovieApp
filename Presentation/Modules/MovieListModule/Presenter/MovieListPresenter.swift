@@ -98,7 +98,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
             switch mode {
             case .top10:
                 let top = try await movieRepository.fetchTopMovies()
-                moviesTask = Array(top.prefix(10))
+                moviesTask = Array(top.prefix(20))
                 
             case .upcoming:
                 moviesTask = try await movieRepository.fetchUpcomingMovies()

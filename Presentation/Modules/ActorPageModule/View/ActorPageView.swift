@@ -17,7 +17,6 @@ class ActorPageView: UIViewController {
     
     private var sections: [ActorPageCollectionSection] = []
     
-    private var selectedSegmentedTabsIndex: Int = 0
     private var isBiographyExpanded = false
     
     lazy var collectionView: UICollectionView = {
@@ -69,7 +68,7 @@ class ActorPageView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
-        edgesForExtendedLayout = [.top]
+        edgesForExtendedLayout = [.top, .bottom]
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

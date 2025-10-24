@@ -16,6 +16,6 @@ final class MovieSimilarRepository: MovieSimilarRepositoryProtocol {
     
     func fetchSimilarMovie(for movieId: Int) async throws -> [MovieSimilar] {
         let response: MoviesSimilarResponseDTO = try await networkService.request(.movieSimilar(movieId))
-        return response.results.map { MovieSimilar(dto: $0) } // маппинг в домен
+        return response.results.map { MovieSimilar(dto: $0) }
     }
 }

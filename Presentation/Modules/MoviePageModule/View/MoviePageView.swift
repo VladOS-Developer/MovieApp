@@ -10,7 +10,6 @@ import UIKit
 protocol MoviePageViewProtocol: AnyObject {
     func showMovie(sections: [PageCollectionSection])
     func updateFavoriteState(isFavorite: Bool)
-    func setSelectedTabIndex(_ index: Int)
     func setTitle(_ text: String)
 }
 
@@ -19,7 +18,6 @@ class MoviePageView: UIViewController {
     var presenter: MoviePagePresenterProtocol!
     private var sections: [PageCollectionSection] = []
     private var isOverviewExpanded = false
-    private var selectedSegmentedTabsIndex: Int = 0
 
     lazy var collectionView: UICollectionView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +33,6 @@ class MoviePageView: UIViewController {
         $0.register(SegmentedTabsCell.self, forCellWithReuseIdentifier: SegmentedTabsCell.reuseId)
         $0.register(SimilarMovieCell.self, forCellWithReuseIdentifier: SimilarMovieCell.reuseId)
         $0.register(AboutCell.self, forCellWithReuseIdentifier: AboutCell.reuseId)
-        $0.register(CastAndCrewHeaderView.self,forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,withReuseIdentifier: CastAndCrewHeaderView.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createPageLayout()))
     
@@ -63,8 +60,7 @@ class MoviePageView: UIViewController {
                 return MoviePageLayoutFactory.setSegmentedTabsLayout()
              
             case .dynamicContent:
-                let includeHeader = (selectedSegmentedTabsIndex == 1) // About → Cast and Crew
-                return MoviePageLayoutFactory.setDynamicContentLayout(includeHeader: includeHeader)
+                return MoviePageLayoutFactory.setDynamicContentLayout()
             }
         }
     }
@@ -82,7 +78,7 @@ class MoviePageView: UIViewController {
                                               rightAction: #selector(didTapHeart))
         
         view.addSubview(collectionView)
-        edgesForExtendedLayout = [.top]
+        edgesForExtendedLayout = [.top, .bottom]
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -124,20 +120,6 @@ extension MoviePageView: UICollectionViewDataSource {
                 withConfiguration: UIImage.SymbolConfiguration(weight: .bold)
             )
         }
-    }
-    
-    // MARK: - viewForSupplementaryElementOfKind
-    
-    func collectionView(_ collectionView: UICollectionView,viewForSupplementaryElementOfKind kind: String,at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        if kind == UICollectionView.elementKindSectionHeader,
-           sections[indexPath.section].type == .dynamicContent,selectedSegmentedTabsIndex == 1 {
-            guard let header = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: CastAndCrewHeaderView.reuseId,for: indexPath) as? CastAndCrewHeaderView else { return UICollectionReusableView() }
-            return header
-        }
-        return UICollectionReusableView()
     }
     
     // MARK: - numberOfSections
@@ -300,12 +282,6 @@ extension MoviePageView: UICollectionViewDelegate {
 extension MoviePageView: MoviePageViewProtocol {
     func showMovie(sections: [PageCollectionSection]) {
         self.sections = sections
-        collectionView.reloadData()
-    }
-    
-    func setSelectedTabIndex(_ index: Int) {
-        selectedSegmentedTabsIndex = index
-        collectionView.collectionViewLayout = createPageLayout() // пересоздать layout с header
         collectionView.reloadData()
     }
     

@@ -67,8 +67,10 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
                 
                 let (details, movies, images) = try await (detailsTask, moviesTask, imagesTask)
                 
+                let limitedFilmographyMovies = Array(movies.prefix(10))
+                
                 self.actorDetails = details
-                self.actorMovies = movies
+                self.actorMovies = limitedFilmographyMovies
                 self.actorImages = images
                 
                 // Подгружаем изображения
@@ -107,6 +109,7 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
             for movie in movies {
                 group.addTask { [imageLoader] in
                     var actorMovieVM = ActorMovieCellViewModel(actorMovie: movie)
+                    
                     if let url = actorMovieVM.posterURL {
                         actorMovieVM.posterImage = await imageLoader.loadImage(from: url, localName: nil, isLocal: false)
                     }
@@ -122,6 +125,7 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
             for image in images {
                 group.addTask { [imageLoader] in
                     var actorImagesVM = ActorImagesCellViewModel(actorImage: image)
+                    
                     if let url = actorImagesVM.imageURL {
                         actorImagesVM.image = await imageLoader.loadImage(from: url, localName: nil, isLocal: false)
                     }
