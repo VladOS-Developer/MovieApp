@@ -223,9 +223,7 @@ extension MoviePageView: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             
-            cell.onTabSelected = { [weak self] idx in
-                self?.presenter.didSelectTab(index: idx)
-            }
+            cell.delegate = self
             return cell
             
             // DynamicContent
@@ -255,6 +253,13 @@ extension MoviePageView: UICollectionViewDataSource {
         }
     }
     
+}
+
+// MARK: - MovieSegmentedTabsCellDelegate
+extension MoviePageView: MovieSegmentedTabsCellDelegate {
+    func didSelectTab(index: Int) {
+        presenter.didSelectTab(index: index)
+    }
 }
 
 //MARK: - didSelectItemAt

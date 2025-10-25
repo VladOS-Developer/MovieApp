@@ -20,7 +20,7 @@ final class ActorHeaderCell: UICollectionViewCell {
     
     private lazy var dimmingView: UIView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = UIColor.black.withAlphaComponent(0.65) // мягкое затемнение
+        $0.backgroundColor = UIColor.black.withAlphaComponent(0.65)
         $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
         return $0
@@ -36,14 +36,6 @@ final class ActorHeaderCell: UICollectionViewCell {
     }(UIImageView())
     
     private lazy var moviesCountLabel: UILabel = {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        $0.textColor = .lightGray
-        $0.textAlignment = .center
-        return $0
-    }(UILabel())
-    
-    private lazy var ratingLabel: UILabel = {
         let label = PaddingLabel(withInsets: 5, 5, 5, 5)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 12, weight: .bold)
@@ -69,7 +61,6 @@ final class ActorHeaderCell: UICollectionViewCell {
         contentView.addSubview(dimmingView)
         contentView.addSubview(profileImageView)
         contentView.addSubview(moviesCountLabel)
-        contentView.addSubview(ratingLabel)
         
         NSLayoutConstraint.activate([
             backPoster.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -87,19 +78,14 @@ final class ActorHeaderCell: UICollectionViewCell {
             profileImageView.widthAnchor.constraint(equalToConstant: 130),
             profileImageView.heightAnchor.constraint(equalToConstant: 130),
             
-            moviesCountLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 5),
-            moviesCountLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            
-            ratingLabel.topAnchor.constraint(equalTo: moviesCountLabel.bottomAnchor, constant: 5),
-            ratingLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
-            
+            moviesCountLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
+            moviesCountLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
         
     }
     
     func configure(with headerVM: ActorHeaderCellViewModel) {
-        moviesCountLabel.text = headerVM.moviesCountText  // пока хардкод, потом из VM "66"
-        ratingLabel.text = "Rating Top 67" // тоже можно из VM
+        moviesCountLabel.text = headerVM.moviesCountText
         profileImageView.image = headerVM.profileImage
         backPoster.image = headerVM.profileImage
     }

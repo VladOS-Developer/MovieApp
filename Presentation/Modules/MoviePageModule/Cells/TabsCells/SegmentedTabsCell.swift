@@ -7,27 +7,25 @@
 
 import UIKit
 
-//protocol MovieSegmentedTabsCellDelegate: AnyObject {
-//    func didSelectTab(index: Int)
-//}
+protocol MovieSegmentedTabsCellDelegate: AnyObject {
+    func didSelectTab(index: Int)
+}
 
 final class SegmentedTabsCell: UICollectionViewCell {
     static let reuseId = "TabsCell"
     
-//    weak var delegate: MovieSegmentedTabsCellDelegate?
-
-    var onTabSelected: ((Int) -> Void)?
+    weak var delegate: MovieSegmentedTabsCellDelegate?
 
     private lazy var segmentedControl: UISegmentedControl = {
         let items = ["More Like This", "Cast and Crew"]
         let control = UISegmentedControl(items: items)
-        control.selectedSegmentIndex = UISegmentedControl.noSegment
-        control.selectedSegmentIndex = 1
+//        control.selectedSegmentIndex = UISegmentedControl.noSegment
+        control.selectedSegmentIndex = 0
         control.backgroundColor = .clear
         control.selectedSegmentTintColor = .systemBlue
         control.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
         control.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
-        control.addTarget(self, action: #selector(tabChanged), for: .valueChanged)
+        control.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
         return control
     }()
 
@@ -43,14 +41,10 @@ final class SegmentedTabsCell: UICollectionViewCell {
         ])
     }
 
-    @objc private func tabChanged() {
-        onTabSelected?(segmentedControl.selectedSegmentIndex)
-    }
+    @objc private func didChangeSegment() {
+            delegate?.didSelectTab(index: segmentedControl.selectedSegmentIndex)
+        }
     
-//    @objc private func tabChanged() {
-//            delegate?.didSelectTab(index: segmentedControl.selectedSegmentIndex)
-//    }
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

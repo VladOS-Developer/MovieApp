@@ -44,7 +44,7 @@ final class ActorSegmentedTabsCell: UICollectionViewCell {
     @objc private func didChangeSegment() {
             delegate?.didSelectTab(index: segmentedControl.selectedSegmentIndex)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

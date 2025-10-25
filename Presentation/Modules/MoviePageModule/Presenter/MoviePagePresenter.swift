@@ -166,10 +166,12 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                 
                 // 8) Проверяем избранное
                 let isFavorite = favoritesStorage.isFavorite(id: Int32(movieId))
-                
                 await MainActor.run {
                     self.view?.updateFavoriteState(isFavorite: isFavorite)
                 }
+                
+                didSelectTab(index: 0)
+
                 
             } catch {
                 print("MoviePagePresenter.getMoviesData error:", error)
@@ -225,7 +227,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                         )
                         return .cast(castVM)
                     }
-                    
+                                                            
                     if let dynamicSectionIndex = self.sections.firstIndex(where: { $0.type == .dynamicContent }) {
                         self.sections[dynamicSectionIndex].items = castItems
                         
