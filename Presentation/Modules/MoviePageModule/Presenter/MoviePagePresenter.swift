@@ -142,21 +142,34 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                 // 7) Подгружаем трейлеры
                 let videos = try await movieVideoRepository.fetchMovieVideo(for: movieId)
                 let limitedMovieVideo = Array(videos.prefix(3))
-                
                 self.videos = limitedMovieVideo
                 
-                let videoItems = limitedMovieVideo
-                    .map { MovieVideoCellViewModel(video: $0, isLocal: false) }
-                    .map { PageCollectionItem.video($0) }
+                // Загружаем превью через imageLoader
+                let videoItems: [PageCollectionItem] = await limitedMovieVideo.asyncMap { video in
+                    var videoVM = MovieVideoCellViewModel(video: video, isLocal: false)
+                    
+                    videoVM.thumbnailImage = await imageLoader.loadImage(
+                        from: videoVM.thumbnailURL,
+                        localName: nil,
+                        isLocal: false
+                    )
+                    return .video(videoVM)
+                }
                 
                 if let indexSection = self.sections.firstIndex(where: { $0.type == .videoMovie }) {
                     self.sections[indexSection].items = videoItems
-                    await MainActor.run { self.view?.showMovie(sections: self.sections) }
+                    
+                    await MainActor.run {
+                        self.view?.showMovie(sections: self.sections)
+                    }
                 }
                 
                 // 8) Проверяем избранное
                 let isFavorite = favoritesStorage.isFavorite(id: Int32(movieId))
-                await MainActor.run { self.view?.updateFavoriteState(isFavorite: isFavorite) }
+                
+                await MainActor.run {
+                    self.view?.updateFavoriteState(isFavorite: isFavorite)
+                }
                 
             } catch {
                 print("MoviePagePresenter.getMoviesData error:", error)
@@ -197,7 +210,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                     }
                     
                 case 1:
-                    // About
+                    // Cast and Crew
                     let credits = try await movieCreditsRepository.fetchCredits(for: movieId)
                     
                     // Подгружаем профайлы актёров (если есть)
