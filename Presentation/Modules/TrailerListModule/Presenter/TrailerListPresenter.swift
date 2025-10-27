@@ -8,47 +8,63 @@
 import UIKit
 
 protocol TrailerListPresenterProtocol: AnyObject {
-    func loadTopVideos()
+    func loadTrendingVideos()
     func didTapTrailerListButton(videoVM: TrailerVideoCellViewModel)
     
     init(view: TrailerListViewProtocol,
+         imageLoader: ImageLoaderProtocol,
          router: TrailerListRouterProtocol,
          movieVideoRepository: MovieVideoRepositoryProtocol)
-    
 }
 
 class TrailerListPresenter {
-    private weak var view: TrailerListViewProtocol?
-    private let router: TrailerListRouterProtocol
     
+    private weak var view: TrailerListViewProtocol?
+    private let imageLoader: ImageLoaderProtocol
+    private let router: TrailerListRouterProtocol
     private let movieVideoRepository: MovieVideoRepositoryProtocol
     private var videos: [MovieVideo] = []
     
     required init(view: TrailerListViewProtocol,
+                  imageLoader: ImageLoaderProtocol,
                   router: TrailerListRouterProtocol,
                   movieVideoRepository: MovieVideoRepositoryProtocol) {
         
         self.view = view
         self.router = router
         self.movieVideoRepository = movieVideoRepository
+        self.imageLoader = imageLoader
     }
     
-    func loadTopVideos() {
+    func loadTrendingVideos() {
         Task {
             do {
-                let videos = try await movieVideoRepository.fetchTopVideos()
-                self.videos = videos
+                // Загружаем трейлеры из трендовых фильмов
+                let trendingVideos = try await movieVideoRepository.fetchTrendingVideos()
+                self.videos = trendingVideos
                 
-                let viewModels = videos.map { TrailerVideoCellViewModel(video: $0, isLocal: false) }
-                
-                await MainActor.run {
-                    self.view?.showVideos(viewModels)
+                // Формируем ViewModel с подгрузкой превью через imageLoader
+                let trailerVM: [TrailerVideoCellViewModel] = await trendingVideos.asyncMap { video in
+                    
+                    var trailerVM = TrailerVideoCellViewModel(video: video, isLocal: false)
+                    
+                    if let url = trailerVM.thumbnailURL {
+                        trailerVM.thumbnailImage = await imageLoader.loadImage(from: url, localName: nil, isLocal: false)
+                    }
+                    return trailerVM
                 }
+                
+                // Обновление View на главном потоке
+                await MainActor.run {
+                    self.view?.showVideos(trailerVM)
+                }
+                
             } catch {
-                print("Ошибка загрузки топовых видео: \(error)")
+                print("Ошибка загрузки трейлеров:", error)
             }
         }
     }
+    
     
 }
 
@@ -64,6 +80,7 @@ extension TrailerListPresenter: TrailerListPresenterProtocol {
         print("videos =", videos.map { $0.id })
     }
 }
+
 
 
 

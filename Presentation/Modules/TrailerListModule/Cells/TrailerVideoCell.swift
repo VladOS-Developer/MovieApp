@@ -12,7 +12,7 @@ protocol TrailerVideoCellDelegate: AnyObject {
 }
 
 class TrailerVideoCell: UITableViewCell {
-    static let reuseId = "TrailerMovieVideoCell"
+    static let reuseId = "TrailerVideoCell"
     
     weak var delegate: TrailerVideoCellDelegate?
     
@@ -92,7 +92,6 @@ class TrailerVideoCell: UITableViewCell {
     }
     
     func configureTrailerMovieVideoCell(with videoVM: TrailerVideoCellViewModel) {
-//        videoImage.image = videoVM.thumbnailImage ?? UIImage(systemName: "film")
         videoImage.image = videoVM.thumbnailImage
         videoSite.text = videoVM.site
         videoName.text = videoVM.name

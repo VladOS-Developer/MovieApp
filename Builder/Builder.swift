@@ -85,14 +85,16 @@ class Builder: BuilderProtocol {
     static func createTrailerListController() -> UIViewController {
         let trailerListView = TrailerListView()
         let router = TrailerListRouter()
+        let imageLoader = KingfisherImageLoader()
         
         let movieVideoRepository: MovieVideoRepositoryProtocol = useMock
         ? MockMovieVideoRepository.shared : MovieVideoRepository(networkService: NetworkService(apiKey: apiKey))
         
         let presenter = TrailerListPresenter(view: trailerListView,
+                                             imageLoader: imageLoader,
                                              router: router,
                                              movieVideoRepository: movieVideoRepository)
-        
+
         
         trailerListView.presenter = presenter
         router.viewController = trailerListView
@@ -175,11 +177,13 @@ class Builder: BuilderProtocol {
     //MARK: - TrailerPlayer
     static func createTrailerPlayerController(video: MovieVideo, movieTitle: String) -> UIViewController {
         let playerView = TrailerPlayerView()
+        let imageLoader = KingfisherImageLoader()
         
         let movieVideoRepository: MovieVideoRepositoryProtocol = useMock
         ? MockMovieVideoRepository.shared : MovieVideoRepository(networkService: NetworkService(apiKey: apiKey))
         
         let presenter = TrailerPlayerPresenter(view: playerView,
+                                               imageLoader: imageLoader,
                                                movieVideoRepository: movieVideoRepository,
                                                video: video,
                                                movieTitle: movieTitle)

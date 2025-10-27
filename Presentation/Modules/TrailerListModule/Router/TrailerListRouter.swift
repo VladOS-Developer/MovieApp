@@ -12,7 +12,6 @@ protocol TrailerListRouterProtocol: AnyObject {
 }
 
 final class TrailerListRouter: TrailerListRouterProtocol {
-    
     weak var viewController: UIViewController?
     
     func showTrailerPlayer(video: MovieVideo, movieTitle: String) {

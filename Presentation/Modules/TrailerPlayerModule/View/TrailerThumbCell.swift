@@ -46,26 +46,11 @@ final class TrailerThumbCell: UICollectionViewCell {
         ])
     }
 
-    func configure(with vm: TrailerVideoCellViewModel) {
-        titleLabel.text = vm.name
-        
-        if let image = vm.thumbnailImage {
-            thumbnail.image = image
-        } else if let url = vm.thumbnailURL {
-            // простой асинхронный загрузчик, заменить на Kingfisher/SDWebImage в рабочей среде
-            thumbnail.image = nil
-            URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
-                guard let data = data, let img = UIImage(data: data) else { return }
-                DispatchQueue.main.async {
-                    // Проверьте ещё раз, отображается ли тот же URL-адрес? Пропущено для краткости
-                    self?.thumbnail.image = img
-                }
-            }.resume()
-        } else {
-            thumbnail.image = UIImage(systemName: "film")
+    func configureVideoCell(with videoVM: TrailerPlayerCellViewModel) {
+            titleLabel.text = videoVM.name
+            thumbnail.image = videoVM.thumbnailImage
         }
-    }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

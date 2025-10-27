@@ -11,15 +11,15 @@ import YouTubeiOSPlayerHelper
 protocol TrailerPlayerViewProtocol: AnyObject {
     func loadVideo(with key: String)
     func setTitle(_ text: String)
-    func showVideoList(_ videos: [TrailerVideoCellViewModel])
+    func showVideoList(_ videos: [TrailerPlayerCellViewModel])
 }
 
 class TrailerPlayerView: UIViewController {
-        
+    
     var presenter: TrailerPlayerPresenterProtocol!
     
     private let playerView = YTPlayerView()
-    private var videoViewModels: [TrailerVideoCellViewModel] = []
+    private var trailerVideoVM: [TrailerPlayerCellViewModel] = []
     private var currentVideoKey: String?
     
     private lazy var collectionView: UICollectionView = {
@@ -29,9 +29,9 @@ class TrailerPlayerView: UIViewController {
         $0.register(TrailerThumbCell.self, forCellWithReuseIdentifier: TrailerThumbCell.reuseId)
         $0.backgroundColor = .clear
         return $0
-    }(UICollectionView(frame: .zero, collectionViewLayout: makeLayout()))
+    }(UICollectionView(frame: .zero, collectionViewLayout: createLayout()))
     
-    private func makeLayout() -> UICollectionViewCompositionalLayout {
+    private func createLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { sectionIndex, _ in
             
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),heightDimension: .absolute(130))
@@ -82,9 +82,11 @@ class TrailerPlayerView: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
 }
 
 extension TrailerPlayerView: TrailerPlayerViewProtocol {
+    
     func setTitle(_ text: String) {
         navigationItem.title = text
     }
@@ -93,14 +95,15 @@ extension TrailerPlayerView: TrailerPlayerViewProtocol {
         currentVideoKey = key
         playerView.load(withVideoId: key, playerVars: ["playsinline": 1, "autoplay": 1, "modestbranding": 1, "rel": 0])
         // выделить выбранную миниатюру, если она есть
-        if let index = videoViewModels.firstIndex(where: { $0.videoKey == key }) {
+        if let index = trailerVideoVM.firstIndex(where: { $0.videoKey == key }) {
             let indexPath = IndexPath(item: index, section: 0)
             collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
         }
     }
     
-    func showVideoList(_ videos: [TrailerVideoCellViewModel]) {
-        self.videoViewModels = videos
+    func showVideoList(_ videos: [TrailerPlayerCellViewModel]) {
+        print("videos count:", videos.count)
+        self.trailerVideoVM = videos
         collectionView.reloadData()
         // выделить текущее видео (если совпадает)
         if let key = currentVideoKey,
@@ -109,22 +112,23 @@ extension TrailerPlayerView: TrailerPlayerViewProtocol {
             collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
         }
     }
+    
 }
 
 // MARK: - Collection data source & delegate
 extension TrailerPlayerView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        videoViewModels.count
+        trailerVideoVM.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrailerThumbCell.reuseId, for: indexPath) as? TrailerThumbCell else {
             return UICollectionViewCell()
         }
-        let vm = videoViewModels[indexPath.item]
-        cell.configure(with: vm)
-        cell.layer.borderWidth = (vm.videoKey == currentVideoKey) ? 2 : 0
+        let videoVM = trailerVideoVM[indexPath.item]
+        cell.configureVideoCell(with: videoVM)
+        cell.layer.borderWidth = (videoVM.videoKey == currentVideoKey) ? 2 : 0
         cell.layer.borderColor = UIColor.systemBlue.cgColor
         cell.layer.cornerRadius = 5
         return cell
@@ -136,7 +140,7 @@ extension TrailerPlayerView: UICollectionViewDataSource, UICollectionViewDelegat
         
         // найти индекс предыдущего видео и обновить ячейку
         if let prevKey = previousKey,
-           let prevIndex = videoViewModels.firstIndex(where: { $0.videoKey == prevKey }) {
+           let prevIndex = trailerVideoVM.firstIndex(where: { $0.videoKey == prevKey }) {
             let prevIndexPath = IndexPath(item: prevIndex, section: 0)
             collectionView.reloadItems(at: [prevIndexPath])
         }
@@ -144,4 +148,5 @@ extension TrailerPlayerView: UICollectionViewDataSource, UICollectionViewDelegat
         // обновить текущую ячейку
         collectionView.reloadItems(at: [indexPath])
     }
+    
 }

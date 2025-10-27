@@ -61,7 +61,7 @@ class TrailerListView: UIViewController {
         view.addSubview(sectionLabel)
         view.addSubview(videoTableView)
         setupConstraints()
-        presenter.loadTopVideos()
+        presenter.loadTrendingVideos()
     }
     
     override func viewWillAppear(_ animated: Bool) {

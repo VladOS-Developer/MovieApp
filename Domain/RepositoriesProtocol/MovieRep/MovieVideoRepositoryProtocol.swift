@@ -10,5 +10,6 @@ import Foundation
 protocol MovieVideoRepositoryProtocol: AnyObject {
     
     func fetchMovieVideo(for movieId: Int) async throws -> [MovieVideo]
-    func fetchTopVideos() async throws -> [MovieVideo]
+    
+    func fetchTrendingVideos() async throws -> [MovieVideo]
 }
