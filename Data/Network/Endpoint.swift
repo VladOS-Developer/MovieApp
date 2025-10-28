@@ -21,6 +21,8 @@ enum Endpoint {
     case movieDetails(Int)
     case trendingMovies(page: Int)
     case searchMovies(query: String, page: Int)
+    case tvTopRated(page: Int)
+    case tvGenres
     
     var path: String {
         switch self {
@@ -63,6 +65,11 @@ enum Endpoint {
         case .searchMovies:
             return "/search/movie"
             
+        case .tvTopRated(page: let page):
+            return "/tv/top_rated"
+            
+        case .tvGenres:
+            return "/genre/tv/list"
         }
     }
     
@@ -72,7 +79,8 @@ enum Endpoint {
             
         case .topRatedMovies(let page),
              .upcomingMovies(let page),
-             .trendingMovies(let page):
+             .trendingMovies(let page),
+             .tvTopRated(let page):
             return [URLQueryItem(name: "page", value: "\(page)")]
             
         case .moviesByGenre(let genreId, let page):

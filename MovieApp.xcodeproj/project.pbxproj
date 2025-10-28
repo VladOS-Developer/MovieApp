@@ -82,6 +82,14 @@
 		868ECBFA2EB13967005189A9 /* TVSeriesListsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868ECBF92EB13967005189A9 /* TVSeriesListsDTO.swift */; };
 		868ECBFC2EB13DEE005189A9 /* TVSeriesListsRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868ECBFB2EB13DEE005189A9 /* TVSeriesListsRepositoryProtocol.swift */; };
 		868ECBFF2EB1412C005189A9 /* MockTVSeriesListsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868ECBFE2EB1412C005189A9 /* MockTVSeriesListsRepository.swift */; };
+		868ECC022EB14ED0005189A9 /* TVSeriesListsResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868ECC012EB14ED0005189A9 /* TVSeriesListsResponseDTO.swift */; };
+		868ECC052EB14F2D005189A9 /* TVSeriesListsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868ECC042EB14F2D005189A9 /* TVSeriesListsRepository.swift */; };
+		868ECC0B2EB152A2005189A9 /* TVGenreDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868ECC0A2EB152A2005189A9 /* TVGenreDTO.swift */; };
+		868ECC0D2EB152B7005189A9 /* TVGenresResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868ECC0C2EB152B7005189A9 /* TVGenresResponseDTO.swift */; };
+		868ECC0F2EB152DE005189A9 /* TVGenres.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868ECC0E2EB152DE005189A9 /* TVGenres.swift */; };
+		868ECC112EB15302005189A9 /* TVGenresRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868ECC102EB15302005189A9 /* TVGenresRepositoryProtocol.swift */; };
+		868ECC132EB15324005189A9 /* TVGenresRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868ECC122EB15324005189A9 /* TVGenresRepository.swift */; };
+		868ECC152EB1598A005189A9 /* MockTVGenresRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868ECC142EB1598A005189A9 /* MockTVGenresRepository.swift */; };
 		869608282E96DF590040E51A /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 869608272E96DF590040E51A /* Secrets.xcconfig */; };
 		869608422EA68C100040E51A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 869608412EA68C100040E51A /* Kingfisher */; };
 		869608442EA6944D0040E51A /* KingfisherImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869608432EA6944D0040E51A /* KingfisherImageLoader.swift */; };
@@ -164,6 +172,14 @@
 		868ECBF92EB13967005189A9 /* TVSeriesListsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSeriesListsDTO.swift; sourceTree = "<group>"; };
 		868ECBFB2EB13DEE005189A9 /* TVSeriesListsRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSeriesListsRepositoryProtocol.swift; sourceTree = "<group>"; };
 		868ECBFE2EB1412C005189A9 /* MockTVSeriesListsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTVSeriesListsRepository.swift; sourceTree = "<group>"; };
+		868ECC012EB14ED0005189A9 /* TVSeriesListsResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSeriesListsResponseDTO.swift; sourceTree = "<group>"; };
+		868ECC042EB14F2D005189A9 /* TVSeriesListsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSeriesListsRepository.swift; sourceTree = "<group>"; };
+		868ECC0A2EB152A2005189A9 /* TVGenreDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVGenreDTO.swift; sourceTree = "<group>"; };
+		868ECC0C2EB152B7005189A9 /* TVGenresResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVGenresResponseDTO.swift; sourceTree = "<group>"; };
+		868ECC0E2EB152DE005189A9 /* TVGenres.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVGenres.swift; sourceTree = "<group>"; };
+		868ECC102EB15302005189A9 /* TVGenresRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVGenresRepositoryProtocol.swift; sourceTree = "<group>"; };
+		868ECC122EB15324005189A9 /* TVGenresRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVGenresRepository.swift; sourceTree = "<group>"; };
+		868ECC142EB1598A005189A9 /* MockTVGenresRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTVGenresRepository.swift; sourceTree = "<group>"; };
 		869608272E96DF590040E51A /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		869608432EA6944D0040E51A /* KingfisherImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingfisherImageLoader.swift; sourceTree = "<group>"; };
 		869608472EA7DD560040E51A /* ArrayAsyncMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayAsyncMap.swift; sourceTree = "<group>"; };
@@ -194,6 +210,7 @@
 		861B348F2E7E903F004227CC /* RealRepositories */ = {
 			isa = PBXGroup;
 			children = (
+				868ECC032EB14EFC005189A9 /* RealTVSeries */,
 				861B34922E7E9190004227CC /* RealMovie */,
 				861B34912E7E9180004227CC /* RealMovieList */,
 				861B34902E7E9176004227CC /* RealActor */,
@@ -232,6 +249,7 @@
 		861B34962E7E98DA004227CC /* ResponseDTO */ = {
 			isa = PBXGroup;
 			children = (
+				868ECC002EB14EC0005189A9 /* TVSeries */,
 				861B34972E7E997E004227CC /* Movies */,
 				861B34982E7E998E004227CC /* MovieList */,
 				861B34992E7E9997004227CC /* People */,
@@ -528,6 +546,7 @@
 			isa = PBXGroup;
 			children = (
 				868ECBF62EB13865005189A9 /* TVSeriesLists.swift */,
+				868ECC0E2EB152DE005189A9 /* TVGenres.swift */,
 			);
 			path = TVSeriesObject;
 			sourceTree = "<group>";
@@ -536,6 +555,7 @@
 			isa = PBXGroup;
 			children = (
 				868ECBFB2EB13DEE005189A9 /* TVSeriesListsRepositoryProtocol.swift */,
+				868ECC102EB15302005189A9 /* TVGenresRepositoryProtocol.swift */,
 			);
 			path = TVSeriesRepositories;
 			sourceTree = "<group>";
@@ -544,6 +564,7 @@
 			isa = PBXGroup;
 			children = (
 				868ECBF92EB13967005189A9 /* TVSeriesListsDTO.swift */,
+				868ECC0A2EB152A2005189A9 /* TVGenreDTO.swift */,
 			);
 			path = TVSeries;
 			sourceTree = "<group>";
@@ -552,8 +573,27 @@
 			isa = PBXGroup;
 			children = (
 				868ECBFE2EB1412C005189A9 /* MockTVSeriesListsRepository.swift */,
+				868ECC142EB1598A005189A9 /* MockTVGenresRepository.swift */,
 			);
 			path = MockTVSeries;
+			sourceTree = "<group>";
+		};
+		868ECC002EB14EC0005189A9 /* TVSeries */ = {
+			isa = PBXGroup;
+			children = (
+				868ECC012EB14ED0005189A9 /* TVSeriesListsResponseDTO.swift */,
+				868ECC0C2EB152B7005189A9 /* TVGenresResponseDTO.swift */,
+			);
+			path = TVSeries;
+			sourceTree = "<group>";
+		};
+		868ECC032EB14EFC005189A9 /* RealTVSeries */ = {
+			isa = PBXGroup;
+			children = (
+				868ECC042EB14F2D005189A9 /* TVSeriesListsRepository.swift */,
+				868ECC122EB15324005189A9 /* TVGenresRepository.swift */,
+			);
+			path = RealTVSeries;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -646,8 +686,15 @@
 				867173ED2E5DC19500681D72 /* Genres.swift in Sources */,
 				867178F52E7585DF00681D72 /* ActorRepositoryProtocol.swift in Sources */,
 				867173EE2E5DC19500681D72 /* MovieDetails.swift in Sources */,
+				868ECC052EB14F2D005189A9 /* TVSeriesListsRepository.swift in Sources */,
+				868ECC112EB15302005189A9 /* TVGenresRepositoryProtocol.swift in Sources */,
+				868ECC132EB15324005189A9 /* TVGenresRepository.swift in Sources */,
 				868ECBF72EB13865005189A9 /* TVSeriesLists.swift in Sources */,
+				868ECC152EB1598A005189A9 /* MockTVGenresRepository.swift in Sources */,
 				868ECBFF2EB1412C005189A9 /* MockTVSeriesListsRepository.swift in Sources */,
+				868ECC0F2EB152DE005189A9 /* TVGenres.swift in Sources */,
+				868ECC0D2EB152B7005189A9 /* TVGenresResponseDTO.swift in Sources */,
+				868ECC0B2EB152A2005189A9 /* TVGenreDTO.swift in Sources */,
 				867173EF2E5DC19500681D72 /* GenreDTO.swift in Sources */,
 				867178F02E75841400681D72 /* ActorDetails.swift in Sources */,
 				867175612E5F165D00681D72 /* MovieVideoRepositoryProtocol.swift in Sources */,
@@ -710,6 +757,7 @@
 				861B348E2E7E8A74004227CC /* Endpoint.swift in Sources */,
 				861B34AD2E83C92C004227CC /* MovieDetailsRepository.swift in Sources */,
 				861B34A32E7E9B89004227CC /* MoviesSimilarResponseDTO.swift in Sources */,
+				868ECC022EB14ED0005189A9 /* TVSeriesListsResponseDTO.swift in Sources */,
 				861B349D2E7E9A97004227CC /* TopRatedResponseDTO.swift in Sources */,
 				861B349B2E7E99E9004227CC /* GenresResponseDTO.swift in Sources */,
 				867178EE2E7583E700681D72 /* ActorMoviesResponseDTO.swift in Sources */,

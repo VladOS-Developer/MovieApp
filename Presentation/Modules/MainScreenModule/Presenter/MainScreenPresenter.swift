@@ -17,18 +17,24 @@ protocol MainScreenPresenterProtocol: AnyObject {
     
     init(view: MainScreenViewProtocol,
          router: MainScreenRouterProtocol,
+         imageLoader: ImageLoaderProtocol,
+         
          movieRepository: MovieRepositoryProtocol,
          genreRepository: GenreRepositoryProtocol,
-         imageLoader: ImageLoaderProtocol)
+         tvSeriesListsRepository: TVSeriesListsRepositoryProtocol)
 }
 
 class MainScreenPresenter {
     
+    //TVSeriesListsRepositoryProtocol
+    
     private weak var view: MainScreenViewProtocol?
     private let router: MainScreenRouterProtocol
+    private let imageLoader: ImageLoaderProtocol
+    
     private let movieRepository: MovieRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
-    private let imageLoader: ImageLoaderProtocol
+    private let tvSeriesListsRepository: TVSeriesListsRepositoryProtocol
     
     private var sections: [MainCollectionSection] = []
     
@@ -37,15 +43,20 @@ class MainScreenPresenter {
     
     required init(view: MainScreenViewProtocol,
                   router: MainScreenRouterProtocol,
+                  imageLoader: ImageLoaderProtocol,
+                  
                   movieRepository: MovieRepositoryProtocol,
                   genreRepository: GenreRepositoryProtocol,
-                  imageLoader: ImageLoaderProtocol) {
+                  tvSeriesListsRepository: TVSeriesListsRepositoryProtocol) {
         
         self.view = view
         self.router = router
+        self.imageLoader = imageLoader
+        
         self.movieRepository = movieRepository
         self.genreRepository = genreRepository
-        self.imageLoader = imageLoader
+        self.tvSeriesListsRepository = tvSeriesListsRepository
+        
     }
 }
 
