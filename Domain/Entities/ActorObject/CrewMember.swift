@@ -17,6 +17,7 @@ struct CrewMember: Hashable {
 }
 
 extension CrewMember {
+    
     init(dto: CrewDTO) {
         self.id = dto.id
         self.creditId = dto.creditId
@@ -25,9 +26,7 @@ extension CrewMember {
         self.department = dto.department
         self.profilePath = dto.profilePath
     }
-}
-
-extension CrewMember {
+    
     static func mockCrew() -> [CrewMember] {
         return [
             CrewMember(id: 2710, creditId: "52fe4214c3a36847f800b999",name: "James Cameron", job: "Director",department: "Directing", profilePath: "/cameron.jpg"),
@@ -35,3 +34,5 @@ extension CrewMember {
         ]
     }
 }
+
+

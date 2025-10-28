@@ -16,6 +16,7 @@ struct MovieVideo: Hashable {
 }
 
 extension MovieVideo {
+    
     init(dto: MovieVideoDTO) {
         self.id = dto.id
         self.key = dto.key
@@ -26,11 +27,8 @@ extension MovieVideo {
     
     var youtubeKey: String { key }
     
-}
-
-extension MovieVideo {
     static func mockMovieVideo(for movieId: Int) -> [MovieVideo] {
-
+        
         switch movieId {
         case 1: // Avatar
             return [
@@ -51,22 +49,11 @@ extension MovieVideo {
     }
     
     static func mockTopVideos() -> [MovieVideo] {
-            return [
-                MovieVideo(id: "1", key: "d9MyW72ELq0", name: "Avatar: The Way of Water", site: "YouTube", type: "Trailer"),
-                MovieVideo(id: "2", key: "M7lc1UVf-VE", name: "Google for Developers", site: "YouTube", type: "Clip"),
-                MovieVideo(id: "3", key: "6ZfuNTqbHE8", name: "Avengers: Infinity War", site: "YouTube", type: "Trailer"),
-                MovieVideo(id: "4", key: "EXeTwQWrcwY", name: "The Dark Knight", site: "YouTube", type: "Trailer"),
-            ]
-        }
+        return [
+            MovieVideo(id: "1", key: "d9MyW72ELq0", name: "Avatar: The Way of Water", site: "YouTube", type: "Trailer"),
+            MovieVideo(id: "2", key: "M7lc1UVf-VE", name: "Google for Developers", site: "YouTube", type: "Clip"),
+            MovieVideo(id: "3", key: "6ZfuNTqbHE8", name: "Avengers: Infinity War", site: "YouTube", type: "Trailer"),
+            MovieVideo(id: "4", key: "EXeTwQWrcwY", name: "The Dark Knight", site: "YouTube", type: "Trailer"),
+        ]
+    }
 }
-
-//                    key: "https://www.youtube.com/embed/d9MyW72ELq0"
-
-//                    key: "https://www.youtube.com/embed/abc123XYZ"
-
-//                    key: "https://www.youtube.com/embed/qwe456RTY"
-
-//                    key: "https://www.youtube.com/embed/6ZfuNTqbHE8"
-
-//                    key: "https://www.youtube.com/embed/EXeTwQWrcwY"
-

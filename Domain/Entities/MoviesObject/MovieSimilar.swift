@@ -17,11 +17,11 @@ struct MovieSimilar: Hashable {
     let genreIDs: [Int]?
     let overview: String?
     let voteAverage: Double?
-    
     let isLocalImage: Bool
 }
 
 extension MovieSimilar {
+    
     init(dto: MovieSimilarDTO) {
         self.id = dto.id
         self.title = dto.title
@@ -32,12 +32,9 @@ extension MovieSimilar {
         self.genreIDs = dto.genreIDs
         self.overview = dto.overview
         self.voteAverage = dto.voteAverage
-        
         self.isLocalImage = false
     }
-}
-
-extension MovieSimilar {
+    
     static func mockSimilarMovies() -> [MovieSimilar] {
         return [
             MovieSimilar(id: 1, title: "Inception1", originalTitle: "The Way Of Water", posterPath: "film1", releaseDate: "2010-07-16", backdropPath: "", genreIDs: [18],
@@ -52,3 +49,4 @@ extension MovieSimilar {
         ]
     }
 }
+

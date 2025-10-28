@@ -13,18 +13,17 @@ struct ActorMovie: Hashable {
     let posterPath: String?
     let releaseDate: String?
     let character: String?
-    
     let isLocalImage: Bool
 }
 
 extension ActorMovie {
+    
     init(dto: ActorMovieDTO) {
         self.id = dto.id
         self.title = dto.title
         self.posterPath = dto.posterPath
         self.releaseDate = dto.releaseDate
         self.character = dto.character
-        
         self.isLocalImage = false
     }
 

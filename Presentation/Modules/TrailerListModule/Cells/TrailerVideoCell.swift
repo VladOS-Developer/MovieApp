@@ -23,7 +23,7 @@ class TrailerVideoCell: UITableViewCell {
         $0.layer.cornerRadius = 10
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.appWhite.withAlphaComponent(0.4).cgColor
-        $0.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        $0.widthAnchor.constraint(equalToConstant: 200).isActive = true
         $0.heightAnchor.constraint(equalToConstant: 100).isActive = true
         return $0
     }(UIImageView())

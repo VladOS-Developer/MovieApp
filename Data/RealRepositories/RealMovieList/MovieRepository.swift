@@ -21,8 +21,8 @@ final class MovieRepository: MovieRepositoryProtocol {
     }
     
     func fetchUpcomingMovies() async throws -> [Movie] {
-//        let upcomingRandomPage = Int.random(in: 1...50)
-        let response: UpcomingResponseDTO = try await networkService.request(.upcomingMovies(page: 1))
+        let upcomingRandomPage = Int.random(in: 1...50)
+        let response: UpcomingResponseDTO = try await networkService.request(.upcomingMovies(page: upcomingRandomPage))
         return response.results.map { Movie(dto: $0) }
     }
     

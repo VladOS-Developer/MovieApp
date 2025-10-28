@@ -16,7 +16,7 @@ final class SearchHeaderCell: UICollectionViewCell, UITextFieldDelegate {
     
     private lazy var cancelButton: UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.setImage(UIImage(systemName: "eraser.line.dashed"), for: .normal)
+        $0.setImage(.appCancel, for: .normal)
         $0.tintColor = .appBlue
         $0.addTarget(self, action: #selector(сancelTapped), for: .touchUpInside)
         return $0
@@ -55,8 +55,8 @@ final class SearchHeaderCell: UICollectionViewCell, UITextFieldDelegate {
         NSLayoutConstraint.activate([
             cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             cancelButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            cancelButton.widthAnchor.constraint(equalToConstant: 30),
-            cancelButton.heightAnchor.constraint(equalToConstant: 30),
+            cancelButton.widthAnchor.constraint(equalToConstant: 22),
+            cancelButton.heightAnchor.constraint(equalToConstant: 22),
             
             settingsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             settingsButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),

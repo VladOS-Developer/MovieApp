@@ -14,7 +14,6 @@ struct ActorDetails: Hashable {
     let birthday: String?
     let placeOfBirth: String?
     let biography: String?
-    
     let isLocalImage: Bool
 }
 
@@ -26,7 +25,6 @@ extension ActorDetails {
         self.birthday = dto.birthday
         self.placeOfBirth = dto.placeOfBirth
         self.biography = dto.biography
-        
         self.isLocalImage = false
     }
 

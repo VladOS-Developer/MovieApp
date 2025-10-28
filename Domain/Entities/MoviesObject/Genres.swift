@@ -13,13 +13,12 @@ struct Genres: Hashable {
 }
 
 extension Genres {
+    
     init(dto: GenreDTO) {
         self.id = dto.id
         self.name = dto.name
     }
-}
-
-extension Genres {
+    
     static func mockGenres() -> [Genres] {
         return [
             Genres(id: 28, name: "Action"),

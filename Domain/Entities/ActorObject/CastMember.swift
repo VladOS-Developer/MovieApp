@@ -13,23 +13,20 @@ struct CastMember: Hashable {
     let name: String
     let character: String?
     let profilePath: String?
-    
     let isLocalImage: Bool
 }
 
 extension CastMember {
+    
     init(dto: CastDTO) {
         self.id = dto.id
         self.creditId = dto.creditId
         self.name = dto.name
         self.character = dto.character
         self.profilePath = dto.profilePath
-        
         self.isLocalImage = false
     }
-}
-
-extension CastMember {
+    
     static func mockCast() -> [CastMember] {
         return [
             CastMember(id: 6193,creditId: "52fe4214c3a36847f800b579",name: "Sam Worthington", character: "Jake Sully",profilePath: "actor1", isLocalImage: true),
@@ -40,3 +37,5 @@ extension CastMember {
         ]
     }
 }
+
+
