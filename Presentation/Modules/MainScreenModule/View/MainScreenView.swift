@@ -52,6 +52,7 @@ class MainScreenView: UIViewController {
         $0.register(MainSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MainSectionHeaderView.reuseId)
         $0.register(SearchHeaderCell.self, forCellWithReuseIdentifier: SearchHeaderCell.reuseId)
         $0.register(SearchResultCell.self, forCellWithReuseIdentifier: SearchResultCell.reuseId)
+        $0.register(TVSeriesCell.self, forCellWithReuseIdentifier: TVSeriesCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createLayout()))
     
@@ -71,6 +72,9 @@ class MainScreenView: UIViewController {
                 
             case .topMovie:
                 return MainScreenLayoutFactory.setTopMovieLayout()
+                
+            case .tvSeries:
+                return MainScreenLayoutFactory.setTVSeriesLayout()
                 
             case .upcomingMovie:
                 return MainScreenLayoutFactory.setUpcomingMovieLayout()
@@ -179,6 +183,18 @@ extension MainScreenView: UICollectionViewDataSource {
             }
             return cell
             
+        case .tvSeries:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TVSeriesCell.reuseId, for: indexPath) as? TVSeriesCell else {
+                return UICollectionViewCell()
+            }
+            
+            switch item {
+            case .tvSeries(let seriesVM):
+                cell.configureTVSeriesCell(with: seriesVM)
+            default: break
+            }
+            return cell
+            
         case .upcomingMovie:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpcomingMovieCell.reuseId, for: indexPath) as? UpcomingMovieCell else {
                 return UICollectionViewCell()
@@ -204,7 +220,7 @@ extension MainScreenView: UICollectionViewDataSource {
         
         let section = sections[indexPath.section]
         
-        let showSeeAll = section.type == .topMovie || section.type == .upcomingMovie
+        let showSeeAll = section.type == .topMovie || section.type == .upcomingMovie || section.type == .tvSeries
         header.setHeaderView(with: section.type.title, showsButton: showSeeAll)
         
         header.sectionIndex = indexPath.section

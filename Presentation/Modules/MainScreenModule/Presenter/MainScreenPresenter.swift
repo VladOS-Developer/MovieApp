@@ -21,6 +21,7 @@ protocol MainScreenPresenterProtocol: AnyObject {
          
          movieRepository: MovieRepositoryProtocol,
          genreRepository: GenreRepositoryProtocol,
+         tvGenresRepository: TVGenresRepositoryProtocol,
          tvSeriesListsRepository: TVSeriesListsRepositoryProtocol)
 }
 
@@ -34,6 +35,7 @@ class MainScreenPresenter {
     
     private let movieRepository: MovieRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
+    private let tvGenresRepository: TVGenresRepositoryProtocol
     private let tvSeriesListsRepository: TVSeriesListsRepositoryProtocol
     
     private var sections: [MainCollectionSection] = []
@@ -47,6 +49,7 @@ class MainScreenPresenter {
                   
                   movieRepository: MovieRepositoryProtocol,
                   genreRepository: GenreRepositoryProtocol,
+                  tvGenresRepository: TVGenresRepositoryProtocol,
                   tvSeriesListsRepository: TVSeriesListsRepositoryProtocol) {
         
         self.view = view
@@ -55,6 +58,7 @@ class MainScreenPresenter {
         
         self.movieRepository = movieRepository
         self.genreRepository = genreRepository
+        self.tvGenresRepository = tvGenresRepository
         self.tvSeriesListsRepository = tvSeriesListsRepository
         
     }
@@ -70,8 +74,10 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
                 async let genresTask = genreRepository.fetchGenres()
                 async let topMoviesTask = movieRepository.fetchTopMovies()
                 async let upcomingTask = movieRepository.fetchUpcomingMovies()
+                async let tvSeriesTask = tvSeriesListsRepository.fetchTVSeriesLists()
+                async let tvGenresTask = tvGenresRepository.fetchTVGenres()
                 
-                let (genres, topMovies, upcomingMovies) = try await (genresTask, topMoviesTask, upcomingTask)
+                let (genres, topMovies, upcomingMovies, tvSeries, tvGenres) = try await (genresTask, topMoviesTask, upcomingTask, tvSeriesTask, tvGenresTask)
                 
                 // Top rated
                 let topItems: [MainCollectionItem] = await topMovies.asyncMap { movie in
@@ -83,6 +89,18 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
                         isLocal: movie.isLocalImage
                     )
                     return .movie(viewModel)
+                }
+                
+                // TV Series
+                let seriesItems: [MainCollectionItem] = await tvSeries.asyncMap { tvSeries in
+                    
+                    var viewModel = TVSeriesCellViewModel(tvSeries: tvSeries, tvGenres: tvGenres)
+                    viewModel.posterImage = await imageLoader.loadImage(
+                        from: viewModel.posterURL,
+                        localName: tvSeries.posterPath,
+                        isLocal: tvSeries.isLocalImage
+                    )
+                    return .tvSeries(viewModel)
                 }
                 
                 // Upcoming
@@ -108,6 +126,7 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
                     MainCollectionSection(type: .searchResults, items: []),
                     MainCollectionSection(type: .genresMovie, items: genreItems),
                     MainCollectionSection(type: .topMovie, items: topItems),
+                    MainCollectionSection(type: .tvSeries, items: seriesItems),
                     MainCollectionSection(type: .upcomingMovie, items: upcomingItems)
                 ]
                 

@@ -72,12 +72,16 @@ class Builder: BuilderProtocol {
         
         let tvSeriesListsRepository: TVSeriesListsRepositoryProtocol = useMock
         ? MockTVSeriesListsRepository.shared : TVSeriesListsRepository(networkService: NetworkService(apiKey: apiKey))
+        
+        let tvGenresRepository: TVGenresRepositoryProtocol = useMock
+        ? MockTVGenresRepository.shared : TVGenresRepository(networkService: NetworkService(apiKey: apiKey))
             
         let presenter = MainScreenPresenter(view: mainView,
                                             router: router,
                                             imageLoader: imageLoader,
                                             movieRepository: movieRepository,
                                             genreRepository: genreRepository,
+                                            tvGenresRepository: tvGenresRepository,
                                             tvSeriesListsRepository: tvSeriesListsRepository)
         
         mainView.presenter = presenter

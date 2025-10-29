@@ -65,7 +65,7 @@ enum Endpoint {
         case .searchMovies:
             return "/search/movie"
             
-        case .tvTopRated(page: let page):
+        case .tvTopRated(page: _):
             return "/tv/top_rated"
             
         case .tvGenres:

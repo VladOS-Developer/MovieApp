@@ -17,6 +17,7 @@ enum MainSectionType {
     case searchResults
     case genresMovie
     case topMovie
+    case tvSeries
     case upcomingMovie
     
     
@@ -26,7 +27,8 @@ enum MainSectionType {
         case .searchResults: return ""
         case .genresMovie: return "Discover Your Next Favorite Movies"
         case .topMovie: return "Top Movies This Week"
-        case .upcomingMovie: return "Upcoming"
+        case .tvSeries: return "Top Series"
+        case .upcomingMovie: return "Upcoming Movies"
        
         }
     }

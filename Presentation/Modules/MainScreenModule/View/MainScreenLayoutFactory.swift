@@ -34,6 +34,20 @@ enum MainScreenLayoutFactory {
         return section
        
     }
+    
+    static func setTVSeriesLayout() -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(120), heightDimension: .estimated(240)), subitems: [item])
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 25)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+        section.orthogonalScrollingBehavior = .continuous
+        section.boundarySupplementaryItems = [setHeaderLayout()]
+        return section
+       
+    }
    
     static func setUpcomingMovieLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize:.init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))

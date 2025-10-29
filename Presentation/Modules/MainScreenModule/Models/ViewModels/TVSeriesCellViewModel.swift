@@ -21,7 +21,7 @@ struct TVSeriesCellViewModel: Hashable {
     let backdropURL: URL?
     var isFavorite: Bool
 
-    init(tvSeries: TVSeriesLists, genres: [TVGenres], isFavorite: Bool = false) {
+    init(tvSeries: TVSeriesLists, tvGenres: [TVGenres], isFavorite: Bool = false) {
         self.id = tvSeries.id
         self.title = tvSeries.name
         self.originalTitle = tvSeries.originalName
@@ -43,7 +43,7 @@ struct TVSeriesCellViewModel: Hashable {
         }
 
         // genres
-        let genreNames = genres
+        let genreNames = tvGenres
             .filter { tvSeries.genreIDs.contains($0.id) }
             .map { $0.name }
         self.genresText = genreNames.joined(separator: " / ")
