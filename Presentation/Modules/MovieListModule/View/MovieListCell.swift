@@ -85,6 +85,16 @@ class MovieListCell: UICollectionViewCell {
         
     }
     
+    func configureListCell(with seriesVM: TVSeriesCellViewModel) {
+        posterImage.image = seriesVM.posterImage
+        voteAverageLabel.text = seriesVM.ratingText
+        movieId = seriesVM.id
+
+        let posterName = seriesVM.isFavorite ? "heart.fill" : "heart"
+        favoriteButton.setImage(UIImage(systemName: posterName), for: .normal)
+        favoriteButton.tintColor = .systemRed
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

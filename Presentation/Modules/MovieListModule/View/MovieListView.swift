@@ -10,6 +10,7 @@ import UIKit
 protocol MovieListViewProtocol: AnyObject {
     func setTitle(_ text: String)
     func updateMovies(_ movies: [MovieCellViewModel])
+    func updateSeries(_ series: [TVSeriesCellViewModel])
     func updateFavoriteState(at index: Int, isFavorite: Bool)
 }
 
@@ -17,6 +18,7 @@ class MovieListView: UIViewController {
     
     var presenter: MovieListPresenterProtocol!
     private var movies: [MovieCellViewModel] = []
+    private var series: [TVSeriesCellViewModel] = []
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -48,16 +50,16 @@ class MovieListView: UIViewController {
         presenter.viewDidLoad()
     }
     
-    @objc private func didTapBack() {
-        navigationController?.popViewController(animated: true)
-        (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
-        print("TabBar появился")
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(true)
         (presenter as? MovieListPresenter)?.viewWillAppear()
+    }
+    
+    @objc private func didTapBack() {
+        navigationController?.popViewController(animated: true)
+        (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
+        print("TabBar появился")
     }
     
     private func setupConstraints() {
@@ -74,7 +76,7 @@ class MovieListView: UIViewController {
 extension MovieListView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        movies.count
+        return !series.isEmpty ? series.count : movies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -82,10 +84,12 @@ extension MovieListView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let movieVM = movies[indexPath.item]
-        cell.configureListCell(with: movieVM)
+        if !series.isEmpty {
+            cell.configureListCell(with: series[indexPath.item])
+        } else {
+            cell.configureListCell(with: movies[indexPath.item])
+        }
         
-        // проброс в презентер
         cell.onFavoriteTapped = { [weak self] id in
             (self?.presenter as? MovieListPresenter)?.toggleFavorite(for: id)
         }
@@ -108,7 +112,12 @@ extension MovieListView: MovieListViewProtocol {
     
     func updateMovies(_ movies: [MovieCellViewModel]) {
         self.movies = movies
-        
+        Task { @MainActor in
+            collectionView.reloadData()
+        }
+    }
+    func updateSeries(_ series: [TVSeriesCellViewModel]) {
+        self.series = series
         Task { @MainActor in
             collectionView.reloadData()
         }

@@ -55,7 +55,7 @@ final class TopMovieCell: UICollectionViewCell {
     func configureMovieCell(with movieVM: MovieCellViewModel) {
         imageViewMovie.image = movieVM.posterImage
         titleLabel.text = movieVM.title
-        originalTitleLabel.text = movieVM.originalTitle
+//        originalTitleLabel.text = movieVM.originalTitle
     }
     
     required init?(coder: NSCoder) {

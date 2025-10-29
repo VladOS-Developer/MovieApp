@@ -135,11 +135,19 @@ class Builder: BuilderProtocol {
         let genreRepository: GenreRepositoryProtocol = useMock
         ? MockGenreRepository.shared : GenreRepository(networkService: NetworkService(apiKey: apiKey))
         
+        let tvSeriesListsRepository: TVSeriesListsRepositoryProtocol = useMock
+        ? MockTVSeriesListsRepository.shared : TVSeriesListsRepository(networkService: NetworkService(apiKey: apiKey))
+        
+        let tvGenresRepository: TVGenresRepositoryProtocol = useMock
+        ? MockTVGenresRepository.shared : TVGenresRepository(networkService: NetworkService(apiKey: apiKey))
+        
         let presenter = MovieListPresenter(view: listView,
+                                           mode: mode,
+                                           imageLoader: imageLoader,
                                            movieRepository: movieRepository,
                                            genreRepository: genreRepository,
-                                           imageLoader: imageLoader,
-                                           mode: mode)
+                                           tvGenresRepository: tvGenresRepository,
+                                           tvSeriesListsRepository: tvSeriesListsRepository)
     
         listView.presenter = presenter
         return listView

@@ -19,7 +19,7 @@ class MainScreenView: UIViewController {
     var presenter: MainScreenPresenterProtocol!
     private var sections: [MainCollectionSection] = []
     
-// MARK: - TMDB Attribution View
+    // MARK: - TMDB Attribution View
     
     private let tmdbAttributionView: UIStackView = {
         let logo = UIImageView(image: UIImage(named: "tmdb_logo"))
@@ -31,16 +31,16 @@ class MainScreenView: UIViewController {
         label.text = "Data provided by TMDB"
         label.font = .systemFont(ofSize: 12)
         label.textColor = .appGray
-
+        
         let stack = UIStackView(arrangedSubviews: [logo, label])
         stack.axis = .horizontal
         stack.alignment = .center
         stack.spacing = 8
         return stack
     }()
-
-// MARK: - UIcollectionView
-
+    
+    // MARK: - UIcollectionView
+    
     lazy var collectionView: UICollectionView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .clear
@@ -78,12 +78,12 @@ class MainScreenView: UIViewController {
                 
             case .upcomingMovie:
                 return MainScreenLayoutFactory.setUpcomingMovieLayout()
-            
+                
             }
         }
     }
     
-// MARK: - viewDidLayoutSubviews
+    // MARK: - viewDidLayoutSubviews
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
@@ -91,15 +91,15 @@ class MainScreenView: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
     }
     
-// MARK: - viewDidLoad
-
+    // MARK: - viewDidLoad
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
         view.addSubview(tmdbAttributionView)
         tmdbAttributionView.translatesAutoresizingMaskIntoConstraints = false
         edgesForExtendedLayout = [.top]
-      
+        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -144,7 +144,7 @@ extension MainScreenView: UICollectionViewDataSource {
             }
             
             cell.onSettingsTapped = { [weak self] in
-                 self?.presenter.didTapSettings()
+                self?.presenter.didTapSettings()
             }
             return cell
             
@@ -206,13 +206,13 @@ extension MainScreenView: UICollectionViewDataSource {
             default: break
             }
             return cell
-        
+            
         }
     }
     
     
-// MARK: - viewForSupplementaryElementOfKind
-
+    // MARK: - viewForSupplementaryElementOfKind
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainSectionHeaderView.reuseId, for: indexPath) as? MainSectionHeaderView else {
             return UICollectionReusableView()

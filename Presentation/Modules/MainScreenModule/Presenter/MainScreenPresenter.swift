@@ -215,6 +215,8 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
             router.showMovieList(mode: .top10)
         case .upcomingMovie:
             router.showMovieList(mode: .upcoming)
+        case .tvSeries:
+            router.showMovieList(mode: .tvSeries)
         default: break
         }
     }

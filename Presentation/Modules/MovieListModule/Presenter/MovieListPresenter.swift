@@ -8,43 +8,60 @@
 import UIKit
 
 protocol MovieListPresenterProtocol: AnyObject {
-    init(view: MovieListViewProtocol,
-         movieRepository: MovieRepositoryProtocol,
-         genreRepository: GenreRepositoryProtocol,
-         imageLoader: ImageLoaderProtocol,
-         mode: MovieListMode)
     
     func viewDidLoad()
     func viewWillAppear()
     func didSelectItem(at index: Int)
+    
+    init(view: MovieListViewProtocol,
+         mode: MovieListMode,
+         imageLoader: ImageLoaderProtocol,
+         
+         movieRepository: MovieRepositoryProtocol,
+         genreRepository: GenreRepositoryProtocol,
+         tvGenresRepository: TVGenresRepositoryProtocol,
+         tvSeriesListsRepository: TVSeriesListsRepositoryProtocol)
 }
 
 class MovieListPresenter: MovieListPresenterProtocol {
     
     private weak var view: MovieListViewProtocol?
-    private let movieRepository: MovieRepositoryProtocol
-    private let genreRepository: GenreRepositoryProtocol
+    public let mode: MovieListMode
     private let imageLoader: ImageLoaderProtocol
     
-    private let mode: MovieListMode
-    private var movies: [Movie] = []
-    private var movieViewModel: [MovieCellViewModel] = []
-    private var allGenres: [Genres] = []
+    private let movieRepository: MovieRepositoryProtocol
+    private let genreRepository: GenreRepositoryProtocol
+    private let tvGenresRepository: TVGenresRepositoryProtocol
+    private let tvSeriesListsRepository: TVSeriesListsRepositoryProtocol
     
-    private let favoritesStorage = FavoritesStorage()//
+    private var movies: [Movie] = []
+    private var genres: [Genres] = []
+    private var movieViewModel: [MovieCellViewModel] = []
+    
+    private var tvSeries: [TVSeriesLists] = []
+    private var tvGenres: [TVGenres] = []
+    private var seriesViewModel: [TVSeriesCellViewModel] = []
+    
+    private let favoritesStorage = FavoritesStorage()
     
     required init(view: MovieListViewProtocol,
+                  mode: MovieListMode,
+                  imageLoader: ImageLoaderProtocol,
+                  
                   movieRepository: MovieRepositoryProtocol,
                   genreRepository: GenreRepositoryProtocol,
-                  imageLoader: ImageLoaderProtocol,
-                  mode: MovieListMode) {
+                  tvGenresRepository: TVGenresRepositoryProtocol,
+                  tvSeriesListsRepository: TVSeriesListsRepositoryProtocol) {
         
         self.view = view
-        self.movieRepository = movieRepository
-        self.genreRepository = genreRepository
+        self.mode = mode
         self.imageLoader = imageLoader
         
-        self.mode = mode
+        self.movieRepository = movieRepository
+        self.genreRepository = genreRepository
+        self.tvGenresRepository = tvGenresRepository
+        self.tvSeriesListsRepository = tvSeriesListsRepository
+        
     }
     
     //MARK: - viewDidLoad
@@ -54,93 +71,102 @@ class MovieListPresenter: MovieListPresenterProtocol {
         
         Task { [weak self] in
             guard let self else { return }
-            await self.loadMovies()
+            await self.loadContext()
         }
     }
     
     //MARK: - viewWillAppear
-    
+
     func viewWillAppear() {
-        
         Task {
-            // пересобираем список с актуальными состояниями
-            movieViewModel = await movies.asyncMap { movie in
-                var movieVM = MovieCellViewModel(
-                    movie: movie,
-                    genres: allGenres,
-                    isFavorite: favoritesStorage.isFavorite(id: Int32(movie.id))
-                )
-                // подгружаем постер, если его нет в памяти
-                if movieVM.posterImage == nil {
-                    movieVM.posterImage = await imageLoader.loadImage(
-                        from: movieVM.posterURL,
-                        localName: movie.posterPath,
-                        isLocal: movie.isLocalImage
-                    )
-                }
-                return movieVM
-            }
-            
-            await MainActor.run {
-                view?.updateMovies(movieViewModel)
-            }
+            await buildViewModels()
         }
     }
-    
-    //MARK: - loadMovies
-    
-    private func loadMovies() async {
-        do {
-            // Параллельный запуск загрузки жанров
-            async let genresTask = genreRepository.fetchGenres()
-            let moviesTask: [Movie]
-            
-            switch mode {
-            case .top10:
-                let top = try await movieRepository.fetchTopMovies()
-                moviesTask = Array(top.prefix(20))
-                
-            case .upcoming:
-                moviesTask = try await movieRepository.fetchUpcomingMovies()
-                
-            case .genre(let id, _):
-                moviesTask = try await movieRepository.fetchMovies(byGenre: id, page: 1)
-            }
-            
-            // Синхронизация результатов завершения обеих асинхронных задач
-            let (genres, movies) = try await (genresTask, moviesTask)
-            
-            // Сохраняем данные в свойства презентера
-            self.allGenres = genres
-            self.movies = movies
-            
-            // Асинхронная сборка ViewModel
-            let viewModels: [MovieCellViewModel] = await movies.asyncMap { movie in
-                var movieVM = MovieCellViewModel(
-                    movie: movie,
-                    genres: genres,
-                    isFavorite: favoritesStorage.isFavorite(id: Int32(movie.id))
-                )
-                
+
+    private func buildViewModels() async {
+        // Movies
+        movieViewModel = await movies.asyncMap { movie in
+            var movieVM = MovieCellViewModel(
+                movie: movie,
+                genres: genres,
+                isFavorite: favoritesStorage.isFavorite(id: Int32(movie.id))
+            )
+            if movieVM.posterImage == nil {
                 movieVM.posterImage = await imageLoader.loadImage(
                     from: movieVM.posterURL,
                     localName: movie.posterPath,
                     isLocal: movie.isLocalImage
                 )
-                return movieVM
             }
-            
-            // Сохраняем готовые ViewModel
-            self.movieViewModel = viewModels
-            
-            // Обновляем UI на главном потоке
-            await MainActor.run {
-                view?.updateMovies(viewModels)
+            return movieVM
+        }
+
+        // TVSeries
+        seriesViewModel = await tvSeries.asyncMap { series in
+            var seriesVM = TVSeriesCellViewModel(tvSeries: series, tvGenres: [])
+            if seriesVM.posterImage == nil {
+                seriesVM.posterImage = await imageLoader.loadImage(
+                    from: seriesVM.posterURL,
+                    localName: series.posterPath,
+                    isLocal: series.isLocalImage
+                )
             }
+            return seriesVM
+        }
+
+        await MainActor.run {
+            switch mode {
+            case .tvSeries:
+                view?.updateSeries(seriesViewModel)
+            default:
+                view?.updateMovies(movieViewModel)
+            }
+        }
+    }
+    
+    
+    //MARK: - loadContext
+    
+    private func loadContext() async {
+        do {
+            async let genresTask = genreRepository.fetchGenres()
+            async let tvGenresTask = tvGenresRepository.fetchTVGenres()
+            let moviesTask: [Movie]
+            let tvSeriesTask: [TVSeriesLists]
+
+            switch mode {
+            case .top10:
+                moviesTask = Array(try await movieRepository.fetchTopMovies().prefix(20))
+                tvSeriesTask = []
+                
+            case .upcoming:
+                moviesTask = try await movieRepository.fetchUpcomingMovies()
+                tvSeriesTask = []
+                
+            case .genre(let id, _):
+                moviesTask = try await movieRepository.fetchMovies(byGenre: id, page: 1)
+                tvSeriesTask = []
+                
+            case .tvSeries:
+                moviesTask = []
+                tvSeriesTask = try await tvSeriesListsRepository.fetchTVSeriesLists()
+            }
+
+            let (genres, tvGenres, movies, tvSeries) = try await (genresTask, tvGenresTask, moviesTask, tvSeriesTask)
+
+            self.genres = genres
+            self.movies = movies
+            self.tvSeries = tvSeries
+            self.tvGenres = tvGenres
+            
+            print("Movies: \(movies.count), Series: \(tvSeries.count)")
+            
+            await buildViewModels()
             
         } catch {
-            print("Ошибка загрузки фильмов: \(error)")
+            print("Ошибка загрузки фильмов/сериалов: \(error)")
         }
+        
     }
     
     //MARK: - didSelectItem
@@ -152,6 +178,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
         let moviePageVC = Builder.createMoviePageController(movieId: movie.id, movieTitle: movie.title)
         (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
     }
+    
     
     //MARK: - toggleFavorite
     
@@ -176,6 +203,4 @@ class MovieListPresenter: MovieListPresenterProtocol {
         view?.updateFavoriteState(at: index, isFavorite: movieViewModel[index].isFavorite)
     }
     
-    
 }
-

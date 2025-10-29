@@ -24,7 +24,7 @@ enum MainScreenLayoutFactory {
     static func setTopMovieLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
         
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(120), heightDimension: .estimated(240)), subitems: [item])
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(120), heightDimension: .absolute(180)), subitems: [item])
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 25)
         
         let section = NSCollectionLayoutSection(group: group)
@@ -38,7 +38,7 @@ enum MainScreenLayoutFactory {
     static func setTVSeriesLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
         
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(120), heightDimension: .estimated(240)), subitems: [item])
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(120), heightDimension: .absolute(180)), subitems: [item])
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 25)
         
         let section = NSCollectionLayoutSection(group: group)
@@ -52,7 +52,7 @@ enum MainScreenLayoutFactory {
     static func setUpcomingMovieLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize:.init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
                 
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(280), heightDimension: .estimated(150)), subitems: [item])
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(280), heightDimension: .absolute(150)), subitems: [item])
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 25)
         
         let section = NSCollectionLayoutSection(group: group)

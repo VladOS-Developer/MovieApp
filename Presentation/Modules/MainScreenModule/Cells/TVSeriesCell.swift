@@ -55,7 +55,7 @@ final class TVSeriesCell: UICollectionViewCell {
     func configureTVSeriesCell(with seriesVM: TVSeriesCellViewModel) {
         imageViewMovie.image = seriesVM.posterImage
         titleLabel.text = seriesVM.title
-        originalTitleLabel.text = seriesVM.originalTitle
+//        originalTitleLabel.text = seriesVM.originalTitle
     }
     
     required init?(coder: NSCoder) {
