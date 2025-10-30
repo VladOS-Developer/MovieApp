@@ -1,5 +1,5 @@
 //
-//  TVSeriesLists.swift
+//  TVSeries.swift
 //  MovieApp
 //
 //  Created by VladOS on 28.10.2025.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TVSeriesLists: Hashable {
+struct TVSeries: Hashable {
     
     let id: Int
     let name: String
@@ -21,9 +21,9 @@ struct TVSeriesLists: Hashable {
     let isLocalImage: Bool
 }
 
-extension TVSeriesLists {
+extension TVSeries {
     
-    init(dto: TVSeriesListsDTO) {
+    init(dto: TVSeriesDTO) {
         self.id = dto.id
         self.name = dto.name
         self.originalName = dto.originalName
@@ -37,9 +37,9 @@ extension TVSeriesLists {
         
     }
     
-    static func mockSeriesList() -> [TVSeriesLists] {
+    static func mockSeriesList() -> [TVSeries] {
             return [
-                TVSeriesLists(
+                TVSeries(
                     id: 1399,name: "Game of Thrones",
                     originalName: "Game of Thrones",
                     posterPath: "series1",
@@ -51,7 +51,7 @@ extension TVSeriesLists {
                     isLocalImage: true
                 ),
                 
-                TVSeriesLists(
+                TVSeries(
                     id: 1396,
                     name: "Breaking Bad",
                     originalName: "Breaking Bad",
@@ -64,7 +64,7 @@ extension TVSeriesLists {
                     isLocalImage: true
                 ),
                 
-                TVSeriesLists(
+                TVSeries(
                     id: 66732,
                     name: "Stranger Things",
                     originalName: "Stranger Things",
@@ -77,7 +77,7 @@ extension TVSeriesLists {
                     isLocalImage: true
                 ),
                 
-                TVSeriesLists(
+                TVSeries(
                     id: 1402,
                     name: "The Walking Dead",
                     originalName: "The Walking Dead",

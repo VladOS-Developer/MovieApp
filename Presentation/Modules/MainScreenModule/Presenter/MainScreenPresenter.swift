@@ -22,7 +22,7 @@ protocol MainScreenPresenterProtocol: AnyObject {
          movieRepository: MovieRepositoryProtocol,
          genreRepository: GenreRepositoryProtocol,
          tvGenresRepository: TVGenresRepositoryProtocol,
-         tvSeriesListsRepository: TVSeriesListsRepositoryProtocol)
+         tvSeriesListsRepository: TVSeriesRepositoryProtocol)
 }
 
 class MainScreenPresenter {
@@ -36,7 +36,7 @@ class MainScreenPresenter {
     private let movieRepository: MovieRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
     private let tvGenresRepository: TVGenresRepositoryProtocol
-    private let tvSeriesListsRepository: TVSeriesListsRepositoryProtocol
+    private let tvSeriesListsRepository: TVSeriesRepositoryProtocol
     
     private var sections: [MainCollectionSection] = []
     
@@ -50,7 +50,7 @@ class MainScreenPresenter {
                   movieRepository: MovieRepositoryProtocol,
                   genreRepository: GenreRepositoryProtocol,
                   tvGenresRepository: TVGenresRepositoryProtocol,
-                  tvSeriesListsRepository: TVSeriesListsRepositoryProtocol) {
+                  tvSeriesListsRepository: TVSeriesRepositoryProtocol) {
         
         self.view = view
         self.router = router
@@ -81,37 +81,28 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
                 
                 // Top rated
                 let topItems: [MainCollectionItem] = await topMovies.asyncMap { movie in
-                    
                     var viewModel = MovieCellViewModel(movie: movie, genres: genres)
-                    viewModel.posterImage = await imageLoader.loadImage(
-                        from: viewModel.posterURL,
-                        localName: movie.posterPath,
-                        isLocal: movie.isLocalImage
-                    )
+                    viewModel.posterImage = await imageLoader.loadImage(from: viewModel.posterURL,
+                                                                        localName: movie.posterPath,
+                                                                        isLocal: movie.isLocalImage)
                     return .movie(viewModel)
                 }
                 
                 // TV Series
                 let seriesItems: [MainCollectionItem] = await tvSeries.asyncMap { tvSeries in
-                    
                     var viewModel = TVSeriesCellViewModel(tvSeries: tvSeries, tvGenres: tvGenres)
-                    viewModel.posterImage = await imageLoader.loadImage(
-                        from: viewModel.posterURL,
-                        localName: tvSeries.posterPath,
-                        isLocal: tvSeries.isLocalImage
-                    )
+                    viewModel.posterImage = await imageLoader.loadImage(from: viewModel.posterURL,
+                                                                        localName: tvSeries.posterPath,
+                                                                        isLocal: tvSeries.isLocalImage)
                     return .tvSeries(viewModel)
                 }
                 
                 // Upcoming
                 let upcomingItems: [MainCollectionItem] = await upcomingMovies.asyncMap { movie in
-                    
                     var viewModel = MovieCellViewModel(movie: movie, genres: genres)
-                    viewModel.posterImage = await imageLoader.loadImage(
-                        from: viewModel.posterURL,
-                        localName: movie.posterPath,
-                        isLocal: movie.isLocalImage
-                    )
+                    viewModel.posterImage = await imageLoader.loadImage(from: viewModel.posterURL,
+                                                                        localName: movie.posterPath,
+                                                                        isLocal: movie.isLocalImage)
                     return .movie(viewModel)
                 }
                 
@@ -169,34 +160,43 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
     }
     
     //MARK: - performSearch
-    
+
     private func performSearch(_ query: String) {
         currentSearchTask?.cancel()
         
         currentSearchTask = Task {
             do {
-                let genres = try await genreRepository.fetchGenres()
-                let results = try await movieRepository.searchMovies(query: query, page: 1)
+                async let genresResult = genreRepository.fetchGenres()
+                async let tvGenresResult = tvGenresRepository.fetchTVGenres()
+                async let movieResults = movieRepository.searchMovies(query: query, page: 1)
+                async let tvSeriesResults = tvSeriesListsRepository.searchTVSeries(query: query, page: 1)
                 
-                let items: [MainCollectionItem] = await results.asyncMap { movie in
-                    
-                    var viewModel = MovieCellViewModel(movie: movie, genres: genres)
-                    
-                    viewModel.posterImage = await imageLoader.loadImage(
-                        from: viewModel.posterURL,
-                        localName: movie.posterPath,
-                        isLocal: movie.isLocalImage
-                    )
-                    return .movie(viewModel)
+                let (genres, tvGenres, movies, series) = try await (genresResult, tvGenresResult, movieResults, tvSeriesResults)
+                
+                let movieItems: [MainCollectionItem] = await movies.asyncMap { movie in
+                    var movieVM = MovieCellViewModel(movie: movie, genres: genres)
+                    movieVM.posterImage = await imageLoader.loadImage(from: movieVM.posterURL,
+                                                                      localName: movie.posterPath,
+                                                                      isLocal: movie.isLocalImage)
+                    return .movie(movieVM)
                 }
+                
+                let seriesItems: [MainCollectionItem] = await series.asyncMap { series in
+                    var seriesVM = TVSeriesCellViewModel(tvSeries: series, tvGenres: tvGenres)
+                    seriesVM.posterImage = await imageLoader.loadImage(from: seriesVM.posterURL,
+                                                                       localName: series.posterPath,
+                                                                       isLocal: series.isLocalImage)
+                    return .tvSeries(seriesVM)
+                }
+                
+                let allResultItems = movieItems + seriesItems
                 
                 await MainActor.run {
-                    self.view?.reloadSearchResultsSection(with: items)
+                    self.view?.reloadSearchResultsSection(with: allResultItems)
                 }
+                
             } catch {
                 if !Task.isCancelled {
-                    print("Search failed: \(error)")
-                    
                     await MainActor.run {
                         self.view?.reloadSearchResultsSection(with: [])
                     }

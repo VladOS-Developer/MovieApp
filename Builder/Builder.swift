@@ -70,8 +70,8 @@ class Builder: BuilderProtocol {
         let genreRepository: GenreRepositoryProtocol = useMock
         ? MockGenreRepository.shared : GenreRepository(networkService: NetworkService(apiKey: apiKey))
         
-        let tvSeriesListsRepository: TVSeriesListsRepositoryProtocol = useMock
-        ? MockTVSeriesListsRepository.shared : TVSeriesListsRepository(networkService: NetworkService(apiKey: apiKey))
+        let tvSeriesListsRepository: TVSeriesRepositoryProtocol = useMock
+        ? MockTVSeriesRepository.shared : TVSeriesRepository(networkService: NetworkService(apiKey: apiKey))
         
         let tvGenresRepository: TVGenresRepositoryProtocol = useMock
         ? MockTVGenresRepository.shared : TVGenresRepository(networkService: NetworkService(apiKey: apiKey))
@@ -135,8 +135,8 @@ class Builder: BuilderProtocol {
         let genreRepository: GenreRepositoryProtocol = useMock
         ? MockGenreRepository.shared : GenreRepository(networkService: NetworkService(apiKey: apiKey))
         
-        let tvSeriesListsRepository: TVSeriesListsRepositoryProtocol = useMock
-        ? MockTVSeriesListsRepository.shared : TVSeriesListsRepository(networkService: NetworkService(apiKey: apiKey))
+        let tvSeriesListsRepository: TVSeriesRepositoryProtocol = useMock
+        ? MockTVSeriesRepository.shared : TVSeriesRepository(networkService: NetworkService(apiKey: apiKey))
         
         let tvGenresRepository: TVGenresRepositoryProtocol = useMock
         ? MockTVGenresRepository.shared : TVGenresRepository(networkService: NetworkService(apiKey: apiKey))

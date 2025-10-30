@@ -21,7 +21,8 @@ enum PageCollectionItem: Hashable {
         case .genre(let vm): return String(vm.id)
         case .video(let vm): return String(vm.id)
         case .similarMovie(let vm): return String(vm.id)
-        case .cast(let vm): return String(vm.id)            // "cast_\(vm.id)" чтобы избежать коллизий идентификаторов
+//        case .cast(let vm): return String(vm.id)            // "cast_\(vm.id)" чтобы избежать коллизий идентификаторов
+        case .cast(let vm): return "cast_\(vm.id)"
         }
     }
     

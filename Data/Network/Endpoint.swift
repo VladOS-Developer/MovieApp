@@ -21,6 +21,7 @@ enum Endpoint {
     case movieDetails(Int)
     case trendingMovies(page: Int)
     case searchMovies(query: String, page: Int)
+    case searchTVSeries(query: String, page: Int)
     case tvTopRated(page: Int)
     case tvGenres
     
@@ -70,6 +71,10 @@ enum Endpoint {
             
         case .tvGenres:
             return "/genre/tv/list"
+            
+        case .searchTVSeries:
+            return "/search/tv"
+            
         }
     }
     
@@ -89,7 +94,8 @@ enum Endpoint {
                 URLQueryItem(name: "page", value: "\(page)")
             ]
             
-        case .searchMovies(let query, let page):
+        case .searchMovies(let query, let page),
+             .searchTVSeries(let query, let page):
             return [
                 URLQueryItem(name: "query", value: query),
                 URLQueryItem(name: "page", value: "\(page)")

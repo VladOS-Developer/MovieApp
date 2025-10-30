@@ -81,10 +81,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     func getMoviesData() {
         Task {
             do {
-                // 1) Загружаем жанры
                 let genres = try await genreRepository.fetchGenres()
-                
-                // 2) Пытаемся найти фильм в топ/апкоминг
                 let topDetails = try await movieDetailsRepository.fetchTopMovieDetails(page: 1)
                 let upcomingDetails = try await movieDetailsRepository.fetchUpcomingMovieDetails(page: 1)
                 let allDetails = topDetails + upcomingDetails
@@ -189,7 +186,6 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                     // More like this
                     let similar = try await movieSimilarRepository.fetchSimilarMovie(for: movieId)
                     
-                    // Формируем viewModels и подгружаем постеры асинхронно
                     let similarItems: [PageCollectionItem] = await similar.asyncMap { movieSimilar in
                         
                         var movieSimilarVM = MovieSimilarCellViewModel(movieSimilar: movieSimilar)
@@ -215,7 +211,6 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                     // Cast and Crew
                     let credits = try await movieCreditsRepository.fetchCredits(for: movieId)
                     
-                    // Подгружаем профайлы актёров (если есть)
                     let castItems: [PageCollectionItem] = await credits.cast.asyncMap { castMember in
                         
                         var castVM = CastCellViewModel(cast: castMember)

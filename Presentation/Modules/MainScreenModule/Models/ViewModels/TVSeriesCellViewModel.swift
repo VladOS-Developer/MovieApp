@@ -21,7 +21,7 @@ struct TVSeriesCellViewModel: Hashable {
     let backdropURL: URL?
     var isFavorite: Bool
 
-    init(tvSeries: TVSeriesLists, tvGenres: [TVGenres], isFavorite: Bool = false) {
+    init(tvSeries: TVSeries, tvGenres: [TVGenres], isFavorite: Bool = false) {
         self.id = tvSeries.id
         self.title = tvSeries.name
         self.originalTitle = tvSeries.originalName

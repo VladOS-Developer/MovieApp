@@ -20,7 +20,7 @@ protocol MovieListPresenterProtocol: AnyObject {
          movieRepository: MovieRepositoryProtocol,
          genreRepository: GenreRepositoryProtocol,
          tvGenresRepository: TVGenresRepositoryProtocol,
-         tvSeriesListsRepository: TVSeriesListsRepositoryProtocol)
+         tvSeriesListsRepository: TVSeriesRepositoryProtocol)
 }
 
 class MovieListPresenter: MovieListPresenterProtocol {
@@ -32,13 +32,13 @@ class MovieListPresenter: MovieListPresenterProtocol {
     private let movieRepository: MovieRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
     private let tvGenresRepository: TVGenresRepositoryProtocol
-    private let tvSeriesListsRepository: TVSeriesListsRepositoryProtocol
+    private let tvSeriesListsRepository: TVSeriesRepositoryProtocol
     
     private var movies: [Movie] = []
     private var genres: [Genres] = []
     private var movieViewModel: [MovieCellViewModel] = []
     
-    private var tvSeries: [TVSeriesLists] = []
+    private var tvSeries: [TVSeries] = []
     private var tvGenres: [TVGenres] = []
     private var seriesViewModel: [TVSeriesCellViewModel] = []
     
@@ -51,7 +51,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
                   movieRepository: MovieRepositoryProtocol,
                   genreRepository: GenreRepositoryProtocol,
                   tvGenresRepository: TVGenresRepositoryProtocol,
-                  tvSeriesListsRepository: TVSeriesListsRepositoryProtocol) {
+                  tvSeriesListsRepository: TVSeriesRepositoryProtocol) {
         
         self.view = view
         self.mode = mode
@@ -134,7 +134,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
             async let genresTask = genreRepository.fetchGenres()
             async let tvGenresTask = tvGenresRepository.fetchTVGenres()
             let moviesTask: [Movie]
-            let tvSeriesTask: [TVSeriesLists]
+            let tvSeriesTask: [TVSeries]
 
             switch mode {
             case .top10:
