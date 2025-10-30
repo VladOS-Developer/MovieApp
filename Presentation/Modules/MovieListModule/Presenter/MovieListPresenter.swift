@@ -83,6 +83,8 @@ class MovieListPresenter: MovieListPresenterProtocol {
         }
     }
 
+    //MARK: - buildViewModels
+
     private func buildViewModels() async {
         // Movies
         movieViewModel = await movies.asyncMap { movie in
@@ -136,7 +138,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
 
             switch mode {
             case .top10:
-                moviesTask = Array(try await movieRepository.fetchTopMovies().prefix(20))
+                moviesTask = try await movieRepository.fetchTopMovies()
                 tvSeriesTask = []
                 
             case .upcoming:
@@ -182,25 +184,45 @@ class MovieListPresenter: MovieListPresenterProtocol {
     
     //MARK: - toggleFavorite
     
-    func toggleFavorite(for movieId: Int) {
-        guard let index = movies.firstIndex(where: { $0.id == movieId }) else { return }
-        let movie = movies[index]
+    func toggleFavorite(for id: Int) {
         
-        if favoritesStorage.isFavorite(id: Int32(movieId)) {
-            favoritesStorage.removeFavorite(id: Int32(movieId))
-        } else {
-            favoritesStorage.addFavorite(
-                id: Int32(movie.id),
-                title: movie.title,
-                posterPath: movie.posterPath ?? "",
-                voteAverage: movie.voteAverage ?? 0
-            )
+        switch mode {
+        case .tvSeries:
+            guard let index = tvSeries.firstIndex(where: { $0.id == id }) else { return }
+            let series = tvSeries[index]
+            
+            if favoritesStorage.isFavorite(id: Int32(id)) {
+                favoritesStorage.removeFavorite(id: Int32(id))
+            } else {
+                favoritesStorage.addFavorite(
+                    id: Int32(series.id),
+                    title: series.name,
+                    posterPath: series.posterPath ?? "",
+                    voteAverage: series.voteAverage ?? 0
+                )
+            }
+            
+            seriesViewModel[index].isFavorite = favoritesStorage.isFavorite(id: Int32(id))
+            view?.updateFavoriteState(at: index, isFavorite: seriesViewModel[index].isFavorite)
+            
+        default:  // фильмы
+            guard let index = movies.firstIndex(where: { $0.id == id }) else { return }
+            let movie = movies[index]
+            
+            if favoritesStorage.isFavorite(id: Int32(id)) {
+                favoritesStorage.removeFavorite(id: Int32(id))
+            } else {
+                favoritesStorage.addFavorite(
+                    id: Int32(movie.id),
+                    title: movie.title,
+                    posterPath: movie.posterPath ?? "",
+                    voteAverage: movie.voteAverage ?? 0
+                )
+            }
+            
+            movieViewModel[index].isFavorite = favoritesStorage.isFavorite(id: Int32(id))
+            view?.updateFavoriteState(at: index, isFavorite: movieViewModel[index].isFavorite)
         }
-        
-        movieViewModel[index].isFavorite = favoritesStorage.isFavorite(id: Int32(movieId))
-        
-        // Обновляем конкретную ячейку напрямую через view
-        view?.updateFavoriteState(at: index, isFavorite: movieViewModel[index].isFavorite)
     }
     
 }

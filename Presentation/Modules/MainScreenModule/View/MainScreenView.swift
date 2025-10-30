@@ -22,7 +22,7 @@ class MainScreenView: UIViewController {
     // MARK: - TMDB Attribution View
     
     private let tmdbAttributionView: UIStackView = {
-        let logo = UIImageView(image: UIImage(named: "tmdb_logo"))
+        let logo = UIImageView(image: UIImage(named: "tmdbLogo"))
         logo.widthAnchor.constraint(equalToConstant: 60).isActive = true
         logo.heightAnchor.constraint(equalToConstant: 24).isActive = true
         logo.contentMode = .scaleAspectFit

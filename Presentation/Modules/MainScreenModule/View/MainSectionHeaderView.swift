@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MainSectionHeaderViewDelegate: AnyObject {
-    func didTapSeeAllButton(in section: Int) //
+    func didTapSeeAllButton(in section: Int)
 }
 
 class MainSectionHeaderView: UICollectionReusableView {
@@ -34,7 +34,7 @@ class MainSectionHeaderView: UICollectionReusableView {
         return $0
     }(UIButton(type: .system))
     
-    @objc private func seeAllTapped() { //
+    @objc private func seeAllTapped() {
         delegate?.didTapSeeAllButton(in: sectionIndex)
     }
     
