@@ -27,12 +27,12 @@ final class MovieRepository: MovieRepositoryProtocol {
     }
     
     func fetchMovies(byGenre id: Int, page: Int) async throws -> [Movie] {
-        let response: TopRatedResponseDTO = try await networkService.request(.moviesByGenre(id, page: 1))
+        let response: TopRatedResponseDTO = try await networkService.request(.moviesByGenre(id, page: page))
         return response.results.map { Movie(dto: $0) }
     }
     
     func searchMovies(query: String, page: Int) async throws -> [Movie] {
-        let response: TopRatedResponseDTO = try await networkService.request(.searchMovies(query: query, page: 1))
+        let response: TopRatedResponseDTO = try await networkService.request(.searchMovies(query: query, page: page))
         return response.results.map { Movie(dto: $0) }
     }
     

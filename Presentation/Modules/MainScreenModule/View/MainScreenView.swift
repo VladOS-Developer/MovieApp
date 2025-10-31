@@ -153,10 +153,15 @@ extension MainScreenView: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             
-            if case .movie(let vm) = item {
-                cell.configureResultCell(with: vm)
-            }
-            return cell
+            switch item {
+                case .movie(let movieVM):
+                    cell.configureResultCell(with: movieVM)
+                case .tvSeries(let searchVM):
+                    cell.configureResultCell(with: searchVM) // ✅ используем тот же метод
+                default:
+                    break
+                }
+                return cell
             
         case .genresMovie:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GenreMovieCell.reuseId, for: indexPath) as? GenreMovieCell else {

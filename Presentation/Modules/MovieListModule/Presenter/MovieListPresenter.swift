@@ -20,7 +20,7 @@ protocol MovieListPresenterProtocol: AnyObject {
          movieRepository: MovieRepositoryProtocol,
          genreRepository: GenreRepositoryProtocol,
          tvGenresRepository: TVGenresRepositoryProtocol,
-         tvSeriesListsRepository: TVSeriesRepositoryProtocol)
+         tvSeriesRepository: TVSeriesRepositoryProtocol)
 }
 
 class MovieListPresenter: MovieListPresenterProtocol {
@@ -51,7 +51,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
                   movieRepository: MovieRepositoryProtocol,
                   genreRepository: GenreRepositoryProtocol,
                   tvGenresRepository: TVGenresRepositoryProtocol,
-                  tvSeriesListsRepository: TVSeriesRepositoryProtocol) {
+                  tvSeriesRepository: TVSeriesRepositoryProtocol) {
         
         self.view = view
         self.mode = mode
@@ -60,7 +60,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
         self.movieRepository = movieRepository
         self.genreRepository = genreRepository
         self.tvGenresRepository = tvGenresRepository
-        self.tvSeriesListsRepository = tvSeriesListsRepository
+        self.tvSeriesListsRepository = tvSeriesRepository
         
     }
     
@@ -151,7 +151,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
                 
             case .tvSeries:
                 moviesTask = []
-                tvSeriesTask = try await tvSeriesListsRepository.fetchTVSeriesLists()
+                tvSeriesTask = try await tvSeriesListsRepository.fetchTVSeriesTopRate(page: 1)
             }
 
             let (genres, tvGenres, movies, tvSeries) = try await (genresTask, tvGenresTask, moviesTask, tvSeriesTask)
@@ -173,14 +173,28 @@ class MovieListPresenter: MovieListPresenterProtocol {
     
     //MARK: - didSelectItem
     
+//    func didSelectItem(at index: Int) {
+//        let movie = movies[index]
+//        // проверяем id
+//        print("DEBUG: opening movie with id =", movie.id)
+//        let moviePageVC = Builder.createMoviePageController(id: movie.id, title: movie.title)
+//        (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
+//    }
     func didSelectItem(at index: Int) {
-        let movie = movies[index]
-        // проверяем id
-        print("DEBUG: opening movie with id =", movie.id)
-        let moviePageVC = Builder.createMoviePageController(movieId: movie.id, movieTitle: movie.title)
-        (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
+        
+        switch mode {
+        case .tvSeries:
+            let tvSeries = tvSeries[index]
+            let moviePageVC = Builder.createMoviePageController(id: tvSeries.id, title: tvSeries.name)
+            (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
+        default:
+            let movie = movies[index]
+            // проверяем id
+            print("DEBUG: opening movie with id =", movie.id)
+            let moviePageVC = Builder.createMoviePageController(id: movie.id, title: movie.title)
+            (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
+        }
     }
-    
     
     //MARK: - toggleFavorite
     

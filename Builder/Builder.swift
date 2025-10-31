@@ -16,7 +16,7 @@ protocol BuilderProtocol {
     static func createFavoritesController() -> UIViewController
     
     static func createMovieListController(mode: MovieListMode) -> UIViewController
-    static func createMoviePageController(movieId: Int, movieTitle: String) -> UIViewController
+    static func createMoviePageController(id: Int, title: String) -> UIViewController
     static func createTrailerPlayerController(video: MovieVideo, movieTitle: String) -> UIViewController
     static func createActorPageController(actorTitle: String, actorId: Int) -> UIViewController
     static func createSettingsPageController() -> UIViewController
@@ -70,7 +70,7 @@ class Builder: BuilderProtocol {
         let genreRepository: GenreRepositoryProtocol = useMock
         ? MockGenreRepository.shared : GenreRepository(networkService: NetworkService(apiKey: apiKey))
         
-        let tvSeriesListsRepository: TVSeriesRepositoryProtocol = useMock
+        let tvSeriesRepository: TVSeriesRepositoryProtocol = useMock
         ? MockTVSeriesRepository.shared : TVSeriesRepository(networkService: NetworkService(apiKey: apiKey))
         
         let tvGenresRepository: TVGenresRepositoryProtocol = useMock
@@ -82,7 +82,7 @@ class Builder: BuilderProtocol {
                                             movieRepository: movieRepository,
                                             genreRepository: genreRepository,
                                             tvGenresRepository: tvGenresRepository,
-                                            tvSeriesListsRepository: tvSeriesListsRepository)
+                                            tvSeriesRepository: tvSeriesRepository)
         
         mainView.presenter = presenter
         router.viewController = mainView
@@ -135,7 +135,7 @@ class Builder: BuilderProtocol {
         let genreRepository: GenreRepositoryProtocol = useMock
         ? MockGenreRepository.shared : GenreRepository(networkService: NetworkService(apiKey: apiKey))
         
-        let tvSeriesListsRepository: TVSeriesRepositoryProtocol = useMock
+        let tvSeriesRepository: TVSeriesRepositoryProtocol = useMock
         ? MockTVSeriesRepository.shared : TVSeriesRepository(networkService: NetworkService(apiKey: apiKey))
         
         let tvGenresRepository: TVGenresRepositoryProtocol = useMock
@@ -147,14 +147,14 @@ class Builder: BuilderProtocol {
                                            movieRepository: movieRepository,
                                            genreRepository: genreRepository,
                                            tvGenresRepository: tvGenresRepository,
-                                           tvSeriesListsRepository: tvSeriesListsRepository)
+                                           tvSeriesRepository: tvSeriesRepository)
     
         listView.presenter = presenter
         return listView
     }
     
     //MARK: - MoviePage
-    static func createMoviePageController(movieId: Int, movieTitle: String) -> UIViewController {
+    static func createMoviePageController(id: Int, title: String) -> UIViewController {
         let pageView = MoviePageView()
         let router = MoviePageRouter()
         let imageLoader = KingfisherImageLoader()
@@ -182,8 +182,8 @@ class Builder: BuilderProtocol {
                                            movieVideoRepository: movieVideoRepository,
                                            movieSimilarRepository: movieSimilarRepository,
                                            movieCreditsRepository: movieCreditsRepository,
-                                           movieTitle: movieTitle,
-                                           movieId: movieId)
+                                           movieTitle: title,
+                                           movieId: id)
         
         pageView.presenter = presenter
         router.viewController = pageView

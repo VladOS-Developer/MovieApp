@@ -39,10 +39,16 @@ final class NetworkService: NetworkServiceProtocol {
             throw URLError(.badURL)
         }
         
+        // [DEBUG 1] логируем pathComponents
+        print("DEBUG: Request URL", url.pathComponents)
+        
         let (data, response) = try await URLSession.shared.data(from: url)
         guard let httpResponse = response as? HTTPURLResponse, 200..<300 ~= httpResponse.statusCode else {
             throw URLError(.badServerResponse)
         }
+        
+        // [DEBUG 2] логируем statusCode
+            print("DEBUG: Response status", httpResponse.statusCode)
         
         return try JSONDecoder().decode(T.self, from: data)
     }

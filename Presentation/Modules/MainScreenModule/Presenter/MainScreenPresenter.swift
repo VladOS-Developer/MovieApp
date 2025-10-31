@@ -18,25 +18,21 @@ protocol MainScreenPresenterProtocol: AnyObject {
     init(view: MainScreenViewProtocol,
          router: MainScreenRouterProtocol,
          imageLoader: ImageLoaderProtocol,
-         
          movieRepository: MovieRepositoryProtocol,
          genreRepository: GenreRepositoryProtocol,
          tvGenresRepository: TVGenresRepositoryProtocol,
-         tvSeriesListsRepository: TVSeriesRepositoryProtocol)
+         tvSeriesRepository: TVSeriesRepositoryProtocol)
 }
 
 class MainScreenPresenter {
-    
-    //TVSeriesListsRepositoryProtocol
-    
+        
     private weak var view: MainScreenViewProtocol?
     private let router: MainScreenRouterProtocol
     private let imageLoader: ImageLoaderProtocol
-    
     private let movieRepository: MovieRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
     private let tvGenresRepository: TVGenresRepositoryProtocol
-    private let tvSeriesListsRepository: TVSeriesRepositoryProtocol
+    private let tvSeriesRepository: TVSeriesRepositoryProtocol
     
     private var sections: [MainCollectionSection] = []
     
@@ -46,20 +42,18 @@ class MainScreenPresenter {
     required init(view: MainScreenViewProtocol,
                   router: MainScreenRouterProtocol,
                   imageLoader: ImageLoaderProtocol,
-                  
                   movieRepository: MovieRepositoryProtocol,
                   genreRepository: GenreRepositoryProtocol,
                   tvGenresRepository: TVGenresRepositoryProtocol,
-                  tvSeriesListsRepository: TVSeriesRepositoryProtocol) {
+                  tvSeriesRepository: TVSeriesRepositoryProtocol) {
         
         self.view = view
         self.router = router
         self.imageLoader = imageLoader
-        
         self.movieRepository = movieRepository
         self.genreRepository = genreRepository
         self.tvGenresRepository = tvGenresRepository
-        self.tvSeriesListsRepository = tvSeriesListsRepository
+        self.tvSeriesRepository = tvSeriesRepository
         
     }
 }
@@ -74,12 +68,12 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
                 async let genresTask = genreRepository.fetchGenres()
                 async let topMoviesTask = movieRepository.fetchTopMovies()
                 async let upcomingTask = movieRepository.fetchUpcomingMovies()
-                async let tvSeriesTask = tvSeriesListsRepository.fetchTVSeriesLists()
+                async let tvSeriesTask = tvSeriesRepository.fetchCombinedTVSeries()
                 async let tvGenresTask = tvGenresRepository.fetchTVGenres()
                 
-                let (genres, topMovies, upcomingMovies, tvSeries, tvGenres) = try await (genresTask, topMoviesTask, upcomingTask, tvSeriesTask, tvGenresTask)
+                let (genres, topMovies, upcomingMovies, tvSeriesCombo, tvGenres) = try await (genresTask, topMoviesTask, upcomingTask, tvSeriesTask, tvGenresTask)
                 
-                // Top rated
+                // Top Movies
                 let topItems: [MainCollectionItem] = await topMovies.asyncMap { movie in
                     var viewModel = MovieCellViewModel(movie: movie, genres: genres)
                     viewModel.posterImage = await imageLoader.loadImage(from: viewModel.posterURL,
@@ -89,7 +83,7 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
                 }
                 
                 // TV Series
-                let seriesItems: [MainCollectionItem] = await tvSeries.asyncMap { tvSeries in
+                let seriesItems: [MainCollectionItem] = await tvSeriesCombo.asyncMap { tvSeries in
                     var viewModel = TVSeriesCellViewModel(tvSeries: tvSeries, tvGenres: tvGenres)
                     viewModel.posterImage = await imageLoader.loadImage(from: viewModel.posterURL,
                                                                         localName: tvSeries.posterPath,
@@ -169,9 +163,11 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
                 async let genresResult = genreRepository.fetchGenres()
                 async let tvGenresResult = tvGenresRepository.fetchTVGenres()
                 async let movieResults = movieRepository.searchMovies(query: query, page: 1)
-                async let tvSeriesResults = tvSeriesListsRepository.searchTVSeries(query: query, page: 1)
+                async let tvSeriesResults = tvSeriesRepository.searchTVSeries(query: query, page: 1)
                 
                 let (genres, tvGenres, movies, series) = try await (genresResult, tvGenresResult, movieResults, tvSeriesResults)
+                
+                print("DEBUG: presenter got \(series.count) series for query '\(query)'")
                 
                 let movieItems: [MainCollectionItem] = await movies.asyncMap { movie in
                     var movieVM = MovieCellViewModel(movie: movie, genres: genres)

@@ -15,7 +15,7 @@ final class ActorPageRouter: ActorPageRouterProtocol {
     weak var viewController: UIViewController?
     
     func openMoviePage(movieId: Int, movieTitle: String) {
-        let moviePageVC = Builder.createMoviePageController(movieId: movieId, movieTitle: movieTitle)
+        let moviePageVC = Builder.createMoviePageController(id: movieId, title: movieTitle)
         viewController?.navigationController?.pushViewController(moviePageVC, animated: true)
     }
 }

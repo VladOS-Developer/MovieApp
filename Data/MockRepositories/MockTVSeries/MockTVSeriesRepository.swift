@@ -10,12 +10,22 @@ import Foundation
 final class MockTVSeriesRepository: TVSeriesRepositoryProtocol {
     static let shared = MockTVSeriesRepository()
     
-    func fetchTVSeriesLists() async throws -> [TVSeries] {
-        return TVSeries.mockSeriesList()
+    func fetchTVSeriesTopRate(page: Int) async throws -> [TVSeries] {
+        return TVSeries.mockSeriesTopRate()
+    }
+    
+    func fetchTVSeriesPopular(page: Int) async throws -> [TVSeries] {
+        return TVSeries.mockSeriesPopular()
+    }
+    
+    func fetchCombinedTVSeries() async throws -> [TVSeries] {
+        let combined = (try await fetchTVSeriesTopRate(page: 1)) + (try await fetchTVSeriesPopular(page: 1))
+        let unique = Array(Set(combined))
+        return unique
     }
     
     func searchTVSeries(query: String, page: Int) async throws -> [TVSeries] {
-        let all = TVSeries.mockSeriesList()
+        let all = TVSeries.mockSeriesTopRate()
         let filtered = all.filter { $0.name.lowercased().contains(query.lowercased()) }
         return filtered
     }

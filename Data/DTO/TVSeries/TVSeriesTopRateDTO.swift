@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TVSeriesDTO: Decodable {
+struct TVSeriesTopRateDTO: Decodable {
     let id: Int
     let name: String
     let originalName: String?
@@ -15,7 +15,7 @@ struct TVSeriesDTO: Decodable {
     let backdropPath: String?
     let overview: String?
     let firstAirDate: String?
-    let genreIDs: [Int]
+    let genreIDs: [Int]?
     let voteAverage: Double?
     
     enum CodingKeys: String, CodingKey {

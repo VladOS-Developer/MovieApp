@@ -9,7 +9,11 @@ import Foundation
 
 protocol TVSeriesRepositoryProtocol: AnyObject {
     
-    func fetchTVSeriesLists() async throws -> [TVSeries]
+    func fetchTVSeriesTopRate(page: Int) async throws -> [TVSeries]
+    
+    func fetchTVSeriesPopular(page: Int) async throws -> [TVSeries]
+    
+    func fetchCombinedTVSeries() async throws -> [TVSeries]
     
     func searchTVSeries(query: String, page: Int) async throws -> [TVSeries]
 }
