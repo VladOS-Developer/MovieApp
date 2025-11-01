@@ -23,6 +23,7 @@ enum Endpoint {
     case movieDetails(Int)
     case trendingMovies(page: Int = 1)
     case searchMovies(query: String, page: Int = 1)
+    
     case searchTVSeries(query: String, page: Int = 1)
     case tvTopRated(page: Int = 1)
     case tvPopular(page: Int = 1)
@@ -30,6 +31,7 @@ enum Endpoint {
     case tvByGenre(Int, page: Int = 1)
     case tvDetails(Int)
     case actorTVSeries(Int)
+    case tvVideos(Int)
     
     // MARK: - Path
     
@@ -56,7 +58,8 @@ enum Endpoint {
         case .tvByGenre:             return "/discover/tv"
         case .tvDetails(let id):     return "/tv/\(id)"
         case .actorTVSeries(let id): return "/person/\(id)/tv_credits"
-
+        case .tvVideos(let id):      return "/tv/\(id)/videos"
+            
         }
     }
     
