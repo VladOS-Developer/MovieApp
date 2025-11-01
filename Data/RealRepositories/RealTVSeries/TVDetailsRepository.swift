@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class TVSeriesDetailsRepository: TVSeriesDetailsRepositoryProtocol {
+final class TVDetailsRepository: TVDetailsRepositoryProtocol {
     private let networkService: NetworkServiceProtocol
 
     init(networkService: NetworkServiceProtocol) {

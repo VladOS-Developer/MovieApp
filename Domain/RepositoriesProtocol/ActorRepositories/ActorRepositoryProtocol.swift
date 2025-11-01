@@ -14,4 +14,5 @@ protocol ActorRepositoryProtocol: AnyObject {
     func fetchActorMovies(by id: Int) async throws -> [ActorMovie]
     
     func fetchActorImages(by id: Int) async throws -> [ActorImages]
+    
 }

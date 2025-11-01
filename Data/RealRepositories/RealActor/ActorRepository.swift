@@ -28,4 +28,5 @@ final class ActorRepository: ActorRepositoryProtocol {
         let dto: ActorImagesResponseDTO = try await networkService.request(.actorImages(id))
         return dto.profiles.map { ActorImages(dto: $0) }
     }
+
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol TVSeriesDetailsRepositoryProtocol: AnyObject {
+protocol TVDetailsRepositoryProtocol: AnyObject {
     
     func fetchTopRatedTVSeries(page: Int) async throws -> [TVSeriesDetails]
     

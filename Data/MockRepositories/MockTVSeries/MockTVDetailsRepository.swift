@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class MockTVSeriesDetailsRepository: TVSeriesDetailsRepositoryProtocol {
-    static let shared = MockTVSeriesDetailsRepository()
+final class MockTVDetailsRepository: TVDetailsRepositoryProtocol {
+    static let shared = MockTVDetailsRepository()
 
     func fetchTopRatedTVSeries(page: Int) async throws -> [TVSeriesDetails] {
         TVSeriesDetails.mockTopRatedTVSeries()

@@ -8,6 +8,8 @@
 import Foundation
 
 final class MockActorRepository: ActorRepositoryProtocol {
+    
+    
     static let shared = MockActorRepository()
     
     func fetchActorDetails(by id: Int) async throws -> ActorDetails {
@@ -21,4 +23,5 @@ final class MockActorRepository: ActorRepositoryProtocol {
     func fetchActorImages(by id: Int) async throws -> [ActorImages] {
         return ActorImages.mockActorImages(for: id)
     }
+    
 }

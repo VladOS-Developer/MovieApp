@@ -36,4 +36,5 @@ extension ActorMovie {
             ActorMovie(id: 5, title: "Dune: Part Two", posterPath: "film5", releaseDate: "2015-12-25", character: "Hugh Glass", isLocalImage: true)
         ]
     }
+
 }

@@ -95,6 +95,7 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
         }
     }
     
+    
     private func buildHeaderVM(details: ActorDetails, movies: [ActorMovie]) async -> ActorHeaderCellViewModel {
         var avtorHeaderVM = ActorHeaderCellViewModel(actorDetails: details, actorMovies: movies)
         
