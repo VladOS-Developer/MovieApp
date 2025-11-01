@@ -9,5 +9,5 @@ import Foundation
 
 protocol TVGenresRepositoryProtocol: AnyObject {
     
-    func fetchTVGenres() async throws -> [TVGenres]
+    func fetchTVGenres() async throws -> [TVSeriesGenres]
 }

@@ -14,8 +14,8 @@ final class TVGenresRepository: TVGenresRepositoryProtocol {
         self.networkService = networkService
     }
     
-    func fetchTVGenres() async throws -> [TVGenres] {
+    func fetchTVGenres() async throws -> [TVSeriesGenres] {
         let response: TVGenresResponseDTO = try await networkService.request(.tvGenres)
-        return response.genres.map { TVGenres(dto: $0) }
+        return response.genres.map { TVSeriesGenres(dto: $0) }
     }
 }

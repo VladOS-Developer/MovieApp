@@ -10,7 +10,7 @@ import Foundation
 final class MockTVGenresRepository: TVGenresRepositoryProtocol {
     static let shared = MockTVGenresRepository()
     
-    func fetchTVGenres() async throws -> [TVGenres] {
-        return TVGenres.mockTVGenres()
+    func fetchTVGenres() async throws -> [TVSeriesGenres] {
+        return TVSeriesGenres.mockTVGenres()
     }
 }

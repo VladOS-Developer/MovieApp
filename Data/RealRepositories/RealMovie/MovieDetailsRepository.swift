@@ -15,17 +15,17 @@ final class MovieDetailsRepository: MovieDetailsRepositoryProtocol {
     }
     
     func fetchTopMovieDetails(page: Int = 1) async throws -> [MovieDetails] {
-        let response: MoviesListResponseDTO = try await networkService.request(.topRatedMovies(page: page))
+        let response: MoviesDetailsResponseDTO = try await networkService.request(.topRatedMovies(page: page))
         return response.results.map { MovieDetails(dto: $0) }
     }
     
     func fetchUpcomingMovieDetails(page: Int = 1) async throws -> [MovieDetails] {
-        let response: MoviesListResponseDTO = try await networkService.request(.upcomingMovies(page: page))
+        let response: MoviesDetailsResponseDTO = try await networkService.request(.upcomingMovies(page: page))
         return response.results.map { MovieDetails(dto: $0) }
     }
     
     func fetchMovieDetails(byGenre id: Int, page: Int = 1) async throws -> [MovieDetails] {
-        let response: MoviesListResponseDTO = try await networkService.request(.moviesByGenre(id, page: page))
+        let response: MoviesDetailsResponseDTO = try await networkService.request(.moviesByGenre(id, page: page))
         return response.results.map { MovieDetails(dto: $0) }
     }
     

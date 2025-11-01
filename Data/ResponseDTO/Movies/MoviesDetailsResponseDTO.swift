@@ -1,5 +1,5 @@
 //
-//  MoviesListResponseDTO.swift
+//  MoviesDetailsResponseDTO.swift
 //  MovieApp
 //
 //  Created by VladOS on 24.09.2025.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MoviesListResponseDTO: Decodable {
+struct MoviesDetailsResponseDTO: Decodable {
     let page: Int
     let results: [MovieDetailsDTO]
     let totalPages: Int?

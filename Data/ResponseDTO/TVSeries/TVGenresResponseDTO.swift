@@ -8,5 +8,5 @@
 import Foundation
 
 struct TVGenresResponseDTO: Decodable {
-    let genres: [TVGenreDTO]
+    let genres: [TVSeriesGenreDTO]
 }

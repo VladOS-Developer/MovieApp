@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TVGenreDTO: Decodable {
+struct TVSeriesGenreDTO: Decodable {
     let id: Int
     let name: String
 }
