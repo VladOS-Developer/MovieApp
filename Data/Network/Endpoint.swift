@@ -32,6 +32,9 @@ enum Endpoint {
     case tvDetails(Int)
     case actorTVSeries(Int)
     case tvVideos(Int)
+    case tvSimilar(Int)
+    case tvSeasonDetails(tvId: Int, seasonNumber: Int)
+    case tvEpisodeVideos(tvId: Int, seasonNumber: Int, episodeNumber: Int)
     
     // MARK: - Path
     
@@ -59,6 +62,10 @@ enum Endpoint {
         case .tvDetails(let id):     return "/tv/\(id)"
         case .actorTVSeries(let id): return "/person/\(id)/tv_credits"
         case .tvVideos(let id):      return "/tv/\(id)/videos"
+        case .tvSimilar(let id):     return "/tv/\(id)/similar"
+            
+        case .tvSeasonDetails(let tvId, let seasonNumber): return "/tv/\(tvId)/season/\(seasonNumber)"
+        case .tvEpisodeVideos(let tvId, let seasonNumber, let episodeNumber): return "/tv/\(tvId)/season/\(seasonNumber)/episode/\(episodeNumber)/videos"
             
         }
     }
