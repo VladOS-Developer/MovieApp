@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TVActorMovie: Hashable {
+struct ActorTVSeries: Hashable {
     let id: Int
     let title: String
     let posterPath: String?
@@ -17,9 +17,9 @@ struct TVActorMovie: Hashable {
 }
 
 
-extension TVActorMovie {
+extension ActorTVSeries {
     
-    init(tvDTO: TVSeriesActorDTO) {
+    init(tvDTO: ActorTVSeriesDTO) {
         self.id = tvDTO.id
         self.title = tvDTO.name
         self.posterPath = tvDTO.posterPath
@@ -28,10 +28,10 @@ extension TVActorMovie {
         self.isLocalImage = false
     }
     
-    static func mockActorSeries() -> [TVActorMovie] {
+    static func mockActorSeries() -> [ActorTVSeries] {
         return [
-            TVActorMovie(id: 1, title: "Game of Thrones", posterPath: "siries1", releaseDate: "2010-07-16", character: "Cobb", isLocalImage: true),
-            TVActorMovie(id: 2, title: "Breaking Bad", posterPath: "siries2", releaseDate: "1997-12-19", character: "Jack Dawson", isLocalImage: true)
+            ActorTVSeries(id: 1, title: "Game of Thrones", posterPath: "siries1", releaseDate: "2010-07-16", character: "Cobb", isLocalImage: true),
+            ActorTVSeries(id: 2, title: "Breaking Bad", posterPath: "siries2", releaseDate: "1997-12-19", character: "Jack Dawson", isLocalImage: true)
         ]
     }
 }

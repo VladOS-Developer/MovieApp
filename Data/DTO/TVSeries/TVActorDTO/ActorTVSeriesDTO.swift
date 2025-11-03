@@ -2,12 +2,12 @@
 //  ActorTVSeriesDTO.swift
 //  MovieApp
 //
-//  Created by VladOS on 01.11.2025.
+//  Created by VladOS on 03.11.2025.
 //
 
 import Foundation
 
-struct TVSeriesActorDTO: Decodable {
+struct ActorTVSeriesDTO: Decodable {
     let id: Int
     let name: String
     let posterPath: String?

@@ -9,7 +9,7 @@ import Foundation
 
 final class MockTVActorRepository: TVActorRepositoryProtocol {
     
-    func fetchActorTVSeries(by id: Int) async throws -> [TVActorMovie] {
-        return TVActorMovie.mockActorSeries()
+    func fetchActorTVSeries(by id: Int) async throws -> [ActorTVSeries] {
+        return ActorTVSeries.mockActorSeries()
     }
 }

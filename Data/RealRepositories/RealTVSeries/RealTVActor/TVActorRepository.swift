@@ -14,8 +14,8 @@ final class TVActorRepository: TVActorRepositoryProtocol {
         self.networkService = networkService
     }
     
-    func fetchActorTVSeries(by id: Int) async throws -> [TVActorMovie] {
-        let dto: TVSeriesActorResponseDTO = try await networkService.request(.actorTVSeries(id))
-        return dto.cast.map { TVActorMovie(tvDTO: $0) }
+    func fetchActorTVSeries(by id: Int) async throws -> [ActorTVSeries] {
+        let dto: ActorTVSeriesResponseDTO = try await networkService.request(.actorTVSeries(id))
+        return dto.cast.map { ActorTVSeries(tvDTO: $0) }
     }
 }

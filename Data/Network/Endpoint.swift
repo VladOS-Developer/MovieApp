@@ -29,10 +29,12 @@ enum Endpoint {
     case tvPopular(page: Int = 1)
     case tvGenres
     case tvByGenre(Int, page: Int = 1)
-    case tvDetails(Int)
     case actorTVSeries(Int)
+    case tvCredits(Int)
+    case tvDetails(Int)
     case tvVideos(Int)
     case tvSimilar(Int)
+    
     case tvSeasonDetails(tvId: Int, seasonNumber: Int)
     case tvEpisodeVideos(tvId: Int, seasonNumber: Int, episodeNumber: Int)
     
@@ -59,8 +61,9 @@ enum Endpoint {
         case .tvPopular:             return "/tv/popular"
         case .tvGenres:              return "/genre/tv/list"
         case .tvByGenre:             return "/discover/tv"
-        case .tvDetails(let id):     return "/tv/\(id)"
         case .actorTVSeries(let id): return "/person/\(id)/tv_credits"
+        case .tvCredits(let id):     return "/tv/\(id)/credits"
+        case .tvDetails(let id):     return "/tv/\(id)"
         case .tvVideos(let id):      return "/tv/\(id)/videos"
         case .tvSimilar(let id):     return "/tv/\(id)/similar"
             
