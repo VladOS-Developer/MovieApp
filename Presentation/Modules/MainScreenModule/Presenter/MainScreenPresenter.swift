@@ -12,6 +12,7 @@ protocol MainScreenPresenterProtocol: AnyObject {
     func didTapSeeAll(in section: Int)
     func didSelectGenre(id: Int, title: String)
     func didSelectMovie(with id: Int, title: String)
+    func didSelectTVSeries(with id: Int, title: String)
     func didUpdateSearchQuery(_ query: String)
     func didTapSettings()
     
@@ -225,7 +226,14 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
     //MARK: - didSelectMovie
     
     func didSelectMovie(with id: Int, title: String) {
-        router.showMoviePage(movieId: id, movieTitle: title )
+        router.showMoviePage(id: id, title: title)
+       
+    }
+    
+    //MARK: - didSelectTVSeries
+    
+    func didSelectTVSeries(with id: Int, title: String) {
+        router.showTVSeriesPage(id: id, title: title)
     }
     
     //MARK: - didTapSettings

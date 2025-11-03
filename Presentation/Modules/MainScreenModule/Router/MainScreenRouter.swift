@@ -8,17 +8,18 @@
 import UIKit
 
 protocol MainScreenRouterProtocol: AnyObject {
-    func showMoviePage(movieId: Int, movieTitle: String)
+    func showMoviePage(id: Int, title: String)
     func showMovieList(mode: MovieListMode)
     func showSettingsPage()
+    func showTVSeriesPage(id: Int, title: String)
 }
 
 class MainScreenRouter: MainScreenRouterProtocol {
     
     weak var viewController: UIViewController?
     
-    func showMoviePage(movieId: Int, movieTitle: String) {
-        let moviePageVC = Builder.createMoviePageController(id: movieId, title: movieTitle)
+    func showMoviePage(id: Int, title: String) {
+        let moviePageVC = Builder.createMoviePageController(id: id, title: title)
         
         if let navigationVC = viewController?.navigationController {
             navigationVC.pushViewController(moviePageVC, animated: true)
@@ -40,6 +41,16 @@ class MainScreenRouter: MainScreenRouterProtocol {
     func showSettingsPage() {
         let settingPageVC = Builder.createSettingsPageController()
         viewController?.present(settingPageVC, animated: true)
+    }
+    
+    func showTVSeriesPage(id: Int, title: String) {
+        let moviePageVC = Builder.createTVSeriesController(id: id, title: title)
+        
+        if let navigationVC = viewController?.navigationController {
+            navigationVC.pushViewController(moviePageVC, animated: true)
+        } else {
+            viewController?.present(moviePageVC, animated: true)
+        }
     }
     
 }

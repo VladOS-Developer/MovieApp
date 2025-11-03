@@ -172,25 +172,16 @@ class MovieListPresenter: MovieListPresenterProtocol {
     }
     
     //MARK: - didSelectItem
-    
-//    func didSelectItem(at index: Int) {
-//        let movie = movies[index]
-//        // проверяем id
-//        print("DEBUG: opening movie with id =", movie.id)
-//        let moviePageVC = Builder.createMoviePageController(id: movie.id, title: movie.title)
-//        (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
-//    }
+
     func didSelectItem(at index: Int) {
         
         switch mode {
         case .tvSeries:
             let tvSeries = tvSeries[index]
-            let moviePageVC = Builder.createMoviePageController(id: tvSeries.id, title: tvSeries.name)
+            let moviePageVC = Builder.createTVSeriesController(id: tvSeries.id, title: tvSeries.name)
             (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
         default:
             let movie = movies[index]
-            // проверяем id
-            print("DEBUG: opening movie with id =", movie.id)
             let moviePageVC = Builder.createMoviePageController(id: movie.id, title: movie.title)
             (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
         }
