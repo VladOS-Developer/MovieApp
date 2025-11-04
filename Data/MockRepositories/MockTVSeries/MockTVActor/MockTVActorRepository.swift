@@ -8,6 +8,7 @@
 import Foundation
 
 final class MockTVActorRepository: TVActorRepositoryProtocol {
+    static let shared = MockTVActorRepository()
     
     func fetchActorTVSeries(by id: Int) async throws -> [ActorTVSeries] {
         return ActorTVSeries.mockActorSeries()

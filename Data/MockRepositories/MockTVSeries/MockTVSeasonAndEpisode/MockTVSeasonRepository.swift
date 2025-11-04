@@ -8,6 +8,7 @@
 import Foundation
 
 final class MockTVSeasonRepository: TVSeasonRepositoryProtocol {
+    static let shared = MockTVSeasonRepository()
     
     func fetchSeasons(for tvId: Int) async throws -> [TVSeason] {
         return TVSeason.fetchSeasons(for: tvId)

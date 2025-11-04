@@ -30,9 +30,6 @@ class TrailerPlayerPresenter: TrailerPlayerPresenterProtocol {
     private let initialVideo: MovieVideo
     private let movieTitle: String
     
-    
-    
-    
     required init(view: TrailerPlayerViewProtocol,
                   imageLoader: ImageLoaderProtocol,
                   movieVideoRepository: MovieVideoRepositoryProtocol,

@@ -246,15 +246,40 @@ class Builder: BuilderProtocol {
         return UINavigationController(rootViewController: settingView)
     }
     
-    //MARK: - TrailerPlayer
+    //MARK: - createTVSeries
     static func createTVSeriesController(id: Int, title: String) -> UIViewController {
         let seriesView = TVSeriesPageView()
+        let router = TVSeriesPageRouter()
+        let imageLoader = KingfisherImageLoader()
+        
+        let tvDetailsRepository: TVDetailsRepositoryProtocol = useMock
+        ? MockTVDetailsRepository.shared : TVDetailsRepository(networkService: NetworkService(apiKey: apiKey))
+        
+        let tvGenreRepository: TVGenresRepositoryProtocol = useMock
+        ? MockTVGenresRepository.shared : TVGenresRepository(networkService: NetworkService(apiKey: apiKey))
+        
+        let tvVideoRepository: TVVideoRepositoryProtocol = useMock
+        ? MockTVVideoRepository.shared : TVVideoRepository(networkService: NetworkService(apiKey: apiKey))
+        
+        let tvSimilarRepository: TVSimilarRepositoryProtocol = useMock
+        ? MockTVSimilarRepository.shared : TVSimilarRepository(networkService: NetworkService(apiKey: apiKey))
+        
+        let tvCreditsRepository: TVCreditsRepositoryProtocol = useMock
+        ? MockTVCreditsRepository.shared : TVCreditsRepository(networkService: NetworkService(apiKey: apiKey))
         
         let presenter = TVSeriesPagePresenter(view: seriesView,
+                                              router: router,
+                                              imageLoader: imageLoader,
+                                              tvDetailsRepository: tvDetailsRepository,
+                                              tvGenreRepository: tvGenreRepository,
+                                              tvVideoRepository: tvVideoRepository,
+                                              tvSimilarRepository: tvSimilarRepository,
+                                              tvCreditsRepository: tvCreditsRepository,
                                               seriesTitle: title,
                                               seriesId: id)
      
         seriesView.presenter = presenter
+        router.viewController = seriesView
         return seriesView
     }
     

@@ -809,8 +809,8 @@
 		868ECC922EB926AF005189A9 /* TVActorRepositories */ = {
 			isa = PBXGroup;
 			children = (
-				868ECC9A2EB92AE6005189A9 /* TVCreditsRepositoryProtocol.swift */,
 				868ECCA42EB9328A005189A9 /* TVActorRepositoryProtocol.swift */,
+				868ECC9A2EB92AE6005189A9 /* TVCreditsRepositoryProtocol.swift */,
 			);
 			path = TVActorRepositories;
 			sourceTree = "<group>";
