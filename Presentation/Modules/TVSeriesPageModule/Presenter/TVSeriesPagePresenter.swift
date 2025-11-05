@@ -40,6 +40,11 @@ class TVSeriesPagePresenter: TVSeriesPagePresenterProtocol {
     private let tvTitle: String
     private var tvId: Int
     
+    private var videos: [TVVideo] = []
+    private var sections: [TVPageCollectionSection] = []
+    private let favoritesStorage = FavoritesStorage()
+    private let currentTVMovie: TVDetails?
+    
     required init(view: TVSeriesPageViewProtocol,
                   router: TVSeriesPageRouterProtocol,
                   imageLoader: ImageLoaderProtocol,
@@ -61,8 +66,9 @@ class TVSeriesPagePresenter: TVSeriesPagePresenterProtocol {
         self.tvVideoRepository = tvVideoRepository
         self.tvSimilarRepository = tvSimilarRepository
         self.tvCreditsRepository = tvCreditsRepository
-        self.tvId = tvId
         self.tvTitle = tvTitle
+        self.tvId = tvId
+        self.currentTVMovie = nil //
     }
     
     func getTVSeriesData() {

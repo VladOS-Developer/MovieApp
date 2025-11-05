@@ -15,6 +15,7 @@ final class TVSeriesPageRouter: TVSeriesPageRouterProtocol {
     weak var viewController: UIViewController?
     
     func showTVTrailerPlayer(video: TVVideo, title: String) {
+        
         let trailerVC = Builder.createTrailerPlayerController(video: video, tvTitle: title)
         if let nav = viewController?.navigationController {
             nav.pushViewController(trailerVC, animated: true)

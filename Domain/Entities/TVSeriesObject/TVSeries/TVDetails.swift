@@ -12,7 +12,7 @@ struct TVSeriesProductionCountry: Hashable {
     let name: String
 }
 
-struct TVSeriesDetails: Hashable {
+struct TVDetails: Hashable {
     let id: Int
     let name: String
     let originalName: String?
@@ -25,14 +25,14 @@ struct TVSeriesDetails: Hashable {
     let episodeRunTime: [Int]?
     let overview: String?
     let genreIDs: [Int]
-    let genres: [TVSeriesGenres]?
+    let genres: [TVGenres]?
     let originCountry: [String]?
     let productionCountries: [TVSeriesProductionCountry]?
     let voteAverage: Double?
     let isLocalImage: Bool
 }
 
-extension TVSeriesDetails {
+extension TVDetails {
     init(dto: TVSeriesDetailsDTO) {
         self.id = dto.id
         self.name = dto.name
@@ -46,16 +46,16 @@ extension TVSeriesDetails {
         self.episodeRunTime = dto.episodeRunTime
         self.overview = dto.overview
         self.genreIDs = dto.genreIDs ?? dto.genres?.map { $0.id } ?? []
-        self.genres = dto.genres?.map { TVSeriesGenres(id: $0.id, name: $0.name) }
+        self.genres = dto.genres?.map { TVGenres(id: $0.id, name: $0.name) }
         self.originCountry = dto.originCountry
         self.productionCountries = dto.productionCountries?.map { TVSeriesProductionCountry(iso3166_1: $0.iso3166_1, name: $0.name) }
         self.voteAverage = dto.voteAverage
         self.isLocalImage = false
     }
     
-    static func mockTopRatedTVSeries() -> [TVSeriesDetails] {
+    static func mockTopRatedTVSeries() -> [TVDetails] {
             [
-                TVSeriesDetails(id: 101,
+                TVDetails(id: 101,
                                 name: "Breaking Bad",
                                 originalName: "",
                                 posterPath: "series2",
@@ -75,9 +75,9 @@ extension TVSeriesDetails {
             ]
         }
 
-        static func mockPopularTVSeries() -> [TVSeriesDetails] {
+        static func mockPopularTVSeries() -> [TVDetails] {
             [
-                TVSeriesDetails(id: 102,
+                TVDetails(id: 102,
                                 name: "Game of Thrones",
                                 originalName: "",
                                 posterPath: "series1",

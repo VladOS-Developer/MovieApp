@@ -1,20 +1,20 @@
 //
-//  OverviewCell.swift
+//  OverviewTVCell.swift
 //  MovieApp
 //
-//  Created by VladOS on 30.08.2025.
+//  Created by VladOS on 05.11.2025.
 //
 
 import UIKit
 
-protocol OverviewCellDelegate: AnyObject {
+protocol OverviewTVCellDelegate: AnyObject {
     func overviewCellDidToggle(_ cell: OverviewCell)
 }
 
-class OverviewCell: UICollectionViewCell {
-    static let reuseId = "OverviewCell"
+class OverviewTVCell: UICollectionViewCell {
+    static let reuseId = "OverviewTVCell"
     
-    weak var delegate: OverviewCellDelegate?
+    weak var delegate: OverviewTVCellDelegate?
     
     private lazy var overviewLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -41,7 +41,7 @@ class OverviewCell: UICollectionViewCell {
     }(UIStackView(arrangedSubviews: [overviewLabel, viewMoreButton]))
     
     @objc private func didTapViewMore() {
-        delegate?.overviewCellDidToggle(self)
+//        delegate?.overviewCellDidToggle(self)
     }
 
     func configureOverviewCell(with detailsText: String, expanded: Bool) {
@@ -70,3 +70,4 @@ class OverviewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+

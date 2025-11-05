@@ -35,7 +35,7 @@ extension TVSimilar {
         self.isLocalImage = false
     }
     
-    static func mockSimilarTVShows() -> [TVSimilar] {
+    static func mockTVSimilar() -> [TVSimilar] {
         return [
             
             TVSimilar(id: 1, name: "Game of Thrones", originalName: "Game of Thrones", posterPath: "series1", firstAirDate: "2011-04-17", backdropPath: "", genreIDs: [18, 10765],

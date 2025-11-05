@@ -39,7 +39,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     private var movieViewModel: [MovieCellViewModel] = []
     
     private var tvSeries: [TVSeries] = []
-    private var tvGenres: [TVSeriesGenres] = []
+    private var tvGenres: [TVGenres] = []
     private var seriesViewModel: [TVSeriesCellViewModel] = []
     
     private let favoritesStorage = FavoritesStorage()

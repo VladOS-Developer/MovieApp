@@ -11,6 +11,6 @@ final class MockTVSimilarRepository: TVSimilarRepositoryProtocol {
     static let shared = MockTVSimilarRepository()
     
     func fetchSimilarTVShows(for tvId: Int) async throws -> [TVSimilar] {
-        TVSimilar.mockSimilarTVShows()
+        TVSimilar.mockTVSimilar()
     }
 }
