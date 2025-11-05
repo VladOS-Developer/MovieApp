@@ -16,8 +16,9 @@ protocol TrailerPlayerPresenterProtocol: AnyObject {
     init(view: TrailerPlayerViewProtocol,
          imageLoader: ImageLoaderProtocol,
          movieVideoRepository: MovieVideoRepositoryProtocol,
-         video: MovieVideo,
+         movieVideo: MovieVideo,
          movieTitle: String)
+
 }
 
 class TrailerPlayerPresenter: TrailerPlayerPresenterProtocol {
@@ -33,14 +34,15 @@ class TrailerPlayerPresenter: TrailerPlayerPresenterProtocol {
     required init(view: TrailerPlayerViewProtocol,
                   imageLoader: ImageLoaderProtocol,
                   movieVideoRepository: MovieVideoRepositoryProtocol,
-                  video: MovieVideo,
+                  movieVideo: MovieVideo,
                   movieTitle: String) {
         
         self.view = view
         self.imageLoader = imageLoader
         self.movieVideoRepository = movieVideoRepository
-        self.initialVideo = video
+        self.initialVideo = movieVideo
         self.movieTitle = movieTitle
+    
     }
     
     func viewDidLoad() {
@@ -53,7 +55,7 @@ class TrailerPlayerPresenter: TrailerPlayerPresenterProtocol {
         Task {
             do {
                 // Загружаем трейлеры из трендовых фильмов
-                let trendingVideos = try await movieVideoRepository.fetchTrendingVideos()
+                let trendingVideos = try await movieVideoRepository.fetchTrendingMovieVideos()
                 self.videos = trendingVideos
                 
                 // Формируем ViewModel с подгрузкой превью через imageLoader

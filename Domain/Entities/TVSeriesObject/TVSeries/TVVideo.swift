@@ -41,4 +41,13 @@ extension TVVideo {
             return []
         }
     }
+    
+    static func mockTVTrendingVideos() -> [TVVideo] {
+            return [
+                TVVideo(id: "1", key: "X2m-08cOAbc", name: "Breaking Bad – Season 5 Trailer", site: "YouTube", type: "Trailer"),
+                TVVideo(id: "2", key: "rBxcF-r9Ibs", name: "Stranger Things – Official Trailer", site: "YouTube", type: "Trailer"),
+                TVVideo(id: "3", key: "gcTkNV5Vg1E", name: "The Witcher – Teaser", site: "YouTube", type: "Teaser"),
+                TVVideo(id: "4", key: "qJ2tW6Wlfds", name: "Game of Thrones – Season 8 Trailer", site: "YouTube", type: "Trailer")
+            ]
+        }
 }

@@ -40,7 +40,7 @@ class TrailerListPresenter {
         Task {
             do {
                 // Загружаем трейлеры из трендовых фильмов
-                let trendingVideos = try await movieVideoRepository.fetchTrendingVideos()
+                let trendingVideos = try await movieVideoRepository.fetchTrendingMovieVideos()
                 self.videos = trendingVideos
                 
                 // Формируем ViewModel с подгрузкой превью через imageLoader
@@ -74,7 +74,7 @@ extension TrailerListPresenter: TrailerListPresenterProtocol {
         guard let video = videos.first(where: { $0.id == videoVM.id }) else { return }
         let movieTitle = "\(video.name)"
         
-        router.showTrailerPlayer(video: video, movieTitle: movieTitle)
+        router.showTrailerPlayer(video: video, title: movieTitle, isMovie: true) // 
         
         print("videoVM.id =", videoVM.id)
         print("videos =", videos.map { $0.id })

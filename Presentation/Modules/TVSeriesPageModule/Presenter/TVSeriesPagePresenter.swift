@@ -19,8 +19,8 @@ protocol TVSeriesPagePresenterProtocol: AnyObject {
          tvSimilarRepository: TVSimilarRepositoryProtocol,
          tvCreditsRepository: TVCreditsRepositoryProtocol,
          
-         seriesTitle: String,
-         seriesId: Int)
+         tvTitle: String,
+         tvId: Int)
     
     func getTVSeriesData()
 }
@@ -37,8 +37,8 @@ class TVSeriesPagePresenter: TVSeriesPagePresenterProtocol {
     private let tvSimilarRepository: TVSimilarRepositoryProtocol
     private let tvCreditsRepository: TVCreditsRepositoryProtocol
     
-    private let seriesTitle: String
-    private var seriesId: Int
+    private let tvTitle: String
+    private var tvId: Int
     
     required init(view: TVSeriesPageViewProtocol,
                   router: TVSeriesPageRouterProtocol,
@@ -50,8 +50,8 @@ class TVSeriesPagePresenter: TVSeriesPagePresenterProtocol {
                   tvSimilarRepository: TVSimilarRepositoryProtocol,
                   tvCreditsRepository: TVCreditsRepositoryProtocol,
                   
-                  seriesTitle: String,
-                  seriesId: Int) {
+                  tvTitle: String,
+                  tvId: Int) {
         
         self.view = view
         self.router = router
@@ -61,8 +61,8 @@ class TVSeriesPagePresenter: TVSeriesPagePresenterProtocol {
         self.tvVideoRepository = tvVideoRepository
         self.tvSimilarRepository = tvSimilarRepository
         self.tvCreditsRepository = tvCreditsRepository
-        self.seriesId = seriesId
-        self.seriesTitle = seriesTitle
+        self.tvId = tvId
+        self.tvTitle = tvTitle
     }
     
     func getTVSeriesData() {

@@ -11,4 +11,5 @@ protocol TVVideoRepositoryProtocol: AnyObject {
     
     func fetchTVVideos(for tvId: Int) async throws -> [TVVideo]
     
+    func fetchTrendingTVVideos() async throws -> [TVVideo]
 }

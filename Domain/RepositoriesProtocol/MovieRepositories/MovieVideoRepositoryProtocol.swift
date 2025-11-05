@@ -11,5 +11,5 @@ protocol MovieVideoRepositoryProtocol: AnyObject {
     
     func fetchMovieVideo(for movieId: Int) async throws -> [MovieVideo]
     
-    func fetchTrendingVideos() async throws -> [MovieVideo]
+    func fetchTrendingMovieVideos() async throws -> [MovieVideo]
 }

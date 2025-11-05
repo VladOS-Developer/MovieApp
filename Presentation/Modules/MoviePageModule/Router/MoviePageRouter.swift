@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MoviePageRouterProtocol: AnyObject {
-    func showTrailerPlayer(video: MovieVideo, movieTitle: String)
+    func showTrailerPlayer(video: MovieVideo, title: String)
     func showActorPage(actorName: String, actorId: Int)
     func showMoviePage(movieId: Int, movieTitle: String)
 }
@@ -17,8 +17,8 @@ final class MoviePageRouter: MoviePageRouterProtocol {
     
     weak var viewController: UIViewController?
     
-    func showTrailerPlayer(video: MovieVideo, movieTitle: String) {
-        let trailerPlayerVC = Builder.createTrailerPlayerController(video: video, movieTitle: movieTitle)
+    func showTrailerPlayer(video: MovieVideo, title: String) {
+        let trailerPlayerVC = Builder.createTrailerPlayerController(video: video, movieTitle: title)
         
         if let navigationVC = viewController?.navigationController {
             navigationVC.pushViewController(trailerPlayerVC, animated: true)

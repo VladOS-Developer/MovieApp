@@ -18,6 +18,7 @@ protocol BuilderProtocol {
     static func createMovieListController(mode: MovieListMode) -> UIViewController
     static func createMoviePageController(id: Int, title: String) -> UIViewController
     static func createTrailerPlayerController(video: MovieVideo, movieTitle: String) -> UIViewController
+    
     static func createActorPageController(actorTitle: String, actorId: Int) -> UIViewController
     static func createSettingsPageController() -> UIViewController
     static func createTVSeriesController(id: Int, title: String) -> UIViewController
@@ -202,10 +203,29 @@ class Builder: BuilderProtocol {
         let presenter = TrailerPlayerPresenter(view: playerView,
                                                imageLoader: imageLoader,
                                                movieVideoRepository: movieVideoRepository,
-                                               video: video,
+                                               movieVideo: video,
                                                movieTitle: movieTitle)
      
         playerView.presenter = presenter
+        return playerView
+    }
+    
+    
+    // MARK: - TrailerPlayer (TV)
+    static func createTrailerPlayerController(video: TVVideo, tvTitle: String) -> UIViewController {
+        let playerView = TrailerPlayerView()
+        let imageLoader = KingfisherImageLoader()
+        
+        let tvVideoRepository: TVVideoRepositoryProtocol = useMock
+        ? MockTVVideoRepository.shared: TVVideoRepository(networkService: NetworkService(apiKey: apiKey))
+        
+        let tvPresenter = TVTrailerPlayerPresenter(view: playerView,
+                                                 imageLoader: imageLoader,
+                                                 tvVideoRepository: tvVideoRepository,
+                                                 tvVideo: video,
+                                                 tvTitle: tvTitle)
+        
+        playerView.tvPresenter = tvPresenter
         return playerView
     }
     
@@ -246,7 +266,7 @@ class Builder: BuilderProtocol {
         return UINavigationController(rootViewController: settingView)
     }
     
-    //MARK: - createTVSeries
+    //MARK: - createTVSeriesController
     static func createTVSeriesController(id: Int, title: String) -> UIViewController {
         let seriesView = TVSeriesPageView()
         let router = TVSeriesPageRouter()
@@ -275,8 +295,8 @@ class Builder: BuilderProtocol {
                                               tvVideoRepository: tvVideoRepository,
                                               tvSimilarRepository: tvSimilarRepository,
                                               tvCreditsRepository: tvCreditsRepository,
-                                              seriesTitle: title,
-                                              seriesId: id)
+                                              tvTitle: title,
+                                              tvId: id)
      
         seriesView.presenter = presenter
         router.viewController = seriesView

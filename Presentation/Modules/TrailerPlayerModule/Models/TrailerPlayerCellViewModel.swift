@@ -32,4 +32,20 @@ struct TrailerPlayerCellViewModel: Hashable {
             self.thumbnailURL = URL(string: "https://img.youtube.com/vi/\(video.key)/hqdefault.jpg")
         }
     }
+    
+    init(video: TVVideo, isLocal: Bool = true) {
+           self.id = video.id
+           self.videoKey = video.key
+           self.name = video.name
+           self.site = video.site
+           self.type = video.type
+           
+           if isLocal {
+               self.thumbnailImage = UIImage(named: video.key)
+               self.thumbnailURL = nil
+           } else {
+               self.thumbnailImage = nil
+               self.thumbnailURL = URL(string: "https://img.youtube.com/vi/\(video.key)/hqdefault.jpg")
+           }
+       }
 }

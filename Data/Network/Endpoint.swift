@@ -27,6 +27,7 @@ enum Endpoint {
     case searchTVSeries(query: String, page: Int = 1)
     case tvTopRated(page: Int = 1)
     case tvPopular(page: Int = 1)
+    case tvTrending(page: Int = 1)
     case tvGenres
     case tvByGenre(Int, page: Int = 1)
     case actorTVSeries(Int)
@@ -59,6 +60,7 @@ enum Endpoint {
         case .searchTVSeries:        return "/search/tv"
         case .tvTopRated:            return "/tv/top_rated"
         case .tvPopular:             return "/tv/popular"
+        case .tvTrending:            return "/trending/tv/day"
         case .tvGenres:              return "/genre/tv/list"
         case .tvByGenre:             return "/discover/tv"
         case .actorTVSeries(let id): return "/person/\(id)/tv_credits"
@@ -81,7 +83,8 @@ enum Endpoint {
              .upcomingMovies(let page),
              .trendingMovies(let page),
              .tvTopRated(let page),
-             .tvPopular(let page):
+             .tvPopular(let page),
+             .tvTrending(let page):
             return [URLQueryItem(name: "page", value: "\(page)")]
             
         case .moviesByGenre(let genreId, let page),

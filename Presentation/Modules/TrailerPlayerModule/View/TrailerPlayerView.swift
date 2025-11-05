@@ -17,6 +17,7 @@ protocol TrailerPlayerViewProtocol: AnyObject {
 class TrailerPlayerView: UIViewController {
     
     var presenter: TrailerPlayerPresenterProtocol!
+    var tvPresenter: TVTrailerPlayerPresenterProtocol!
     
     private let playerView = YTPlayerView()
     private var trailerVideoVM: [TrailerPlayerCellViewModel] = []

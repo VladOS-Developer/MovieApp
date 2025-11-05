@@ -262,11 +262,11 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     
     //MARK: - didTapPlayTrailerButton
     
-    func didTapPlayTrailerButton(videoVM: MovieVideoCellViewModel) {
+    func didTapPlayTrailerButton(videoVM: MovieVideoCellViewModel) { // -
         guard let video = videos.first(where: { $0.id == videoVM.id }) else { return }
         let movieTitle = "\(video.name)"
         
-        router.showTrailerPlayer(video: video, movieTitle: movieTitle)
+        router.showTrailerPlayer(video: video, title: movieTitle)
         
         print("videoVM.id =", videoVM.id)
         print("videos =", videos.map { $0.id })
@@ -274,11 +274,11 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     
     //MARK: - playPosterTrailer
     
-    func playPosterTrailer() {
+    func playPosterTrailer() { // -
         guard let firstVideo = videos.first else { return }
         let movieTitle = "\(firstVideo.name)"
         
-        router.showTrailerPlayer(video: firstVideo, movieTitle: movieTitle)
+        router.showTrailerPlayer(video: firstVideo, title: movieTitle)
     }
     
     //MARK: - didSelectActor

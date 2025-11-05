@@ -20,11 +20,10 @@ final class MovieVideoRepository: MovieVideoRepositoryProtocol {
         return response.results.map { MovieVideo(dto: $0) } // маппинг в домен
     }
 
-    func fetchTrendingVideos() async throws -> [MovieVideo] {
+    func fetchTrendingMovieVideos() async throws -> [MovieVideo] {
             // Получаем трендовые фильмы
             let trendingResponse: TopRatedResponseDTO = try await networkService.request(.trendingMovies(page: 1))
             let movies = trendingResponse.results
-            
             var allVideos: [MovieVideo] = []
             
             // Для каждого фильма подгружаем трейлеры

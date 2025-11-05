@@ -13,4 +13,8 @@ final class MockTVVideoRepository: TVVideoRepositoryProtocol {
     func fetchTVVideos(for tvId: Int) async throws -> [TVVideo] {
         return TVVideo.mockTVVideos(for: tvId)
     }
+    
+    func fetchTrendingTVVideos() async throws -> [TVVideo] {
+        return TVVideo.mockTVTrendingVideos()
+    }
 }

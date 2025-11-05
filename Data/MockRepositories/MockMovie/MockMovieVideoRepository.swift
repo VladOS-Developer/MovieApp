@@ -14,8 +14,8 @@ final class MockMovieVideoRepository: MovieVideoRepositoryProtocol {
         MovieVideo.mockMovieVideo(for: movieId)
     }
     
-    func fetchTrendingVideos() async throws -> [MovieVideo] {
-        MovieVideo.mockTopVideos()
+    func fetchTrendingMovieVideos() async throws -> [MovieVideo] {
+        MovieVideo.mockTrendingVideos()
     }
     
 }
