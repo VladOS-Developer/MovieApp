@@ -16,6 +16,7 @@ final class TVSimilarRepository: TVSimilarRepositoryProtocol {
     
     func fetchSimilarTVShows(for tvId: Int) async throws -> [TVSimilar] {
         let response: TVSeriesSimilarResponseDTO = try await networkService.request(.tvSimilar(tvId))
+        print("DEBUG: Decoded \(response.results.count) TV Similar")
         return response.results.map { TVSimilar(dto: $0) }
     }
 }

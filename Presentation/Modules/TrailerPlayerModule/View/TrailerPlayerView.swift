@@ -98,6 +98,7 @@ extension TrailerPlayerView: TrailerPlayerViewProtocol {
     }
     
     func loadVideo(with key: String) {
+        guard key != currentVideoKey else { return }
         currentVideoKey = key
         playerView.load(withVideoId: key, playerVars: ["playsinline": 1, "autoplay": 1, "modestbranding": 1, "rel": 0])
         // выделить выбранную миниатюру, если она есть

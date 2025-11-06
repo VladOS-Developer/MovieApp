@@ -17,12 +17,15 @@ final class TVVideoRepository: TVVideoRepositoryProtocol {
     
     func fetchTVVideos(for tvId: Int) async throws -> [TVVideo] {
         let response: TVSeriesVideosResponseDTO = try await networkService.request(.tvVideos(tvId))
+        print("DEBUG: Decoded \(response.results.count) TV Videos")
         return response.results.map { TVVideo(dto: $0) }
     }
     
     func fetchTrendingTVVideos() async throws -> [TVVideo] {
         // Получаем трендовые сериалы
-        let trendingResponse: TopRatedResponseDTO = try await networkService.request(.tvTrending(page: 1))
+        let trendingResponse: TVSeriesTopRateResponseDTO = try await networkService.request(.tvTrending(page: 1))
+        print("DEBUG: TVVideoRepository.tvTrending.results.count = \(trendingResponse.results.count)")
+
         let series = trendingResponse.results
         var allVideos: [TVVideo] = []
         
@@ -47,4 +50,5 @@ final class TVVideoRepository: TVVideoRepositoryProtocol {
         // Ограничиваем по количеству (если нужно)
         return Array(allVideos.prefix(15))
     }
+
 }

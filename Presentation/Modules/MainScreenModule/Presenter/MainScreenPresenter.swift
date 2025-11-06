@@ -227,7 +227,6 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
     
     func didSelectMovie(with id: Int, title: String) {
         router.showMoviePage(id: id, title: title)
-       
     }
     
     //MARK: - didSelectTVSeries

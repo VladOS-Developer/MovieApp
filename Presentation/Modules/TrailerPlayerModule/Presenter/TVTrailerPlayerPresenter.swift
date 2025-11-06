@@ -54,11 +54,11 @@ final class TVTrailerPlayerPresenter: TVTrailerPlayerPresenterProtocol {
                 self.videos = trendingVideos
                 
                 let trailerVM: [TrailerPlayerCellViewModel] = await trendingVideos.asyncMap { video in
-                    var vm = TrailerPlayerCellViewModel(video: video, isLocal: false)
-                    if let url = vm.thumbnailURL {
-                        vm.thumbnailImage = await imageLoader.loadImage(from: url, localName: nil, isLocal: false)
+                    var trailerVM = TrailerPlayerCellViewModel(video: video, isLocal: false)
+                    if let url = trailerVM.thumbnailURL {
+                        trailerVM.thumbnailImage = await imageLoader.loadImage(from: url, localName: nil, isLocal: false)
                     }
-                    return vm
+                    return trailerVM
                 }
                 
                 await MainActor.run {

@@ -245,9 +245,11 @@ extension MainScreenView: UICollectionViewDelegate {
         switch section.type {
         case .topMovie, .upcomingMovie, .searchResults:
             let item = section.items[indexPath.item]
-            
+
             if case .movie(let vm) = item {
                 presenter.didSelectMovie(with: vm.id, title: vm.title)
+            } else if case .tvSeries(let vm) = item {
+                presenter.didSelectTVSeries(with: vm.id, title: vm.title)
             }
             
         case .tvSeries:
@@ -255,6 +257,7 @@ extension MainScreenView: UICollectionViewDelegate {
             if case .tvSeries(let vm) = item {
                 presenter.didSelectTVSeries(with: vm.id, title: vm.title)
             }
+        
             
         default:
             break

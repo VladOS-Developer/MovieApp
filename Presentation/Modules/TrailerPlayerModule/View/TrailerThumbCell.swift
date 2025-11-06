@@ -47,9 +47,9 @@ final class TrailerThumbCell: UICollectionViewCell {
     }
 
     func configureVideoCell(with videoVM: TrailerPlayerCellViewModel) {
-            titleLabel.text = videoVM.name
-            thumbnail.image = videoVM.thumbnailImage
-        }
+        titleLabel.text = videoVM.name
+        thumbnail.image = videoVM.thumbnailImage
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -22,7 +22,7 @@ final class TVSeriesRepository: TVSeriesRepositoryProtocol {
     }
     
     func fetchTVSeriesPopular(page: Int) async throws -> [TVSeries] {
-        let response: TVSeriesPopularResponseDTO = try await networkService.request(.tvPopular(page: page))
+        let response: TVSeriesTopRateResponseDTO = try await networkService.request(.tvPopular(page: page))
         print("DEBUG: Decoded \(response.results.count) TV Popular")
         return response.results.map { TVSeries(dto: $0) }
     }
