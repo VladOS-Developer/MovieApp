@@ -55,7 +55,12 @@ class TrailerPlayerView: UIViewController {
         view.backgroundColor = .black
         setupPlayerView()
         setupCollection()
-        presenter.viewDidLoad()
+        
+        if let presenter = presenter {
+                presenter.viewDidLoad()
+            } else if let tvPresenter = tvPresenter {
+                tvPresenter.viewTVDidLoad()
+            }
     }
     
     @objc private func didTapBack() {
@@ -137,16 +142,23 @@ extension TrailerPlayerView: UICollectionViewDataSource, UICollectionViewDelegat
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let previousKey = currentVideoKey
-        presenter.didSelectVideo(at: indexPath.item)
-        
-        // найти индекс предыдущего видео и обновить ячейку
+
+        // безопасно вызываем presenter для фильмов или сериалов
+        if let presenter = presenter {
+            presenter.didSelectMovieVideo(at: indexPath.item)
+        } else if let tvPresenter = tvPresenter {
+            tvPresenter.didSelectTVVideo(at: indexPath.item)
+        } else {
+            return
+        }
+
+        // обновляем старую и новую ячейку
         if let prevKey = previousKey,
            let prevIndex = trailerVideoVM.firstIndex(where: { $0.videoKey == prevKey }) {
             let prevIndexPath = IndexPath(item: prevIndex, section: 0)
             collectionView.reloadItems(at: [prevIndexPath])
         }
-        
-        // обновить текущую ячейку
+
         collectionView.reloadItems(at: [indexPath])
     }
     

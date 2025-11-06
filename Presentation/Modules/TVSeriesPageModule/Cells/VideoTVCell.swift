@@ -8,7 +8,7 @@
 import UIKit
 
 protocol VideoTVCellDelegate: AnyObject {
-    func didTapPlayButton(in cell: MovieVideoCell)
+    func didTapPlayButton(in cell: VideoTVCell)
 }
 
 class VideoTVCell: UICollectionViewCell {
@@ -48,7 +48,7 @@ class VideoTVCell: UICollectionViewCell {
     }(UIButton())
     
     @objc private func didTapPlay() {
-//        delegate?.didTapPlayButton(in: self)
+        delegate?.didTapPlayButton(in: self)
     }
     
     override init(frame: CGRect) {
@@ -77,7 +77,7 @@ class VideoTVCell: UICollectionViewCell {
         ])
     }
     
-    func configureMovieVideoCell(with videoVM: TVVideoCellViewModel) {
+    func configureTVVideoCell(with videoVM: TVVideoCellViewModel) {
         videoImage.image = videoVM.thumbnailImage
         videoSite.text = videoVM.site
         videoName.text = videoVM.name

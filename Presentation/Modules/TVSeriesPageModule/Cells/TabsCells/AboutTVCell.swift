@@ -14,7 +14,7 @@ protocol AboutTVCellDelegate: AnyObject {
 class AboutTVCell: UICollectionViewCell {
     static let reuseId = "AboutTVCell"
     
-    weak var delegate: AboutCellDelegate?
+    weak var delegate: AboutTVCellDelegate?
 
     private lazy var profileImageView: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -70,10 +70,10 @@ class AboutTVCell: UICollectionViewCell {
     }
     
     @objc private func didTapProfileImage() {
-//        delegate?.aboutTVCellDidTapProfileImage(self)
+        delegate?.aboutTVCellDidTapProfileImage(self)
     }
     
-    func configureAboutCell(with vm: TVCastCellViewModel) {
+    func configureTVAboutCell(with vm: TVCastCellViewModel) {
         profileImageView.image = vm.profileImage
         nameLabel.text = vm.name
         characterLabel.text = vm.character

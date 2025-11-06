@@ -68,10 +68,10 @@ struct TVDetailsCellViewModel: Hashable {
         }
         
         // genres
-        let genresList = (tvDetails.genres?.map { $0.name })
-            ?? tvGenres.filter { tvDetails.genreIDs.contains($0.id) }.map { $0.name }
-
-        self.genresText = genresList.joined(separator: " / ")
+        let genreNames = tvGenres
+            .filter { tvDetails.genreIDs.contains($0.id) }
+            .map { $0.name }
+        self.genresText = genreNames.joined(separator: " / ")
         
         // releaseDate
         if let dateString = tvDetails.firstAirDate {

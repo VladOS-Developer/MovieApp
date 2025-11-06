@@ -29,25 +29,30 @@ extension TVVideo {
     
     static func mockTVVideos(for tvId: Int) -> [TVVideo] {
         switch tvId {
-        case 1:
-            return [
-                TVVideo(id: "t1", key: "gkTb9GP9lVI", name: "Breaking Bad Trailer", site: "YouTube", type: "Trailer")
-            ]
-        case 2:
-            return [
-                TVVideo(id: "t2", key: "9GgxinPwAGc", name: "Stranger Things S1 Trailer", site: "YouTube", type: "Trailer")
-            ]
+        case 1399: // Game of Thrones
+            return [TVVideo(id: "1", key: "gcTkNV5Vg1E", name: "Game of Thrones – Official Trailer", site: "YouTube", type: "Trailer")]
+            
+        case 1396: // Breaking Bad
+            return [TVVideo(id: "2", key: "HhesaQXLuRY", name: "Breaking Bad – Season 5 Trailer", site: "YouTube", type: "Trailer")]
+            
+        case 66732: // Stranger Things
+            return [TVVideo(id: "3", key: "b9EkMc79ZSU", name: "Stranger Things – Season 1 Trailer", site: "YouTube", type: "Trailer")]
+            
+        case 1402: // The Walking Dead
+            return [TVVideo(id: "4", key: "sfAc2U20uyg", name: "The Walking Dead – Official Trailer", site: "YouTube", type: "Trailer")]
         default:
             return []
         }
     }
     
+    
     static func mockTVTrendingVideos() -> [TVVideo] {
-            return [
-                TVVideo(id: "1", key: "X2m-08cOAbc", name: "Breaking Bad – Season 5 Trailer", site: "YouTube", type: "Trailer"),
-                TVVideo(id: "2", key: "rBxcF-r9Ibs", name: "Stranger Things – Official Trailer", site: "YouTube", type: "Trailer"),
-                TVVideo(id: "3", key: "gcTkNV5Vg1E", name: "The Witcher – Teaser", site: "YouTube", type: "Teaser"),
-                TVVideo(id: "4", key: "qJ2tW6Wlfds", name: "Game of Thrones – Season 8 Trailer", site: "YouTube", type: "Trailer")
-            ]
-        }
+        return [
+            TVVideo(id: "1", key: "gcTkNV5Vg1E", name: "Game of Thrones – Official Trailer", site: "YouTube", type: "Trailer"),
+            TVVideo(id: "2", key: "HhesaQXLuRY", name: "Breaking Bad – Season 5 Trailer", site: "YouTube", type: "Trailer"),
+            TVVideo(id: "3", key: "b9EkMc79ZSU", name: "Stranger Things – Season 1 Trailer", site: "YouTube", type: "Trailer"),
+            TVVideo(id: "4", key: "sfAc2U20uyg", name: "The Walking Dead – Official Trailer", site: "YouTube", type: "Trailer")
+        ]
+    }
+    
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PosterTVCellDelegate: AnyObject {
-    func didTapPlayButton(in cell: PosterCell)
+    func didTapPlayButton(in cell: PosterTVCell)
 }
 
 final class PosterTVCell: UICollectionViewCell {
@@ -36,7 +36,7 @@ final class PosterTVCell: UICollectionViewCell {
     }(UIButton())
     
     @objc private func didTapPlay() {
-//        delegate?.didTapPlayButton(in: self)
+        delegate?.didTapPlayButton(in: self)
     }
    
     override init(frame: CGRect) {
@@ -60,7 +60,7 @@ final class PosterTVCell: UICollectionViewCell {
         ])
     }
     
-    func configurePosterCell(with vm: TVDetailsCellViewModel) {
+    func configureTVPosterCell(with vm: TVDetailsCellViewModel) {
         posterView.image = vm.posterImage
     }
     

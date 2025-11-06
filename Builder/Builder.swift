@@ -268,8 +268,8 @@ class Builder: BuilderProtocol {
     
     //MARK: - createTVSeriesController
     static func createTVSeriesController(id: Int, title: String) -> UIViewController {
-        let seriesView = TVSeriesPageView()
-        let router = TVSeriesPageRouter()
+        let seriesView = TVPageView()
+        let router = TVPageRouter()
         let imageLoader = KingfisherImageLoader()
         
         let tvDetailsRepository: TVDetailsRepositoryProtocol = useMock
@@ -287,7 +287,7 @@ class Builder: BuilderProtocol {
         let tvCreditsRepository: TVCreditsRepositoryProtocol = useMock
         ? MockTVCreditsRepository.shared : TVCreditsRepository(networkService: NetworkService(apiKey: apiKey))
         
-        let presenter = TVSeriesPagePresenter(view: seriesView,
+        let presenter = TVPagePresenter(view: seriesView,
                                               router: router,
                                               imageLoader: imageLoader,
                                               tvDetailsRepository: tvDetailsRepository,

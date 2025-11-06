@@ -15,8 +15,8 @@ final class TVSeriesRepository: TVSeriesRepositoryProtocol {
     }
     
     func fetchTVSeriesTopRate(page: Int) async throws -> [TVSeries] {
-//        let seriesRandomPage = Int.random(in: 1...50)
-        let response: TVSeriesTopRateResponseDTO = try await networkService.request(.tvTopRated(page: page))
+        let seriesRandomPage = Int.random(in: 1...50)
+        let response: TVSeriesTopRateResponseDTO = try await networkService.request(.tvTopRated(page: seriesRandomPage))
         print("DEBUG: Decoded \(response.results.count) TV Top Rated")
         return response.results.map { TVSeries(dto: $0) }
     }
@@ -27,7 +27,7 @@ final class TVSeriesRepository: TVSeriesRepositoryProtocol {
         return response.results.map { TVSeries(dto: $0) }
     }
     
-    func fetchCombinedTVSeries() async throws -> [TVSeries] {
+    func fetchTVSeries() async throws -> [TVSeries] {
         async let topRated = fetchTVSeriesTopRate(page: 1)
         async let popular = fetchTVSeriesPopular(page: 1)
         

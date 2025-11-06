@@ -8,9 +8,9 @@
 import UIKit
 
 protocol TVTrailerPlayerPresenterProtocol: AnyObject {
-    func viewDidLoad()
-    func loadVideos()
-    func didSelectVideo(at index: Int)
+    func viewTVDidLoad()
+    func loadTVVideos()
+    func didSelectTVVideo(at index: Int)
     
     init(view: TrailerPlayerViewProtocol,
          imageLoader: ImageLoaderProtocol,
@@ -41,13 +41,13 @@ final class TVTrailerPlayerPresenter: TVTrailerPlayerPresenterProtocol {
         self.tvTitle = tvTitle
     }
     
-    func viewDidLoad() {
+    func viewTVDidLoad() {
         view?.setTitle(tvTitle)
         view?.loadVideo(with: initialVideo.key)
-        loadVideos()
+        loadTVVideos()
     }
 
-    func loadVideos() {
+    func loadTVVideos() {
         Task {
             do {
                 let trendingVideos = try await tvVideoRepository.fetchTrendingTVVideos()
@@ -70,7 +70,7 @@ final class TVTrailerPlayerPresenter: TVTrailerPlayerPresenterProtocol {
         }
     }
     
-    func didSelectVideo(at index: Int) {
+    func didSelectTVVideo(at index: Int) {
         guard videos.indices.contains(index) else { return }
         let video = videos[index]
         view?.setTitle(video.name)

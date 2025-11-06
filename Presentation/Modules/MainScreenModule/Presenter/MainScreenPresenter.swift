@@ -69,7 +69,7 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
                 async let genresTask = genreRepository.fetchGenres()
                 async let topMoviesTask = movieRepository.fetchTopMovies()
                 async let upcomingTask = movieRepository.fetchUpcomingMovies()
-                async let tvSeriesTask = tvSeriesRepository.fetchCombinedTVSeries()
+                async let tvSeriesTask = tvSeriesRepository.fetchTVSeries()
                 async let tvGenresTask = tvGenresRepository.fetchTVGenres()
                 
                 let (genres, topMovies, upcomingMovies, tvSeriesCombo, tvGenres) = try await (genresTask, topMoviesTask, upcomingTask, tvSeriesTask, tvGenresTask)

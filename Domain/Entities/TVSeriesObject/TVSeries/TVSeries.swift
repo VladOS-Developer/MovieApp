@@ -52,112 +52,59 @@ extension TVSeries {
     }
     
     static func mockSeriesTopRate() -> [TVSeries] {
-            return [
-                TVSeries(
-                    id: 1399,name: "Game of Thrones",
-                    originalName: "Game of Thrones",
-                    posterPath: "series1",
-                    backdropPath: nil,
-                    overview: "Nine noble families wage war against each other in order to gain control over the mythical land of Westeros.",
-                    firstAirDate: "2011-04-17",
-                    genreIDs: [10765, 18, 10759],
-                    voteAverage: 8.4,
-                    isLocalImage: true
-                ),
-                
-                TVSeries(
-                    id: 1396,
-                    name: "Breaking Bad",
-                    originalName: "Breaking Bad",
-                    posterPath: "series2",
-                    backdropPath: nil,
-                    overview: "A high school chemistry teacher turned methamphetamine producer navigates the dangers of the criminal underworld.",
-                    firstAirDate: "2008-01-20",
-                    genreIDs: [18, 80],
-                    voteAverage: 8.9,
-                    isLocalImage: true
-                ),
-                
-                TVSeries(
-                    id: 66732,
-                    name: "Stranger Things",
-                    originalName: "Stranger Things",
-                    posterPath: "series3",
-                    backdropPath: nil,
-                    overview: "A group of kids uncover supernatural forces and secret experiments in their small town.",
-                    firstAirDate: "2016-07-15",
-                    genreIDs: [18, 9648, 10765],
-                    voteAverage: 8.6,
-                    isLocalImage: true
-                ),
-                
-                TVSeries(
-                    id: 1402,
-                    name: "The Walking Dead",
-                    originalName: "The Walking Dead",
-                    posterPath: "series4",
-                    backdropPath: nil,
-                    overview: "Sheriff Rick Grimes leads a group of survivors in a world overrun by zombies.",
-                    firstAirDate: "2010-10-31",
-                    genreIDs: [18, 10759, 10765],
-                    voteAverage: 8.2,
-                    isLocalImage: true
-                )
-            ]
-        }
+        return [
+            TVSeries(id: 1399, name: "Game of Thrones", originalName: "Game of Thrones",
+                     posterPath: "series1", backdropPath: nil,
+                     overview: "Nine noble families wage war against each other in order to gain control over Westeros.",
+                     firstAirDate: "2011-04-17", genreIDs: [10765, 18, 10759],
+                     voteAverage: 8.4, isLocalImage: true),
+            
+            TVSeries(id: 1396, name: "Breaking Bad", originalName: "Breaking Bad",
+                     posterPath: "series2", backdropPath: nil,
+                     overview: "A chemistry teacher turned meth producer navigates the criminal underworld.",
+                     firstAirDate: "2008-01-20", genreIDs: [18, 80],
+                     voteAverage: 8.9, isLocalImage: true),
+            
+            TVSeries(id: 66732, name: "Stranger Things", originalName: "Stranger Things",
+                     posterPath: "series3", backdropPath: nil,
+                     overview: "Kids uncover supernatural forces in their small town.",
+                     firstAirDate: "2016-07-15", genreIDs: [18, 9648, 10765],
+                     voteAverage: 8.6, isLocalImage: true),
+            
+            TVSeries(id: 1402, name: "The Walking Dead", originalName: "The Walking Dead",
+                     posterPath: "series4", backdropPath: nil,
+                     overview: "Rick Grimes leads survivors in a zombie world.",
+                     firstAirDate: "2010-10-31", genreIDs: [18, 10759, 10765],
+                     voteAverage: 8.2, isLocalImage: true)
+        ]
+    }
     
     static func mockSeriesPopular() -> [TVSeries] {
-            return [
-                TVSeries(
-                    id: 1399,name: "Game of Thrones",
-                    originalName: "Game of Thrones",
-                    posterPath: "series1",
-                    backdropPath: nil,
-                    overview: "Nine noble families wage war against each other in order to gain control over the mythical land of Westeros.",
-                    firstAirDate: "2011-04-17",
-                    genreIDs: [10765, 18, 10759],
-                    voteAverage: 8.4,
-                    isLocalImage: true
-                ),
-                
-                TVSeries(
-                    id: 1396,
-                    name: "Breaking Bad",
-                    originalName: "Breaking Bad",
-                    posterPath: "series2",
-                    backdropPath: nil,
-                    overview: "A high school chemistry teacher turned methamphetamine producer navigates the dangers of the criminal underworld.",
-                    firstAirDate: "2008-01-20",
-                    genreIDs: [18, 80],
-                    voteAverage: 8.9,
-                    isLocalImage: true
-                ),
-                
-                TVSeries(
-                    id: 66732,
-                    name: "Stranger Things",
-                    originalName: "Stranger Things",
-                    posterPath: "series3",
-                    backdropPath: nil,
-                    overview: "A group of kids uncover supernatural forces and secret experiments in their small town.",
-                    firstAirDate: "2016-07-15",
-                    genreIDs: [18, 9648, 10765],
-                    voteAverage: 8.6,
-                    isLocalImage: true
-                ),
-                
-                TVSeries(
-                    id: 1402,
-                    name: "The Walking Dead",
-                    originalName: "The Walking Dead",
-                    posterPath: "series4",
-                    backdropPath: nil,
-                    overview: "Sheriff Rick Grimes leads a group of survivors in a world overrun by zombies.",
-                    firstAirDate: "2010-10-31",
-                    genreIDs: [18, 10759, 10765],
-                    voteAverage: 8.2,
-                    isLocalImage: true
-                )
-            ]
-        }
+        
+        return [
+            TVSeries(id: 1399, name: "Game of Thrones", originalName: "Game of Thrones",
+                     posterPath: "series1", backdropPath: nil,
+                     overview: "Nine noble families wage war against each other in order to gain control over Westeros.",
+                     firstAirDate: "2011-04-17", genreIDs: [10765, 18, 10759],
+                     voteAverage: 8.4, isLocalImage: true),
+            
+            TVSeries(id: 1396, name: "Breaking Bad", originalName: "Breaking Bad",
+                     posterPath: "series2", backdropPath: nil,
+                     overview: "A chemistry teacher turned meth producer navigates the criminal underworld.",
+                     firstAirDate: "2008-01-20", genreIDs: [18, 80],
+                     voteAverage: 8.9, isLocalImage: true),
+            
+            TVSeries(id: 66732, name: "Stranger Things", originalName: "Stranger Things",
+                     posterPath: "series3", backdropPath: nil,
+                     overview: "Kids uncover supernatural forces in their small town.",
+                     firstAirDate: "2016-07-15", genreIDs: [18, 9648, 10765],
+                     voteAverage: 8.6, isLocalImage: true),
+            
+            TVSeries(id: 1402, name: "The Walking Dead", originalName: "The Walking Dead",
+                     posterPath: "series4", backdropPath: nil,
+                     overview: "Rick Grimes leads survivors in a zombie world.",
+                     firstAirDate: "2010-10-31", genreIDs: [18, 10759, 10765],
+                     voteAverage: 8.2, isLocalImage: true)
+        ]
+    }
 }

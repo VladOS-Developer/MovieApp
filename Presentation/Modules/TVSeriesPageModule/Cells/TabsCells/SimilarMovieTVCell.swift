@@ -47,7 +47,7 @@ final class SimilarMovieTVCell: UICollectionViewCell {
         ])
     }
     
-    func configureSimilarMovieCell(with vm: TVSimilarCellViewModel) {
+    func configureTVSimilarMovieCell(with vm: TVSimilarCellViewModel) {
         voteAverageLabel.text = vm.ratingText
         similarImage.image = vm.posterImage
         

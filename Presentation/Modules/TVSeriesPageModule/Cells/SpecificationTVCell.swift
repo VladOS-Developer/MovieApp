@@ -106,7 +106,7 @@ final class SpecificationTVCell: UICollectionViewCell {
         ])
     }
     
-    func configureSpecificationCell(with detailsVM: TVDetailsCellViewModel) {
+    func configureTVSpecificationCell(with detailsVM: TVDetailsCellViewModel) {
         voteAverageLabel.text = detailsVM.ratingText
         runtimeLabel.text = detailsVM.runtimeText
         genreLabel.text = detailsVM.genresText

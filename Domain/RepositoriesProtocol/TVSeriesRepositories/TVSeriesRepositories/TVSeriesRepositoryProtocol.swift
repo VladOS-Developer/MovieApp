@@ -13,7 +13,7 @@ protocol TVSeriesRepositoryProtocol: AnyObject {
     
     func fetchTVSeriesPopular(page: Int) async throws -> [TVSeries]
     
-    func fetchCombinedTVSeries() async throws -> [TVSeries]
+    func fetchTVSeries() async throws -> [TVSeries]
     
     func searchTVSeries(query: String, page: Int) async throws -> [TVSeries]
 }

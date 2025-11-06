@@ -8,7 +8,7 @@
 import UIKit
 
 protocol OverviewTVCellDelegate: AnyObject {
-    func overviewCellDidToggle(_ cell: OverviewCell)
+    func overviewCellDidToggle(_ cell: OverviewTVCell)
 }
 
 class OverviewTVCell: UICollectionViewCell {
@@ -41,10 +41,10 @@ class OverviewTVCell: UICollectionViewCell {
     }(UIStackView(arrangedSubviews: [overviewLabel, viewMoreButton]))
     
     @objc private func didTapViewMore() {
-//        delegate?.overviewCellDidToggle(self)
+        delegate?.overviewCellDidToggle(self)
     }
 
-    func configureOverviewCell(with detailsText: String, expanded: Bool) {
+    func configureTVOverviewCell(with detailsText: String, expanded: Bool) {
         overviewLabel.text = detailsText
         // expanded == true -> full height (numberOfLines = 0)
         overviewLabel.numberOfLines = expanded ? 0 : 3

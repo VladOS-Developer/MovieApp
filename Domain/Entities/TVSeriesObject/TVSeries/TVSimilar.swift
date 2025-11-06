@@ -35,17 +35,41 @@ extension TVSimilar {
         self.isLocalImage = false
     }
     
-    static func mockTVSimilar() -> [TVSimilar] {
-        return [
-            
-            TVSimilar(id: 1, name: "Game of Thrones", originalName: "Game of Thrones", posterPath: "series1", firstAirDate: "2011-04-17", backdropPath: "", genreIDs: [18, 10765],
-                      overview: "Nine noble families wage war against each other in order to gain control over the mythical land of Westeros.", voteAverage: 9.5, isLocalImage: true),
-            
-            TVSimilar(id: 2, name: "Breaking Bad", originalName: "Breaking Bad", posterPath: "series2", firstAirDate: "2008-01-20", backdropPath: "", genreIDs: [80, 18],
-                      overview: "A high school chemistry teacher turned methamphetamine producer teams up with a former student to secure his family's future.", voteAverage: 9.6, isLocalImage: true),
-            
-            TVSimilar(id: 3, name: "The Witcher", originalName: "The Witcher", posterPath: "series3", firstAirDate: "2019-12-20", backdropPath: "", genreIDs: [18, 10765],
-                      overview: "Geralt of Rivia, a solitary monster hunter, struggles to find his place in a world where people often prove more wicked than beasts.", voteAverage: 8.2, isLocalImage: true)
-        ]
-    }
+//    static func mockTVSimilar() -> [TVSimilar] {
+//        return [
+//            
+//            TVSimilar(id: 1, name: "Game of Thrones", originalName: "Game of Thrones", posterPath: "series1", firstAirDate: "2011-04-17", backdropPath: "", genreIDs: [18, 10765],
+//                      overview: "Nine noble families wage war against each other in order to gain control over the mythical land of Westeros.", voteAverage: 9.5, isLocalImage: true),
+//            
+//            TVSimilar(id: 2, name: "Breaking Bad", originalName: "Breaking Bad", posterPath: "series2", firstAirDate: "2008-01-20", backdropPath: "", genreIDs: [80, 18],
+//                      overview: "A high school chemistry teacher turned methamphetamine producer teams up with a former student to secure his family's future.", voteAverage: 9.6, isLocalImage: true),
+//            
+//            TVSimilar(id: 3, name: "The Witcher", originalName: "The Witcher", posterPath: "series3", firstAirDate: "2019-12-20", backdropPath: "", genreIDs: [18, 10765],
+//                      overview: "Geralt of Rivia, a solitary monster hunter, struggles to find his place in a world where people often prove more wicked than beasts.", voteAverage: 8.2, isLocalImage: true)
+//        ]
+//    }
+    static func mockTVSimilar(for tvId: Int) -> [TVSimilar] {
+            switch tvId {
+            case 1399: // Game of Thrones
+                return [
+                    TVSimilar(id: 1396, name: "Breaking Bad", originalName: "Breaking Bad", posterPath: "series2",
+                              firstAirDate: "2008-01-20", backdropPath: "", genreIDs: [80, 18],
+                              overview: "A chemistry teacher becomes a drug lord.", voteAverage: 9.5, isLocalImage: true)
+                ]
+            case 1396: // Breaking Bad
+                return [
+                    TVSimilar(id: 66732, name: "Stranger Things", originalName: "Stranger Things", posterPath: "series3",
+                              firstAirDate: "2016-07-15", backdropPath: "", genreIDs: [18, 9648, 10765],
+                              overview: "Kids discover a dark secret in Hawkins.", voteAverage: 8.6, isLocalImage: true)
+                ]
+            case 66732:
+                return [
+                    TVSimilar(id: 1402, name: "The Walking Dead", originalName: "The Walking Dead", posterPath: "series4",
+                              firstAirDate: "2010-10-31", backdropPath: "", genreIDs: [18, 10759, 10765],
+                              overview: "Survivors face a zombie world.", voteAverage: 8.2, isLocalImage: true)
+                ]
+            default:
+                return []
+            }
+        }
 }

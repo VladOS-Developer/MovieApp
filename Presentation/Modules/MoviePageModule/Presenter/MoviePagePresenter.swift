@@ -262,7 +262,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     
     //MARK: - didTapPlayTrailerButton
     
-    func didTapPlayTrailerButton(videoVM: MovieVideoCellViewModel) { // -
+    func didTapPlayTrailerButton(videoVM: MovieVideoCellViewModel) {
         guard let video = videos.first(where: { $0.id == videoVM.id }) else { return }
         let movieTitle = "\(video.name)"
         
@@ -274,7 +274,7 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     
     //MARK: - playPosterTrailer
     
-    func playPosterTrailer() { // -
+    func playPosterTrailer() {
         guard let firstVideo = videos.first else { return }
         let movieTitle = "\(firstVideo.name)"
         

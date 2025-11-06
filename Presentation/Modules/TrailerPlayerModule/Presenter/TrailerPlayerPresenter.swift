@@ -11,7 +11,7 @@ protocol TrailerPlayerPresenterProtocol: AnyObject {
         
     func viewDidLoad()
     func loadVideos()
-    func didSelectVideo(at index: Int)
+    func didSelectMovieVideo(at index: Int)
     
     init(view: TrailerPlayerViewProtocol,
          imageLoader: ImageLoaderProtocol,
@@ -80,7 +80,7 @@ class TrailerPlayerPresenter: TrailerPlayerPresenterProtocol {
         }
     }
     
-    func didSelectVideo(at index: Int) {
+    func didSelectMovieVideo(at index: Int) {
         guard videos.indices.contains(index) else { return }
         let video = videos[index]
         view?.setTitle(video.name)

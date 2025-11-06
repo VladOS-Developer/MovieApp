@@ -1,15 +1,15 @@
 //
-//  MoviePageLayoutFactory.swift
+//  TVPageLayoutFactory.swift
 //  MovieApp
 //
-//  Created by VladOS on 22.08.2025.
+//  Created by VladOS on 05.11.2025.
 //
 
 import UIKit
 
-enum MoviePageLayoutFactory {
+enum TVPageLayoutFactory {
     
-    static func setPosterMovieLayout() -> NSCollectionLayoutSection {
+    static func setPosterTVLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -20,7 +20,7 @@ enum MoviePageLayoutFactory {
         return section
     }
     
-    static func setStackButtonLayout() -> NSCollectionLayoutSection {
+    static func setStackButtonTVLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -32,7 +32,7 @@ enum MoviePageLayoutFactory {
         return section
     }
     
-    static func setSpecificationLayout() -> NSCollectionLayoutSection {
+    static func setSpecificationTVLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -44,7 +44,7 @@ enum MoviePageLayoutFactory {
         return section
     }
     
-    static func setOverviewLayout() -> NSCollectionLayoutSection {
+    static func setOverviewTVLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),heightDimension: .estimated(40))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -56,7 +56,7 @@ enum MoviePageLayoutFactory {
         return section
     }
     
-    static func setMovieVideoLayout() -> NSCollectionLayoutSection {
+    static func setVideoTVLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.55),heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -69,7 +69,7 @@ enum MoviePageLayoutFactory {
         return section
     }
     
-    static func setSegmentedTabsLayout() -> NSCollectionLayoutSection {
+    static func setSegmentedTabsTVLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(25))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
@@ -81,7 +81,7 @@ enum MoviePageLayoutFactory {
         return section
     }
     
-    static func setDynamicContentLayout() -> NSCollectionLayoutSection {
+    static func setDynamicContentTVLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .absolute(150), heightDimension: .absolute(150)), subitems: [item])
@@ -92,5 +92,6 @@ enum MoviePageLayoutFactory {
         
         return section
     }
-  
+   
 }
+
