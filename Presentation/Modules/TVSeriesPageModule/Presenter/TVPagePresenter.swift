@@ -19,6 +19,8 @@ protocol TVPagePresenterProtocol: AnyObject {
          tvSimilarRepository: TVSimilarRepositoryProtocol,
          tvCreditsRepository: TVCreditsRepositoryProtocol,
          
+         tvSeasonRepository: TVSeasonRepositoryProtocol,
+         
          tvTitle: String,
          tvId: Int)
     
@@ -31,10 +33,13 @@ protocol TVPagePresenterProtocol: AnyObject {
     
     func didSelectActor(castVM: TVCastCellViewModel)
     func didSelectSimilarMovie(_ tv: TVSimilarCellViewModel)
+    
+    func didSelectSeason(index: Int)
+    //    func didTapPlayEpisodeVideoButton(videoVM: TVEpisodeVideoCellViewModel)
 }
 
 class TVPagePresenter: TVPagePresenterProtocol {
-  
+    
     private weak var view: TVPageViewProtocol?
     private let router: TVPageRouterProtocol
     private let imageLoader: ImageLoaderProtocol
@@ -45,6 +50,8 @@ class TVPagePresenter: TVPagePresenterProtocol {
     private let tvSimilarRepository: TVSimilarRepositoryProtocol
     private let tvCreditsRepository: TVCreditsRepositoryProtocol
     
+    private let tvSeasonRepository: TVSeasonRepositoryProtocol
+    
     private let tvTitle: String
     private var tvId: Int
     
@@ -52,6 +59,7 @@ class TVPagePresenter: TVPagePresenterProtocol {
     private var sections: [TVPageCollectionSection] = []
     private let favoritesStorage = FavoritesStorage()
     private var currentTVMovie: TVDetails?
+    private var loadedSeasons: [TVSeason] = []
     
     required init(view: TVPageViewProtocol,
                   router: TVPageRouterProtocol,
@@ -62,6 +70,8 @@ class TVPagePresenter: TVPagePresenterProtocol {
                   tvVideoRepository: TVVideoRepositoryProtocol,
                   tvSimilarRepository: TVSimilarRepositoryProtocol,
                   tvCreditsRepository: TVCreditsRepositoryProtocol,
+                  
+                  tvSeasonRepository: TVSeasonRepositoryProtocol,
                   
                   tvTitle: String,
                   tvId: Int) {
@@ -74,10 +84,11 @@ class TVPagePresenter: TVPagePresenterProtocol {
         self.tvVideoRepository = tvVideoRepository
         self.tvSimilarRepository = tvSimilarRepository
         self.tvCreditsRepository = tvCreditsRepository
+        self.tvSeasonRepository = tvSeasonRepository
         self.tvTitle = tvTitle
         self.tvId = tvId
     }
-
+    
     //MARK: - getTVData
     
     func getTVData() {
@@ -128,6 +139,7 @@ class TVPagePresenter: TVPagePresenterProtocol {
                     TVPageCollectionSection(type: .specificationTV, items: [detailItem]),
                     TVPageCollectionSection(type: .overviewTV, items: [detailItem]),
                     TVPageCollectionSection(type: .videoTV, items: []),
+                    TVPageCollectionSection(type: .episodesSegmentTV, items: []),
                     TVPageCollectionSection(type: .segmentedTabsTV, items: []),
                     TVPageCollectionSection(type: .dynamicContentTV, items: [])
                 ]
@@ -170,11 +182,86 @@ class TVPagePresenter: TVPagePresenterProtocol {
                 }
                 
                 didSelectTab(index: 0)
-
+                
+                // 9) Seasons
+                let seasons = try await tvSeasonRepository.fetchSeasons(for: tvId)
+                
+                // Фильтруем спецсезоны (seasonNumber = 0) и сортируем
+                self.loadedSeasons = seasons
+                    .filter { $0.seasonNumber > 0 }
+                    .sorted { $0.seasonNumber < $1.seasonNumber }
+                
+                if let index = sections.firstIndex(where: { $0.type == .episodesSegmentTV }) {
+                    let titles = loadedSeasons.map { $0.name }
+                    sections[index].items = [.tvSeasons(titles)]
+                }
+                await MainActor.run { self.view?.showTV(sections: self.sections) }
+                
+                // Автовыбор первого сезона
+                if !loadedSeasons.isEmpty {
+                    didSelectSeason(index: 0)
+                }
                 
             } catch {
-                print("MoviePagePresenter.getMoviesData error:", error)
+                print("getTVData error:", error)
             }
+        }
+    }
+    
+    // MARK: - didSelectSeason
+    
+    func didSelectSeason(index: Int) {
+        Task {
+            do {
+                guard loadedSeasons.indices.contains(index) else { return }
+                let season = loadedSeasons[index]
+                let seasonNumber = season.seasonNumber
+                
+                let episodes = try await tvSeasonRepository.fetchEpisodes(for: tvId, seasonNumber: seasonNumber)
+                
+                await setEpisodeVideosSectionVM(with: episodes, tvId: tvId, seasonNumber: seasonNumber)
+            } catch {
+                print("didSelectSeason error:", error)
+            }
+        }
+    }
+   
+    //MARK: - setEpisodeVideosSectionVM
+
+    private func setEpisodeVideosSectionVM(with episodes: [TVEpisode], tvId: Int, seasonNumber: Int) async {
+        // Если эпизоды пустые — используем мок
+        let list = episodes.isEmpty ? TVEpisode.mockEpisodes(for: tvId, seasonNumber: seasonNumber) : episodes
+        
+        // Создаём видео-модели для всех эпизодов
+        var videoItems: [TVPageCollectionItem] = []
+        for episode in list {
+            for video in episode.videos {
+                var episodeVM = TVEpisodeVideoCellViewModel(video: video, isLocal: false)
+                episodeVM.thumbnailImage = await imageLoader.loadImage(
+                    from: episodeVM.thumbnailURL,
+                    localName: nil,
+                    isLocal: false
+                )
+                videoItems.append(.tvEpisodeVideo(episodeVM))
+            }
+        }
+        
+        // Удаляем старую секцию с эпизодами
+        sections.removeAll { $0.type == .episodeVideosTV }
+        
+        // Создаём новую секцию
+        let newSection = TVPageCollectionSection(type: .episodeVideosTV, items: videoItems)
+        
+        // Вставляем после сегмента сезонов
+        if let pos = sections.firstIndex(where: { $0.type == .episodesSegmentTV }) {
+            sections.insert(newSection, at: pos + 1)
+        } else {
+            sections.append(newSection)
+        }
+        
+        // Обновляем UI
+        await MainActor.run {
+            self.view?.showTV(sections: self.sections)
         }
     }
     
@@ -224,7 +311,7 @@ class TVPagePresenter: TVPagePresenterProtocol {
                         )
                         return .tvCast(castVM)
                     }
-                                                            
+                    
                     if let dynamicSectionIndex = self.sections.firstIndex(where: { $0.type == .dynamicContentTV }) {
                         self.sections[dynamicSectionIndex].items = castItems
                         
@@ -242,6 +329,7 @@ class TVPagePresenter: TVPagePresenterProtocol {
         }
     }
     
+
     //MARK: - toggleFavorite
     
     func toggleFavorite() {
@@ -261,6 +349,20 @@ class TVPagePresenter: TVPagePresenterProtocol {
             view?.updateFavoriteState(isFavorite: true)
         }
     }
+    
+    // MARK: - didTapPlayEpisodeVideoButton
+    //
+    //    func didTapPlayEpisodeVideoButton(videoVM: TVEpisodeVideoCellViewModel) {
+    //        let video = TVEpisodeVideo(
+    //            id: videoVM.id,
+    //            key: videoVM.videoKey,
+    //            name: videoVM.name,
+    //            site: videoVM.site,
+    //            type: videoVM.type
+    //        )
+    //        let title = "\(video.name)"
+    //        router.showTVTrailerPlayer(video: video, title: title)
+    //    }
     
     //MARK: - didTapPlayTrailerButton
     
@@ -296,4 +398,3 @@ class TVPagePresenter: TVPagePresenterProtocol {
     }
     
 }
-

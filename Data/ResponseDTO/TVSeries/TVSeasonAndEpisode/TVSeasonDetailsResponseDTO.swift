@@ -9,6 +9,6 @@ import Foundation
 
 struct TVSeasonDetailsResponseDTO: Decodable {
     let id: Int
-    let seasonNumber: Int
+    let seasonNumber: Int?
     let episodes: [TVEpisodeDTO]
 }

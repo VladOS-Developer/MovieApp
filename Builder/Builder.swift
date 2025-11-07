@@ -287,6 +287,9 @@ class Builder: BuilderProtocol {
         let tvCreditsRepository: TVCreditsRepositoryProtocol = useMock
         ? MockTVCreditsRepository.shared : TVCreditsRepository(networkService: NetworkService(apiKey: apiKey))
         
+        let tvSeasonRepository: TVSeasonRepositoryProtocol = useMock
+        ? MockTVSeasonRepository.shared : TVSeasonRepository(networkService: NetworkService(apiKey: apiKey))
+        
         let presenter = TVPagePresenter(view: seriesView,
                                               router: router,
                                               imageLoader: imageLoader,
@@ -295,6 +298,7 @@ class Builder: BuilderProtocol {
                                               tvVideoRepository: tvVideoRepository,
                                               tvSimilarRepository: tvSimilarRepository,
                                               tvCreditsRepository: tvCreditsRepository,
+                                              tvSeasonRepository: tvSeasonRepository,
                                               tvTitle: title,
                                               tvId: id)
      

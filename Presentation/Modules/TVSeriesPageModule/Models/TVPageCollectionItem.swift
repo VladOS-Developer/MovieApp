@@ -14,6 +14,9 @@ enum TVPageCollectionItem: Hashable {
     case tvVideo(TVVideoCellViewModel)
     case tvSimilar(TVSimilarCellViewModel)
     case tvCast(TVCastCellViewModel)
+    case tvEpisode(TVEpisodeCellViewModel)
+    case tvEpisodeVideo(TVEpisodeVideoCellViewModel)
+    case tvSeasons([String])
     
     var id: String {
         switch self {
@@ -23,6 +26,10 @@ enum TVPageCollectionItem: Hashable {
         case .tvSimilar(let vm): return String(vm.id)
 //        case .cast(let vm): return String(vm.id)            // "cast_\(vm.id)" чтобы избежать коллизий идентификаторов
         case .tvCast(let vm): return "cast_\(vm.id)"
+        case .tvEpisode(let vm): return String(vm.id)
+        case .tvEpisodeVideo(let vm): return vm.id
+        case .tvSeasons(let titles): return "seasons_\(titles.joined(separator: "_"))"
+
         }
     }
     
@@ -33,6 +40,10 @@ enum TVPageCollectionItem: Hashable {
         case .tvVideo(let vm): return vm.name
         case .tvSimilar(let vm): return vm.title
         case .tvCast(let vm): return vm.name
+        case .tvEpisode(let vm): return vm.title
+        case .tvEpisodeVideo(let vm): return vm.name
+        case .tvSeasons: return "Seasons"
+
         }
     }
     
@@ -43,6 +54,10 @@ enum TVPageCollectionItem: Hashable {
         case .tvVideo(let vm): return vm.thumbnailImage
         case .tvSimilar(let vm): return vm.posterImage
         case .tvCast(let vm): return vm.profileImage
+        case .tvEpisode(let vm): return vm.thumbnailImage
+        case .tvEpisodeVideo(let vm): return vm.thumbnailImage
+        case .tvSeasons: return nil
+
         }
     }
     
@@ -53,6 +68,10 @@ enum TVPageCollectionItem: Hashable {
         case .tvVideo(let vm): return vm.thumbnailURL
         case .tvSimilar(let vm): return vm.posterURL
         case .tvCast(let vm): return vm.profileURL
+        case .tvEpisode(let vm): return vm.thumbnailURL
+        case .tvEpisodeVideo(let vm): return vm.thumbnailURL
+        case .tvSeasons: return nil
+
         }
     }
 }

@@ -24,9 +24,9 @@ extension TVEpisodeVideo {
         self.type = dto.type
     }
     
-    static func fetchEpisodeVideos(for tvId: Int, seasonNumber: Int, episodeNumber: Int) -> [TVEpisodeVideo] {
+    static func mockEpisodeVideo(for tvId: Int, seasonNumber: Int, episodeNumber: Int) -> [TVEpisodeVideo] {
         return [
-            TVEpisodeVideo(id: "mock1", key: "mock_video_key", name: "Mock Trailer", site: "YouTube", type: "Trailer")
+            TVEpisodeVideo(id: "mock", key: "mock_key", name: "Mock Trailer", site: "YouTube", type: "Trailer")
         ]
     }
 }

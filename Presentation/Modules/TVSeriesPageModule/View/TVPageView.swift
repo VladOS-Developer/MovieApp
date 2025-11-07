@@ -33,6 +33,8 @@ class TVPageView: UIViewController {
         $0.register(SegmentedTabsTVCell.self, forCellWithReuseIdentifier: SegmentedTabsTVCell.reuseId)
         $0.register(SimilarMovieTVCell.self, forCellWithReuseIdentifier: SimilarMovieTVCell.reuseId)
         $0.register(AboutTVCell.self, forCellWithReuseIdentifier: AboutTVCell.reuseId)
+        $0.register(SegmentedEpisodesTVCell.self, forCellWithReuseIdentifier: SegmentedEpisodesTVCell.reuseId)
+        $0.register(EpisodeVideoTVCell.self, forCellWithReuseIdentifier: EpisodeVideoTVCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createPageLayout()))
     
@@ -56,11 +58,18 @@ class TVPageView: UIViewController {
             case .videoTV:
                 return TVPageLayoutFactory.setVideoTVLayout()
                 
+            case .episodesSegmentTV:
+                return TVPageLayoutFactory.setSegmentedEpisodesLayout()
+                
+            case .episodeVideosTV:
+                return TVPageLayoutFactory.setEpisodeVideosLayout()
+                
             case .segmentedTabsTV:
                 return TVPageLayoutFactory.setSegmentedTabsTVLayout()
              
             case .dynamicContentTV:
                 return TVPageLayoutFactory.setDynamicContentTVLayout()
+            
             }
         }
     }
@@ -135,6 +144,8 @@ extension TVPageView: UICollectionViewDataSource {
         switch sections[section].type {
         case .stackButtonsTV:
             return 1 // возврат 1
+        case .episodesSegmentTV:
+            return 1
         case .segmentedTabsTV:
             return 1
         default:
@@ -217,6 +228,27 @@ extension TVPageView: UICollectionViewDataSource {
             }
             return cell
             
+            // EpisodesSegmentTV
+        case .episodesSegmentTV:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SegmentedEpisodesTVCell.reuseId, for: indexPath) as? SegmentedEpisodesTVCell else {
+                return UICollectionViewCell()
+            }
+            cell.delegate = self
+            return cell
+            
+        case .episodeVideosTV:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EpisodeVideoTVCell.reuseId, for: indexPath) as? EpisodeVideoTVCell else {
+                return UICollectionViewCell()
+            }
+            
+            let item = section.items[indexPath.item]
+            switch item {
+            case .tvEpisodeVideo(let videoVM):
+                cell.configureEpisodeVM(with: videoVM)
+            default: break
+            }
+            return cell
+            
             // SegmentedTabs
         case .segmentedTabsTV:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SegmentedTabsTVCell.reuseId, for: indexPath) as? SegmentedTabsTVCell else {
@@ -250,12 +282,30 @@ extension TVPageView: UICollectionViewDataSource {
                 return UICollectionViewCell()
                 
             }
+        
         }
     }
     
 }
 
-// MARK: - MovieSegmentedTabsCellDelegate
+// MARK: - SegmentedEpisodesTVCell
+extension TVPageView: SegmentedEpisodesTVCellDelegate {
+    func didSelectSeason(index: Int) {
+        presenter.didSelectSeason(index: index)
+    }
+}
+
+extension TVPageView: EpisodeVideoTVCellDelegate {
+    func didTapPlayButton(in cell: EpisodeVideoTVCell) {
+//        guard let indexPath = collectionView.indexPath(for: cell),
+//              case .tvEpisodeVideo(let videoVM) = sections[indexPath.section].items[indexPath.item] else { return }
+//        
+//        // создаём отдельный метод в презентере, аналогичный didTapPlayTrailerButton:
+//        presenter.didTapPlayEpisodeVideoButton(videoVM: videoVM)
+    }
+}
+
+// MARK: - SegmentedTabsCell
 extension TVPageView: SegmentedTabsTVCellDelegate {
     func didSelectTab(index: Int) {
         presenter.didSelectTab(index: index)
@@ -343,4 +393,5 @@ extension TVPageView: OverviewTVCellDelegate {
         }, completion: nil)
     }
 }
+
 

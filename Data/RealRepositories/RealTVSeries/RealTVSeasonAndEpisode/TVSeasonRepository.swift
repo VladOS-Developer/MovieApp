@@ -20,13 +20,16 @@ final class TVSeasonRepository: TVSeasonRepositoryProtocol {
     }
 
     func fetchEpisodes(for tvId: Int, seasonNumber: Int) async throws -> [TVEpisode] {
-        let response: TVSeasonDetailsResponseDTO = try await networkService.request(.tvSeasonDetails(tvId: tvId, seasonNumber: seasonNumber))
+        let response: TVSeasonDetailsResponseDTO = try await networkService.request(.tvSeasonDetails(tvId: tvId,
+                                                                                                     seasonNumber: seasonNumber))
         
         // Для каждого эпизода подтягиваем видео
         return try await withThrowingTaskGroup(of: TVEpisode.self) { group in
             for dto in response.episodes {
                 group.addTask {
-                    let videosResponse: TVEpisodeVideosResponseDTO = try await self.networkService.request(.tvEpisodeVideos(tvId: tvId, seasonNumber: seasonNumber, episodeNumber: dto.episodeNumber))
+                    let videosResponse: TVEpisodeVideosResponseDTO = try await self.networkService.request(.tvEpisodeVideos(tvId: tvId,
+                                                                                                                            seasonNumber: seasonNumber,
+                                                                                                                            episodeNumber: dto.episodeNumber))
                     let videos = videosResponse.results.map { TVEpisodeVideo(dto: $0) }
                     return TVEpisode(dto: dto, videos: videos)
                 }
@@ -36,7 +39,9 @@ final class TVSeasonRepository: TVSeasonRepositoryProtocol {
     }
 
     func fetchEpisodeVideos(for tvId: Int, seasonNumber: Int, episodeNumber: Int) async throws -> [TVEpisodeVideo] {
-        let response: TVEpisodeVideosResponseDTO = try await networkService.request(.tvEpisodeVideos(tvId: tvId, seasonNumber: seasonNumber, episodeNumber: episodeNumber))
+        let response: TVEpisodeVideosResponseDTO = try await networkService.request(.tvEpisodeVideos(tvId: tvId,
+                                                                                                     seasonNumber: seasonNumber,
+                                                                                                     episodeNumber: episodeNumber))
         return response.results.map { TVEpisodeVideo(dto: $0) }
     }
 }

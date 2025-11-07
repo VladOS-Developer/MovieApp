@@ -11,15 +11,15 @@ final class MockTVSeasonRepository: TVSeasonRepositoryProtocol {
     static let shared = MockTVSeasonRepository()
     
     func fetchSeasons(for tvId: Int) async throws -> [TVSeason] {
-        return TVSeason.fetchSeasons(for: tvId)
+        return TVSeason.mockSeasons(for: tvId)
     }
     
     func fetchEpisodes(for tvId: Int, seasonNumber: Int) async throws -> [TVEpisode] {
-        return TVEpisode.fetchEpisodes(for: tvId, seasonNumber: seasonNumber)
+        return TVEpisode.mockEpisodes(for: tvId, seasonNumber: seasonNumber)
     }
     
     func fetchEpisodeVideos(for tvId: Int, seasonNumber: Int, episodeNumber: Int) async throws -> [TVEpisodeVideo] {
-        return TVEpisodeVideo.fetchEpisodeVideos(for: tvId, seasonNumber: seasonNumber, episodeNumber: episodeNumber)
+        return TVEpisodeVideo.mockEpisodeVideo(for: tvId, seasonNumber: seasonNumber, episodeNumber: episodeNumber)
     }
     
 }

@@ -30,62 +30,28 @@ extension TVEpisode {
         self.videos = videos
     }
     
-    static func fetchEpisodes(for tvId: Int, seasonNumber: Int) -> [TVEpisode] {
-        if tvId == 1 && seasonNumber == 1 {
-            return [
-                TVEpisode(
-                    id: 1001,
-                    name: "Winter Is Coming",
-                    episodeNumber: 1,
-                    airDate: "2011-04-17",
-                    runtime: 62,
-                    overview: "Ned Stark learns disturbing news.",
-                    stillPath: "/got_ep1.jpg",
-                    videos: [
-                        TVEpisodeVideo(id: "v1", key: "GoT_EP1_Trailer", name: "Trailer", site: "YouTube", type: "Trailer")
-                    ]
-                ),
-                TVEpisode(
-                    id: 1002,
-                    name: "The Kingsroad",
-                    episodeNumber: 2,
-                    airDate: "2011-04-24",
-                    runtime: 56,
-                    overview: "The Starks head south.",
-                    stillPath: "/got_ep2.jpg",
-                    videos: [
-                        TVEpisodeVideo(id: "v2", key: "GoT_EP2_Trailer", name: "Trailer", site: "YouTube", type: "Trailer")
-                    ]
-                )
-            ]
-        } else if tvId == 2 && seasonNumber == 1 {
-            return [
-                TVEpisode(
-                    id: 2001,
-                    name: "Pilot",
-                    episodeNumber: 1,
-                    airDate: "2008-01-20",
-                    runtime: 58,
-                    overview: "A chemistry teacher turns to crime.",
-                    stillPath: "/bb_ep1.jpg",
-                    videos: [
-                        TVEpisodeVideo(id: "v3", key: "BB_EP1_Trailer", name: "Trailer", site: "YouTube", type: "Trailer")
-                    ]
-                ),
-                TVEpisode(
-                    id: 2002,
-                    name: "Cat’s in the Bag...",
-                    episodeNumber: 2,
-                    airDate: "2008-01-27",
-                    runtime: 48,
-                    overview: "Walter and Jesse face consequences.",
-                    stillPath: "/bb_ep2.jpg",
-                    videos: [
-                        TVEpisodeVideo(id: "v4", key: "BB_EP2_Trailer", name: "Trailer", site: "YouTube", type: "Trailer")
-                    ]
-                )
-            ]
-        }
-        return []
+    static func mockEpisodes(for tvId: Int, seasonNumber: Int) -> [TVEpisode] {
+        return [
+            TVEpisode(
+                id: tvId * 100 + seasonNumber * 10 + 1,
+                name: "Episode 1",
+                episodeNumber: 1,
+                airDate: "2025-01-01",
+                runtime: 50,
+                overview: "Overview of episode 1",
+                stillPath: "/mock_ep1.jpg",
+                videos: [TVEpisodeVideo(id: "v1", key: "mock_key1", name: "Trailer 1", site: "YouTube", type: "Trailer")]
+            ),
+            TVEpisode(
+                id: tvId * 100 + seasonNumber * 10 + 2,
+                name: "Episode 2",
+                episodeNumber: 2,
+                airDate: "2025-01-08",
+                runtime: 52,
+                overview: "Overview of episode 2",
+                stillPath: "/mock_ep2.jpg",
+                videos: [TVEpisodeVideo(id: "v2", key: "mock_key2", name: "Trailer 2", site: "YouTube", type: "Trailer")]
+            )
+        ]
     }
 }

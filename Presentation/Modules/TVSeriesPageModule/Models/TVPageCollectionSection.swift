@@ -18,6 +18,8 @@ enum TVPageSectionType {
     case specificationTV
     case overviewTV
     case videoTV
+    case episodesSegmentTV
+    case episodeVideosTV
     case segmentedTabsTV
     case dynamicContentTV
 }

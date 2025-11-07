@@ -1,23 +1,23 @@
 //
-//  SegmentedTabsTVCell.swift
+//  SegmentedEpisodesTVCell.swift
 //  MovieApp
 //
-//  Created by VladOS on 05.11.2025.
+//  Created by VladOS on 07.11.2025.
 //
 
 import UIKit
 
-protocol SegmentedTabsTVCellDelegate: AnyObject {
-    func didSelectTab(index: Int)
+protocol SegmentedEpisodesTVCellDelegate: AnyObject {
+    func didSelectSeason(index: Int)
 }
 
-final class SegmentedTabsTVCell: UICollectionViewCell {
-    static let reuseId = "SegmentedTabsTVCell"
+final class SegmentedEpisodesTVCell: UICollectionViewCell {
+    static let reuseId = "SegmentedEpisodesTVCell"
     
-    weak var delegate: SegmentedTabsTVCellDelegate?
-
+    weak var delegate: SegmentedEpisodesTVCellDelegate?
+    
     private lazy var segmentedControl: UISegmentedControl = {
-        let items = ["More Like This", "Cast and Crew"]
+        let items = ["Season 1", "Season 2", "Season 3"]
         let control = UISegmentedControl(items: items)
         control.selectedSegmentIndex = 0
         control.backgroundColor = .clear
@@ -27,7 +27,7 @@ final class SegmentedTabsTVCell: UICollectionViewCell {
         control.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
         return control
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(segmentedControl)
@@ -39,10 +39,10 @@ final class SegmentedTabsTVCell: UICollectionViewCell {
             segmentedControl.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-
+    
     @objc private func didChangeSegment() {
-            delegate?.didSelectTab(index: segmentedControl.selectedSegmentIndex)
-        }
+        delegate?.didSelectSeason(index: segmentedControl.selectedSegmentIndex)
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
