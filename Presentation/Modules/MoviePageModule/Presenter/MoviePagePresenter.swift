@@ -254,11 +254,13 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
                 id: id,
                 title: movie.title,
                 posterPath: movie.posterPath ?? "",
-                voteAverage: movie.voteAverage ?? 0
+                voteAverage: movie.voteAverage ?? 0,
+                type: "movie"
             )
             view?.updateFavoriteState(isFavorite: true)
         }
     }
+   
     
     //MARK: - didTapPlayTrailerButton
     

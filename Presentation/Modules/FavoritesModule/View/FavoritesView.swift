@@ -51,7 +51,6 @@ class FavoritesView: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
-//        collectionView.alwaysBounceVertical = true
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(FavoritesCell.self, forCellWithReuseIdentifier: FavoritesCell.reuseId)

@@ -2,7 +2,7 @@
 //  FavoriteMovie+CoreDataClass.swift
 //  MovieApp
 //
-//  Created by VladOS on 09.09.2025.
+//  Created by VladOS on 10.11.2025.
 //
 //
 

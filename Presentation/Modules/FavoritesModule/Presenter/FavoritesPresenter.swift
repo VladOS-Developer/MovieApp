@@ -16,7 +16,7 @@ protocol FavoritesPresenterProtocol: AnyObject {
     func numberOfItems() -> Int
     func favorite(at index: Int) -> FavoriteMovie
     func removeFavorite(id: Int32)
-    func didSelectFavorite(_ movie: FavoriteMovie)
+    func didSelectFavorite(_ item: FavoriteMovie)
     
     func image(for favorite: FavoriteMovie) async -> UIImage?
 }
@@ -42,10 +42,18 @@ final class FavoritesPresenter {
 }
 
 extension FavoritesPresenter: FavoritesPresenterProtocol {
-    
-    func didSelectFavorite(_ movie: FavoriteMovie) {
-        router.openMoviePage(movieId: Int(movie.id), movieTitle: movie.title ?? "")
+
+    func didSelectFavorite(_ item: FavoriteMovie) {
+
+        let type = item.type?.lowercased() ?? ""
+
+        if type == "tv" {
+            router.openTVPage(tvId: Int(item.id), tvTitle: item.title ?? "")
+        } else {
+            router.openMoviePage(movieId: Int(item.id), movieTitle: item.title ?? "")
+        }
     }
+    
     
     func loadFavorites() {
         favorites = storage.fetchFavorites()

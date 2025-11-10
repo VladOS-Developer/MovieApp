@@ -203,7 +203,8 @@ class MovieListPresenter: MovieListPresenterProtocol {
                     id: Int32(series.id),
                     title: series.name,
                     posterPath: series.posterPath ?? "",
-                    voteAverage: series.voteAverage ?? 0
+                    voteAverage: series.voteAverage ?? 0,
+                    type: "tv"
                 )
             }
             
@@ -221,7 +222,8 @@ class MovieListPresenter: MovieListPresenterProtocol {
                     id: Int32(movie.id),
                     title: movie.title,
                     posterPath: movie.posterPath ?? "",
-                    voteAverage: movie.voteAverage ?? 0
+                    voteAverage: movie.voteAverage ?? 0,
+                    type: "movie"
                 )
             }
             

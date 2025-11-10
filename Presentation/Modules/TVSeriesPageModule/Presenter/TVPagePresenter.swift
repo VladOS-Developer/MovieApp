@@ -333,8 +333,8 @@ class TVPagePresenter: TVPagePresenterProtocol {
     //MARK: - toggleFavorite
     
     func toggleFavorite() {
-        guard let movie = currentTVMovie else { return }
-        let id = Int32(movie.id)
+        guard let tv = currentTVMovie else { return }
+        let id = Int32(tv.id)
         
         if favoritesStorage.isFavorite(id: id) {
             favoritesStorage.removeFavorite(id: id)
@@ -342,14 +342,15 @@ class TVPagePresenter: TVPagePresenterProtocol {
         } else {
             favoritesStorage.addFavorite(
                 id: id,
-                title: movie.name,
-                posterPath: movie.posterPath ?? "",
-                voteAverage: movie.voteAverage ?? 0
+                title: tv.name,
+                posterPath: tv.posterPath ?? "",
+                voteAverage: tv.voteAverage ?? 0,
+                type: "tv"
             )
             view?.updateFavoriteState(isFavorite: true)
         }
     }
-    
+   
     // MARK: - didTapPlayEpisodeVideoButton
     //
     //    func didTapPlayEpisodeVideoButton(videoVM: TVEpisodeVideoCellViewModel) {
