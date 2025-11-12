@@ -22,5 +22,15 @@ final class MockTVSeasonRepository: TVSeasonRepositoryProtocol {
         return TVEpisodeVideo.mockEpisodeVideo(for: tvId, seasonNumber: seasonNumber, episodeNumber: episodeNumber)
     }
     
+    func fetchEpisodeVideos(for tvId: Int) async throws -> [TVEpisodeVideo] {
+        return [
+            TVEpisodeVideo(id: "mock_trailer_\(tvId)",
+                           key: "mock_key_\(tvId)",
+                           name: "Mock TV Trailer",
+                           site: "YouTube",
+                           type: "Trailer")
+        ]
+    }
+    
 }
-   
+

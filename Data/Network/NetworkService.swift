@@ -12,7 +12,7 @@ protocol NetworkServiceProtocol {
 }
 
 final class NetworkService: NetworkServiceProtocol {
-    
+        
     private let baseURL = "https://api.themoviedb.org/3"
     private var apiKey: String
     

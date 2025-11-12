@@ -19,6 +19,7 @@ struct TVEpisode: Hashable {
 }
 
 extension TVEpisode {
+    
     init(dto: TVEpisodeDTO, videos: [TVEpisodeVideo] = []) {
         self.id = dto.id
         self.name = dto.name

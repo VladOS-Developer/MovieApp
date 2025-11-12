@@ -13,7 +13,7 @@ struct TVEpisodeVideoCellViewModel: Hashable {
     let name: String
     let site: String
     let type: String
-
+  
     var thumbnailImage: UIImage?
     var thumbnailURL: URL?
 

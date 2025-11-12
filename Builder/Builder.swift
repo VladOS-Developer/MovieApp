@@ -229,6 +229,26 @@ class Builder: BuilderProtocol {
         return playerView
     }
     
+    // MARK: - TrailerPlayer (Episode)
+    static func createEpisodeTrailerPlayerController(video: TVEpisodeVideo, tvTitle: String, tvId: Int) -> UIViewController {
+        
+        let playerView = TrailerPlayerView()
+        let imageLoader = KingfisherImageLoader()
+        
+        let tvSeasonRepository: TVSeasonRepositoryProtocol = useMock
+        ? MockTVSeasonRepository.shared : TVSeasonRepository(networkService: NetworkService(apiKey: apiKey))
+        
+        let presenter = TVEpisodePlayerPresenter(view: playerView,
+                                                 imageLoader: imageLoader,
+                                                 tvEpisodeVideoRepository: tvSeasonRepository,
+                                                 tvEpisodeVideo: video,
+                                                 tvTitle: tvTitle,
+                                                 tvId: tvId)
+        
+        playerView.tvEpisodePresenter = presenter
+        return playerView
+    }
+    
     //MARK: - ActorPage
     static func createActorPageController(actorTitle: String, actorId: Int) -> UIViewController {
         let actorView = ActorPageView()

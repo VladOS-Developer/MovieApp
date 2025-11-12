@@ -18,6 +18,7 @@ class TrailerPlayerView: UIViewController {
     
     var presenter: TrailerPlayerPresenterProtocol!
     var tvPresenter: TVTrailerPlayerPresenterProtocol!
+    var tvEpisodePresenter: TVEpisodePlayerPresenterProtocol!
     
     private let playerView = YTPlayerView()
     private var trailerVideoVM: [TrailerPlayerCellViewModel] = []
@@ -57,10 +58,14 @@ class TrailerPlayerView: UIViewController {
         setupCollection()
         
         if let presenter = presenter {
-                presenter.viewDidLoad()
-            } else if let tvPresenter = tvPresenter {
-                tvPresenter.viewTVDidLoad()
-            }
+            presenter.viewDidLoad()
+            
+        } else if let tvPresenter = tvPresenter {
+            tvPresenter.viewTVDidLoad()
+            
+        } else if let tvEpisodePresenter = tvEpisodePresenter {
+            tvEpisodePresenter.viewEpisodeDidLoad()
+        }
     }
     
     @objc private func didTapBack() {
@@ -149,6 +154,8 @@ extension TrailerPlayerView: UICollectionViewDataSource, UICollectionViewDelegat
             presenter.didSelectMovieVideo(at: indexPath.item)
         } else if let tvPresenter = tvPresenter {
             tvPresenter.didSelectTVVideo(at: indexPath.item)
+        } else if let tvEpisodePresenter = tvEpisodePresenter {
+            tvEpisodePresenter.didSelectEpisodeVideo(at: indexPath.item)
         } else {
             return
         }

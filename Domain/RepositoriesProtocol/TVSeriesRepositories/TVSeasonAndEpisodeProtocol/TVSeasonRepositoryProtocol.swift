@@ -14,4 +14,6 @@ protocol TVSeasonRepositoryProtocol: AnyObject {
     func fetchEpisodes(for tvId: Int, seasonNumber: Int) async throws -> [TVEpisode]
     
     func fetchEpisodeVideos(for tvId: Int, seasonNumber: Int, episodeNumber: Int) async throws -> [TVEpisodeVideo]
+    
+    func fetchEpisodeVideos(for tvId: Int) async throws -> [TVEpisodeVideo]
 }

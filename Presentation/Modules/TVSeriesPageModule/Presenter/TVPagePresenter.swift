@@ -35,7 +35,7 @@ protocol TVPagePresenterProtocol: AnyObject {
     func didSelectSimilarMovie(_ tv: TVSimilarCellViewModel)
     
     func didSelectSeason(index: Int)
-    //    func didTapPlayEpisodeVideoButton(videoVM: TVEpisodeVideoCellViewModel)
+    func didTapPlayEpisodeButton(videoVM: TVEpisodeVideoCellViewModel)
 }
 
 class TVPagePresenter: TVPagePresenterProtocol {
@@ -352,18 +352,25 @@ class TVPagePresenter: TVPagePresenterProtocol {
     }
    
     // MARK: - didTapPlayEpisodeVideoButton
-    //
-    //    func didTapPlayEpisodeVideoButton(videoVM: TVEpisodeVideoCellViewModel) {
-    //        let video = TVEpisodeVideo(
-    //            id: videoVM.id,
-    //            key: videoVM.videoKey,
-    //            name: videoVM.name,
-    //            site: videoVM.site,
-    //            type: videoVM.type
-    //        )
-    //        let title = "\(video.name)"
-    //        router.showTVTrailerPlayer(video: video, title: title)
-    //    }
+
+    func didTapPlayEpisodeButton(videoVM: TVEpisodeVideoCellViewModel) {
+        // создаём TVEpisodeVideo из VM (у тебя структура совпадает)
+        let episodeVideo = TVEpisodeVideo(
+            id: videoVM.id,
+            key: videoVM.videoKey,
+            name: videoVM.name,
+            site: videoVM.site,
+            type: videoVM.type
+        )
+
+        // формируем заголовок — можно использовать имя трейлера или общий tvTitle
+        let title = "\(tvTitle) • \(videoVM.name)"
+
+        print("Presenter is routing to episode player for video id: \(episodeVideo.id) key: \(episodeVideo.key)")
+
+        router.showTVEpisodeTrailerPlayer(video: episodeVideo, title: title, tvId: tvId)
+    }
+
     
     //MARK: - didTapPlayTrailerButton
     

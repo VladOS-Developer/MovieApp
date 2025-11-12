@@ -9,6 +9,7 @@ import UIKit
 
 protocol TVPageRouterProtocol: AnyObject {
     func showTVTrailerPlayer(video: TVVideo, title: String)
+    func showTVEpisodeTrailerPlayer(video: TVEpisodeVideo, title: String, tvId: Int)
     func showActorPage(actorName: String, actorId: Int)
     func showTVPage(tvId: Int, tvTitle: String)
 }
@@ -19,6 +20,16 @@ final class TVPageRouter: TVPageRouterProtocol {
     
     func showTVTrailerPlayer(video: TVVideo, title: String) {
         let tvTrailerVC = Builder.createTrailerPlayerController(video: video, tvTitle: title)
+        
+        if let navigationVC = viewController?.navigationController {
+            navigationVC.pushViewController(tvTrailerVC, animated: true)
+        } else {
+            viewController?.present(tvTrailerVC, animated: true)
+        }
+    }
+    
+    func showTVEpisodeTrailerPlayer(video: TVEpisodeVideo, title: String, tvId: Int) {
+        let tvTrailerVC = Builder.createEpisodeTrailerPlayerController(video: video, tvTitle: title, tvId: tvId)
         
         if let navigationVC = viewController?.navigationController {
             navigationVC.pushViewController(tvTrailerVC, animated: true)

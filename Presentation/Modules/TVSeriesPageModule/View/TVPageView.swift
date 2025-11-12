@@ -247,6 +247,8 @@ extension TVPageView: UICollectionViewDataSource {
                 cell.configureEpisodeVM(with: videoVM)
             default: break
             }
+            cell.delegate = self
+            
             return cell
             
             // SegmentedTabs
@@ -295,15 +297,7 @@ extension TVPageView: SegmentedEpisodesTVCellDelegate {
     }
 }
 
-extension TVPageView: EpisodeVideoTVCellDelegate {
-    func didTapPlayButton(in cell: EpisodeVideoTVCell) {
-//        guard let indexPath = collectionView.indexPath(for: cell),
-//              case .tvEpisodeVideo(let videoVM) = sections[indexPath.section].items[indexPath.item] else { return }
-//        
-//        // создаём отдельный метод в презентере, аналогичный didTapPlayTrailerButton:
-//        presenter.didTapPlayEpisodeVideoButton(videoVM: videoVM)
-    }
-}
+
 
 // MARK: - SegmentedTabsCell
 extension TVPageView: SegmentedTabsTVCellDelegate {
@@ -332,7 +326,7 @@ extension TVPageView: UICollectionViewDelegate {
     }
 }
 
-//MARK: - MoviePageViewProtocol
+//MARK: - TVPageViewProtocol
 
 extension TVPageView: TVPageViewProtocol {
     
@@ -346,7 +340,7 @@ extension TVPageView: TVPageViewProtocol {
     }
 }
 
-//MARK: - AboutCellDelegate +
+//MARK: - AboutTVCellDelegate +
 
 extension TVPageView: AboutTVCellDelegate {
     func aboutTVCellDidTapProfileImage(_ cell: AboutTVCell) {
@@ -357,7 +351,7 @@ extension TVPageView: AboutTVCellDelegate {
     }
 }
 
-//MARK: - PosterCellDelegate +
+//MARK: - PosterTVCellDelegate +
 
 extension TVPageView: PosterTVCellDelegate {
     func didTapPlayButton(in cell: PosterTVCell) {
@@ -365,7 +359,19 @@ extension TVPageView: PosterTVCellDelegate {
     }
 }
 
-//MARK: - MovieVideoCellDelegate +
+//MARK: - EpisodeVideoTVCellDelegate +
+
+extension TVPageView: EpisodeVideoTVCellDelegate {
+    func didTapPlayButton(in cell: EpisodeVideoTVCell) {
+        guard let indexPath = collectionView.indexPath(for: cell),
+              case .tvEpisodeVideo(let videoVM) = sections[indexPath.section].items[indexPath.item] else { return }
+        
+        print("Episode play tapped: \(videoVM.name) id:\(videoVM.id) key:\(videoVM.videoKey)")
+        presenter.didTapPlayEpisodeButton(videoVM: videoVM)
+    }
+}
+
+//MARK: - VideoTVCellDelegate +
 
 extension TVPageView: VideoTVCellDelegate {
     func didTapPlayButton(in cell: VideoTVCell) {
@@ -376,7 +382,7 @@ extension TVPageView: VideoTVCellDelegate {
     }
 }
 
-//MARK: - OverviewCellDelegate +
+//MARK: - OverviewTVCellDelegate +
 
 extension TVPageView: OverviewTVCellDelegate {
     func overviewCellDidToggle(_ cell: OverviewTVCell) {
