@@ -182,6 +182,7 @@ extension TVPageView: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StackButtonsTVCell.reuseId, for: indexPath) as? StackButtonsTVCell else {
                 return UICollectionViewCell()
             }
+            cell.delegate = self
             return cell
             
             // SpecificationMovie
@@ -290,22 +291,6 @@ extension TVPageView: UICollectionViewDataSource {
     
 }
 
-// MARK: - SegmentedEpisodesTVCell
-extension TVPageView: SegmentedEpisodesTVCellDelegate {
-    func didSelectSeason(index: Int) {
-        presenter.didSelectSeason(index: index)
-    }
-}
-
-
-
-// MARK: - SegmentedTabsCell
-extension TVPageView: SegmentedTabsTVCellDelegate {
-    func didSelectTab(index: Int) {
-        presenter.didSelectTab(index: index)
-    }
-}
-
 //MARK: - didSelectItemAt
 
 extension TVPageView: UICollectionViewDelegate {
@@ -337,6 +322,38 @@ extension TVPageView: TVPageViewProtocol {
     
     func setTitle(_ text: String) {
         navigationItem.title = text
+    }
+}
+
+//MARK: - StackButtonsTVCellDelegate
+
+extension TVPageView: StackButtonsTVCellDelegate {
+    func didTapTelegram() {
+        presenter.didTapTelegram()
+    }
+    
+    func didTapTwitter() {
+        presenter.didTapTwitter()
+    }
+    
+    func didTapShare() {
+        presenter.didTapShare()
+    }
+}
+
+// MARK: - SegmentedEpisodesTVCell
+extension TVPageView: SegmentedEpisodesTVCellDelegate {
+    func didSelectSeason(index: Int) {
+        presenter.didSelectSeason(index: index)
+    }
+}
+
+
+
+// MARK: - SegmentedTabsCell
+extension TVPageView: SegmentedTabsTVCellDelegate {
+    func didSelectTab(index: Int) {
+        presenter.didSelectTab(index: index)
     }
 }
 

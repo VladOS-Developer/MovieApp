@@ -171,6 +171,7 @@ extension MoviePageView: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StackButtonsCell.reuseId, for: indexPath) as? StackButtonsCell else {
                 return UICollectionViewCell()
             }
+            cell.delegate = self
             return cell
             
             // SpecificationMovie
@@ -255,12 +256,6 @@ extension MoviePageView: UICollectionViewDataSource {
     
 }
 
-// MARK: - MovieSegmentedTabsCellDelegate
-extension MoviePageView: MovieSegmentedTabsCellDelegate {
-    func didSelectTab(index: Int) {
-        presenter.didSelectTab(index: index)
-    }
-}
 
 //MARK: - didSelectItemAt
 
@@ -293,6 +288,32 @@ extension MoviePageView: MoviePageViewProtocol {
         navigationItem.title = text
     }
 }
+
+
+//MARK: - StackButtonsCellDelegate
+
+extension MoviePageView: StackButtonsCellDelegate {
+    func didTapTelegram() {
+        presenter.didTapTelegram()
+    }
+    
+    func didTapTwitter() {
+        presenter.didTapTwitter()
+    }
+    
+    func didTapShare() {
+        presenter.didTapShare()
+    }
+}
+
+// MARK: - MovieSegmentedTabsCellDelegate
+
+extension MoviePageView: MovieSegmentedTabsCellDelegate {
+    func didSelectTab(index: Int) {
+        presenter.didSelectTab(index: index)
+    }
+}
+
 
 //MARK: - AboutCellDelegate
 

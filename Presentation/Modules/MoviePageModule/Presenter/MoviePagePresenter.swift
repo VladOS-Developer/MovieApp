@@ -30,6 +30,10 @@ protocol MoviePagePresenterProtocol: AnyObject {
     
     func didSelectActor(castVM: CastCellViewModel)
     func didSelectSimilarMovie(_ movie: MovieSimilarCellViewModel)
+    
+    func didTapTelegram()
+    func didTapTwitter()
+    func didTapShare()
 }
 
 class MoviePagePresenter: MoviePagePresenterProtocol {
@@ -294,6 +298,36 @@ class MoviePagePresenter: MoviePagePresenterProtocol {
     func didSelectSimilarMovie(_ movie: MovieSimilarCellViewModel) {
         router.showMoviePage(movieId: movie.id, movieTitle: movie.title)
     }
+    
+    //MARK: - didTapShare
+    
+    func didTapTelegram() {
+        guard let movie = currentMovie else { return }
+
+        let title = movie.title
+        let url = "https://www.themoviedb.org/movie/\(movie.id)"
+
+        router.openTelegram(text: "Смотри: \(title)\n\(url)")
+    }
+
+    func didTapTwitter() {
+        guard let movie = currentMovie else { return }
+
+        let title = movie.title
+        let url = "https://www.themoviedb.org/movie/\(movie.id)"
+
+        router.openTwitter(text: "Смотри: \(title)\n\(url)")
+    }
+
+    func didTapShare() {
+        guard let movie = currentMovie else { return }
+
+        let title = movie.title
+        let link = "https://www.themoviedb.org/movie/\(movie.id)"
+
+        router.openShareSheet(text: "Смотри: \(title)\n\(link)")
+    }
+    
     
 }
 

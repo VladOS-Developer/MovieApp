@@ -12,6 +12,10 @@ protocol TVPageRouterProtocol: AnyObject {
     func showTVEpisodeTrailerPlayer(video: TVEpisodeVideo, title: String, tvId: Int)
     func showActorPage(actorName: String, actorId: Int)
     func showTVPage(tvId: Int, tvTitle: String)
+    
+    func openTelegram(text: String)
+    func openTwitter(text: String)
+    func openShareSheet(text: String)
 }
 
 final class TVPageRouter: TVPageRouterProtocol {
@@ -48,4 +52,34 @@ final class TVPageRouter: TVPageRouterProtocol {
         viewController?.navigationController?.pushViewController(tvPageVC, animated: true)
     }
     
+    func openTelegram(text: String) {
+        let encoded = text.urlEncoded
+        let tgURL = URL(string: "tg://msg?text=\(encoded)")!
+        
+        if UIApplication.shared.canOpenURL(tgURL) {
+            UIApplication.shared.open(tgURL)
+        } else {
+            UIApplication.shared.open(URL(string: "https://t.me")!)
+        }
+    }
+    
+    func openTwitter(text: String) {
+        let encoded = text.urlEncoded
+        let twitterURL = URL(string: "twitter://post?message=\(encoded)")!
+        
+        if UIApplication.shared.canOpenURL(twitterURL) {
+            UIApplication.shared.open(twitterURL)
+        } else {
+            UIApplication.shared.open(URL(string: "https://twitter.com/intent/tweet?text=\(encoded)")!)
+        }
+    }
+    
+    func openShareSheet(text: String) {
+        let vc = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        vc.popoverPresentationController?.sourceView = viewController?.view
+        viewController?.present(vc, animated: true)
+    }
+    
 }
+
+

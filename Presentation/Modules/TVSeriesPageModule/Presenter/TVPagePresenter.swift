@@ -36,6 +36,10 @@ protocol TVPagePresenterProtocol: AnyObject {
     
     func didSelectSeason(index: Int)
     func didTapPlayEpisodeButton(videoVM: TVEpisodeVideoCellViewModel)
+    
+    func didTapTelegram()
+    func didTapTwitter()
+    func didTapShare()
 }
 
 class TVPagePresenter: TVPagePresenterProtocol {
@@ -403,6 +407,35 @@ class TVPagePresenter: TVPagePresenterProtocol {
     
     func didSelectSimilarMovie(_ tv: TVSimilarCellViewModel) {
         router.showTVPage(tvId: tv.id, tvTitle: tv.title)
+    }
+    
+    //MARK: - didTapShare
+    
+    func didTapTelegram() {
+        guard let series = currentTVMovie else { return }
+
+        let title = series.name
+        let url = "https://www.themoviedb.org/movie/\(series.id)"
+
+        router.openTelegram(text: "Смотри: \(title)\n\(url)")
+    }
+
+    func didTapTwitter() {
+        guard let series = currentTVMovie else { return }
+
+        let title = series.name
+        let url = "https://www.themoviedb.org/movie/\(series.id)"
+
+        router.openTwitter(text: "Смотри: \(title)\n\(url)")
+    }
+
+    func didTapShare() {
+        guard let series = currentTVMovie else { return }
+
+        let title = series.name
+        let link = "https://www.themoviedb.org/movie/\(series.id)"
+
+        router.openShareSheet(text: "Смотри: \(title)\n\(link)")
     }
     
 }

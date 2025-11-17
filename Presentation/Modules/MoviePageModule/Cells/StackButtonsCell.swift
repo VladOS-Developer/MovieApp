@@ -7,8 +7,16 @@
 
 import UIKit
 
+protocol StackButtonsCellDelegate: AnyObject {
+    func didTapTelegram()
+    func didTapTwitter()
+    func didTapShare()
+}
+
 class StackButtonsCell: UICollectionViewCell {
     static let reuseId = "StackButtonsCell"
+    
+    weak var delegate: StackButtonsCellDelegate?
     
     private lazy var buttonsStack: UIStackView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -36,8 +44,8 @@ class StackButtonsCell: UICollectionViewCell {
     private func configureStackButtons() {
         let actions: [(String, Selector)] = [
             ("appTelegram", #selector(didTapTelegram)),
-            ("appFacebook", #selector(didTapFacebook)),
-            ("appInstagram", #selector(didTapInstagram))
+            ("appTwitter", #selector(didTapTwitter)),
+            ("appShare", #selector(didTapShare))
         ]
         
         actions.forEach { (name, selector) in
@@ -50,9 +58,20 @@ class StackButtonsCell: UICollectionViewCell {
         }
     }
     
-    @objc private func didTapTelegram() { print("Telegram tapped") }
-    @objc private func didTapFacebook() { print("Facebook tapped") }
-    @objc private func didTapInstagram() { print("Instagram tapped") }
+    @objc private func didTapTelegram() {
+        print("Telegram tapped")
+        delegate?.didTapTelegram()
+    }
+    
+    @objc private func didTapTwitter() {
+        print("Twitter tapped")
+        delegate?.didTapTwitter()
+    }
+    
+    @objc private func didTapShare() {
+        print("Instagram tapped")
+        delegate?.didTapShare()
+    }
 
     
     required init?(coder: NSCoder) {
