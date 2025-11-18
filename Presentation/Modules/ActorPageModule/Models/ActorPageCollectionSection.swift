@@ -13,10 +13,9 @@ struct ActorPageCollectionSection {
 }
 
 enum ActorPageSectionType {
-    case header
-    case socialStackButtons
+    case actorHeader
     case actorSegmentedTabs
-    case filmography
-    case biography
-    case gallery
+    case actorFilmography
+    case actorBiography
+    case photoGallery
 }

@@ -13,6 +13,10 @@ protocol SettingsPageViewProtocol: AnyObject {
 }
 
 class SettingsPageView: UIViewController, SettingsPageViewProtocol {
+    func reloadUI() {
+        tabelView.reloadData()
+    }
+    
     
     var presenter: SettingsPresenterProtocol!
     

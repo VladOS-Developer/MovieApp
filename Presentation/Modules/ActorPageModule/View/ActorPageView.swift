@@ -26,7 +26,6 @@ class ActorPageView: UIViewController {
         $0.dataSource = self
         $0.delegate = self
         $0.register(ActorHeaderCell.self, forCellWithReuseIdentifier: ActorHeaderCell.reuseId)
-        $0.register(ActorStackButtonsCell.self, forCellWithReuseIdentifier: ActorStackButtonsCell.reuseId)
         $0.register(ActorSegmentedTabsCell.self, forCellWithReuseIdentifier: ActorSegmentedTabsCell.reuseId)
         $0.register(ActorFilmographyCell.self, forCellWithReuseIdentifier: ActorFilmographyCell.reuseId)
         $0.register(ActorOverviewCell.self, forCellWithReuseIdentifier: ActorOverviewCell.reuseId)
@@ -39,22 +38,19 @@ class ActorPageView: UIViewController {
             let currentSection = sections[section]
             
             switch currentSection.type {
-            case .header:
+            case .actorHeader:
                 return ActorPageLayoutFactory.setHeaderLayout()
-          
-            case .socialStackButtons:
-                return ActorPageLayoutFactory.setSocialStackButtonLayout()
-                
+
             case .actorSegmentedTabs:
                 return ActorPageLayoutFactory.setActorSegmentedTabsLayout()
                 
-            case .filmography:
+            case .actorFilmography:
                 return ActorPageLayoutFactory.setFilmographyLayout()
                 
-            case .biography:
+            case .actorBiography:
                 return ActorPageLayoutFactory.setBiographyLayout()
                 
-            case .gallery:
+            case .photoGallery:
                 return ActorPageLayoutFactory.setGalleryLayout()
             }
         }
@@ -144,8 +140,6 @@ extension ActorPageView: UICollectionViewDataSource {
 //        sections[section].items.count
         
         switch sections[section].type {
-        case .socialStackButtons:
-            return 1
         case .actorSegmentedTabs:
             return 1
         default:
@@ -159,7 +153,7 @@ extension ActorPageView: UICollectionViewDataSource {
 //        var item = section.items[indexPath.item] // тут передача пустого массива для stackButtons (краш) секция думает что у неё 1 айтем → коллекция спрашивает items[0] → а массив пустой → краш.
         
         switch section.type {
-        case .header:
+        case .actorHeader:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorHeaderCell.reuseId, for: indexPath) as? ActorHeaderCell else {
                 return UICollectionViewCell()
             }
@@ -167,17 +161,11 @@ extension ActorPageView: UICollectionViewDataSource {
             let item = section.items[indexPath.item]
             
             switch item {
-            case .header(let headerVM):
+            case .actorHeader(let headerVM):
                 cell.configure(with: headerVM)
             default: break
             }
             return cell
-
-        case .socialStackButtons:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorStackButtonsCell.reuseId, for: indexPath) as? ActorStackButtonsCell else {
-                return UICollectionViewCell()
-            }
-            return cell 
             
         case .actorSegmentedTabs:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorSegmentedTabsCell.reuseId, for: indexPath) as? ActorSegmentedTabsCell else {
@@ -186,7 +174,7 @@ extension ActorPageView: UICollectionViewDataSource {
             cell.delegate = self
             return cell
             
-        case .filmography:
+        case .actorFilmography:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorFilmographyCell.reuseId, for: indexPath) as? ActorFilmographyCell else {
                 return UICollectionViewCell()
             }
@@ -200,7 +188,7 @@ extension ActorPageView: UICollectionViewDataSource {
             }
             return cell
             
-        case .biography:
+        case .actorBiography:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorOverviewCell.reuseId, for: indexPath) as? ActorOverviewCell else {
                 return UICollectionViewCell()
             }
@@ -214,7 +202,7 @@ extension ActorPageView: UICollectionViewDataSource {
             }
             return cell
             
-        case .gallery:
+        case .photoGallery:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ActorGalleryImageCell.reuseId, for: indexPath) as? ActorGalleryImageCell else {
                 return UICollectionViewCell()
             }

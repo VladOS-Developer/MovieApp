@@ -44,12 +44,6 @@ class ActorOverviewCell: UICollectionViewCell {
         delegate?.actorOverviewCellDidToggle(self)
     }
 
-    func configureActorOverviewCell(with detailsText: String, expanded: Bool) {
-        actorOverviewLabel.text = detailsText
-        actorOverviewLabel.numberOfLines = expanded ? 0 : 3
-        viewMoreButton.setTitle(expanded ? "View Less" : "View More", for: .normal)
-    }
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(overviewStack)
@@ -62,6 +56,12 @@ class ActorOverviewCell: UICollectionViewCell {
             viewMoreButton.topAnchor.constraint(equalTo: actorOverviewLabel.bottomAnchor, constant: 0),
             viewMoreButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
         ])
+    }
+    
+    func configureActorOverviewCell(with detailsText: String, expanded: Bool) {
+        actorOverviewLabel.text = detailsText
+        actorOverviewLabel.numberOfLines = expanded ? 0 : 3
+        viewMoreButton.setTitle(expanded ? "View Less" : "View More", for: .normal)
     }
     
     required init?(coder: NSCoder) {

@@ -28,7 +28,7 @@ final class NetworkService: NetworkServiceProtocol {
         // Базовые query-параметры
         var queryItems = [
             URLQueryItem(name: "api_key", value: apiKey),
-            URLQueryItem(name: "language", value: "en-US")
+            URLQueryItem(name: "language", value: "en-US")  // uk-UA, en-US
         ]
         
         // Специфичные для эндпоинта параметры

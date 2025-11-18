@@ -66,7 +66,7 @@ final class ActorHeaderCell: UICollectionViewCell {
             backPoster.topAnchor.constraint(equalTo: contentView.topAnchor),
             backPoster.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             backPoster.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            backPoster.heightAnchor.constraint(equalTo: backPoster.widthAnchor, multiplier: 0.75),
+            backPoster.heightAnchor.constraint(equalTo: backPoster.widthAnchor, multiplier: 1.2),
             
             dimmingView.topAnchor.constraint(equalTo: backPoster.topAnchor),
             dimmingView.leadingAnchor.constraint(equalTo: backPoster.leadingAnchor),

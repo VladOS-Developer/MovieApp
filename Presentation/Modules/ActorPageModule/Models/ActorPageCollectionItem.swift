@@ -8,14 +8,14 @@
 import Foundation
 
 enum ActorPageCollectionItem: Hashable {
-    case header(ActorHeaderCellViewModel)
+    case actorHeader(ActorHeaderCellViewModel)
     case filmography(ActorMovieCellViewModel)
     case biography(ActorBiographyCellViewModel)
     case gallery(ActorImagesCellViewModel)
 
     var id: String {
         switch self {
-        case .header(let vm): return "header_\(vm.id)"
+        case .actorHeader(let vm): return "header_\(vm.id)"
         case .filmography(let vm): return "filmography_\(vm.id)"
         case .biography(let vm): return "biography_\(vm.id)"
         case .gallery(let vm): return "gallery_\(vm.id)" 

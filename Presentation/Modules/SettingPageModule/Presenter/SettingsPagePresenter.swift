@@ -13,17 +13,17 @@ protocol SettingsPresenterProtocol: AnyObject {
     func didSelectChangePassword()
     func didSelectDeletePassword()
    
-    init(view: SettingsPageViewProtocol, service: PasscodeService)
+    init(view: SettingsPageViewProtocol, passcodeService: PasscodeService)
 }
 
 class SettingsPagePresenter: SettingsPresenterProtocol {
     
     private weak var view: SettingsPageViewProtocol?
-    private let service: PasscodeService
+    private let passcodeService: PasscodeService
     
-    required init(view: SettingsPageViewProtocol, service: PasscodeService) {
+    required init(view: SettingsPageViewProtocol, passcodeService: PasscodeService) {
         self.view = view
-        self.service = service
+        self.passcodeService = passcodeService
     }
     
     func viewDidLoad() { }
@@ -33,7 +33,7 @@ class SettingsPagePresenter: SettingsPresenterProtocol {
     }
     
     func didSelectDeletePassword() {
-        service.deletePasscode()
+        passcodeService.deletePasscode()
         view?.showAlert(title: "Пароль удалён", message: "Установите новый код 🔐")
     }
     

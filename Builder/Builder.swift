@@ -90,7 +90,7 @@ class Builder: BuilderProtocol {
         router.viewController = mainView
         return UINavigationController(rootViewController: mainView)
     }
-     
+
     //MARK: - TrailerList
     static func createTrailerListController() -> UIViewController {
         let trailerListView = TrailerListView()
@@ -278,9 +278,10 @@ class Builder: BuilderProtocol {
     static func createSettingsPageController() -> UIViewController {
         let settingView = SettingsPageView()
         let keychain = KeychainManager()
-        let service = PasscodeService(keychainManager: keychain)
-        
-        let presenter = SettingsPagePresenter(view: settingView, service: service)
+        let passcodeService = PasscodeService(keychainManager: keychain)
+                
+        let presenter = SettingsPagePresenter(view: settingView,
+                                              passcodeService: passcodeService)
     
         settingView.presenter = presenter
         return UINavigationController(rootViewController: settingView)
