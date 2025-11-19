@@ -21,19 +21,11 @@ final class TopMovieCell: UICollectionViewCell {
     }(UIImageView())
     
     private lazy var titleLabel: UILabel = TextLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appWhite)
-    private lazy var originalTitleLabel: UILabel = TextLabel(font: .systemFont(ofSize: 10, weight: .bold), color: .appGray)
-        
-    private lazy var stackLabel: UIStackView = {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.axis = .vertical
-        $0.spacing = 5
-        return $0
-    }(UIStackView(arrangedSubviews: [titleLabel, originalTitleLabel]))
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(imageViewMovie)
-        contentView.addSubview(stackLabel)
+        contentView.addSubview(titleLabel)
         setupConstraints()
     }
     
@@ -44,18 +36,16 @@ final class TopMovieCell: UICollectionViewCell {
             imageViewMovie.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageViewMovie.heightAnchor.constraint(equalToConstant: 150),
             
-            stackLabel.topAnchor.constraint(equalTo: imageViewMovie.bottomAnchor, constant: 6),
-            stackLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            stackLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            stackLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
-
+            titleLabel.topAnchor.constraint(equalTo: imageViewMovie.bottomAnchor, constant: 6),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            titleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
         ])
     }
     
     func configureMovieCell(with movieVM: MovieCellViewModel) {
         imageViewMovie.image = movieVM.posterImage
         titleLabel.text = movieVM.title
-//        originalTitleLabel.text = movieVM.originalTitle
     }
     
     required init?(coder: NSCoder) {

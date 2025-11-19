@@ -24,8 +24,8 @@ final class SimilarMovieTVCell: UICollectionViewCell {
         let label = PaddingLabel(withInsets: 3, 3, 5, 5)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 10, weight: .bold)
-        label.textColor = .appWhite
-        label.backgroundColor = .appGray.withAlphaComponent(0.5)
+        label.textColor = .systemBlue
+        label.backgroundColor = .systemYellow
         label.layer.cornerRadius = 4
         label.clipsToBounds = true
         return label

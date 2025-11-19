@@ -23,7 +23,7 @@ final class GenreMovieCell: UICollectionViewCell {
         
         let button = UIButton(configuration: config)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitleColor(.appWhite, for: .normal)
+        button.setTitleColor(.appBlue, for: .normal)
         button.backgroundColor = .appGray.withAlphaComponent(0.2)
         button.layer.cornerRadius = 15
         button.layer.borderWidth = 1

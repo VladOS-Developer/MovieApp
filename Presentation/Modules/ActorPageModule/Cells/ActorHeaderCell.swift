@@ -29,7 +29,7 @@ final class ActorHeaderCell: UICollectionViewCell {
     private lazy var profileImageView: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.contentMode = .scaleAspectFill
-        $0.layer.cornerRadius = 65
+        $0.layer.cornerRadius = 90
         $0.clipsToBounds = true
         $0.backgroundColor = UIColor.white.withAlphaComponent(0.1)
         return $0
@@ -75,8 +75,8 @@ final class ActorHeaderCell: UICollectionViewCell {
             
             profileImageView.centerXAnchor.constraint(equalTo: backPoster.centerXAnchor),
             profileImageView.centerYAnchor.constraint(equalTo: backPoster.centerYAnchor, constant: 15),
-            profileImageView.widthAnchor.constraint(equalToConstant: 130),
-            profileImageView.heightAnchor.constraint(equalToConstant: 130),
+            profileImageView.widthAnchor.constraint(equalToConstant: 180),
+            profileImageView.heightAnchor.constraint(equalToConstant: 180),
             
             moviesCountLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
             moviesCountLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)

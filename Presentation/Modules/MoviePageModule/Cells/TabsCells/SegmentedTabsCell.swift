@@ -19,7 +19,6 @@ final class SegmentedTabsCell: UICollectionViewCell {
     private lazy var segmentedControl: UISegmentedControl = {
         let items = ["More Like This", "Cast and Crew"]
         let control = UISegmentedControl(items: items)
-//        control.selectedSegmentIndex = UISegmentedControl.noSegment
         control.selectedSegmentIndex = 0
         control.backgroundColor = .clear
         control.selectedSegmentTintColor = .systemBlue

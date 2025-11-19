@@ -39,8 +39,8 @@ class FavoritesCell: UICollectionViewCell {
         let label = PaddingLabel(withInsets: 3, 3, 5, 5)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        label.textColor = .appWhite
-        label.backgroundColor = .appGray.withAlphaComponent(0.5)
+        label.textColor = .systemBlue
+        label.backgroundColor = .systemYellow
         label.layer.cornerRadius = 4
         label.clipsToBounds = true
         return label
@@ -62,10 +62,10 @@ class FavoritesCell: UICollectionViewCell {
             posterImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             favoriteButton.topAnchor.constraint(equalTo: posterImage.topAnchor, constant: 20),
-            favoriteButton.leadingAnchor.constraint(equalTo: posterImage.leadingAnchor, constant: 20),
+            favoriteButton.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: -20),
             
             voteAverageLabel.topAnchor.constraint(equalTo: posterImage.topAnchor, constant: 20),
-            voteAverageLabel.trailingAnchor.constraint(equalTo: posterImage.trailingAnchor, constant: -20)
+            voteAverageLabel.leadingAnchor.constraint(equalTo: posterImage.leadingAnchor, constant: 20)
         ])
     }
     

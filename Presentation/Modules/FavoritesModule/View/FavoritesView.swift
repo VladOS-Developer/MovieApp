@@ -145,7 +145,7 @@ extension FavoritesView: UICollectionViewDelegateFlowLayout {
         let spacing: CGFloat = 22
         let totalSpacing = spacing * (columns - 1) + 40 // sectionInsets left+right = 20+20
         let width = (collectionView.bounds.width - totalSpacing) / columns
-        return CGSize(width: floor(width), height: floor(width * 1.2))
+        return CGSize(width: floor(width), height: floor(width * 1.5))
     }
 }
 

@@ -13,12 +13,12 @@ final class SpecificationCell: UICollectionViewCell {
     private lazy var starImageView: UIImageView = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = UIImage(systemName: "star")
-        $0.tintColor = .appBlue
+        $0.tintColor = .systemYellow
         $0.contentMode = .scaleAspectFill
         return $0
     }(UIImageView())
 
-    private lazy var voteAverageLabel: UILabel = TextLabel(font: UIFont.systemFont(ofSize: 14, weight: .bold), color: .appBlue)
+    private lazy var voteAverageLabel: UILabel = TextLabel(font: UIFont.systemFont(ofSize: 14, weight: .bold), color: .systemYellow)
     private lazy var dotOne: UILabel = makeDot()
     private lazy var runtimeLabel: UILabel = TextLabel(font: UIFont.systemFont(ofSize: 12, weight: .regular), color: .appWhite)
     private lazy var dotTwo: UILabel = makeDot()

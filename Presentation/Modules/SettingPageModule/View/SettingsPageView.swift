@@ -13,15 +13,12 @@ protocol SettingsPageViewProtocol: AnyObject {
 }
 
 class SettingsPageView: UIViewController, SettingsPageViewProtocol {
-    func reloadUI() {
-        tabelView.reloadData()
-    }
-    
-    
+
     var presenter: SettingsPresenterProtocol!
     
     lazy var tabelView: UITableView = {
         $0.dataSource = self
+        $0.delegate = self
         $0.separatorStyle = .none
         $0.backgroundColor = .appBGTop
         $0.register(SettingsCell.self, forCellReuseIdentifier: SettingsCell.reuseId)
@@ -31,8 +28,6 @@ class SettingsPageView: UIViewController, SettingsPageViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tabelView)
-//        tabelView.dataSource = self
-        tabelView.delegate = self
         view.backgroundColor = .appBGTop
         
         title = "Settings"

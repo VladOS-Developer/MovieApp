@@ -21,12 +21,12 @@ final class SearchResultCell: UICollectionViewCell {
     }(UIImageView())
     
     private lazy var typeLabel: UILabel = {
-        let label = PaddingLabel(withInsets: 5, 5, 5, 5)
+        let label = PaddingLabel(withInsets: 2, 2, 2, 2)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 10, weight: .bold)
-        label.textColor = .appWhite
-        label.backgroundColor = .appGray.withAlphaComponent(0.4)
-        label.layer.cornerRadius = 4
+        label.textColor = .systemBlue
+        label.backgroundColor = .systemYellow
+        label.layer.cornerRadius = 7
         label.clipsToBounds = true
         return label
     }()
@@ -57,10 +57,10 @@ final class SearchResultCell: UICollectionViewCell {
             resultImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             resultImage.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
             
-            typeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            typeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            typeLabel.heightAnchor.constraint(equalToConstant: 20),
-            typeLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 40)
+            typeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 3),
+            typeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -3),
+            typeLabel.heightAnchor.constraint(equalToConstant: 15),
+            typeLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 35)
         ])
     }
     

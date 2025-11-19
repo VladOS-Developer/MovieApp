@@ -12,6 +12,7 @@ struct ActorMovieCellViewModel: Hashable {
     let title: String
     var posterURL: URL?
     var posterImage: UIImage?
+    let releaseDateText: String
     
     init(actorMovie: ActorMovie) {
         self.id = actorMovie.id
@@ -28,6 +29,20 @@ struct ActorMovieCellViewModel: Hashable {
             } else {
                 self.posterURL = nil
             }
+        }
+        
+        // releaseDate
+        if let dateString = actorMovie.releaseDate {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            if let date = formatter.date(from: dateString) {
+                formatter.dateFormat = "dd MMM yyyy"
+                self.releaseDateText = formatter.string(from: date)
+            } else {
+                self.releaseDateText = ""
+            }
+        } else {
+            self.releaseDateText = ""
         }
     }
     

@@ -66,6 +66,8 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
                 async let imagesTask  = actorRepository.fetchActorImages(by: actorId)
                 
                 let (details, movies, images) = try await (detailsTask, moviesTask, imagesTask)
+                
+//                let limitedMovies = Array(movies.prefix(20))
                                 
                 self.actorDetails = details
                 self.actorMovies = movies
@@ -92,7 +94,6 @@ class ActorPagePresenter: ActorPagePresenterProtocol {
             }
         }
     }
-    
     
     private func buildHeaderVM(details: ActorDetails, movies: [ActorMovie]) async -> ActorHeaderCellViewModel {
         var avtorHeaderVM = ActorHeaderCellViewModel(actorDetails: details, actorMovies: movies)

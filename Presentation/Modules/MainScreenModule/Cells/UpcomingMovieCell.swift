@@ -20,14 +20,14 @@ final class UpcomingMovieCell: UICollectionViewCell {
         return $0
     }(UIImageView())
     
-    private lazy var titleLabel: UILabel = TextLabel(font: .systemFont(ofSize: 12, weight: .bold), color: .appWhite)
-    
+    private lazy var titleLabel: UILabel = TextLabel(font: .systemFont(ofSize: 12, weight: .bold), color: .white)
+
     private lazy var releaseDate: UILabel = {
         let label = PaddingLabel(withInsets: 5, 5, 5, 5)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 10, weight: .bold)
-        label.textColor = .appWhite
-        label.backgroundColor = .appGray.withAlphaComponent(0.4)
+        label.textColor = .systemBlue
+        label.backgroundColor = .systemYellow
         label.layer.cornerRadius = 4
         label.clipsToBounds = true
         return label

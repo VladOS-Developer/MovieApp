@@ -36,7 +36,7 @@ class SettingsCell: UITableViewCell {
         $0.widthAnchor.constraint(equalToConstant: 20).isActive = true
         $0.heightAnchor.constraint(equalToConstant: 20).isActive = true
         $0.setImage(UIImage(systemName: "chevron.right"), for: .normal)
-        $0.tintColor = .appWhite
+        $0.tintColor = .systemBlue
         return $0
     }(UIButton(primaryAction: changedButtonAction))
     

@@ -157,7 +157,7 @@ extension MainScreenView: UICollectionViewDataSource {
                 case .movie(let movieVM):
                     cell.configureResultCell(with: movieVM)
                 case .tvSeries(let searchVM):
-                    cell.configureResultCell(with: searchVM) // ✅ используем тот же метод
+                    cell.configureResultCell(with: searchVM)
                 default:
                     break
                 }

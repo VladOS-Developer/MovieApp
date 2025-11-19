@@ -25,7 +25,7 @@ enum MainSectionType {
         switch self {
         case .searchHeader: return ""
         case .searchResults: return ""
-        case .genresMovie: return "Discover Your Next Favorite Movies"
+        case .genresMovie: return "Discover Your Next Favorite Movies →"
         case .topMovie: return "Top Movies This Week"
         case .tvSeries: return "Top TV Series"
         case .upcomingMovie: return "Upcoming Movies"
