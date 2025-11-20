@@ -8,7 +8,6 @@
 import UIKit
 
 protocol SettingsPageViewProtocol: AnyObject {
-    func openPasscodeModule(isSetting: Bool)
     func showAlert(title: String, message: String)
 }
 
@@ -50,11 +49,6 @@ class SettingsPageView: UIViewController, SettingsPageViewProtocol {
     @objc private func didTapBack() {
         navigationController?.popViewController(animated: true)
         (tabBarController as? TabBarView)?.setTabBarButtonsHidden(false)
-    }
-    
-    func openPasscodeModule(isSetting: Bool) {
-        let passcodeVC = Builder.getPasscodeController(sceneDelegate: nil, isSetting: isSetting)
-        navigationController?.pushViewController(passcodeVC, animated: true)
     }
 
     func showAlert(title: String, message: String) {

@@ -8,12 +8,12 @@
 import UIKit
 
 protocol MovieListPresenterProtocol: AnyObject {
-    
     func viewDidLoad()
     func viewWillAppear()
     func didSelectItem(at index: Int)
     
     init(view: MovieListViewProtocol,
+         router: MovieListRouterProtocol,
          mode: MovieListMode,
          imageLoader: ImageLoaderProtocol,
          
@@ -26,6 +26,7 @@ protocol MovieListPresenterProtocol: AnyObject {
 class MovieListPresenter: MovieListPresenterProtocol {
     
     private weak var view: MovieListViewProtocol?
+    private let router: MovieListRouterProtocol
     public let mode: MovieListMode
     private let imageLoader: ImageLoaderProtocol
     
@@ -45,6 +46,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
     private let favoritesStorage = FavoritesStorage()
     
     required init(view: MovieListViewProtocol,
+                  router: MovieListRouterProtocol,
                   mode: MovieListMode,
                   imageLoader: ImageLoaderProtocol,
                   
@@ -54,6 +56,7 @@ class MovieListPresenter: MovieListPresenterProtocol {
                   tvSeriesRepository: TVSeriesRepositoryProtocol) {
         
         self.view = view
+        self.router = router
         self.mode = mode
         self.imageLoader = imageLoader
         
@@ -174,16 +177,13 @@ class MovieListPresenter: MovieListPresenterProtocol {
     //MARK: - didSelectItem
 
     func didSelectItem(at index: Int) {
-        
         switch mode {
         case .tvSeries:
-            let tvSeries = tvSeries[index]
-            let moviePageVC = Builder.createTVSeriesController(id: tvSeries.id, title: tvSeries.name)
-            (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
+            let series = tvSeries[index]
+            router.showTVSeriesPage(seriesId: series.id, seriesTitle: series.name)
         default:
             let movie = movies[index]
-            let moviePageVC = Builder.createMoviePageController(id: movie.id, title: movie.title)
-            (view as? UIViewController)?.navigationController?.pushViewController(moviePageVC, animated: true)
+            router.showMoviePage(movieId: movie.id, movieTitle: movie.title)
         }
     }
     

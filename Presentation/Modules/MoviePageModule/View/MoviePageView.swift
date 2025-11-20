@@ -307,7 +307,6 @@ extension MoviePageView: StackButtonsCellDelegate {
 }
 
 // MARK: - MovieSegmentedTabsCellDelegate
-
 extension MoviePageView: MovieSegmentedTabsCellDelegate {
     func didSelectTab(index: Int) {
         presenter.didSelectTab(index: index)

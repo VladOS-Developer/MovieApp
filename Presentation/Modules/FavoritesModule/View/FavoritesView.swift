@@ -18,7 +18,7 @@ class FavoritesView: UIViewController {
     
     private lazy var sectionLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.font = UIFont.systemFont(ofSize: 25, weight: .bold)
+        $0.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         $0.textColor = .appWhite
         $0.textAlignment = .center
         $0.text = "Favorite Movies"
@@ -84,7 +84,7 @@ class FavoritesView: UIViewController {
             topBackButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
             topBackButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             
-            collectionView.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 20),
+            collectionView.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 10),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)

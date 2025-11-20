@@ -129,6 +129,7 @@ class Builder: BuilderProtocol {
     //MARK: - MovieList
     static func createMovieListController(mode: MovieListMode) -> UIViewController {
         let listView = MovieListView()
+        let router = MovieListRouter()
         let imageLoader = KingfisherImageLoader()
         
         let movieRepository: MovieRepositoryProtocol = useMock
@@ -144,6 +145,7 @@ class Builder: BuilderProtocol {
         ? MockTVGenresRepository.shared : TVGenresRepository(networkService: NetworkService(apiKey: apiKey))
         
         let presenter = MovieListPresenter(view: listView,
+                                           router: router,
                                            mode: mode,
                                            imageLoader: imageLoader,
                                            movieRepository: movieRepository,
@@ -152,6 +154,7 @@ class Builder: BuilderProtocol {
                                            tvSeriesRepository: tvSeriesRepository)
     
         listView.presenter = presenter
+        router.viewController = listView
         return listView
     }
     
@@ -231,7 +234,6 @@ class Builder: BuilderProtocol {
     
     // MARK: - TrailerPlayer (Episode)
     static func createEpisodeTrailerPlayerController(video: TVEpisodeVideo, tvTitle: String, tvId: Int) -> UIViewController {
-        
         let playerView = TrailerPlayerView()
         let imageLoader = KingfisherImageLoader()
         
@@ -277,13 +279,16 @@ class Builder: BuilderProtocol {
     //MARK: - SettingPage
     static func createSettingsPageController() -> UIViewController {
         let settingView = SettingsPageView()
+        let router = SettingsPageRouter()
         let keychain = KeychainManager()
         let passcodeService = PasscodeService(keychainManager: keychain)
                 
         let presenter = SettingsPagePresenter(view: settingView,
+                                              router: router,
                                               passcodeService: passcodeService)
     
         settingView.presenter = presenter
+        router.viewController = settingView
         return UINavigationController(rootViewController: settingView)
     }
     

@@ -30,5 +30,4 @@ extension SceneDelegate: SceneDelegateProtocol {
     func startMainScreen() {
         self.window?.rootViewController = Builder.createTabBarController()
     }
-    
 }

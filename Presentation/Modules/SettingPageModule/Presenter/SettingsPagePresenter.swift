@@ -9,27 +9,31 @@ import Foundation
 
 protocol SettingsPresenterProtocol: AnyObject {
     
-    func viewDidLoad()
     func didSelectChangePassword()
     func didSelectDeletePassword()
    
-    init(view: SettingsPageViewProtocol, passcodeService: PasscodeService)
+    init(view: SettingsPageViewProtocol,
+         router: SettingsPageRouterProtocol,
+         passcodeService: PasscodeService)
 }
 
 class SettingsPagePresenter: SettingsPresenterProtocol {
     
     private weak var view: SettingsPageViewProtocol?
+    private let router: SettingsPageRouterProtocol
     private let passcodeService: PasscodeService
     
-    required init(view: SettingsPageViewProtocol, passcodeService: PasscodeService) {
+    required init(view: SettingsPageViewProtocol,
+                  router: SettingsPageRouterProtocol,
+                  passcodeService: PasscodeService) {
+        
         self.view = view
+        self.router = router
         self.passcodeService = passcodeService
     }
-    
-    func viewDidLoad() { }
-    
+        
     func didSelectChangePassword() {
-        view?.openPasscodeModule(isSetting: true)
+        router.showPasscodeModule(isSetting: true)
     }
     
     func didSelectDeletePassword() {
