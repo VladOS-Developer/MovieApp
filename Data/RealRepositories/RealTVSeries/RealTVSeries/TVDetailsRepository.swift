@@ -24,11 +24,6 @@ final class TVDetailsRepository: TVDetailsRepositoryProtocol {
         return response.results.map { TVDetails(dto: $0) }
     }
 
-    func fetchTVSeriesDetails(byGenre id: Int, page: Int = 1) async throws -> [TVDetails] {
-        let response: TVSeriesDetailsResponseDTO = try await networkService.request(.tvByGenre(id, page: page))
-        return response.results.map { TVDetails(dto: $0) }
-    }
-
     func fetchTVSeriesDetails(byId id: Int) async throws -> TVDetails {
         let response: TVSeriesDetailsDTO = try await networkService.request(.tvDetails(id))
         return TVDetails(dto: response)

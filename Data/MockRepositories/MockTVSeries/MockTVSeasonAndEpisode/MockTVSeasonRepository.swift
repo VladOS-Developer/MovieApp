@@ -18,9 +18,9 @@ final class MockTVSeasonRepository: TVSeasonRepositoryProtocol {
         return TVEpisode.mockEpisodes(for: tvId, seasonNumber: seasonNumber)
     }
     
-    func fetchEpisodeVideos(for tvId: Int, seasonNumber: Int, episodeNumber: Int) async throws -> [TVEpisodeVideo] {
-        return TVEpisodeVideo.mockEpisodeVideo(for: tvId, seasonNumber: seasonNumber, episodeNumber: episodeNumber)
-    }
+//    func fetchEpisodeVideos(for tvId: Int, seasonNumber: Int, episodeNumber: Int) async throws -> [TVEpisodeVideo] {
+//        return TVEpisodeVideo.mockEpisodeVideo(for: tvId, seasonNumber: seasonNumber, episodeNumber: episodeNumber)
+//    }
     
     func fetchEpisodeVideos(for tvId: Int) async throws -> [TVEpisodeVideo] {
         return [

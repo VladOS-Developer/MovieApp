@@ -18,12 +18,6 @@ final class MockTVSeriesRepository: TVSeriesRepositoryProtocol {
         return TVSeries.mockSeriesPopular()
     }
     
-//    func fetchCombinedTVSeries() async throws -> [TVSeries] {
-//        let combined = (try await fetchTVSeriesTopRate(page: 1)) + (try await fetchTVSeriesPopular(page: 1))
-//        let unique = Array(Set(combined))
-//        return unique
-//    }
-    
     func fetchTVSeries() async throws -> [TVSeries] {
         return TVSeries.mockSeriesTopRate()
     }

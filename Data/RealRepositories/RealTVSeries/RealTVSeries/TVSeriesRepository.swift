@@ -15,14 +15,15 @@ final class TVSeriesRepository: TVSeriesRepositoryProtocol {
     }
     
     func fetchTVSeriesTopRate(page: Int) async throws -> [TVSeries] {
-        let seriesRandomPage = Int.random(in: 1...50)
-        let response: TVSeriesTopRateResponseDTO = try await networkService.request(.tvTopRated(page: seriesRandomPage))
+        let topRateRandomPage = Int.random(in: 1...50)
+        let response: TVSeriesTopRateResponseDTO = try await networkService.request(.tvTopRated(page: topRateRandomPage))
         print("DEBUG: Decoded \(response.results.count) TV Top Rated")
         return response.results.map { TVSeries(dto: $0) }
     }
     
     func fetchTVSeriesPopular(page: Int) async throws -> [TVSeries] {
-        let response: TVSeriesTopRateResponseDTO = try await networkService.request(.tvPopular(page: page))
+        let popularRandomPage = Int.random(in: 1...50)
+        let response: TVSeriesPopularResponseDTO = try await networkService.request(.tvPopular(page: popularRandomPage))
         print("DEBUG: Decoded \(response.results.count) TV Popular")
         return response.results.map { TVSeries(dto: $0) }
     }

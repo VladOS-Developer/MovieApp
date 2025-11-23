@@ -23,15 +23,11 @@ final class MovieDetailsRepository: MovieDetailsRepositoryProtocol {
         let response: MoviesDetailsResponseDTO = try await networkService.request(.upcomingMovies(page: page))
         return response.results.map { MovieDetails(dto: $0) }
     }
-    
-    func fetchMovieDetails(byGenre id: Int, page: Int = 1) async throws -> [MovieDetails] {
-        let response: MoviesDetailsResponseDTO = try await networkService.request(.moviesByGenre(id, page: page))
-        return response.results.map { MovieDetails(dto: $0) }
-    }
-    
+
     func fetchMovieDetails(byId id: Int) async throws -> MovieDetails {
         let response: MovieDetailsDTO = try await networkService.request(.movieDetails(id))
         return MovieDetails(dto: response)
     }
     
+   
 }

@@ -18,31 +18,44 @@ final class TVSeasonRepository: TVSeasonRepositoryProtocol {
         let response: TVSeasonsResponseDTO = try await networkService.request(.tvDetails(tvId))
         return response.seasons.map { TVSeason(dto: $0) }
     }
-    
+
     func fetchEpisodes(for tvId: Int, seasonNumber: Int) async throws -> [TVEpisode] {
-        let response: TVSeasonDetailsResponseDTO = try await networkService.request(.tvSeasonDetails(tvId: tvId,
-                                                                                                     seasonNumber: seasonNumber))
-        
-        // Для каждого эпизода подтягиваем видео
-        return try await withThrowingTaskGroup(of: TVEpisode.self) { group in
+        let response: TVSeasonDetailsResponseDTO = try await networkService.request(.tvSeasonDetails(tvId: tvId, seasonNumber: seasonNumber))
+
+        var episodes: [TVEpisode] = []
+
+        let types = ["Trailer", "Teaser", "Clip"]
+        let sites = ["YouTube", "Vimeo"]
+
+        try await withThrowingTaskGroup(of: TVEpisode.self) { group in
             for dto in response.episodes {
                 group.addTask {
-                    let videosResponse: TVEpisodeVideosResponseDTO = try await self.networkService.request(.tvEpisodeVideos(tvId: tvId,
-                                                                                                                            seasonNumber: seasonNumber,
-                                                                                                                            episodeNumber: dto.episodeNumber))
-                    let videos = videosResponse.results.map { TVEpisodeVideo(dto: $0) }
-                    return TVEpisode(dto: dto, videos: videos)
+                    // Загружаем видео для эпизода
+                    let videosResponse: TVEpisodeVideosResponseDTO = try await self.networkService.request(
+                        .tvEpisodeVideos(
+                            tvId: tvId,
+                            seasonNumber: seasonNumber,
+                            episodeNumber: dto.episodeNumber
+                        )
+                    )
+
+                    let filteredVideos = videosResponse.results
+                        .map { TVEpisodeVideo(dto: $0) }
+                        .filter {
+                            types.contains($0.type) &&
+                            sites.contains($0.site)
+                        }
+
+                    return TVEpisode(dto: dto, videos: filteredVideos)
                 }
             }
-            return try await group.reduce(into: [TVEpisode](), { $0.append($1) })
+
+            for try await episode in group {
+                episodes.append(episode)
+            }
         }
-    }
-    
-    func fetchEpisodeVideos(for tvId: Int, seasonNumber: Int, episodeNumber: Int) async throws -> [TVEpisodeVideo] {
-        let response: TVEpisodeVideosResponseDTO = try await networkService.request(.tvEpisodeVideos(tvId: tvId,
-                                                                                                     seasonNumber: seasonNumber,
-                                                                                                     episodeNumber: episodeNumber))
-        return response.results.map { TVEpisodeVideo(dto: $0) }
+
+        return episodes
     }
     
     func fetchEpisodeVideos(for tvId: Int) async throws -> [TVEpisodeVideo] {
