@@ -21,7 +21,7 @@ final class TabBarView: UITabBarController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         view.applyGradient(topColor: .appBGTop, bottomColor: .appBGBottom)
-        LayoutTabBarButtons()
+        layoutTabBarButtons()
     }
     
     override func viewDidLoad() {
@@ -34,10 +34,6 @@ final class TabBarView: UITabBarController {
             tabBarButtons.append(tabBarButton)
             view.addSubview(tabBarButton)
         }
-    }
-    
-    func setTabBarButtonsHidden(_ hidden: Bool) {
-        tabBarButtons.forEach { $0.isHidden = hidden }
     }
     
     lazy var hendleTabSelection = UIAction { [weak self] sender in
@@ -56,18 +52,24 @@ final class TabBarView: UITabBarController {
             return $0
         }(UIButton(primaryAction: hendleTabSelection))
     }
-    
-    private func LayoutTabBarButtons() {
-        let btnSize: CGFloat = 35
+
+    private func layoutTabBarButtons() {
+        let btnSize: CGFloat = 30
         let totalWidth = view.bounds.width
         let spacing = totalWidth / CGFloat(tabBarButtons.count + 1)
-        let yPosition = view.bounds.height - btnSize - 40
         
+        let bottomInset = view.safeAreaInsets.bottom
+        let yPosition = view.bounds.height - btnSize - max(bottomInset, 0)
+
         for (index, button) in tabBarButtons.enumerated() {
             let x = spacing * CGFloat(index + 1)
             button.frame = CGRect(x: 0, y: yPosition, width: btnSize, height: btnSize)
             button.center.x = x
         }
+    }
+    
+    func setTabBarButtonsHidden(_ hidden: Bool) {
+        tabBarButtons.forEach { $0.isHidden = hidden }
     }
     
 }

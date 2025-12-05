@@ -32,6 +32,7 @@ final class SearchHeaderCell: UICollectionViewCell, UITextFieldDelegate {
     
     private lazy var textField: UITextField = {
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.delegate = self
         $0.placeholder = "Search movies..."
         $0.textColor = .appWhite
         $0.backgroundColor = .appGray.withAlphaComponent(0.5)
@@ -68,6 +69,11 @@ final class SearchHeaderCell: UICollectionViewCell, UITextFieldDelegate {
             textField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             textField.heightAnchor.constraint(equalToConstant: 36)
         ])
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
     @objc private func textDidChange() {

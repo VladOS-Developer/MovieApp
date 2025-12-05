@@ -100,6 +100,10 @@ class MainScreenView: UIViewController {
         tmdbAttributionView.translatesAutoresizingMaskIntoConstraints = false
         edgesForExtendedLayout = [.top]
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+            tapGesture.cancelsTouchesInView = false
+            view.addGestureRecognizer(tapGesture)
+        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -110,6 +114,10 @@ class MainScreenView: UIViewController {
             tmdbAttributionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -20)
         ])
         presenter.getMoviesData()
+    }
+    
+    @objc private func hideKeyboard() {
+        view.endEditing(true)
     }
 }
 
@@ -301,6 +309,14 @@ extension MainScreenView: MainScreenViewProtocol {
     func showMovies(sections: [MainCollectionSection]) {
         self.sections = sections
         collectionView.reloadData()
+    }
+}
+
+// MARK: - ScrollViewWillBeginDragging
+
+extension MainScreenView: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(true)
     }
 }
 
