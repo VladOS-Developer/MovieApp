@@ -19,26 +19,6 @@ class MainScreenView: UIViewController {
     var presenter: MainScreenPresenterProtocol!
     private var sections: [MainCollectionSection] = []
     
-    // MARK: - TMDB Attribution View
-    
-    private let tmdbAttributionView: UIStackView = {
-        let logo = UIImageView(image: UIImage(named: "tmdbLogo"))
-        logo.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        logo.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        logo.contentMode = .scaleAspectFit
-        
-        let label = UILabel()
-        label.text = "Data provided by TMDB"
-        label.font = .systemFont(ofSize: 12)
-        label.textColor = .appGray
-        
-        let stack = UIStackView(arrangedSubviews: [logo, label])
-        stack.axis = .horizontal
-        stack.alignment = .center
-        stack.spacing = 8
-        return stack
-    }()
-    
     // MARK: - UIcollectionView
     
     lazy var collectionView: UICollectionView = {
@@ -46,13 +26,14 @@ class MainScreenView: UIViewController {
         $0.backgroundColor = .clear
         $0.dataSource = self
         $0.delegate = self
-        $0.register(GenreMovieCell.self, forCellWithReuseIdentifier: GenreMovieCell.reuseId)
-        $0.register(TopMovieCell.self, forCellWithReuseIdentifier: TopMovieCell.reuseId)
-        $0.register(UpcomingMovieCell.self, forCellWithReuseIdentifier: UpcomingMovieCell.reuseId)
-        $0.register(MainSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MainSectionHeaderView.reuseId)
+        $0.register(TMDBAttributionCell.self, forCellWithReuseIdentifier: TMDBAttributionCell.reuseId)
         $0.register(SearchHeaderCell.self, forCellWithReuseIdentifier: SearchHeaderCell.reuseId)
         $0.register(SearchResultCell.self, forCellWithReuseIdentifier: SearchResultCell.reuseId)
+        $0.register(MainSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MainSectionHeaderView.reuseId)
+        $0.register(GenreMovieCell.self, forCellWithReuseIdentifier: GenreMovieCell.reuseId)
+        $0.register(TopMovieCell.self, forCellWithReuseIdentifier: TopMovieCell.reuseId)
         $0.register(TVSeriesCell.self, forCellWithReuseIdentifier: TVSeriesCell.reuseId)
+        $0.register(UpcomingMovieCell.self, forCellWithReuseIdentifier: UpcomingMovieCell.reuseId)
         return $0
     }(UICollectionView(frame: view.frame, collectionViewLayout: createLayout()))
     
@@ -61,6 +42,9 @@ class MainScreenView: UIViewController {
             let currentSection = sections[section]
             
             switch currentSection.type {
+            case .tmdbAttribution:
+                return MainScreenLayoutFactory.setTMDBAttributionLayout()
+                
             case .searchHeader:
                 return MainScreenLayoutFactory.setSearchHeaderLayout()
                 
@@ -96,8 +80,6 @@ class MainScreenView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
-        view.addSubview(tmdbAttributionView)
-        tmdbAttributionView.translatesAutoresizingMaskIntoConstraints = false
         edgesForExtendedLayout = [.top]
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
@@ -109,9 +91,6 @@ class MainScreenView: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            tmdbAttributionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            tmdbAttributionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -20)
         ])
         presenter.getMoviesData()
     }
@@ -138,6 +117,12 @@ extension MainScreenView: UICollectionViewDataSource {
         let item = section.items[indexPath.item]
         
         switch section.type {
+            
+        case .tmdbAttribution:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TMDBAttributionCell.reuseId, for: indexPath) as? TMDBAttributionCell else {
+                return UICollectionViewCell()
+            }
+            return cell
             
         case .searchHeader:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchHeaderCell.reuseId, for: indexPath) as? SearchHeaderCell else {

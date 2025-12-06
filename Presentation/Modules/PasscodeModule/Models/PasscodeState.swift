@@ -20,12 +20,12 @@ extension PasscodeState {
     
     var passcodeLabel: String {
         switch self {
-        case .inputPasscode: return "Введите код"
-        case .wrongPasscode: return "Неверный код ❌"
-        case .setNewPasscode: return "Установить код"
-        case .repeatPasscode: return "Повторите код"
-        case .codeMismatch: return "Коды не совпадают ❌"
-        case .successChanged: return "Пароль успешно изменён ✅"
+        case .inputPasscode: return "Enter code"
+        case .wrongPasscode: return "Invalid code ❌"
+        case .setNewPasscode: return "Install code"
+        case .repeatPasscode: return "Repeat the code"
+        case .codeMismatch: return "The codes do not match ❌"
+        case .successChanged: return "Password changed successfully ✅"
         }
     }
     

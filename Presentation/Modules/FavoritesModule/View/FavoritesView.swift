@@ -27,9 +27,9 @@ class FavoritesView: UIViewController {
     
     private lazy var topBackButton: UIButton = {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        $0.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        $0.setBackgroundImage(.appArrowBack, for: .normal)
+        $0.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        $0.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        $0.setBackgroundImage(.leftChevron, for: .normal)
         return $0
     }(UIButton(primaryAction: backButtonAction))
     
@@ -81,7 +81,7 @@ class FavoritesView: UIViewController {
             sectionLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             sectionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            topBackButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
+            topBackButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             topBackButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             
             collectionView.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 10),

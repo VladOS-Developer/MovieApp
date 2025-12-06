@@ -108,6 +108,7 @@ extension MainScreenPresenter: MainScreenPresenterProtocol {
                 
                 // Sections
                 let sections: [MainCollectionSection] = [
+                    MainCollectionSection(type: .tmdbAttribution, items: [.TMDBHeaderItem]),
                     MainCollectionSection(type: .searchHeader, items: [.searchHeaderItem]),
                     MainCollectionSection(type: .searchResults, items: []),
                     MainCollectionSection(type: .genresMovie, items: genreItems),

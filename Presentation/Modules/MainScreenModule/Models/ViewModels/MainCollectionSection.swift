@@ -13,6 +13,7 @@ struct MainCollectionSection {
 }
 
 enum MainSectionType {
+    case tmdbAttribution
     case searchHeader
     case searchResults
     case genresMovie
@@ -23,10 +24,11 @@ enum MainSectionType {
     
     var title: String {
         switch self {
+        case .tmdbAttribution: return ""
         case .searchHeader: return ""
         case .searchResults: return ""
-        case .genresMovie: return "Discover Your Next Favorite Movies →"
-        case .topMovie: return "Top Movies This Week"
+        case .genresMovie: return "Choose your favorite genre"
+        case .topMovie: return "Top Movies"
         case .tvSeries: return "Top TV Series"
         case .upcomingMovie: return "Upcoming Movies"
        

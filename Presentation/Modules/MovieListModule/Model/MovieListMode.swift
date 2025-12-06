@@ -16,7 +16,7 @@ enum MovieListMode {
     var title: String {
         switch self {
         case .genre(_, let title): return title
-        case .top10: return "Top Movies This Week"
+        case .top10: return "Top Movies"
         case .upcoming: return "Upcoming Movies"
         case .tvSeries: return "Top TV Series"
         }

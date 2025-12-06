@@ -38,7 +38,7 @@ class SettingsPagePresenter: SettingsPresenterProtocol {
     
     func didSelectDeletePassword() {
         passcodeService.deletePasscode()
-        view?.showAlert(title: "Пароль удалён", message: "Установите новый код 🔐")
+        view?.showAlert(title: "Password removed", message: "Install a new code 🔐")
     }
     
 }

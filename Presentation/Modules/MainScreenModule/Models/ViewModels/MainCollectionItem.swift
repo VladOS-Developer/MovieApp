@@ -11,6 +11,7 @@ enum MainCollectionItem {
     case genre(GenreCellViewModel)
     case movie(MovieCellViewModel)
     case searchHeaderItem
+    case TMDBHeaderItem
     case tvSeries(TVSeriesCellViewModel)
         
     var id: Int {
@@ -18,6 +19,7 @@ enum MainCollectionItem {
         case .movie(let vm): return vm.id
         case .genre(let vm): return vm.id
         case .searchHeaderItem: return -1
+        case .TMDBHeaderItem: return -1
         case .tvSeries(let vm): return vm.id
         }
     }
@@ -27,6 +29,7 @@ enum MainCollectionItem {
         case .movie(let vm): return vm.title
         case .genre(let vm): return vm.name
         case .searchHeaderItem: return "Search"
+        case .TMDBHeaderItem: return "TMDB"
         case .tvSeries(let vm): return vm.title
         }
     }
@@ -36,6 +39,7 @@ enum MainCollectionItem {
         case .movie(let vm): return vm.releaseDateText
         case .genre: return nil
         case .searchHeaderItem: return nil
+        case .TMDBHeaderItem: return nil
         case .tvSeries(let vm): return vm.releaseDateText
         }
     }
@@ -45,6 +49,7 @@ enum MainCollectionItem {
         case .movie(let vm): return vm.genresText
         case .genre: return nil
         case .searchHeaderItem: return nil
+        case .TMDBHeaderItem: return nil
         case .tvSeries(let vm): return vm.genresText
         }
     }
@@ -54,6 +59,7 @@ enum MainCollectionItem {
         case .movie(let vm): return vm.posterImage
         case .genre: return nil
         case .searchHeaderItem: return nil
+        case .TMDBHeaderItem: return nil
         case .tvSeries(let vm): return vm.posterImage
         }
     }
@@ -63,6 +69,7 @@ enum MainCollectionItem {
         case .movie(let vm): return vm.posterURL
         case .genre: return nil
         case .searchHeaderItem: return nil
+        case .TMDBHeaderItem: return nil
         case .tvSeries(let vm): return vm.posterURL
         }
     }

@@ -18,7 +18,7 @@ extension UIViewController {
             target: self,
             action: backAction
         )
-        navigationItem.leftBarButtonItem?.tintColor = .white
+        navigationItem.leftBarButtonItem?.tintColor = .systemBlue
     }
     
     func configureNavBarWithBackAndRightButton(title: String?,
@@ -35,7 +35,7 @@ extension UIViewController {
             target: self,
             action: backAction
         )
-        navigationItem.leftBarButtonItem?.tintColor = .white
+        navigationItem.leftBarButtonItem?.tintColor = .systemBlue
         
         // right
         navigationItem.rightBarButtonItem = UIBarButtonItem(
